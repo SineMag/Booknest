@@ -51,3 +51,64 @@
   margin: 0;
   font-size: 13px;
 }
+
+/* Responsive behavior */
+/* Mobile-first: compact/stacked layout */
+.footer {
+  /* reserve safe area on mobile (iOS) */
+  padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+}
+
+.nav {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.link,
+.linkButton {
+  font-size: 13px;
+  padding: 6px 8px;
+}
+
+/* Larger screens: place nav and copyright on one line */
+@media (min-width: 700px) {
+  .container {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 24px;
+    gap: 0;
+  }
+
+  .nav {
+    justify-content: flex-start;
+    gap: 18px;
+  }
+
+  .copy {
+    font-size: 14px;
+  }
+
+  .link,
+  .linkButton {
+    font-size: 14px;
+    padding: 4px 6px;
+  }
+}
+
+/* Very small screens: slightly reduce footer footprint */
+@media (max-width: 360px) {
+  .footer {
+    padding: 10px 0;
+  }
+
+  .link,
+  .linkButton {
+    padding: 4px 6px;
+    font-size: 12px;
+  }
+
+  .copy {
+    font-size: 12px;
+  }
+}
