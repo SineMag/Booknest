@@ -12,3 +12,42 @@
   right: 0;
   border-top: 1px solid #333;
 }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  box-sizing: border-box;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.link,
+.linkButton {
+  color: white;
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 6px;
+}
+
+.link:hover,
+.linkButton:hover {
+  text-decoration: underline;
+  opacity: 0.95;
+}
+
+.copy {
+  margin: 0;
+  font-size: 13px;
+}
