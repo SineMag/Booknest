@@ -1,0 +1,36 @@
+.app {
+  padding: 50px;
+  text-align: center;
+}
+
+.showBtn {
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin: 0 auto;
+  background-color: #323232;
+  color: #fff;
+  text-align: center;
+  border-radius: 8px;
+  padding: 16px;
+  position: fixed;
+  left: 50%;
+  bottom: 30px;
+  font-size: 16px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+  z-index: 1000;
+}
+
+.show {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
