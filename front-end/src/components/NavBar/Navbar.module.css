@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+.navbar-wrapper {
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  position: fixed; /* Stays at top (remove if not needed) */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: black;
+  padding: 12px 24px;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+.logo-img img {
+  width: 45px;
+  filter: brightness(0) invert(1);
+}
+
+.nav-links {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: inherit;
+}
+
+.nav-links a:hover {
+  color: #2B97FB; /* hover color */
+}
+
+.profile-icon {
+  color: white; /* icon color */
+  font-size: 24px;
+  background-color: white; /* black span */
+  padding: 8px; /* space for the circle */
+  border-radius: 50%; /* make it a circle */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* set circle size */
+  height: 40px;
+  cursor: pointer;
+  font-family: inherit;
+}
