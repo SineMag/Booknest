@@ -8,10 +8,9 @@ import Navbar from "./components/NavBar/Navbar";
 function App() {
   return (
     <>
-    
-      <Navbar />
       <HeroSection />
 
+      <Navbar />
       <Footer />
     </>
   );
