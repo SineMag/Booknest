@@ -9,9 +9,12 @@ import Image from "./components/image/ImageUploader";
 function App() {
   return (
     <>
+    
+
+      
+      <Navbar />
       <HeroSection />
 
-      <Navbar />
       <Footer />
     </>
   );
