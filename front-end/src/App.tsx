@@ -1,22 +1,32 @@
-import { useState } from "react";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
-import HeroSection from "./components/heroSection/HeroSection";
 import Footer from "./components/footer/Footer";
-import Snackbar from "./components/Snackbar/snackbar";
 import Navbar from "./components/NavBar/Navbar";
-import InputFields from "./components/InputFields/InputFields";
+import Landing from "./pages/Landing";
+// Layout Component
+const Layout = () => (
+  <>
+    <Navbar />
+    <Outlet /> 
+    <Footer />
+  </>
+);
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <HeroSection />
-      <InputFields />
-      <HeroSection />
-      <Snackbar />
-      <Footer />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Landing />} />
+          <Route path="admin" element={<Outlet />}>
+          </Route>
+          <Route path="user" element={<Outlet />}>
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
 export default App;
+
