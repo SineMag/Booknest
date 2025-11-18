@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styles from "../LoginForm/LoginForm";
+import styles from "../LoginForm/LoginForm.module.css";
 
 interface LoginFormData {
   email: string;
