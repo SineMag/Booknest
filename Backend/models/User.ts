@@ -7,7 +7,7 @@ export interface User {
   emailAddress: string;
   physicalAddress: string;
   phoneNumber: string;
-  profilePicUrl: string;
+  profilePicUrl?: string;
   password: string;
   createdAt?: Date;
 }
