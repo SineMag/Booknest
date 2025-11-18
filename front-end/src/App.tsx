@@ -8,6 +8,7 @@ import Navbar from "./components/NavBar/Navbar";
 function App() {
   return (
     <>
+    
       <Navbar />
       <HeroSection />
 
