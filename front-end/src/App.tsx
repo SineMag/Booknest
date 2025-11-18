@@ -2,27 +2,12 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/footer/Footer";
 import Navbar from "./components/NavBar/Navbar";
-<<<<<<< HEAD
-import Image from "./components/image/ImageUploader";
-
-function App() {
-  return (
-    <>
-    
-
-      
-      <Navbar />
-      <HeroSection />
-
-      <Footer />
-    </>
-=======
 import Landing from "./pages/Landing";
-// Layout Component
+
 const Layout = () => (
   <>
     <Navbar />
-    <Outlet /> 
+    <Outlet />
     <Footer />
   </>
 );
@@ -40,9 +25,7 @@ function App() {
         </Route>
       </Routes>
     </BrowserRouter>
->>>>>>> 14cff4b7808fe2537a6d76b2606054612adc10f5
   );
 }
 
 export default App;
-
