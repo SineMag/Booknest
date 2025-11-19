@@ -1,17 +1,26 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import './App.css'
+import HeroSection from './components/heroSection/HeroSection'
 import "./App.css";
-import Navbar from "./components/NavBar/Navbar";
-import UserLogin from "./pages/user/UserLogin";
-import Landing from "./pages/Landing";
+import Footer from "./components/footer/Footer";
+import Navbar from './components/NavBar/Navbar';
+import InputFields from './components/InputFields/InputFields';
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<UserLogin />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+
+     <HeroSection/>
+        
+      < Navbar />
+      <Footer />
+      <InputFields />
+      
+      <Navbar />
+       <HeroSection />
+      <Footer />
+
+    </>
   );
 }
 
