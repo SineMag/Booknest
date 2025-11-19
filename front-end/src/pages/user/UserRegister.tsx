@@ -67,9 +67,11 @@ const UserRegister: React.FC = () => {
   </Link>
 </p>
           <br />
+          <Link to={"/login"}>
           <Button variant="primary" width={100}>
             Register
           </Button>
+          </Link>
       </div>
     </div>
     <Footer />
