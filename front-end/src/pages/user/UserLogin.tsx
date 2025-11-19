@@ -3,6 +3,8 @@ import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
+import { Link } from "react-router-dom";
+import { BiColor } from "react-icons/bi";
 
 const UserLogin: React.FC = () => {
   // states
@@ -32,11 +34,13 @@ const UserLogin: React.FC = () => {
             <input type="checkbox" onClick={() => setRememberMe(!rememberMe)} />
             <span> Remember me</span>
           </div>
-          <p style={{ margin: ".6rem 0" }}>Don't have an account? Sign Up</p>
+          <p style={{ margin: ".6rem 0" }}>Don't have an account? <Link to={"/register"} >Sign Up</Link></p>
           <br />
+          <Link to={"/dashboard"}>
           <Button variant="primary" width={100}>
             Login
           </Button>
+          </Link>
         </div>
       </div>
       <Footer />
