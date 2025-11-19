@@ -1,21 +1,29 @@
-import './App.css'
-import HeroSection from './components/heroSection/HeroSection'
 import "./App.css";
-import Footer from "./components/footer/Footer";
-import Navbar from './components/NavBar/Navbar';
-import InputFields from './components/InputFields/InputFields';
-
-
+import { Routes, Route } from "react-router-dom";
+import Landing from "./pages/Landing";
+import UserLogin from "./pages/user/UserLogin";
+import Error404 from "./pages/Error404";
+// import UserRegister from "./pages/user/UserRegister";
+// import UserDashboard from "./pages/user/UserDashboard";
+// import AccomodationDetails from "./pages/user/AccomodationDetails";
+// import Confirmation from "./pages/user/Confirmation";
+// import MyBookings from "./pages/user/MyBookings";
+// import Profile from "./pages/user/Profile";
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
-      
+        {/* <Route path="/register" element={<UserRegister />} />
+        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/accomodation-details" element={<AccomodationDetails />} /> */}
+        {/* <Route path="/confirmation" element={<Confirmation />} /> */}
+        {/* <Route path="/my-bookings" element={<MyBookings />} /> */}
+        {/* <Route path="/profile" element={<UserProfile />} /> */}
+        <Route path="*" element={<Error404 />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
-
 export default App;
