@@ -7,7 +7,11 @@ type ProfileIconProps = {
 
 export default function ProfileIcon({ onClick }: ProfileIconProps) {
   return (
+         
+
     <span className={styles["profile-icon"]} onClick={onClick}>
+         
+
       {/* White SVG icon */}
       <svg
         width="22"
