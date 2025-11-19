@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./snackbar.module.css"; // CSS Modules
 
 function App() {
