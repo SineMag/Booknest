@@ -1,5 +1,7 @@
 import styles from "./HeroSection.module.css";
 import image from "../../images/bed.png"; // adjust path
+import Button from "../Button/Button";
+import { Link } from "react-router-dom";
 
 export default function HeroSection() {
   return (
@@ -14,7 +16,9 @@ export default function HeroSection() {
 
            {/* BUTTON (moves only on mobile) */}
         <div className={styles.heroButtons}>
-          <button className={styles.primaryBtn}>Get Started</button>
+          <Link to="/register">
+            <Button>Get Started</Button>
+          </Link>
         </div>
         </div>
 

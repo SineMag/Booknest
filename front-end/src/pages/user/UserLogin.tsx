@@ -1,18 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
+import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
+import Navbar from "../../components/NavBar/Navbar";
+import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
-import LoginForm from "../../components/LoginForm/LoginForm";
+
 
 const UserLogin: React.FC = () => {
+  // states
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+
   return (
-    <div>
-      <LoginForm />
-        <Button onClick={() => console.log("User Login clicked")} variant="primary">
-          Login
-        </Button>
-      
-      
-    </div>
+    <>
+      <Navbar />
+      <div className="loginPage">
+        <div className="loginContainer">
+          <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Login</h2>
+          <InputField
+            placeholder="Email"
+            type="email"
+            field={username}
+            setField={setUsername}
+          />
+          <InputField
+            placeholder="Password"
+            type="email"
+            field={password}
+            setField={setPassword}
+          />
+          <div>
+            <input type="checkbox" onClick={() => setRememberMe(!rememberMe)} />
+            <span> Remember me</span>
+          </div>
+          <p style={{ margin: ".6rem 0" }}>Don't have an account? <Link to={"/register"} >Sign Up</Link></p>
+          <br />
+          <Link to={"/dashboard"}>
+          <Button variant="primary" width={100}>
+            Login
+          </Button>
+          </Link>
+        </div>
+      </div>
+      <Footer />
+    </>
   );
 };
 

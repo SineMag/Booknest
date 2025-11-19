@@ -7,6 +7,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   variant?: "primary" | "secondary" | "danger";
   disabled?: boolean;
+  width?: number;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,10 +16,12 @@ const Button: React.FC<ButtonProps> = ({
   type = "button",
   variant = "primary",
   disabled = false,
+  width,
 }) => {
   return (
     <button
       className={`${styles.button} ${styles[variant]}`}
+      style={{ width: width ? `${width}%` : "auto" }}
       onClick={onClick}
       type={type}
       disabled={disabled}
