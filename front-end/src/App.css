@@ -21,7 +21,7 @@
 
 @media only screen and (min-width: 1024px) {
   html {
-    font-size: 10%;
+    font-size: 120%;
   }
   .loginContainer {
     width: 40%;
