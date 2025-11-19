@@ -8,6 +8,7 @@ const UserLogin: React.FC = () => {
   // states
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
 
   return (
     <>
@@ -27,7 +28,15 @@ const UserLogin: React.FC = () => {
             field={password}
             setField={setPassword}
           />
-          <Button variant="primary">Login</Button>
+          <div>
+            <input type="checkbox" onClick={() => setRememberMe(!rememberMe)} />
+            <span> Remember me</span>
+          </div>
+          <p style={{ margin: ".6rem 0" }}>Don't have an account? Sign Up</p>
+          <br />
+          <Button variant="primary" width={100}>
+            Login
+          </Button>
         </div>
       </div>
       <Footer />
