@@ -1,15 +1,29 @@
+// imports
 import express from "express";
 import dotenv from "dotenv";
 import { userTableQuery } from "./models/User";
-import userRouter from "./routes/UserRouter";
-dotenv.config();
+import cors from "cors";
 
+// import routes
+import userRouter from "./routes/UserRouter";
+import authRouter from "./routes/authRouter";
+
+// setup
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT!;
 
 // middleware
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use("/users", userRouter);
+app.use("/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, Booknest Backend is running!");
