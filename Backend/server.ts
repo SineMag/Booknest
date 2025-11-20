@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { userTableQuery } from "./models/User";
 import cors from "cors";
+import PaymentRouter from "./routes/PaymentRouter";
 
 // import routes
 import userRouter from "./routes/UserRouter";
@@ -24,6 +25,7 @@ app.use(
 app.use(express.json());
 app.use("/users", userRouter);
 app.use("/auth", authRouter);
+app.use('/payments', PaymentRouter);
 
 app.get("/", (req, res) => {
   res.send("Hello, Booknest Backend is running!");

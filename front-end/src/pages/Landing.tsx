@@ -26,7 +26,7 @@ const Landing: React.FC = () => {
       <Navbar />
       <HeroSection />
       <SnackbarComponent
-        message="Register and Log in first"
+        message="Register or log in first"
         show={showSnackbar}
         onClose={handleCloseSnackbar}
       />
