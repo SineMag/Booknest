@@ -13,24 +13,23 @@
 .snackbar {
   visibility: hidden;
   min-width: 250px;
-  margin: 0 auto;
-  background-color: #323232;
-  color: #fff;
+  background-color: #ffc107; /* yellow-red warning color */
+  color: #000; /* black text for better contrast */
   text-align: center;
   border-radius: 8px;
   padding: 16px;
   position: fixed;
   left: 50%;
-  bottom: 30px;
+  top: 0; /* a bit above the final position */
+  transform: translateX(-50%);
   font-size: 16px;
   opacity: 0;
-  transform: translateY(50px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-  z-index: 1000;
+  transition: opacity 0.5s ease, top 0.5s ease;
+  z-index: 999; /* below navbar */
 }
 
 .show {
   visibility: visible;
   opacity: 1;
-  transform: translateY(0);
+  top: 80px; /* Slide down to final position */
 }

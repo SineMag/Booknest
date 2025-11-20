@@ -20,7 +20,9 @@ export default function Navbar() {
           <li>
             <a href="#contact">Contact Us</a>
           </li>
-          <NavProfile />
+          <li>
+            <NavProfile />
+          </li>
         </ul>
 
         {/* Right: Profile Icon */}

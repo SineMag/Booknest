@@ -1,31 +1,27 @@
-import { useState, useEffect } from "react";
-import styles from "./snackbar.module.css"; // CSS Modules
+import React, { useEffect } from "react";
+import styles from "./snackbar.module.css";
 
-function App() {
-  const [open, setOpen] = useState(false);
-
-  useEffect(() => {
-    if (open) {
-      const timer = setTimeout(() => setOpen(false), 3000); // auto-close
-      return () => clearTimeout(timer);
-    }
-  }, [open]);
-
-  const handleClick = () => {
-    setOpen(true); // Show snackbar on click
-  };
-
-  return (
-    <div className={styles.app}>
-      <button className={styles.showBtn} onClick={handleClick}>
-        Show Snackbar
-      </button>
-
-      <div className={`${styles.snackbar} ${open ? styles.show : ""}`}>
-        Your profile has been updated!
-      </div>
-    </div>
-  );
+interface SnackbarProps {
+  message: string;
+  show: boolean;
+  onClose: () => void;
 }
 
-export default App;
+const SnackbarComponent: React.FC<SnackbarProps> = ({ message, show, onClose }) => {
+  useEffect(() => {
+    if (show) {
+      const timer = setTimeout(() => {
+        onClose();
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [show, onClose]);
+
+  return (
+    <div className={`${styles.snackbar} ${show ? styles.show : ""}`}>
+      {message}
+    </div>
+  );
+};
+
+export default SnackbarComponent;
