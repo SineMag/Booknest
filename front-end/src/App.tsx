@@ -11,7 +11,8 @@ import ProfileIcon from "./components/ProfileIcon/profileIcon";
 // import AccomodationDetails from "./pages/user/AccomodationDetails";
 // import Confirmation from "./pages/user/Confirmation";
 // import MyBookings from "./pages/user/MyBookings";
-// import Profile from "./pages/user/Profile";
+import Profile from "./pages/user/UserProfile";
+import UserProfile from "./pages/user/UserProfile";
 
 function App() {
   return (
