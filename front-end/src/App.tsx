@@ -4,13 +4,9 @@ import Landing from "./pages/Landing";
 import UserLogin from "./pages/user/UserLogin";
 import Error404 from "./pages/Error404";
 import UserRegister from "./pages/user/UserRegister";
-<<<<<<< HEAD
-import Booking from "./pages/user/Booking";
-=======
-import ProfileMenu from "./components/ProfileMenu/profileMenu";
 import Navbar from "./components/NavBar/Navbar";
 import ProfileIcon from "./components/ProfileIcon/profileIcon";
->>>>>>> eb9db716bfcede9f423b1b3c00cf4db4e8a9a269
+import Booking from "./pages/user/Booking";
 // import UserDashboard from "./pages/user/UserDashboard";
 // import AccomodationDetails from "./pages/user/AccomodationDetails";
 // import Confirmation from "./pages/user/Confirmation";
