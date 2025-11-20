@@ -18,21 +18,21 @@ function App() {
   return (
     <>
 // <Navbar/>
-{/* <ProfileIcon/> */}
-    {/* <ProfileMenu/>     */}
+<ProfileIcon/>
+
     
     
-      {/* <Routes>
+      <Routes> 
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
-        <Route path="/register" element={<UserRegister />} /> */}
+        <Route path="/register" element={<UserRegister />} />
         {/* <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/accomodation-details" element={<AccomodationDetails />} /> */}
         {/* <Route path="/confirmation" element={<Confirmation />} /> */}
         {/* <Route path="/my-bookings" element={<MyBookings />} /> */}
-        {/* <Route path="/profile" element={<UserProfile />} /> */}
-        {/* <Route path="*" element={<Error404 />} />
-      </Routes> */}
+        <Route path="/profile" element={<UserProfile />} />
+        <Route path="*" element={<Error404 />} />
+      </Routes> 
     </>
   );
 }
