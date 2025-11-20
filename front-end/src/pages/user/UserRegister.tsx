@@ -97,12 +97,8 @@ const UserRegister: React.FC = () => {
   </Link>
 </p>
           <br />
-<<<<<<< HEAD
           <Link to={"/login"}>
           <Button variant="primary" width={100}>
-=======
-          <Button variant="primary" width={100} onClick={handleRegister}>
->>>>>>> feat/registerSlice
             Register
           </Button>
           </Link>
