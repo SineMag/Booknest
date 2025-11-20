@@ -4,13 +4,37 @@ import Navbar from '../../components/NavBar/Navbar'
 import Button from '../../components/Button/Button'
 import Footer from '../../components/footer/Footer'
 import { Link } from 'react-router-dom'
+import { createUser } from '../../features/userSlice'
+import { type AppDispatch } from "../../../store"
+import { useDispatch } from 'react-redux'
+
+
 const UserRegister: React.FC = () => {
-  const [name, setName] = useState('')  // state for name
-  const [email, setEmail] = useState('')  // state for email
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+
+// state for email
   const [password, setPassword] = useState('')  // state for password
   const [confirmPassword, setConfirmPassword] = useState('')  // state for confirm password
   const [phoneNumber, setPhoneNumber] = useState('')  // state for phone number
   const [physicalAddress, setPhysicalAddress] = useState('')  // state for physical address
+  const dispatch = useDispatch<AppDispatch>();
+
+  const handleRegister = () => {
+    console.log("registering user...")
+    dispatch(
+      createUser({
+        firstName,
+        lastName,
+        emailAddress,
+        password,
+        phoneNumber,
+        physicalAddress,
+      })
+    );
+  };
+
   return (
     <>
     <Navbar />
@@ -18,16 +42,22 @@ const UserRegister: React.FC = () => {
       <div className="loginContainer">
       <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Register</h2>
       <InputField
-        placeholder="name"
+        placeholder="First Name"
         type="text"
-        field={name}        // current value
-        setField={setName}  // setter function
+        field={firstName}        // current value
+        setField={setFirstName}  // setter function
       />
       <InputField
-        placeholder="Email"
-        type="email"
-        field={email}        // current value
-        setField={setEmail}  // setter function
+        placeholder="last name"
+        type="text"
+        field={lastName}        // current value
+        setField={setLastName}  // setter function
+      />
+      <InputField
+        placeholder="email address"
+        type="text"
+        field={emailAddress}        // current value
+        setField={setEmailAddress}  // setter function
       />
       <InputField
         placeholder="password"
@@ -37,7 +67,7 @@ const UserRegister: React.FC = () => {
       />
       <InputField
         placeholder="confirm password"
-        type="confirm password"
+        type="password"
         field={confirmPassword}        // current value
         setField={setConfirmPassword}  // setter function
       />
@@ -67,8 +97,12 @@ const UserRegister: React.FC = () => {
   </Link>
 </p>
           <br />
+<<<<<<< HEAD
           <Link to={"/login"}>
           <Button variant="primary" width={100}>
+=======
+          <Button variant="primary" width={100} onClick={handleRegister}>
+>>>>>>> feat/registerSlice
             Register
           </Button>
           </Link>
