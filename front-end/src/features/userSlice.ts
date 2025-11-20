@@ -8,28 +8,57 @@ export interface User {
   emailAddress: string;
   physicalAddress: string;
   phoneNumber: string;
-  profilePicUrl?: string;
   password: string;
+  profilePicUrl?: string;
   createdAt?: Date;
 }
 
+export interface LoginCredentials {
+  emailAddress: string;
+  password: string;
+}
 
 export const createUser = createAsyncThunk(
   "user/createUser",
-  async (user: User, {rejectWithValue}) => {
+  async (user: User, { rejectWithValue }) => {
     try {
-      const response = await axios.post('https://booknestbackend-lljq.onrender.com/users', user);
-      if (response.status === 201)
-      return response.data;
-    else return rejectWithValue(response.data.message);
+      console.log("register thunk...");
+      const response = await axios.post(
+        "http://localhost:5000/auth/register",
+        user
+      );
+      console.log(response);
+      if (response.status === 201) return response.data;
+      else return rejectWithValue(response.data.message);
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
+  }
+);
 
-  })
- 
+export const loginUser = createAsyncThunk(
+  "user/loginUser",
+  async (credentails: LoginCredentials, { rejectWithValue }) => {
+    try {
+      console.log("login thunk...");
+      const response = await axios.post(
+        "http://localhost:5000/auth/login",
+        credentails
+      );
+      console.log(response);
+      if (response.status === 200 && response.data.length > 0)
+        return response.data;
+      else return rejectWithValue(response.data.message);
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const initialState = {
   user: null,
+  isLoggedIn: false,
+  errorMessage: "",
 };
 
 export const userSlice = createSlice({
@@ -38,10 +67,19 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
+      console.log("payload", action.payload, "SUCCESS REGISTER!");
       state.user = action.payload;
     });
-    builder.addCase(createUser.rejected, (state, action) => {
-      console.log(action.payload);
+    builder.addCase(createUser.rejected, () => {
+      console.log("Error: payload invalid");
+    });
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      console.log("payload", action.payload, "SUCCESS LOGIN!");
+      state.user = action.payload;
+      state.isLoggedIn = true;
+    });
+    builder.addCase(loginUser.rejected, () => {
+      console.log("Error: payload invalid");
     });
   },
 });
