@@ -17,7 +17,7 @@ export default function HeroSection() {
            {/* BUTTON (moves only on mobile) */}
         <div className={styles.heroButtons}>
           <Link to="/register">
-            <Button>Get Started Now</Button>
+            <Button>Get Started</Button>
           </Link>
         </div>
         </div>
