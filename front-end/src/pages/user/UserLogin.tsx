@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { loginUser } from "../../features/userSlice";
+import { setLocalUser } from "../../utils/LocalStorage";
 
 const UserLogin: React.FC = () => {
   // states
@@ -22,7 +23,10 @@ const UserLogin: React.FC = () => {
   useEffect(() => {
     if (user && isLoggedIn) {
       console.log("loggedin user: ", user);
+      setLocalUser(user);
       navigate("/dashboard");
+    } else {
+      setLocalUser({});
     }
   }, [user]);
 

@@ -17,7 +17,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 
 export const getUserById = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    const id = Number(req.params.id);
     const user = await selectUserById(Number(id));
     return res.json(user);
   } catch (error) {
@@ -27,7 +27,8 @@ export const getUserById = async (req: Request, res: Response) => {
 
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    console.log("Incoming ID:", req.params);
+    const id = Number(req.params.id);
     const {
       firstName,
       lastName,
@@ -51,4 +52,3 @@ export const updateUser = async (req: Request, res: Response) => {
     log(error);
   }
 };
-

@@ -55,6 +55,24 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  "user/updateProfile",
+  async (user: User, { rejectWithValue }) => {
+    try {
+      console.log("update thunk...");
+      const response = await axios.put(
+        `http://localhost:5000/users/${user.id}`,
+        user
+      );
+      console.log("@update response: ", response);
+      if (response.status === 200) return response.data;
+      else return rejectWithValue(response.data.message);
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data?.message || error.message);
+    }
+  }
+);
+
 const initialState = {
   user: null,
   isLoggedIn: false,
@@ -64,12 +82,7 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    updateUserProfile: (state, action) => {
-      // merge existing user data with the provided fields
-      state.user = { ...(state.user ?? {}), ...action.payload };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
       console.log("payload", action.payload, "SUCCESS REGISTER!");
@@ -80,15 +93,20 @@ export const userSlice = createSlice({
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       console.log("payload", action.payload, "SUCCESS LOGIN!");
-      state.user = action.payload;
+      state.user = action.payload[0];
       state.isLoggedIn = true;
     });
     builder.addCase(loginUser.rejected, () => {
       console.log("Error: payload invalid");
     });
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      console.log("payload", action.payload, "SUCCESS UPDATE!");
+      state.user = action.payload;
+    });
+    builder.addCase(updateProfile.rejected, () => {
+      console.log("Error: payload invalid");
+    });
   },
 });
-
-export const { updateUserProfile } = userSlice.actions;
 
 export default userSlice.reducer;
