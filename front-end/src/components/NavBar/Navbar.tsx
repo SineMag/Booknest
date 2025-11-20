@@ -1,6 +1,7 @@
 // import React from "react";
 import image from "../../images/bed (1).png";
 import NavProfile from "../NavProfile/NavProfile";
+import ProfileMenu from "../ProfileMenu/profileMenu";
 import Styles from "./Navbar.module.css";
 
 export default function Navbar() {
@@ -20,7 +21,8 @@ export default function Navbar() {
           <li>
             <a href="#contact">Contact Us</a>
           </li>
-          <NavProfile />
+          {/* <NavProfile /> */}
+          <ProfileMenu/>
         </ul>
 
         {/* Right: Profile Icon */}
