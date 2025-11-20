@@ -9,7 +9,7 @@ import ProfileIcon from "./components/ProfileIcon/profileIcon";
 import Booking from "./pages/user/Booking";
 // import UserDashboard from "./pages/user/UserDashboard";
 // import AccomodationDetails from "./pages/user/AccomodationDetails";
-// import Confirmation from "./pages/user/Confirmation";
+import Confirmation from "./pages/user/Confirmation";
 // import MyBookings from "./pages/user/MyBookings";
 import Profile from "./pages/user/UserProfile";
 import UserProfile from "./pages/user/UserProfile";
@@ -29,7 +29,7 @@ function App() {
         <Route path="/booking" element={<Booking />} />
         {/* <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/accomodation-details" element={<AccomodationDetails />} /> */}
-        {/* <Route path="/confirmation" element={<Confirmation />} /> */}
+        <Route path="/confirmation" element={<Confirmation />} />
         {/* <Route path="/my-bookings" element={<MyBookings />} /> */}
         <Route path="/profile" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
