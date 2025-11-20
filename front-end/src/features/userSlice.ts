@@ -13,21 +13,22 @@ export interface User {
   createdAt?: Date;
 }
 
-
 export const createUser = createAsyncThunk(
   "user/createUser",
-  async (user: User, {rejectWithValue}) => {
+  async (user: User, { rejectWithValue }) => {
     try {
-      const response = await axios.post('https://booknestbackend-lljq.onrender.com/users', user);
-      if (response.status === 201)
-      return response.data;
-    else return rejectWithValue(response.data.message);
+      const response = await axios.post(
+        "https://booknestbackend-lljq.onrender.com/users",
+        user
+      );
+      if (response.status === 201) return response.data;
+      else return rejectWithValue(response.data.message);
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
+  }
+);
 
-  })
- 
 const initialState = {
   user: null,
 };
@@ -35,7 +36,12 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateUserProfile: (state, action) => {
+      // merge existing user data with the provided fields
+      state.user = { ...(state.user ?? {}), ...action.payload };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
       state.user = action.payload;
@@ -45,5 +51,7 @@ export const userSlice = createSlice({
     });
   },
 });
+
+export const { updateUserProfile } = userSlice.actions;
 
 export default userSlice.reducer;

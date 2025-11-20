@@ -8,7 +8,8 @@ import UserRegister from "./pages/user/UserRegister";
 // import AccomodationDetails from "./pages/user/AccomodationDetails";
 // import Confirmation from "./pages/user/Confirmation";
 // import MyBookings from "./pages/user/MyBookings";
-// import Profile from "./pages/user/Profile";
+import Profile from "./pages/user/UserProfile";
+import UserProfile from "./pages/user/UserProfile";
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
         <Route path="/accomodation-details" element={<AccomodationDetails />} /> */}
         {/* <Route path="/confirmation" element={<Confirmation />} /> */}
         {/* <Route path="/my-bookings" element={<MyBookings />} /> */}
-        {/* <Route path="/profile" element={<UserProfile />} /> */}
+        <Route path="/profile" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
