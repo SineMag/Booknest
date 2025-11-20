@@ -9,6 +9,7 @@ interface Props {
   field: string;
   setField: Dispatch<SetStateAction<string>>;
   icon?: IconType;
+  disabled?: boolean;
 }
 
 export default function InputField(props: Props) {
@@ -26,6 +27,7 @@ export default function InputField(props: Props) {
         value={props.field}
         onChange={(e) => props.setField(e.target.value)}
         required
+        disabled={props.disabled}
       />
     </div>
   );

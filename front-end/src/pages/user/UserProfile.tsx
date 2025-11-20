@@ -5,43 +5,50 @@ import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import { useSelector, useDispatch } from "react-redux";
 import { type AppDispatch, type RootState } from "../../../store";
-import { updateUserProfile } from "../../features/userSlice";
+import { updateProfile } from "../../features/userSlice";
+import { getLocalUser } from "../../utils/LocalStorage";
 
 const UserProfile: React.FC = () => {
-  const userProfile = useSelector(
-    (state: RootState) =>
-      state.user?.user ?? {
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        phoneNumber: "",
-        physicalAddress: "",
-      }
-  );
+  // const user = useSelector(
+  //   (state: RootState) =>
+  //     state.user?.user ?? {
+  //       firstName: "",
+  //       lastName: "",
+  //       emailAddress: "",
+  //       phoneNumber: "",
+  //       physicalAddress: "",
+  //     }
+  // );
+  const user = getLocalUser()!;
 
-  const [firstName, setFirstName] = useState(userProfile.firstName);
-  const [lastName, setLastName] = useState(userProfile.lastName);
-  const [emailAddress, setEmailAddress] = useState(userProfile.emailAddress);
-  const [phoneNumber, setPhoneNumber] = useState(userProfile.phoneNumber);
-  const [physicalAddress, setPhysicalAddress] = useState(
-    userProfile.physicalAddress
-  );
+  const [firstName, setFirstName] = useState(user.firstName);
+  const [lastName, setLastName] = useState(user.lastName);
+  const [emailAddress, setEmailAddress] = useState(user.emailAddress);
+  const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+  const [physicalAddress, setPhysicalAddress] = useState(user.physicalAddress);
 
   const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [updating, setUpdating] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
 
   const handleUpdateProfile = () => {
+    console.log("dispatch: updating profile...");
     dispatch(
-      updateUserProfile({
+      updateProfile({
+        id: user.id,
         firstName,
         lastName,
         emailAddress,
         phoneNumber,
         physicalAddress,
-        profileImage,
+        password: user.password,
       })
     );
+  };
+
+  const onUpdate = () => {
+    setUpdating(!updating);
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -141,10 +148,7 @@ const UserProfile: React.FC = () => {
           {/* Profile Image */}
           <div className="profile-image-wrapper">
             <img
-              src={
-                profileImage ||
-                "https://via.placeholder.com/100x100.png?text=Profile"
-              }
+              src={profileImage || "https://placehold.co/600x400/EEE/31343C"}
               alt="Profile"
             />
           </div>
@@ -165,6 +169,7 @@ const UserProfile: React.FC = () => {
             type="text"
             field={firstName}
             setField={setFirstName}
+            disabled={!updating}
           />
 
           <InputField
@@ -172,6 +177,7 @@ const UserProfile: React.FC = () => {
             type="text"
             field={lastName}
             setField={setLastName}
+            disabled={!updating}
           />
 
           <InputField
@@ -179,6 +185,7 @@ const UserProfile: React.FC = () => {
             type="text"
             field={emailAddress}
             setField={setEmailAddress}
+            disabled={!updating}
           />
 
           <InputField
@@ -186,6 +193,7 @@ const UserProfile: React.FC = () => {
             type="text"
             field={phoneNumber}
             setField={setPhoneNumber}
+            disabled={!updating}
           />
 
           <InputField
@@ -193,9 +201,14 @@ const UserProfile: React.FC = () => {
             type="text"
             field={physicalAddress}
             setField={setPhysicalAddress}
+            disabled={!updating}
           />
 
-          <Button variant="primary" width={100} onClick={handleUpdateProfile}>
+          <Button
+            variant="primary"
+            width={100}
+            onClick={updating ? handleUpdateProfile : onUpdate}
+          >
             Update Profile
           </Button>
         </div>
