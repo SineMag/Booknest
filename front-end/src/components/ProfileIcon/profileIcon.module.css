@@ -1,0 +1,20 @@
+.profile-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.profile-icon:hover {
+  background: #1d4ed8;
+  transform: scale(1.05);
+}
+
+.profile-icon svg {
+  fill: #000; /* change icon color here if needed */
+}

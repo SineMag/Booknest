@@ -64,7 +64,12 @@ const initialState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {},
+  reducers: {
+    updateUserProfile: (state, action) => {
+      // merge existing user data with the provided fields
+      state.user = { ...(state.user ?? {}), ...action.payload };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(createUser.fulfilled, (state, action) => {
       console.log("payload", action.payload, "SUCCESS REGISTER!");
@@ -83,5 +88,7 @@ export const userSlice = createSlice({
     });
   },
 });
+
+export const { updateUserProfile } = userSlice.actions;
 
 export default userSlice.reducer;

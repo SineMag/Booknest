@@ -1,3 +1,10 @@
+/* Profile wrapper */
+.wrapper {
+  position: relative;
+  list-style: none;
+}
+
+/* Profile icon with your new style */
 .profile-icon {
   position: relative;
   display: inline-flex;

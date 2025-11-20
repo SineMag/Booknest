@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import image from "../../images/bed (1).png";
 import NavProfile from "../NavProfile/NavProfile";
+import ProfileMenu from "../ProfileMenu/profileMenu";
 import Styles from "./Navbar.module.css";
-import Hamburger from "../Hamburger/Hamburger"; // Import Hamburger component
-
+import Hamburger from "../hamburger/Hamburger"; 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
