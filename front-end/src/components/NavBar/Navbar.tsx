@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import image from "../../images/bed (1).png";
 import NavProfile from "../NavProfile/NavProfile";
+import ProfileMenu from "../ProfileMenu/profileMenu";
 import Styles from "./Navbar.module.css";
 import Hamburger from "../Hamburger/Hamburger"; // Import Hamburger component
 
@@ -32,9 +33,14 @@ export default function Navbar() {
           <li>
             <a href="#contact">Contact Us</a>
           </li>
+<<<<<<< HEAD
           <li>
             <NavProfile />
           </li>
+=======
+          {/* <NavProfile /> */}
+          <ProfileMenu/>
+>>>>>>> feat/profileMenu
         </ul>
 
         {/* Mobile Navigation Menu */}
