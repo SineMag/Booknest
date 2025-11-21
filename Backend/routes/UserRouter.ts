@@ -3,7 +3,7 @@ import {
   getAllUsers,
   getUserById,
   updateUser,
-} from "../controllers/UserController";
+} from "../controllers/UserController.js";
 
 const router = Router();
 

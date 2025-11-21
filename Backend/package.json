@@ -1,29 +1,19 @@
 {
-  "name": "backend",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon --exec ts-node server.ts",
-    "build": "tsc",
-    "start": "node dist/server.js"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "type": "module",
   "dependencies": {
-    "@neondatabase/serverless": "github:neondatabase/serverless",
-    "@types/express": "^5.0.5",
+    "@neondatabase/serverless": "^1.0.2",
     "@types/node": "^24.10.0",
-    "cors": "^2.8.5",
+    "@types/typescript": "^0.4.29",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
-    "stripe": "^20.0.0",
-    "ts-node": "^10.9.2",
+    "serverless-http": "^4.0.0",
     "typescript": "^5.9.3"
   },
+  "scripts": {
+    "start": "tsc --watch & nodemon dist/app.js",
+    "dev": "netlify dev"
+  },
   "devDependencies": {
-    "@types/cors": "^2.8.19",
-    "nodemon": "^3.1.11"
+    "@types/express": "^5.0.5"
   }
 }
