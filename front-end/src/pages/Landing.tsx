@@ -5,6 +5,7 @@ import Footer from "../components/footer/Footer";
 import SnackbarComponent from "../components/Snackbar/snackbar";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
+import ReviewCard from "../components/ReviewCard/ReviewCard";
 
 const Landing: React.FC = () => {
   const userData = useSelector((state: RootState) => state.user);
@@ -24,12 +25,14 @@ const Landing: React.FC = () => {
   return (
     <div>
       <Navbar />
+    
       <HeroSection />
       <SnackbarComponent
         message="Register or log in first"
         show={showSnackbar}
         onClose={handleCloseSnackbar}
       />
+
       <Footer />
     </div>
   );
