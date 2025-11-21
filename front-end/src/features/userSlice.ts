@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:5000";
+
 export interface User {
   id?: number;
   firstName: string;
@@ -24,7 +26,7 @@ export const createUser = createAsyncThunk(
     try {
       console.log("register thunk...");
       const response = await axios.post(
-        "http://localhost:5000/auth/register",
+        API_BASE_URL + "/auth/register",
         user
       );
       console.log(response);
@@ -42,7 +44,7 @@ export const loginUser = createAsyncThunk(
     try {
       console.log("login thunk...");
       const response = await axios.post(
-        "http://localhost:5000/auth/login",
+        API_BASE_URL + "/auth/login",
         credentails
       );
       console.log(response);

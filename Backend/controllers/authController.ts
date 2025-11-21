@@ -1,5 +1,5 @@
 import { insertIntoUsers, loginUserDB } from "../services/authService";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { log } from "console";
 
 export const createUser = async (req: Request, res: Response) => {

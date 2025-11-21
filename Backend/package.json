@@ -11,9 +11,11 @@
   },
   "scripts": {
     "start": "tsc --watch & nodemon dist/app.js",
-    "dev": "netlify dev"
+    "dev": "tsc --watch & nodemon dist/app.js"
   },
   "devDependencies": {
-    "@types/express": "^5.0.5"
+    "@types/express": "^5.0.5",
+    "nodemon": "^3.1.11",
+    "ts-node-dev": "^2.0.0"
   }
 }

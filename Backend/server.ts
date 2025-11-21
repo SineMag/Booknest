@@ -2,7 +2,7 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/userRouter";
+import userRouter from "./routes/UserRouter";
 
 const app = express();
 

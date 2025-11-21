@@ -1,5 +1,5 @@
-import {
-  LoginCredentials,
+import { type
+  LoginCredentials, type
   User,
   insertUserQuery,
   loginUserQuery,
