@@ -1,4 +1,4 @@
-import { LoginCredentials, User, insertUserQuery, loginUserQuery, } from "../models/User";
+import { insertUserQuery, loginUserQuery, } from "../models/User";
 export const insertIntoUsers = async (user) => {
     const result = await insertUserQuery(user);
     return result;

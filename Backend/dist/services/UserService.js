@@ -1,4 +1,4 @@
-import { User, getUsersQuery, putIntoUserQuery, insertUserQuery, getUserByIdQuery, } from "../models/User";
+import { getUsersQuery, putIntoUserQuery, insertUserQuery, getUserByIdQuery, } from "../models/User";
 export const selectAllUsers = async () => {
     const users = await getUsersQuery();
     return users;

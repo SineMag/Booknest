@@ -12,13 +12,12 @@ import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
-import Tag from "./components/Tag/Tag";
+import Iconbutton from "./components/Iconbutton/Iconbutton";
 
 function App() {
   return (
     <>
-      // <Navbar />
-      <ProfileIcon />
+     
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
@@ -31,7 +30,6 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
-      <Tag />
     </>
   );
 }
