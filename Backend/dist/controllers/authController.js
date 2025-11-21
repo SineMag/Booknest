@@ -1,4 +1,8 @@
 import { insertIntoUsers, loginUserDB } from "../services/authService";
+<<<<<<< HEAD
+=======
+import { Request, Response } from "express";
+>>>>>>> feat/ReviewCard
 import { log } from "console";
 export const createUser = async (req, res) => {
     try {
