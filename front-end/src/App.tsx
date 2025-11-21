@@ -12,6 +12,7 @@ import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
+import Tag from "./components/Tag/Tag";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
+      <Tag />
     </>
   );
 }
