@@ -1,0 +1,16 @@
+[build]
+  functions = "functions"
+  publish = "public"
+
+[[redirects]]
+  from = "/auth/*"
+  to = "/.netlify/functions/auth/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/users/*"
+  to = "/.netlify/functions/users/:splat"
+  status = 200
+
+[functions]
+  node_bundler = "esbuild"
