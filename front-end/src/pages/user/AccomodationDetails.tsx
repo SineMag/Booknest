@@ -7,11 +7,10 @@ import ProfileIcon from "../../components/ProfileIcon/profileIcon";
 const AccomodationDetails: React.FC = () => {
   return (
     <div>
-      {/* <Navbar /> */}
-
+      <Navbar />
 
       <Iconbutton onClick={() => console.log("Heart button clicked!")} />
-      
+
       <Footer />
     </div>
   );
