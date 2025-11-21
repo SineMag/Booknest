@@ -1,9 +1,10 @@
 import { insertIntoUsers, loginUserDB } from "../services/authService";
-import { Request, Response } from "express";
+import type { Request, Response } from "express";
 import { log } from "console";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
+    console.log(101, req.body);
     const user = await insertIntoUsers(req.body);
     return res.status(201).json(user);
   } catch (error) {
