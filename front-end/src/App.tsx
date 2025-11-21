@@ -13,26 +13,31 @@ import ProfileIcon from "./components/ProfileIcon/profileIcon";
 // import MyBookings from "./pages/user/MyBookings";
 import Profile from "./pages/user/UserProfile";
 import UserProfile from "./pages/user/UserProfile";
+import AccommodationDetails from "./pages/user/AccomodationDetails";
+import Footer from "./components/footer/Footer";
+import Gallery from "./components/Gallery/Gallery"
 
 function App() {
   return (
     <>
-// <Navbar/>
-<ProfileIcon/>
-
+{/* // <Navbar/> */}
+{/* <ProfileIcon/> */}
+{/* <AccommodationDetails/> */}
+{/* <Footer/> */}
+     <Gallery/>
     
     
-      <Routes> 
+      {/* <Routes> 
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
-        <Route path="/register" element={<UserRegister />} />
+        <Route path="/register" element={<UserRegister />} /> */}
         {/* <Route path="/dashboard" element={<UserDashboard />} />
         <Route path="/accomodation-details" element={<AccomodationDetails />} /> */}
         {/* <Route path="/confirmation" element={<Confirmation />} /> */}
         {/* <Route path="/my-bookings" element={<MyBookings />} /> */}
-        <Route path="/profile" element={<UserProfile />} />
+        {/* <Route path="/profile" element={<UserProfile />} />
         <Route path="*" element={<Error404 />} />
-      </Routes> 
+      </Routes>  */}
     </>
   );
 }
