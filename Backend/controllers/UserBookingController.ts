@@ -15,7 +15,7 @@ export class UserBookingController {
 
             const newBooking: Omit<UserBooking, 'id' | 'createdAt' | 'status'> = {
                 userId: user_id,
-                accommodationId: accommodation_id,
+                accomodationId: accommodation_id,
                 guests,
                 checkIn: new Date(check_in).toISOString(),
                 checkOut: new Date(check_out).toISOString(),
@@ -35,6 +35,12 @@ export class UserBookingController {
     static async getBookingsByUserId(req: Request, res: Response): Promise<void> {
         try {
             const { id } = req.params;
+            
+            if (!id) {
+                res.status(400).json({ message: "Missing required parameter: id" });
+                return;
+            }
+            
              const bookings = await UserBookingService.getBookingsByUserId(parseInt(id, 10));
 
              if(bookings){
@@ -54,11 +60,16 @@ export class UserBookingController {
             const { id } = req.params;
             const { status } = req.body;
 
+            if (!id) {
+                res.status(400).json({ message: "Missing required parameter: id" });
+                return;
+            }
+
             if (!status || !["pending", "confirmed", "cancelled"].includes(status)) {
                 res.status(400).json({ message: "Invalid status provided" });
                 return;
             }
-            const updatedBooking = await UserBookingService.updateBookingStatus(parseInt(id, 10), status);
+            const updatedBooking = await UserBookingService.updateBookingStatus(parseInt(id, 10), status as "pending" | "confirmed" | "cancelled");
 
             if (updatedBooking) {
                 res.status(200).json(updatedBooking);
