@@ -109,3 +109,33 @@
   border-radius: 6px;
   font-size: 0.9rem;
 }
+
+.columns-wrapper {
+  display: flex;
+  gap: 30px;                /* space between left & right columns */
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 15px;
+  flex-wrap: wrap;          /* responsive wrap on small screens */
+}
+
+/* Left column (Gallery) */
+.left-column {
+  flex: 2;                  /* takes 2/3 of space */
+  min-width: 300px;
+}
+
+/* Right column (Details, Heart button, Map + Reviews) */
+.right-column {
+  flex: 1;                  /* takes 1/3 of space */
+  display: flex;
+  flex-direction: column;   /* stack items vertically */
+  gap: 20px;
+  min-width: 250px;
+}
+
+/* Heart button alignment */
+.icon-button {
+  display: flex;
+  justify-content: flex-end;
+}
