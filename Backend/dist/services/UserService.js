@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { getUsersQuery, putIntoUserQuery, insertUserQuery, getUserByIdQuery, } from "../models/User";
-=======
-import { User, getUsersQuery, putIntoUserQuery, insertUserQuery, getUserByIdQuery, } from "../models/User";
->>>>>>> feat/ReviewCard
 export const selectAllUsers = async () => {
     const users = await getUsersQuery();
     return users;

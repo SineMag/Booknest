@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { insertUserQuery, loginUserQuery, } from "../models/User";
-=======
-import { LoginCredentials, User, insertUserQuery, loginUserQuery, } from "../models/User";
->>>>>>> feat/ReviewCard
 export const insertIntoUsers = async (user) => {
     const result = await insertUserQuery(user);
     return result;
