@@ -6,11 +6,12 @@ import Error404 from "./pages/Error404";
 import UserRegister from "./pages/user/UserRegister";
 import Booking from "./pages/user/Booking";
 import UserDashboard from "./pages/user/UserDashboard";
-import AccomodationDetails from "./pages/user/AccomodationDetails";
+// import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
-import AccDetails from "./pages/user/AccDetails";
+import MyFavorites from "./pages/user/MyFavorites";
+import AccomodationDetails from "./pages/user/AccomodationDetails";
 
 function App() {
   return (
@@ -21,10 +22,11 @@ function App() {
         <Route path="/register" element={<UserRegister />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/accomodation-details" element={<AccDetails />} />
+        <Route path="/accomodation-details" element={<AccomodationDetails />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
