@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import image from "../../images/bed (1).png";
 import NavProfile from "../NavProfile/NavProfile";
-import ProfileMenu from "../ProfileMenu/profileMenu";
 import Styles from "./Navbar.module.css";
 import Hamburger from "../hamburger/Hamburger"; 
 export default function Navbar() {

@@ -1,6 +1,6 @@
-import React from 'react';
-import { AiFillStar, AiOutlineStar } from 'react-icons/ai';
-import styles from './ReviewCard.module.css';
+import React from "react";
+import { AiFillStar, AiOutlineStar } from "react-icons/ai";
+import styles from "./ReviewCard.module.css";
 
 interface ReviewCardProps {
   starRatings: number;
@@ -9,7 +9,12 @@ interface ReviewCardProps {
   date: string;
 }
 
-const ReviewCard: React.FC<ReviewCardProps> = ({ starRatings, reviewer, reviewText, date }) => {
+const ReviewCard: React.FC<ReviewCardProps> = ({
+  starRatings,
+  reviewer,
+  reviewText,
+  date,
+}) => {
   const renderStars = () => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
@@ -32,6 +37,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({ starRatings, reviewer, reviewTe
         <div className={styles.date}>{date}</div>
       </div>
       <div className={styles.reviewText}>{reviewText}</div>
+      <hr />
     </div>
   );
 };

@@ -9,7 +9,7 @@ interface Props {
 export default function Tag({ text, icon: Icon }: Props) {
   return (
     <a className={styles.tag}>
-      {Icon && <Icon className={styles.icon} size={30} />}
+      {Icon && <Icon className={styles.icon} size={20} />}
       <span>{text}</span>
     </a>
   );
