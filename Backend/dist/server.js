@@ -1,14 +1,17 @@
 // imports
 import express from "express";
 import path from "path";
+import cors from "cors";
 import authRouter from "./routes/authRouter";
-<<<<<<< HEAD
 import userRouter from "./routes/UserRouter";
-=======
-import userRouter from "./routes/userRouter";
->>>>>>> feat/ReviewCard
 const app = express();
 // MIDDLEWARE
+app.use(cors({
+    origin: "*",
+    methods: "*",
+    allowedHeaders: "*",
+}));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
