@@ -1,6 +1,23 @@
-.iconButton {
+/* .iconButton {
   border-radius: 0.5rem;
   width: fit-content;
   padding: 0.4rem;
   margin-right: 0.2rem;
+} */
+
+.iconBtn {
+  background: transparent;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 28px;
+  width: fit-content;
+  padding: 0.4rem;
+  color: #444;
+   margin-right: 0.2rem;
+  transition: color .3s ease;
 }
+
+.iconBtn.active {
+  color: red; 
+}
+

@@ -2,21 +2,18 @@ import styles from "../Iconbutton/Iconbutton.module.css";
 import type { IconType } from "react-icons";
 
 interface Props {
-  onClick(): void;
+  onClick: () => void;
   icon: IconType;
+  isActive?: boolean;
 }
 
-export default function IconButton({ icon: Icon, onClick }: Props) {
+export default function IconButton({ icon: Icon, onClick, isActive }: Props) {
   return (
-    <button className={styles.iconButton}>
-      {Icon && (
-        <Icon
-          className={styles.icon}
-          size={30}
-          color="black"
-          onClick={() => onClick}
-        />
-      )}
+    <button
+      onClick={onClick}
+      className={`${styles.iconBtn} ${isActive ? styles.active : ""}`}
+    >
+      <Icon className={styles.icon} />
     </button>
   );
 }

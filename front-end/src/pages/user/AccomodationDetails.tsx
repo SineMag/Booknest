@@ -12,6 +12,10 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
+import { Link } from "react-router";
+import { useState } from "react";
+
+
 
 const hotels: Hotel[] = [
   {
@@ -34,8 +38,30 @@ const hotels: Hotel[] = [
   },
 ];
 
+
+
 export default function AccomodationDetails() {
-  function onLiked() {}
+   const [liked, setLiked] = useState(false);
+
+   const onLiked = () => {
+     setLiked(!liked);
+   };
+
+   const onShare = async () => {
+     if (navigator.share) {
+       try {
+         await navigator.share({
+           title: "Blue Lagoon Hotel",
+           text: "Check out this beautiful hotel!",
+           url: window.location.href,
+         });
+       } catch (err) {
+         console.log("Share cancelled");
+       }
+     } else {
+       alert("Sharing not supported on this browser.");
+     }
+   };
   return (
     <div
       className="accomodationPage"
@@ -51,8 +77,16 @@ export default function AccomodationDetails() {
               </div>
               <div className="col-2">
                 <div className="row">
-                  <IconButton icon={BiHeart} onClick={onLiked} />
-                  <IconButton icon={SlShare} onClick={onLiked} />
+                  <IconButton
+                    icon={BiHeart}
+                    onClick={onLiked}
+                    isActive={liked}
+                  />
+
+                  <IconButton
+                    icon={SlShare}
+                    onClick={onShare} 
+                  />
                 </div>
               </div>
             </div>
@@ -74,7 +108,7 @@ export default function AccomodationDetails() {
             <Map hotels={hotels} center={[-29, 24]} />
           </div>
         </div>
-        <div className="row" style={{alignItems: "center"}}>
+        <div className="row" style={{ alignItems: "center" }}>
           <div className="col-6">
             <div
               style={{
@@ -96,7 +130,9 @@ export default function AccomodationDetails() {
                 justifyContent: "center",
               }}
             >
-              <Button width={50}>BOOK NOW</Button>
+              <Link to="/booking">
+                <Button width={100}>BOOK NOW</Button>
+              </Link>
             </div>
           </div>
         </div>
