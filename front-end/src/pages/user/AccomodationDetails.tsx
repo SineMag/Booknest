@@ -9,7 +9,7 @@ const AccomodationDetails: React.FC = () => {
     <div>
       <Navbar />
       <Iconbutton onClick={() => console.log("Heart button clicked!")} />
-      <Map />
+      <Map hotels={[]} center={[51.505, -0.09]} />
       <Footer />
     </div>
   );

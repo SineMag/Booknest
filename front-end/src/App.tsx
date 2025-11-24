@@ -10,6 +10,7 @@ import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
+import MyFavorites from "./pages/user/MyFavorites";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
+        <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
