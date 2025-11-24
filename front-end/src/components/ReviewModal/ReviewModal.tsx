@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
-import Navbar from '../NavBar/Navbar';
-import Footer from '../footer/Footer';
 import Button from '../Button/Button';
 import styles from './ReviewModal.module.css';
 
-const ReviewModal: React.FC = () => {
+interface ReviewModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const ReviewModal: React.FC<ReviewModalProps> = ({ isOpen, onClose }) => {
   const [review, setReview] = useState('');
 
   const handleSubmit = () => {
     // Handle submit logic here, e.g., send to backend
     console.log('Review submitted:', review);
-    // Optionally close modal or show success message
+    // Close modal after submit
+    onClose();
   };
+
+  if (!isOpen) return null;
 
   return (
     <div className={styles.modal}>
       <div className={styles.modalContent}>
-        <Navbar />
+        <button className={styles.closeButton} onClick={onClose}>
+          &times;
+        </button>
         <div className={styles.reviewSection}>
           <textarea
             value={review}
@@ -28,7 +36,6 @@ const ReviewModal: React.FC = () => {
             Submit Review
           </Button>
         </div>
-        <Footer />
       </div>
     </div>
   );
