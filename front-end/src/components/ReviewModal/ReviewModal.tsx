@@ -18,15 +18,15 @@ const ReviewModal: React.FC = () => {
       <div className={styles.modalContent}>
         <Navbar />
         <div className={styles.reviewSection}>
-          <Button onClick={handleSubmit} type="button">
-            Submit Review
-          </Button>
           <textarea
             value={review}
             onChange={(e) => setReview(e.target.value)}
             placeholder="Write your review here"
             className={styles.textarea}
           />
+          <Button onClick={handleSubmit} type="button">
+            Submit Review
+          </Button>
         </div>
         <Footer />
       </div>
