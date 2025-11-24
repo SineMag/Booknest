@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"version":3,"file":"UserRouter.d.ts","sourceRoot":"","sources":["../../routes/UserRouter.ts"],"names":[],"mappings":"AAOA,QAAA,MAAM,MAAM,4CAAW,CAAC;AAMxB,eAAe,MAAM,CAAC"}
-=======
 {"version":3,"file":"userRouter.d.ts","sourceRoot":"","sources":["../../routes/userRouter.ts"],"names":[],"mappings":"AAOA,QAAA,MAAM,MAAM,4CAAW,CAAC;AAMxB,eAAe,MAAM,CAAC"}
->>>>>>> feat/ReviewCard
