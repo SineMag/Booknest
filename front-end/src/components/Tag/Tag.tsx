@@ -1,11 +1,16 @@
-import { FaWifi } from "react-icons/fa";
+import type { IconType } from "react-icons";
 import styles from "./Tag.module.css";
 
-export default function FreeWifiButton() {
+interface Props {
+  text: string;
+  icon?: IconType; // make it optional if you want text-only tags
+}
+
+export default function Tag({ text, icon: Icon }: Props) {
   return (
-    <a className={styles["free-wifi-btn"]}>
-      <FaWifi />
-      <span>Free Wifi</span>
+    <a className={styles.tag}>
+      {Icon && <Icon className={styles.icon} size={20} />}
+      <span>{text}</span>
     </a>
   );
 }

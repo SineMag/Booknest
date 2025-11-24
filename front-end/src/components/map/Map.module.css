@@ -1,9 +1,7 @@
 .mapWrapper {
-  margin: 20px 0;
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
-  max-width: 400px; /* Make the map card small */
   width: 100%; /* Ensure it takes full width up to max-width */
   float: right; /* Position to the right */
   margin-left: 20px; /* Add some space from other content */

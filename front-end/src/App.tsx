@@ -6,16 +6,16 @@ import Error404 from "./pages/Error404";
 import UserRegister from "./pages/user/UserRegister";
 import Booking from "./pages/user/Booking";
 import UserDashboard from "./pages/user/UserDashboard";
-import AccomodationDetails from "./pages/user/AccomodationDetails";
+// import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
+import AccomodationDetails from "./pages/user/AccomodationDetails";
 
 function App() {
   return (
     <>
-     
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />

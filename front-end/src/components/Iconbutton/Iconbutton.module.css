@@ -1,27 +1,23 @@
-            
-.heartbutton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid black;
-  border-radius: 20%;
-    width: 2.5rem;
-}
+/* .iconButton {
+  border-radius: 0.5rem;
+  width: fit-content;
+  padding: 0.4rem;
+  margin-right: 0.2rem;
+} */
 
-.heartIcon {
+.iconBtn {
   background: transparent;
-  border: none;
+  border-radius: 0.5rem;
   cursor: pointer;
-  font-size: 1.5rem;
-  color: gblack;
-  transition: color 0.2s, transform 0.1s;
-  margin-top: 5px;
+  font-size: 28px;
+  width: fit-content;
+  padding: 0.4rem;
+  color: #444;
+   margin-right: 0.2rem;
+  transition: color .3s ease;
 }
 
-.heartIcon:hover {
-  transform: scale(1.1);
+.iconBtn.active {
+  color: red; 
 }
 
-.liked {
-  color: red;
-}
