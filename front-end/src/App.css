@@ -32,11 +32,10 @@
 .hotel-page {
   padding: 20px;
 }
-.hotel-row{
+.hotel-row {
   display: flex;
   flex-direction: row;
   background-color: red;
-
 }
 .hotel-layout {
   display: flex;
@@ -70,7 +69,10 @@
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* bigger images */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(250px, 1fr)
+  ); /* bigger images */
   gap: 12px;
   margin-top: 15px;
 }
@@ -87,7 +89,6 @@
 .gallery-img:hover {
   transform: scale(1.05); /* subtle zoom on hover */
 }
-
 
 .details-card {
   background: #f1f1f1;
@@ -112,30 +113,59 @@
 
 .columns-wrapper {
   display: flex;
-  gap: 30px;                /* space between left & right columns */
-  max-width: 1200px;
-  margin: 40px auto;
-  padding: 0 15px;
-  flex-wrap: wrap;          /* responsive wrap on small screens */
+  gap: 30px; /* space between columns */
+  width: 100%; /* full width of the viewport */
+  margin: 0; /* remove auto margin */
+  padding: 0 15px; /* optional padding inside wrapper */
+  flex-wrap: wrap; /* stack on smaller screens */
+  box-sizing: border-box;
 }
 
 /* Left column (Gallery) */
 .left-column {
-  flex: 2;                  /* takes 2/3 of space */
+  flex: 1; /* 50% width */
   min-width: 300px;
+  box-sizing: border-box;
 }
 
-/* Right column (Details, Heart button, Map + Reviews) */
+/* Right column (Details, Heart, Map + Reviews) */
 .right-column {
-  flex: 1;                  /* takes 1/3 of space */
+  flex: 1; /* 50% width */
   display: flex;
-  flex-direction: column;   /* stack items vertically */
+  flex-direction: column;
   gap: 20px;
-  min-width: 250px;
+  min-width: 300px;
+  box-sizing: border-box;
 }
 
 /* Heart button alignment */
 .icon-button {
   display: flex;
   justify-content: flex-end;
+}
+
+/* Bootstrap Styling */
+.row {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
+.col-6 {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.col-10 {
+  display: flex;
+  flex-direction: column;
+  width: 83.33%;
+}
+.col-2 {
+  display: flex;
+  flex-direction: column;
+  width: 16.67%;
 }

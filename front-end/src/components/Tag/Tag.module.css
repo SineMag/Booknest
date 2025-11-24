@@ -1,8 +1,8 @@
-.free-wifi-btn {
+.tag {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;            /* spacing between icon and text */
-  padding: 1rem 1.5rem;     /* vertical and horizontal padding */
+  padding: .6rem 1rem;     /* vertical and horizontal padding */
   background-color: white;   /* button background */
   border: 2px solid #1f2937; /* solid dark border */
   border-radius: 0.5rem;     /* rounded corners */
@@ -13,12 +13,8 @@
   /* cursor: pointer;         */
   transition: background-color 0.2s, transform 0.1s, border-color 0.2s;
   margin-top: 12%;
+  margin-right: 1%;
 }
 
 
 
-.free-wifi-btn svg {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: black; 
-}

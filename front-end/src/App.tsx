@@ -10,18 +10,18 @@ import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
+import AccDetails from "./pages/user/AccDetails";
 
 function App() {
   return (
     <>
-     
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/register" element={<UserRegister />} />
         <Route path="/booking" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/accomodation-details" element={<AccomodationDetails />} />
+        <Route path="/accomodation-details" element={<AccDetails />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
