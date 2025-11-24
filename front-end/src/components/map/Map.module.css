@@ -1,0 +1,37 @@
+.mapWrapper {
+  margin: 20px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.mapContainer {
+  height: 400px;
+  width: 100%;
+}
+
+.locationDetails {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.locationDetails h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.locationDetails ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.locationDetails li {
+  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.locationDetails li strong {
+  color: #000;
+}
