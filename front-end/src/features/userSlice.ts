@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_BASE_URL = "https://booknestapi.netlify.app/";
+const API_BASE_URL = "https://booknestapi.netlify.app";
 
 export interface User {
   id?: number;
@@ -25,10 +25,7 @@ export const createUser = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       console.log("register thunk...");
-      const response = await axios.post(
-        API_BASE_URL + "/auth/register",
-        user
-      );
+      const response = await axios.post(API_BASE_URL + "/auth/register", user);
       console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
@@ -57,18 +54,30 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-export const updateProfile = createAsyncThunk(
-  "user/updateProfile",
-  async (user: User, { rejectWithValue }) => {
+export const uploadProfilePic = createAsyncThunk(
+  "user/uploadProfilePic",
+  async (file: File, { rejectWithValue }) => {
     try {
-      console.log("update thunk...");
-      const response = await axios.put(
-        `http://localhost:5000/users/${user.id}`,
-        user
+      console.log("upload thunk...");
+
+      const formData = new FormData();
+      formData.append("file", file); // VERY IMPORTANT
+      console.log("file: ", file);
+
+      const response = await axios.post(
+        `${API_BASE_URL}/users/uploadPic`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      console.log("@update response: ", response);
+
+      console.log("@upload response:", response);
+
       if (response.status === 200) return response.data;
-      else return rejectWithValue(response.data.message);
+      return rejectWithValue(response.data.message);
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -101,11 +110,11 @@ export const userSlice = createSlice({
     builder.addCase(loginUser.rejected, () => {
       console.log("Error: payload invalid");
     });
-    builder.addCase(updateProfile.fulfilled, (state, action) => {
-      console.log("payload", action.payload, "SUCCESS UPDATE!");
+    builder.addCase(uploadProfilePic.fulfilled, (state, action) => {
+      console.log("payload", action.payload, "SUCCESS UPLOAD PROFILE!");
       state.user = action.payload;
     });
-    builder.addCase(updateProfile.rejected, () => {
+    builder.addCase(uploadProfilePic.rejected, () => {
       console.log("Error: payload invalid");
     });
   },

@@ -1,5 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./ImageUploader.module.css";
+import { useDispatch } from "react-redux";
+import type { AppDispatch } from "../../../store";
+import { uploadProfilePic } from "../../features/userSlice";
 
 type ImageProps = {
   source?: string | null;
@@ -18,6 +21,7 @@ export default function ImageUploader({
 }: ImageProps) {
   const [preview, setPreview] = useState<string | null>(source);
   const inputRef = useRef<HTMLInputElement>(null);
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => setPreview(source), [source]);
 
@@ -28,6 +32,7 @@ export default function ImageUploader({
       reader.onload = () => setPreview(reader.result as string);
       reader.readAsDataURL(file);
       onUpload?.(file);
+      dispatch(uploadProfilePic(file));
     }
   };
 
@@ -37,15 +42,30 @@ export default function ImageUploader({
     <div className={styles.container} style={{ width: size }}>
       <div className={styles.imagePreviewContainer} style={style}>
         {preview ? (
-          <img src={preview} alt={alt} className={styles.imagePreview} style={style} />
+          <img
+            src={preview}
+            alt={alt}
+            className={styles.imagePreview}
+            style={style}
+          />
         ) : (
           <div className={styles.placeholderImage} style={style}></div>
         )}
       </div>
       {editable && (
-        <button className={styles.uploadButton} onClick={() => inputRef.current?.click()}>
+        <button
+          className={styles.uploadButton}
+          onClick={() => inputRef.current?.click()}
+        >
           Upload
-          <input ref={inputRef} type="file" accept="image/*" onChange={handleFile} className={styles.hiddenInput} />
+          <input
+            ref={inputRef}
+            type="file"
+            name="file"
+            accept="image/*"
+            onChange={handleFile}
+            className={styles.hiddenInput}
+          />
         </button>
       )}
     </div>
