@@ -1,6 +1,7 @@
 {
   "type": "module",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.939.0",
     "@neondatabase/serverless": "^1.0.2",
     "@supabase/supabase-js": "^2.84.0",
     "@types/cors": "^2.8.19",

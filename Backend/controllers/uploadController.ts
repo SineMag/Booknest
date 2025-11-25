@@ -1,40 +1,33 @@
 import type { Request, Response } from "express";
-import multer from "multer";
 import { createClient } from "@supabase/supabase-js";
-import { v4 as uuidv4 } from "uuid";
-
-const upload = multer(); // memory storage
 
 const supabase = createClient(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
 
-export const uploadProfileImage = [
-  upload.single("file"),
-  async (req: Request, res: Response) => {
-    try {
-      const file = req.file;
-      if (!file) return res.status(400).json({ error: "No file uploaded" });
-      console.log(601, "file: ", file);
+export const uploadProfileImage = async (req: Request, res: Response) => {
+  console.log(200, req.body);
+  try {
+    const { fileName, fileType } = req.body;
 
-      const fileName = `${uuidv4()}-${file.originalname}`;
+    console.log(201, fileName, fileType);
 
-      const { data, error } = await supabase.storage
-        .from("storage")
-        .upload(fileName, file.buffer, { contentType: file.mimetype });
+    if (!fileName || !fileType)
+      return res.status(400).json({ error: "Missing fileName or fileType" });
 
-      if (error)
-        return res.status(500).json({ error: "Upload failed", detail: error });
+    // Generate signed URL
+    const { data, error } = await supabase.storage
+      .from("storage")
+      .createSignedUploadUrl(fileName);
 
-      const { data: urlData } = supabase.storage
-        .from("storage")
-        .getPublicUrl(fileName);
+    console.log(202, data, error);
 
-      res.status(200).json({ fileName, url: urlData.publicUrl });
-    } catch (err) {
-      console.error(err);
-      res.status(500).json({ error: "Server error", detail: err });
-    }
-  },
-];
+    if (error) throw error;
+
+    res.status(200).json({ signedUrl: data.signedUrl, fileName });
+  } catch (err: any) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+};

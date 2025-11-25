@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_BASE_URL = "https://booknestapi.netlify.app";
+const API_BASE_URL = "http://localhost:8888";
 
 export interface User {
   id?: number;
@@ -58,26 +58,33 @@ export const uploadProfilePic = createAsyncThunk(
   "user/uploadProfilePic",
   async (file: File, { rejectWithValue }) => {
     try {
-      console.log("upload thunk...");
+      const fileName = `uploads/${Date.now()}-${file.name}`;
+      console.log(101, file);
 
-      const formData = new FormData();
-      formData.append("file", file); // VERY IMPORTANT
-      console.log("file: ", file);
-
-      const response = await axios.post(
+      // 1️⃣ Request signed URL from backend
+      const { data } = await axios.post(
         `${API_BASE_URL}/users/uploadPic`,
-        formData,
+        {
+          fileName,
+        },
         {
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": file.type,
           },
         }
       );
 
-      console.log("@upload response:", response);
+      console.log(102, data);
 
-      if (response.status === 200) return response.data;
-      return rejectWithValue(response.data.message);
+      const { signedUrl } = data;
+
+      // 2️⃣ Upload file directly to Supabase Storage
+      await axios.put(signedUrl, file, {
+        headers: { "Content-Type": file.type },
+      });
+
+      // 3️⃣ Return uploaded file info
+      return { fileName, url: signedUrl.split("?")[0] }; // public URL
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -112,7 +119,6 @@ export const userSlice = createSlice({
     });
     builder.addCase(uploadProfilePic.fulfilled, (state, action) => {
       console.log("payload", action.payload, "SUCCESS UPLOAD PROFILE!");
-      state.user = action.payload;
     });
     builder.addCase(uploadProfilePic.rejected, () => {
       console.log("Error: payload invalid");
