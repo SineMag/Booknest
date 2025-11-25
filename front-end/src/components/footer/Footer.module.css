@@ -3,13 +3,10 @@
   color: white;
   text-align: center;
   padding: 15px 0;
-
   font-size: 14px;
-  position: fixed;
-  bottom: 0;
+  position: relative;
+  margin-top: auto;
   width: 100%;
-  left: 0;
-  right: 0;
   border-top: 1px solid #333;
 }
 
@@ -55,7 +52,6 @@
 /* Responsive behavior */
 /* Mobile-first: compact/stacked layout */
 .footer {
-  /* reserve safe area on mobile (iOS) */
   padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
 }
 
