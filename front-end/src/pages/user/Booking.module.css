@@ -1,0 +1,76 @@
+.bookingContainer {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.contentWrapper {
+    display: flex;
+    justify-content: center;
+    padding: 80px 20px; /* Increased vertical padding */
+    gap: 40px;
+}
+
+.formColumn {
+    flex: 2;
+    max-width: 600px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.summaryColumn {
+    flex: 1;
+    max-width: 400px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 20px; /* Increased gap for visual separation */
+    justify-content: flex-end;
+    margin-top: 40px;
+}
+
+.totalPrice {
+  color: #007bff; /* Changed to blue */
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .contentWrapper {
+        flex-direction: column;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .formColumn,
+    .summaryColumn {
+        max-width: 100%;
+        width: 100%;
+        padding: 20px;
+    }
+
+    .formColumn h1,
+    .summaryColumn h2 {
+        text-align: center;
+    }
+
+    .formColumn p {
+        text-align: center;
+    }
+
+    .formColumn > div:not(.buttonContainer) {
+        margin-bottom: 20px;
+    }
+
+    .buttonContainer {
+        justify-content: center;
+        gap: 10px;
+        flex-direction: column;
+    }
+}
