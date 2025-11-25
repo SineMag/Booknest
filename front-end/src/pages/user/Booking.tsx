@@ -1,12 +1,71 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  PaymentElement,
+  useStripe,
+  useElements,
+} from "@stripe/react-stripe-js";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
-import { createBooking } from "../../features/bookingSlice";
+import { createBooking, createPaymentIntent } from "../../features/bookingSlice";
 import type { AppDispatch, RootState } from "../../../store";
+
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+
+function CheckoutForm() {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const [message, setMessage] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const { error } = await stripe.confirmPayment({
+      elements,
+      confirmParams: {
+        return_url: `${window.location.origin}/confirmation`,
+      },
+    });
+
+    if (error.type === "card_error" || error.type === "validation_error") {
+      setMessage(error.message || "An unexpected error occurred.");
+    } else {
+      setMessage("An unexpected error occurred.");
+    }
+
+    setIsLoading(false);
+  };
+
+  return (
+    <form id="payment-form" onSubmit={handleSubmit}>
+      <PaymentElement id="payment-element" />
+      <Button
+        disabled={isLoading || !stripe || !elements}
+        id="submit"
+        variant="primary"
+        style={{ marginTop: "20px", width: "100%" }}
+      >
+        <span id="button-text">
+          {isLoading ? "Processing..." : "Pay now"}
+        </span>
+      </Button>
+      {message && <div id="payment-message">{message}</div>}
+    </form>
+  );
+}
 
 export default function Booking() {
   const [rooms, setRooms] = useState("1");
@@ -16,15 +75,16 @@ export default function Booking() {
   const [phone, setPhone] = useState("");
   const [arrivalTime, setArrivalTime] = useState("");
   const [specialRequest, setSpecialRequest] = useState("");
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.user);
-  const { booking, status, error } = useSelector(
+  const { booking, status, error, clientSecret } = useSelector(
     (state: RootState) => state.booking
   );
 
-  const handleProceed = () => {
+  const handleProceed = async () => {
     if (!user || !("id" in user)) {
       alert("You must be logged in to book a stay.");
       navigate("/login");
@@ -35,16 +95,36 @@ export default function Booking() {
       alert("Please select check-in and check-out dates.");
       return;
     }
+
+    const checkInDate = new Date(checkIn);
+    const checkOutDate = new Date(checkOut);
+    const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
+    const numberOfNights = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    const totalPrice = numberOfNights * 100; // Assuming 100 per night
+
+    const result = await dispatch(
+      createBooking({
+        userId: user.id,
+        accommodationId: 1, // Using fake accommodationId
+        checkInDate: checkIn,
+        checkOutDate: checkOut,
+        numberOfGuests: parseInt(guests),
+        totalPrice: totalPrice,
+      })
+    );
+
+    if (createBooking.fulfilled.match(result)) {
+      const bookingId = result.payload.id;
+      await dispatch(createPaymentIntent(bookingId));
+      setShowPaymentModal(true);
+    }
   };
 
   useEffect(() => {
-    if (status === "succeeded" && booking) {
-      navigate(`/payment/${booking.id}`);
-    }
     if (status === "failed") {
       alert(`Error: ${error}`);
     }
-  }, [status, booking, navigate, error]);
+  }, [status, error]);
 
   const handleCancel = () => {
     alert("Booking cancelled.");
@@ -145,6 +225,34 @@ export default function Booking() {
           </form>
         </div>
       </div>
+      {showPaymentModal && clientSecret && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: "40px",
+              borderRadius: "8px",
+              width: "500px",
+            }}
+          >
+            <Elements options={{ clientSecret }} stripe={stripePromise}>
+              <CheckoutForm />
+            </Elements>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
