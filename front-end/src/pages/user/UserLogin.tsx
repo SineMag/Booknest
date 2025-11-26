@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { loginUser } from "../../features/userSlice";
 import { setLocalUser } from "../../utils/LocalStorage";
+import Filter from "../../components/Filter/Filter";
 
 const UserLogin: React.FC = () => {
   // states
@@ -43,8 +44,10 @@ const UserLogin: React.FC = () => {
   return (
     <>
       <Navbar />
+
       <div className="loginPage">
         <div className="loginContainer">
+          <Filter />
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Login</h2>
           <InputField
             placeholder="Email Address"

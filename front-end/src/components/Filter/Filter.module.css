@@ -1,0 +1,29 @@
+.filter,
+.filterModal {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.filterModal {
+  border: 2px solid gray;
+  border-radius: 1rem;
+  padding: 2rem;
+
+  position: fixed; /* stay fixed on screen */
+  top: 50%; /* center vertically */
+  left: 50%; /* center horizontally */
+  width: 40%;
+  transform: translate(-50%, -50%); /* correct centering */
+
+  background: white; /* optional, so content is visible */
+  z-index: 999; /* ensure it stays above other elements */
+}
+
+.closeButton {
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  font-size: 1.5rem;
+  border: none;
+  background-color: white;
+}
