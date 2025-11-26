@@ -3,7 +3,7 @@ import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
 import userRouter from "./routes/UserRouter";
-import bookingRouter from "./routes/BookingRouter";
+import userBookingRouter from "./routes/UserBookingRouter";
 import paymentRouter from "./routes/PaymentRouter";
 const app = express();
 // MIDDLEWARE
@@ -17,7 +17,7 @@ app.use(express.json({
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-app.use("/bookings", bookingRouter);
+app.use("/bookings", userBookingRouter);
 app.use("/payments", paymentRouter);
 export default app;
 //# sourceMappingURL=server.js.map

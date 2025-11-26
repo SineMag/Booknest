@@ -21,9 +21,9 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/register" element={<UserRegister />} />
-        <Route path="/booking" element={<Booking />} />
+        <Route path="/booking/:accommodationId" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/accomodation-details" element={<AccomodationDetails />} />
+        <Route path="/accomodation-details/:accommodationId" element={<AccomodationDetails />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />

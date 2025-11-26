@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
@@ -48,11 +48,10 @@ const roomTypes = [
   },
 ];
 
-interface BookingProps {
-  accommodationId?: number; // Make it optional for now, but validate its presence
-}
+export default function Booking() { // Removed accommodationId prop
+  const { accommodationId: accommodationIdParam } = useParams<{ accommodationId: string }>(); // Get from URL params
+  const accommodationId = accommodationIdParam ? parseInt(accommodationIdParam, 10) : undefined;
 
-export default function Booking({ accommodationId }: BookingProps) {
   const [selectedRoomType, setSelectedRoomType] = useState(roomTypes[0]);
   const [numberOfRooms, setNumberOfRooms] = useState(""); // Changed to empty string
   const [numberOfGuests, setNumberOfGuests] = useState(""); // Changed to empty string
@@ -61,10 +60,12 @@ export default function Booking({ accommodationId }: BookingProps) {
   const [phone, setPhone] = useState("");
   const [specialRequest, setSpecialRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error messages
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.user);
+  console.log("Current user state in Booking.tsx:", user); // ADDED FOR DEBUGGING
   const { status, error } = useSelector((state: RootState) => state.booking);
 
   useEffect(() => {
@@ -89,44 +90,48 @@ export default function Booking({ accommodationId }: BookingProps) {
       }
     };
     calculateTotalPrice();
+    setErrorMessage(null); // Clear errors when inputs change
   }, [checkIn, checkOut, selectedRoomType, numberOfRooms]);
 
   const handleProceed = () => {
+    setErrorMessage(null); // Clear previous errors
+
     if (!user || !("id" in user)) {
-      alert("You must be logged in to book a stay.");
-      navigate("/login");
+      setErrorMessage("You must be logged in to book a stay. Please log in.");
+      // navigate("/login"); // Removed automatic navigation
       return;
     }
 
     if (!checkIn || !checkOut) {
-      alert("Please select check-in and check-out dates.");
+      setErrorMessage("Please select check-in and check-out dates.");
       return;
     }
 
-    if (!accommodationId) {
-      alert("Accommodation ID is missing. Please select an accommodation first.");
-      navigate("/"); // Navigate to home or accommodation listing page
+    if (!accommodationId || isNaN(accommodationId)) {
+      setErrorMessage("Accommodation ID is missing or invalid. Please select an accommodation first.");
+      // navigate("/"); // Removed automatic navigation
       return;
     }
 
     dispatch(
       createBooking({
-        userId: user.id,
-        accommodationId: accommodationId, // Using prop
-        checkInDate: checkIn,
-        checkOutDate: checkOut,
-        numberOfGuests: parseInt(numberOfGuests) || 0, // Parse guests, treat empty string as 0
-        totalPrice: totalPrice,
+        user_id: user.id,
+        accommodation_id: accommodationId, // Using param
+        check_in: checkIn,
+        check_out: checkOut,
+        guests: parseInt(numberOfGuests) || 0, // Parse guests, treat empty string as 0
+        total_price: totalPrice,
         phone: phone,
-        specialRequest: specialRequest,
+        special_request: specialRequest,
       })
     );
     navigate("/confirmation");
   };
 
   const handleCancel = () => {
-    alert("Booking cancelled.");
-    navigate("/");
+    // alert("Booking cancelled."); // Removed alert
+    setErrorMessage("Booking process cancelled.");
+    // navigate("/"); // Removed automatic navigation
   };
 
   return (
@@ -141,6 +146,12 @@ export default function Booking({ accommodationId }: BookingProps) {
           <p style={{ color: "#7f8c8d", marginBottom: "30px" }}>
             Complete the form below to finalize your reservation.
           </p>
+
+          {errorMessage && ( // Display error message if present
+            <div style={{ color: "red", marginBottom: "20px", padding: "10px", border: "1px solid red", borderRadius: "5px" }}>
+              {errorMessage}
+            </div>
+          )}
 
           <div style={{ marginBottom: "30px" }}>
             <h2 style={{ fontSize: "1.2rem", color: "#34495e", marginBottom: "15px" }}>
@@ -171,7 +182,7 @@ export default function Booking({ accommodationId }: BookingProps) {
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "20px" }}>
             <InputField type="date" label="Check-in Date" field={checkIn} setField={setCheckIn} details="Select your arrival date." />
             <InputField type="date" label="Check-out Date" field={checkOut} setField={setCheckOut} details="Select your departure date." />
-            <InputField type="number" label="Number of Rooms" field={String(numberOfRooms)} setField={(val) => setNumberOfRooms(Number(val))} details="Specify how many rooms you need." />
+            <InputField type="number" label="Number of Rooms" field={String(numberOfRooms)} setField={setNumberOfRooms} details="Specify how many rooms you need." />
             <InputField type="number" label="Number of Guests" field={String(numberOfGuests)} setField={(val) => setNumberOfGuests(Number(val))} details="Including yourself and any companions." />
           </div>
 

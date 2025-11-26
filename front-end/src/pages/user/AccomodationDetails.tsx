@@ -12,7 +12,7 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
-import { Link } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
 
@@ -41,7 +41,9 @@ const hotels: Hotel[] = [
 
 
 export default function AccomodationDetails() {
-   const [liked, setLiked] = useState(false);
+  const { accommodationId: accommodationIdParam } = useParams<{ accommodationId: string }>();
+  const accommodationId = accommodationIdParam ? parseInt(accommodationIdParam, 10) : undefined;
+
 
    const onLiked = () => {
      setLiked(!liked);
@@ -130,7 +132,7 @@ export default function AccomodationDetails() {
                 justifyContent: "center",
               }}
             >
-              <Link to="/booking">
+              <Link to={accommodationId ? `/booking/${accommodationId}` : "/booking"}>
                 <Button width={100}>BOOK NOW</Button>
               </Link>
             </div>

@@ -29,6 +29,67 @@ export class UserBookingService {
         return result.length > 0 ? result[0] as UserBooking : null;
     }
 
+    static async getAllBookings(): Promise<UserBooking[]> {
+        const result = await sql`
+        SELECT id, user_id AS "userId", accommodation_id AS "accommodationId", guests, check_in AS "checkIn", check_out AS "checkOut", phone, total_price AS "totalPrice", special_request AS "specialRequest", status, created_at AS "createdAt"
+        FROM bookings;
+        `;
+        return result as UserBooking[];
+    }
+
+    static async updateBooking(bookingId: number, booking: Partial<Omit<UserBooking, 'id' | 'createdAt'>>): Promise<UserBooking | null> {
+        const setParts: string[] = [];
+
+        if (booking.userId !== undefined) {
+            setParts.push(sql`user_id = ${booking.userId}`);
+        }
+        if (booking.accomodationId !== undefined) {
+            setParts.push(sql`accommodation_id = ${booking.accomodationId}`);
+        }
+        if (booking.guests !== undefined) {
+            setParts.push(sql`guests = ${booking.guests}`);
+        }
+        if (booking.checkIn !== undefined) {
+            setParts.push(sql`check_in = ${booking.checkIn}`);
+        }
+        if (booking.checkOut !== undefined) {
+            setParts.push(sql`check_out = ${booking.checkOut}`);
+        }
+        if (booking.phone !== undefined) {
+            setParts.push(sql`phone = ${booking.phone}`);
+        }
+        if (booking.totalPrice !== undefined) {
+            setParts.push(sql`total_price = ${booking.totalPrice}`);
+        }
+        if (booking.specialRequest !== undefined) {
+            setParts.push(sql`special_request = ${booking.specialRequest}`);
+        }
+        if (booking.status !== undefined) {
+            setParts.push(sql`status = ${booking.status}`);
+        }
+
+        if (setParts.length === 0) {
+            return null; // No fields to update
+        }
+
+        const result = await sql`
+            UPDATE bookings
+            SET ${sql.raw(setParts.join(', '))}
+            WHERE id = ${bookingId}
+            RETURNING id, user_id AS "userId", accommodation_id AS "accommodationId", guests, check_in AS "checkIn", check_out AS "checkOut", phone, total_price AS "totalPrice", special_request AS "specialRequest", status, created_at AS "createdAt";
+        `;
+        return result.length > 0 ? result[0] as UserBooking : null;
+    }
+
+    static async deleteBooking(bookingId: number): Promise<UserBooking | null> {
+        const result = await sql`
+        DELETE FROM bookings
+        WHERE id = ${bookingId}
+        RETURNING id, user_id AS "userId", accommodation_id AS "accommodationId", guests, check_in AS "checkIn", check_out AS "checkOut", phone, total_price AS "totalPrice", special_request AS "specialRequest", status, created_at AS "createdAt";
+        `;
+        return result.length > 0 ? result[0] as UserBooking : null;
+    }
+
     static async updateBookingStatus(bookingId: number, status: "pending" | "confirmed" | "cancelled"): Promise<UserBooking | null> {
         const result = await sql`
         UPDATE bookings
