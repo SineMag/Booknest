@@ -132,14 +132,15 @@ export default function AdminRegister() {
               Sign In
             </Link>
           </p>
-
-          <Button
-            variant="primary"
-            style={buttonStyle}
-            onClick={handleRegister}
-          >
-            Register
-          </Button>
+          <Link to="/login">
+            <Button
+              variant="primary"
+              style={buttonStyle}
+              onClick={handleRegister}
+            >
+              Register
+            </Button>
+          </Link>
         </div>
       </div>
 

@@ -6,14 +6,13 @@ import Error404 from "./pages/Error404";
 import UserRegister from "./pages/user/UserRegister";
 import Booking from "./pages/user/Booking";
 import UserDashboard from "./pages/user/UserDashboard";
-// import AccomodationDetails from "./pages/user/AccomodationDetails";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
 import AdminRegister from "./pages/admin/AdminRegister";
-
+import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
   return (
@@ -33,9 +32,11 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="/adminRegister" element={<AdminRegister />} />
+        <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
   );
 }
+
 export default App;
