@@ -20,7 +20,7 @@ function App() {
   return (
     <>
     <AdminLogin/>
-      {/* <Routes>
+      <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/register" element={<UserRegister />} />
@@ -36,11 +36,11 @@ function App() {
         <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="*" element={<Error404 />} />
-      </Routes> */}
+      </Routes> 
         <Route path="/adminRegister" element={<AdminRegister />} />
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
-      </Routes>
+      
     </>
   );
 }
