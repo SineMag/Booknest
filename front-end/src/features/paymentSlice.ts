@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = "https://booknestapi.netlify.app";
-const BASE_URL = "http://localhost:8888";
+// const BASE_URL = "http://localhost:8888";
 
 export interface Payment {
   email: string;

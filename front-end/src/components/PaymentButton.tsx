@@ -6,7 +6,6 @@ import type PaystackPop from "@paystack/inline-js";
 
 export default function PaymentButton() {
   const dispatch = useDispatch<AppDispatch>();
-  const { access_code, loading, transaction } = useSelector(
   const { access_code, loading } = useSelector(
     (state: RootState) => state.payment
   );
