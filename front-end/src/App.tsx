@@ -12,7 +12,7 @@ import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
 import AdminRegister from "./pages/admin/AdminRegister";
-import AdminLogin from "./pages/admin/AdminLogin";
+// import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
   return (
@@ -32,7 +32,7 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="/adminRegister" element={<AdminRegister />} />
-        <Route path="/adminLogin" element={<AdminLogin />} />
+        {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>
