@@ -17,24 +17,9 @@ import { useEffect, useState } from "react";
 import { getFavorites, toggleFavorite } from "../../service/api";
 
 const hotels: Hotel[] = [
-  {
-    id: 1,
-    name: "Hotel 1",
-    position: [420, 120],
-    address: "Average",
-  },
-  {
-    id: 2,
-    name: "Hotel 2",
-    position: [100, 120],
-    address: "Good",
-  },
-  {
-    id: 3,
-    name: "Hotel 3",
-    position: [300, 120],
-    address: "Bad",
-  },
+  { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
+  { id: 2, name: "Hotel 2", position: [100, 120], address: "Good" },
+  { id: 3, name: "Hotel 3", position: [300, 120], address: "Bad" },
 ];
 
 export default function AccomodationDetails() {
@@ -46,16 +31,14 @@ export default function AccomodationDetails() {
   const [error, setError] = useState("");
 
   // ----------------------------
-  // CHECK IF THIS HOTEL IS A FAVORITE
+  // CHECK IF HOTEL IS ALREADY FAVORITE
   // ----------------------------
   useEffect(() => {
     const loadFavoriteStatus = async () => {
       try {
         const response = await getFavorites();
         const favorites = response.data;
-
         const isLiked = favorites.some((fav: any) => fav.hotelId === hotelId);
-
         setLiked(isLiked);
       } catch (err) {
         console.error("Failed to load favorites:", err);
@@ -73,10 +56,15 @@ export default function AccomodationDetails() {
       setLoading(true);
       setError("");
 
+      // Toggle favorite in backend
       await toggleFavorite(hotelId, liked);
 
-      // Optimistic UI update
+      // Update UI immediately
       setLiked((prev) => !prev);
+
+      // Trigger global state refresh for MyFavorites
+      const event = new CustomEvent("favoriteUpdated");
+      window.dispatchEvent(event);
     } catch (err) {
       setError("Failed to update favorites");
       console.error(err);
@@ -89,18 +77,28 @@ export default function AccomodationDetails() {
   // SHARE FUNCTION
   // ----------------------------
   const onShare = async () => {
+    const hotelName = "Blue Lagoon"; // Can be dynamic later
+    const hotelDescription =
+      "Offers relaxing coastal escape with modern, comfortable rooms, pool, beach access, and more!";
+    const hotelUrl = window.location.href;
+
     if (navigator.share) {
       try {
         await navigator.share({
-          title: "Blue Lagoon Hotel",
-          text: "Check out this beautiful hotel!",
-          url: window.location.href,
+          title: hotelName,
+          text: hotelDescription,
+          url: hotelUrl,
         });
       } catch {
         console.log("Share cancelled");
       }
     } else {
-      alert("Sharing not supported on this browser.");
+      // Fallback: open email client
+      const subject = encodeURIComponent(`Check out ${hotelName}`);
+      const body = encodeURIComponent(
+        `${hotelDescription}\n\nMore details: ${hotelUrl}`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
     }
   };
 
@@ -129,8 +127,6 @@ export default function AccomodationDetails() {
                     icon={liked ? FaHeart : FaRegHeart}
                     onClick={onLiked}
                     isActive={liked}
-                    style={{ color: liked ? "red" : "inherit" }}
-                    disabled={loading}
                   />
 
                   {/* SHARE ICON */}
@@ -242,3 +238,6 @@ export default function AccomodationDetails() {
       </main>
 
       <Footer />
+    </div>
+  );
+}
