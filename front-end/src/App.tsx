@@ -1,6 +1,5 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import UserLogin from "./pages/user/UserLogin";
 import Landing from "./pages/Landing";
 import UserLogin from "./pages/user/UserLogin";
 import Error404 from "./pages/Error404";
