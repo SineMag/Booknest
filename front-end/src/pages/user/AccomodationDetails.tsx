@@ -45,9 +45,13 @@ export default function AccomodationDetails() {
   const accommodationId = accommodationIdParam ? parseInt(accommodationIdParam, 10) : undefined;
 
 
-   const onLiked = () => {
-     setLiked(!liked);
-   };
+  //  const onLiked = () => {
+  //    setLiked(!liked);
+  //  };
+  const [liked, setLiked] = useState(false);
+  const onLiked = () => {
+    setLiked(!liked);
+  };
 
    const onShare = async () => {
      if (navigator.share) {
