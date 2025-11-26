@@ -10,9 +10,9 @@ export default function HeroSection() {
         
         {/* LEFT SIDE */}
         <div className={styles.heroLeft}>
-          <h1>Welcome to BookNet</h1>
+          <h1>Welcome to BookNest</h1>
           <p>Search and reserve hotels easily, with the best prices guaranteed.</p>
-          <p>Your next hotel stay is just a few clicks away</p>
+          <p>Your next hotel stay is just a few clicks away.</p>
 
            {/* BUTTON (moves only on mobile) */}
         <div className={styles.heroButtons}>

@@ -1,0 +1,43 @@
+.hamburgerButton {
+  display: none; /* Hidden by default, shown via media query */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 25px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001; /* Above navbar */
+}
+
+.hamburgerLine {
+  width: 100%;
+  height: 3px;
+  background: white;
+  border-radius: 10px;
+  transition: all 0.3s linear;
+  position: relative;
+  transform-origin: 1px;
+}
+
+/* Transform for open state */
+.hamburgerLine:first-child.open {
+  transform: rotate(45deg);
+}
+
+.hamburgerLine:nth-child(2).open {
+  opacity: 0;
+  transform: translateX(20px);
+}
+
+.hamburgerLine:nth-child(3).open {
+  transform: rotate(-45deg);
+}
+
+/* Media query to show hamburger on smaller screens */
+@media (max-width: 768px) {
+  .hamburgerButton {
+    display: flex; /* Show on mobile */
+  }
+}

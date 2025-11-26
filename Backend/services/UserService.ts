@@ -1,20 +1,22 @@
-import { User, getUsersQuery } from "../models/User";
-import { sql } from "../database";
-import { log } from "node:console";
+import { type
+  User,
+  getUsersQuery,
+  putIntoUserQuery,
+  insertUserQuery,
+  getUserByIdQuery,
+} from "../models/User";
 
 export const selectAllUsers = async () => {
   const users = await getUsersQuery();
   return users;
 };
 
+export const selectUserById = async (id: number) => {
+  const user = await getUserByIdQuery(id);
+  return user;
+};
+
 export const putIntoUser = async (id: number, user: User) => {
-  const { firstName, lastName, emailAddress, physicalAddress, phoneNumber } =
-    user;
-  const result = await sql`
-    UPDATE users
-    SET first_name = ${firstName}, last_name = ${lastName}, email_address = ${emailAddress}, physical_address = ${physicalAddress}, phone_number = ${phoneNumber}
-    WHERE id = ${id}
-    RETURNING *;
-  `;
+  const result = await putIntoUserQuery(id, user);
   return result;
 };

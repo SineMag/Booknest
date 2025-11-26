@@ -28,7 +28,7 @@ export default function Footer() {
         </nav>
 
         <p className={styles.copy}>
-          © {new Date().getFullYear()} MyWebsite | All rights reserved.
+          &copy; 2024 BookNest. All rights reserved.
         </p>
       </div>
     </footer>

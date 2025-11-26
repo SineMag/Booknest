@@ -14,7 +14,7 @@
   align-items: center;
   justify-content: space-between;
   background-color: black;
-  padding: 12px 24px;
+  padding: 1rem 2rem;
   font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
 }
@@ -38,7 +38,7 @@
 }
 
 .nav-links a:hover {
-  color: #2B97FB; /* hover color */
+  color: #2b97fb; /* hover color */
 }
 
 .profile-icon {
@@ -54,4 +54,81 @@
   height: 40px;
   cursor: pointer;
   font-family: inherit;
+}
+
+/* Hamburger menu styles */
+.hamburgerContainer {
+  display: none; /* Hidden by default on desktop */
+}
+
+.mobileMenu {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: -100%; /* Start off-screen */
+  width: 70%; /* Or specific width */
+  height: 100vh;
+  background-color: black;
+  padding-top: 60px; /* Space for navbar */
+  transition: right 0.3s ease-in-out;
+  z-index: 998;
+}
+
+.mobileMenu.open {
+  right: 0; /* Slide in */
+}
+
+.mobile-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.mobile-nav-links li a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+}
+
+.mobileMenuHeader {
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+}
+
+.backButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.backButton svg {
+  stroke: white;
+  width: 24px;
+  height: 24px;
+}
+
+/* Media queries for mobile */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Hide desktop nav links */
+  }
+
+  .hamburgerContainer {
+    display: block; /* Show hamburger */
+  }
+
+  .navbar {
+    justify-content: space-between; /* Adjust navbar alignment */
+  }
+
+  .mobileMenu {
+    right: -100%; /* Ensure it's off screen when not open */
+  }
 }
