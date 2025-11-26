@@ -29,15 +29,6 @@ export class UserBookingService {
         return result.length > 0 ? result[0] as UserBooking : null;
     }
 
-    static async getBookingById(bookingId: number): Promise<UserBooking | null> {
-        const result = await sql`
-        SELECT id, user_id AS "userId", accommodation_id AS "accommodationId", guests, check_in AS "checkIn", check_out AS "checkOut", phone, total_price AS "totalPrice", special_request AS "specialRequest", status, created_at AS "createdAt"
-        FROM bookings
-        WHERE id = ${bookingId};
-        `;
-        return result.length > 0 ? result[0] as UserBooking : null;
-    }
-
     static async getAllBookings(): Promise<UserBooking[]> {
         const result = await sql`
         SELECT id, user_id AS "userId", accommodation_id AS "accommodationId", guests, check_in AS "checkIn", check_out AS "checkOut", phone, total_price AS "totalPrice", special_request AS "specialRequest", status, created_at AS "createdAt"
