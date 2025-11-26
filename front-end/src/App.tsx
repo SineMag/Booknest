@@ -19,16 +19,14 @@ import AdminRegister from "./pages/admin/AdminRegister";
 function App() {
   return (
     <>
-    <AdminLogin/>
+    
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/register" element={<UserRegister />} />
-        <Route path="/booking/:accommodationId" element={<Booking />} />
+        <Route path="/booking/" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route
-          path="/accomodation-details/:accommodationId"
-          element={<AccomodationDetails />}
+        <Route path="/accomodation-details/" element={<AccomodationDetails />}
         />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
@@ -36,10 +34,13 @@ function App() {
         <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="*" element={<Error404 />} />
-      </Routes> 
+     
         <Route path="/adminRegister" element={<AdminRegister />} />
+                <Route path="/adminlogin" element={<AdminLogin />} />
+
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
+         </Routes> 
       
     </>
   );
