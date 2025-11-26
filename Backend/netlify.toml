@@ -2,6 +2,9 @@
   functions = "functions"
   publish = "public"
 
+[dev]
+  functions = "functions"
+
 [[redirects]]
   from = "/auth/*"
   to = "/.netlify/functions/auth/:splat"
@@ -10,6 +13,11 @@
 [[redirects]]
   from = "/users/*"
   to = "/.netlify/functions/users/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/payment/*"
+  to = "/.netlify/functions/payment/:splat"
   status = 200
 
 [functions]

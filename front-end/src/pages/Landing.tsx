@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
 import ReviewModal from "../components/ReviewModal/ReviewModal";
+import PaymentButton from "../components/PaymentButton";
 
 const Landing: React.FC = () => {
   const userData = useSelector((state: RootState) => state.user);
@@ -38,7 +39,7 @@ const Landing: React.FC = () => {
       <Navbar />
       {/* <ReviewModal isOpen={isReviewModalOpen} onClose={handleCloseReviewModal} /> */}
       <HeroSection />
-      <div style={{ textAlign: 'center', padding: '20px' }}>
+      <div style={{ textAlign: "center", padding: "20px" }}>
         <Button onClick={handleOpenReviewModal}>Write a Review</Button>
       </div>
       <SnackbarComponent
@@ -46,6 +47,7 @@ const Landing: React.FC = () => {
         show={showSnackbar}
         onClose={handleCloseSnackbar}
       />
+      <PaymentButton />
 
       <Footer />
     </div>
