@@ -77,11 +77,11 @@ const Landing: React.FC = () => {
     },
   ];
 
-  const MainContent = styled.div`
-  padding-top: 80px;
-  min-height: 100vh;
-  width: 100%;
-`;
+//   const MainContent = styled.div`
+//   padding-top: 80px;
+//   min-height: 100vh;
+//   width: 100%;
+// `;
 
   const testimonials = [
     {
