@@ -17,9 +17,18 @@ const initialState: BookingState = {
 
 export const createBooking = createAsyncThunk(
   'booking/createBooking',
-  async (bookingData: Omit<UserBooking, 'id' | 'created_at' | 'status'>, { rejectWithValue }) => {
+  async (bookingData: {
+    user_id: number;
+    accommodation_id: number;
+    guests: number;
+    check_in: string;
+    check_out: string;
+    phone: string;
+    total_price: number;
+    special_request?: string;
+  }, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/bookings', { // Assuming you have a proxy set up for /api
+      const response = await fetch('https://booknestapi.netlify.app/bookings', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
