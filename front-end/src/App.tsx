@@ -23,11 +23,14 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
+
+        {/* User */}
         <Route path="/register" element={<UserRegister />} />
         <Route path="/booking/" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/accomodation-details/" element={<AccomodationDetails />}
-        />
+       
+        <Route path="/accomodation-details/" element={<AccomodationDetails />} />
+        <Route path="/accomodation-details/:accommodationId" element={<AccomodationDetails />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
@@ -35,6 +38,9 @@ function App() {
         <Route path="/adminLogin" element={<AdminLogin />} />
         <Route path="*" element={<Error404 />} />
      
+
+        {/* Admin */}
+        
         <Route path="/adminRegister" element={<AdminRegister />} />
                 <Route path="/adminlogin" element={<AdminLogin />} />
 

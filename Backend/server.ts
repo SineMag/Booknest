@@ -18,6 +18,17 @@ app.use(
     origin: "*",
   })
 );
+app.use(
+  express.json({
+    verify: (req, res, buf) => {
+      // Save the raw body to a new property on the request object
+      (req as any).rawBody = buf;
+    },
+  })
+);
+app.use(cors({
+  origin: "*",
+}))
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
