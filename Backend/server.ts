@@ -1,25 +1,25 @@
+// imports
 import express from "express";
-import dotenv from "dotenv";
-import { userTableQuery } from "./models/User";
+import path from "path";
+import authRouter from "./routes/authRouter";
 import userRouter from "./routes/UserRouter";
-dotenv.config();
+import userBookingRouter from "./routes/UserBookingRouter";
+import paymentRouter from "./routes/PaymentRouter";
 
 const app = express();
-const PORT = process.env.PORT!;
 
-// middleware
-app.use(express.json());
+// MIDDLEWARE
+// For Stripe webhooks, we need the raw body, so we have a custom middleware for it
+app.use(express.json({
+  verify: (req, res, buf) => {
+    // Save the raw body to a new property on the request object
+    (req as any).rawBody = buf;
+  }
+}));
+app.use(express.static(path.join(__dirname, "public")));
+app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/bookings", userBookingRouter);
+app.use("/payments", paymentRouter);
 
-app.get("/", (req, res) => {
-  res.send("Hello, Booknest Backend is running!");
-});
-
-const startServer = async () => {
-  await userTableQuery();
-  app.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-  });
-};
-
-startServer();
+export default app;

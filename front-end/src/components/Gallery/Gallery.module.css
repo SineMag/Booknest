@@ -1,0 +1,172 @@
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.gallery-img {
+  position: relative;
+  width: calc(33.33% - 10px);
+  padding-bottom: 20%;
+  border-radius: 8px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+}
+
+.gallery-img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 8px;
+}
+
+/* Modal styling */
+.modal{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  opacity: 0;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* .modal-content {
+  position: relative;
+  width: 80vw;
+  max-width: 800px;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeIn 0.3s forwards;
+} */
+
+/* .modal-content img {
+  object-fit: cover;
+  border-radius: 8px;
+  transition: opacity 0.3s ease;
+} */
+ .modal{
+    display: flex;
+    justify-content: center;
+ }
+ .modal-content{
+    width: 80%;
+    height: 100%;
+    padding: 8rem;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+ }
+.img-container{
+    width: 100%;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+
+.nav-btn.prev {
+  position: absolute;     
+  top: 50%;                
+  left: 2%;             
+  transform: translateY(-50%);
+  padding: 5px; 
+  box-sizing: border-box;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.nav-btn.next {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  padding: 5px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+  @media (max-width: 900px) {
+  .gallery-img {
+    width: calc(50% - 10px);
+    padding-bottom: 25%;
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery-img {
+    width: 100%;
+    padding-bottom: 50%;
+  }
+
+  .nav-btn.prev {
+    left: 10px;
+  }
+
+  .nav-btn.next {
+    right: 10px;
+  }
+}
+
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
+}

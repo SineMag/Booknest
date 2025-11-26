@@ -8,6 +8,7 @@ interface ButtonProps {
   variant?: "primary" | "secondary" | "danger";
   disabled?: boolean;
   width?: number;
+  style?: React.CSSProperties;
 }
 
 const Button: React.FC<ButtonProps> = ({

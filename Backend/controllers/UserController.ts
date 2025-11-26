@@ -1,5 +1,9 @@
-import { Request, Response } from "express";
-import { putIntoUser, selectAllUsers } from "../services/UserService";
+import type { Request, Response } from "express";
+import {
+  putIntoUser,
+  selectAllUsers,
+  selectUserById,
+} from "../services/UserService";
 import { log } from "node:console";
 
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -11,9 +15,20 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+export const getUserById = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const user = await selectUserById(Number(id));
+    return res.json(user);
+  } catch (error) {
+    log(error);
+  }
+};
+
 export const updateUser = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    console.log("Incoming ID:", req.params);
+    const id = Number(req.params.id);
     const {
       firstName,
       lastName,

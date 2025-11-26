@@ -1,0 +1,63 @@
+/* Container for icon + dropdown */
+.wrapper {
+  position: relative;
+  display: inline-block;
+  z-index: 9999;   /* ensures visibility */
+}
+
+/* Profile icon */
+.profile-icon {
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 0.2s ease;
+}
+
+.profile-icon:hover {
+  background: #e0e0e0;
+}
+
+/* Dropdown menu */
+.menu {
+  position: absolute;
+  top: 100%;      /* distance below the icon */
+  margin-top: 8px;
+  right: 0;
+
+  background: #f3f3f3;
+  border-radius: 8px;
+  padding: 10px;
+  width: 180px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  z-index: 99999;   /* ensure full visibility */
+}
+
+/* Each menu item */
+.menu a,
+.menu button {
+  background: #dcdcdc;
+  padding: 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+}
+
+.menu a:hover,
+.menu button:hover {
+  background: #c4c4c4;
+}
+
+.logoutBtn {
+  color: #a30000;
+  font-weight: bold;
+}

@@ -1,30 +1,45 @@
+import { useEffect, useRef } from "react";
 import styles from "./HeroSection.module.css";
-import image from "../../images/bed.png"; // adjust path
+import image from "../../images/bed.png"; 
+import Button from "../Button/Button";
+import { Link } from "react-router-dom";
 
 export default function HeroSection() {
+  const heroLeftRef = useRef<HTMLDivElement>(null);
+  const heroRightRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Fade in text and floating animation for the bed image
+    if (heroLeftRef.current && heroRightRef.current) {
+      heroLeftRef.current.style.opacity = '1';
+      heroLeftRef.current.style.transform = 'translateY(0)';
+      
+      heroRightRef.current.style.opacity = '1';
+      heroRightRef.current.style.transform = 'translateY(0) rotate(0deg)';
+    }
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.heroSection}>
-        
         {/* LEFT SIDE */}
-        <div className={styles.heroLeft}>
-          <h1>Welcome to BookNet</h1>
+        <div ref={heroLeftRef} className={`${styles.heroLeft} ${styles.fadeIn}`}>
+          <h1>Welcome to BookNest</h1>
           <p>Search and reserve hotels easily, with the best prices guaranteed.</p>
-          <p>Your next hotel stay is just a few clicks away</p>
+          <p>Your next hotel stay is just a few clicks away.</p>
 
-           {/* BUTTON (moves only on mobile) */}
-        <div className={styles.heroButtons}>
-          <button className={styles.primaryBtn}>Get Started</button>
-        </div>
+          {/* BUTTON */}
+          <div className={styles.heroButtons}>
+            <Link to="/register">
+              <Button>Get Started</Button>
+            </Link>
+          </div>
         </div>
 
         {/* RIGHT SIDE */}
-        <div className={styles.heroRight}>
-          <img src={image} alt="Hero image" />
+        <div ref={heroRightRef} className={`${styles.heroRight} ${styles.floatAnimation}`}>
+          <img src={image} alt="Comfortable hotel bed" />
         </div>
-
-       
-
       </div>
     </div>
   );
