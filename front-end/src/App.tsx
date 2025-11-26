@@ -11,11 +11,8 @@ import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
-<<<<<<< HEAD
-=======
 import AdminRegister from "./pages/admin/AdminRegister";
 // import AdminLogin from "./pages/admin/AdminLogin";
->>>>>>> feat/AdminRegister
 
 function App() {
   return (
@@ -26,14 +23,10 @@ function App() {
         <Route path="/register" element={<UserRegister />} />
         <Route path="/booking/:accommodationId" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-<<<<<<< HEAD
-        <Route path="/accomodation-details" element={<AccomodationDetails />} />
-=======
         <Route
           path="/accomodation-details/:accommodationId"
           element={<AccomodationDetails />}
         />
->>>>>>> feat/AdminRegister
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
