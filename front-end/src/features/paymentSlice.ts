@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8888";
+const BASE_URL = "https://booknestapi.netlify.app";
 
 export interface Payment {
   email: string;
@@ -9,6 +9,8 @@ export interface Payment {
   reference?: string;
   access_code?: string;
   loading?: boolean;
+  callback_url?: string;
+  transaction?: any;
 }
 
 const initialState: Payment = {
@@ -17,6 +19,7 @@ const initialState: Payment = {
   reference: "",
   access_code: "",
   loading: false,
+  transaction: null,
 };
 
 export const initializePayment = createAsyncThunk(
@@ -43,6 +46,7 @@ const paymentSlice = createSlice({
       .addCase(initializePayment.fulfilled, (state, action) => {
         state.reference = action.payload.reference;
         state.access_code = action.payload.access_code;
+        state.transaction = action.payload;
         console.log("reference", state.reference);
         console.log("access_code", state.access_code);
         console.log("SUCESSFUL PAYMENT INITIALIZATION!");
