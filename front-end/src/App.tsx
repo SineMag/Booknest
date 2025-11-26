@@ -20,14 +20,19 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
+
+        {/* User */}
         <Route path="/register" element={<UserRegister />} />
         <Route path="/booking/:accommodationId" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/accomodation-details/:accommodationId" element={<AccomodationDetails />} />
+        <Route path="/accomodation-details" element={<AccomodationDetails />} />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/my-favorites" element={<MyFavorites />} />
+
+        {/* Admin */}
+        
         <Route path="*" element={<Error404 />} />
 
       </Routes>

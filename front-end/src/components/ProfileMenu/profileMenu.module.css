@@ -23,41 +23,44 @@
   top: 100%;      /* distance below the icon */
   margin-top: 8px;
   right: 0;
-
-  background: #f3f3f3;
+  background: #ffffff; /* Cleaner, higher contrast background */
   border-radius: 8px;
-  padding: 10px;
-  width: 180px;
-
+  padding: 8px; /* Slightly reduced padding */
+  width: 200px; /* Wider for a more modern feel */
   display: flex;
   flex-direction: column;
-  gap: 10px;
-
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  gap: 5px; /* Tighter spacing */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
   z-index: 99999;   /* ensure full visibility */
 }
 
 /* Each menu item */
 .menu a,
 .menu button {
-  background: #dcdcdc;
-  padding: 12px;
+  background: transparent; /* No background by default */
+  padding: 10px 16px;
   border-radius: 6px;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: bold;
-  color: black;
-  text-align: center;
+  font-size: 1rem; /* Slightly larger font */
+  font-weight: 500; /* Medium weight */
+  color: #333333; /* Darker text for better contrast */
+  text-align: left; /* Align text to the left */
   border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease; /* Smooth transition */
 }
 
 .menu a:hover,
 .menu button:hover {
-  background: #c4c4c4;
+  background-color: #f0f0f0; /* Light grey on hover for feedback */
 }
 
 .logoutBtn {
-  color: #a30000;
-  font-weight: bold;
+  color: #d32f2f; /* A more vibrant, but still professional red */
+  font-weight: 500;
+}
+
+.logoutBtn:hover {
+  background-color: #fdecea; /* Light red background on hover */
+  color: #c62828; /* Darken the text slightly on hover */
 }
