@@ -1,14 +1,64 @@
 .inputGroup {
   display: flex;
+  flex-direction: column; /* Changed to column for label and details */
   width: 100%;
   margin-bottom: 1.5rem;
+  position: relative; /* Needed for absolute positioning of icon if desired */
 }
+
+.label {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.details {
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.inputContainer { /* New container for input and icon */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
 .inputIcon {
   padding: 0.5rem;
-  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #495057;
+  border-right: 1px solid #ced4da; /* Separator for icon */
+  background-color: #e9ecef;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
 }
+
 .input {
   width: 100%;
-  margin-left: -1px;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: none; /* Remove default input border */
+  border-radius: 0 4px 4px 0; /* Only right corners if icon is present */
+  box-sizing: border-box;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.input:focus {
+  outline: 0;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Adjustments when no icon is present */
+.inputContainer:has(> .input:first-child:not(.inputIcon + .input)) .input {
+  border-radius: 4px; /* All corners if no icon */
 }

@@ -1,0 +1,50 @@
+.mapWrapper {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+  width: 100%; /* Ensure it takes full width up to max-width */
+  float: right; /* Position to the right */
+  margin-left: 20px; /* Add some space from other content */
+}
+
+.mapContainer {
+  height: 300px; /* Make the map itself a bit smaller */
+  width: 100%;
+}
+
+.locationDetails {
+  padding: 15px;
+  background-color: #f9f9f9;
+  font-size: 0.9rem; /* Adjust font size for smaller card */
+}
+
+.locationDetails h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.locationDetails ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.locationDetails li {
+  margin-bottom: 5px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.locationDetails li strong {
+  color: #000;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .mapWrapper {
+    max-width: 100%; /* Full width on smaller screens */
+    float: none; /* Remove float */
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
