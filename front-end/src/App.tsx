@@ -12,6 +12,7 @@ import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
+import AdminRegister from "./pages/admin/AdminRegister";
 
 
 function App() {
@@ -23,15 +24,17 @@ function App() {
         <Route path="/register" element={<UserRegister />} />
         <Route path="/booking/:accommodationId" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
-        <Route path="/accomodation-details/:accommodationId" element={<AccomodationDetails />} />
+        <Route
+          path="/accomodation-details/:accommodationId"
+          element={<AccomodationDetails />}
+        />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/my-favorites" element={<MyFavorites />} />
+        <Route path="/adminRegister" element={<AdminRegister />} />
         <Route path="*" element={<Error404 />} />
-
       </Routes>
-    
     </>
   );
 }
