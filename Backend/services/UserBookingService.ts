@@ -38,62 +38,46 @@ export class UserBookingService {
     }
 
     static async updateBooking(bookingId: number, booking: Partial<Omit<UserBooking, 'id' | 'createdAt'>>): Promise<UserBooking | null> {
-        const setClauses: string[] = [];
-        const values: any[] = [];
+        const setParts: string[] = [];
 
         if (booking.userId !== undefined) {
-            setClauses.push('user_id = $');
-            values.push(booking.userId);
+            setParts.push(sql`user_id = ${booking.userId}`);
         }
         if (booking.accomodationId !== undefined) {
-            setClauses.push('accommodation_id = $');
-            values.push(booking.accomodationId);
+            setParts.push(sql`accommodation_id = ${booking.accomodationId}`);
         }
         if (booking.guests !== undefined) {
-            setClauses.push('guests = $');
-            values.push(booking.guests);
+            setParts.push(sql`guests = ${booking.guests}`);
         }
         if (booking.checkIn !== undefined) {
-            setClauses.push('check_in = $');
-            values.push(booking.checkIn);
+            setParts.push(sql`check_in = ${booking.checkIn}`);
         }
         if (booking.checkOut !== undefined) {
-            setClauses.push('check_out = $');
-            values.push(booking.checkOut);
+            setParts.push(sql`check_out = ${booking.checkOut}`);
         }
         if (booking.phone !== undefined) {
-            setClauses.push('phone = $');
-            values.push(booking.phone);
+            setParts.push(sql`phone = ${booking.phone}`);
         }
         if (booking.totalPrice !== undefined) {
-            setClauses.push('total_price = $');
-            values.push(booking.totalPrice);
+            setParts.push(sql`total_price = ${booking.totalPrice}`);
         }
         if (booking.specialRequest !== undefined) {
-            setClauses.push('special_request = $');
-            values.push(booking.specialRequest);
+            setParts.push(sql`special_request = ${booking.specialRequest}`);
         }
         if (booking.status !== undefined) {
-            setClauses.push('status = $');
-            values.push(booking.status);
+            setParts.push(sql`status = ${booking.status}`);
         }
 
-        if (setClauses.length === 0) {
+        if (setParts.length === 0) {
             return null; // No fields to update
         }
 
-        const query = `
+        const result = await sql`
             UPDATE bookings
-            SET ${setClauses.join(', ')}
-            WHERE id = $
+            SET ${sql.raw(setParts.join(', '))}
+            WHERE id = ${bookingId}
             RETURNING id, user_id AS "userId", accommodation_id AS "accommodationId", guests, check_in AS "checkIn", check_out AS "checkOut", phone, total_price AS "totalPrice", special_request AS "specialRequest", status, created_at AS "createdAt";
         `;
-        // Manually build the parameterized query to handle dynamic `setClauses`
-        let paramIndex = 1;
-        const finalQuery = query.replace(/\$/g, () => `$${paramIndex++}`);
-        values.push(bookingId); // Add bookingId to the end of values for the WHERE clause
-
-        const result = await sql.unsafe(finalQuery, values);
         return result.length > 0 ? result[0] as UserBooking : null;
     }
 
