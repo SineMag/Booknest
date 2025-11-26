@@ -3,8 +3,9 @@ import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
 import userRouter from "./routes/UserRouter";
-import bookingRouter from "./routes/BookingRouter";
+import bookingRouter from "./routes/UserBookingRouter";
 import paymentRouter from "./routes/PaymentRouter";
+import { PayStack } from "./utils/paystack";
 const app = express();
 // MIDDLEWARE
 // For Stripe webhooks, we need the raw body, so we have a custom middleware for it
@@ -12,12 +13,16 @@ app.use(express.json({
     verify: (req, res, buf) => {
         // Save the raw body to a new property on the request object
         req.rawBody = buf;
-    }
+    },
 }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/bookings", bookingRouter);
 app.use("/payments", paymentRouter);
+const pay = new PayStack();
+pay
+    .initialiseTransaction({ amount: 10000, email: "4B0fD@example.com" })
+    .then((res) => console.log(res));
 export default app;
 //# sourceMappingURL=server.js.map

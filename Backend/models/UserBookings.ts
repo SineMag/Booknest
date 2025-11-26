@@ -1,4 +1,4 @@
-import { sql } from "../database";
+import { sql } from "../utils/database";
 
 export interface UserBooking {
   id?: number;

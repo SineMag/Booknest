@@ -37,6 +37,9 @@ const hotels: Hotel[] = [
 ];
 
 export default function AccomodationDetails() {
+  const { accommodationId: accommodationIdParam } = useParams<{ accommodationId: string }>();
+  const accommodationId = accommodationIdParam ? parseInt(accommodationIdParam, 10) : undefined;
+  const [liked, setLiked] = useState(false);
   const { accommodationId: accommodationIdParam } = useParams<{
     accommodationId: string;
   }>();
