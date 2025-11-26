@@ -242,6 +242,3 @@ export default function AccomodationDetails() {
       </main>
 
       <Footer />
-    </div>
-  );
-}
