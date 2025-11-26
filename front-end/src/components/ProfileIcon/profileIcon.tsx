@@ -8,15 +8,19 @@ type ProfileIconProps = {
 export default function ProfileIcon({ onClick }: ProfileIconProps) {
   return (
     <span className={styles["profile-icon"]} onClick={onClick}>
-      {/* White SVG icon */}
+      {/* Example SVG */}
       <svg
         width="22"
         height="22"
         viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="currentColor"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
-        <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z" />
+        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z" />
+        <path d="M6 20v-2c0-2.21 3.58-4 8-4s8 1.79 8 4v2" />
       </svg>
     </span>
   );

@@ -1,17 +1,21 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import ProfileIcon from "../NavProfile/NavProfile";
-import styles from "../ProfileMenu/profileMenu.module.css";
+import ProfileIcon from "../ProfileIcon/profileIcon";
+import styles from "./profileMenu.module.css";
 
-export default function ProfileMenu() {
+type ProfileMenuProps = {
+  isLoggedIn: boolean; // pass this from your app state
+};
+
+export default function ProfileMenu({ isLoggedIn }: ProfileMenuProps) {
   const [open, setOpen] = useState(false);
+
+  if (!isLoggedIn) return null; // hide completely if not logged in
 
   return (
     <div className={styles.wrapper}>
-      {/* Profile Icon */}
       <ProfileIcon onClick={() => setOpen(!open)} />
 
-      {/* Dropdown Menu */}
       {open && (
         <div className={styles.menu}>
           <Link to="/">HOME</Link>

@@ -1,6 +1,6 @@
 // import React from "react";
 import image from "../../images/bed (1).png";
-import NavProfile from "../NavProfile/NavProfile";
+
 import ProfileMenu from "../ProfileMenu/profileMenu";
 import Styles from "./Navbar.module.css";
 
@@ -21,8 +21,9 @@ export default function Navbar() {
           <li>
             <a href="#contact">Contact Us</a>
           </li>
-          {/* <NavProfile /> */}
-          <ProfileMenu/>
+          <li>
+            <ProfileMenu isLoggedIn={true} /> {/* pass real login state here */}
+          </li>
         </ul>
 
         {/* Right: Profile Icon */}
