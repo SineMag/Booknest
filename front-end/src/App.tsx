@@ -13,6 +13,7 @@ import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
 
+
 function App() {
   return (
     <>
@@ -28,7 +29,9 @@ function App() {
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/my-favorites" element={<MyFavorites />} />
         <Route path="*" element={<Error404 />} />
+
       </Routes>
+    
     </>
   );
 }
