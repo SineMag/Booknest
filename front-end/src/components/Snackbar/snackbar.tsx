@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import styles from "./snackbar.module.css";
-import { useState, useEffect } from "react";
-import styles from "./snackbar.module.css"; // CSS Modules
 
 interface SnackbarProps {
   message: string;

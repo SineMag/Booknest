@@ -1,6 +1,5 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import UserLogin from "./pages/user/UserLogin";
 import Landing from "./pages/Landing";
 import UserLogin from "./pages/user/UserLogin";
 import Error404 from "./pages/Error404";
@@ -12,20 +11,24 @@ import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
+import AdminLogin from "./pages/admin/AdminLogin";
+
 import AdminRegister from "./pages/admin/AdminRegister";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
   return (
     <>
+    
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
 
         {/* User */}
         <Route path="/register" element={<UserRegister />} />
-        <Route path="/booking/:accommodationId" element={<Booking />} />
+        <Route path="/booking/" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/accomodation-details/" element={<AccomodationDetails />}
         <Route path="/accomodation-details" element={<AccomodationDetails />} />
         <Route
           path="/accomodation-details/:accommodationId"
@@ -35,13 +38,19 @@ function App() {
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
         <Route path="/my-favorites" element={<MyFavorites />} />
+        <Route path="/adminLogin" element={<AdminLogin />} />
+        <Route path="*" element={<Error404 />} />
+     
 
         {/* Admin */}
         
         <Route path="/adminRegister" element={<AdminRegister />} />
+                <Route path="/adminlogin" element={<AdminLogin />} />
+
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
-      </Routes>
+         </Routes> 
+      
     </>
   );
 }

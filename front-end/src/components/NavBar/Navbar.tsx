@@ -2,7 +2,9 @@ import { useState } from "react";
 import image from "../../images/bed (1).png";
 import NavProfile from "../NavProfile/NavProfile";
 import Styles from "./Navbar.module.css";
-import Hamburger from "../hamburger/Hamburger"; 
+import Hamburger from "../hamburger/Hamburger";
+import { Link } from "react-router-dom";
+
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -13,9 +15,11 @@ export default function Navbar() {
   return (
     <div className={Styles["navbar-wrapper"]}>
       <nav className={Styles.navbar}>
-        {/* Left: Logo image */}
+        {/* Left: Clickable Logo */}
         <div className={Styles["logo-img"]}>
-          <img src={image} alt="Logo" />
+          <Link to="/">
+            <img src={image} alt="Logo" />
+          </Link>
         </div>
 
         {/* Hamburger button for mobile */}
@@ -37,24 +41,44 @@ export default function Navbar() {
         </ul>
 
         {/* Mobile Navigation Menu */}
-        <div className={`${Styles.mobileMenu} ${isMobileMenuOpen ? Styles.open : ''}`}>
-            <div className={Styles.mobileMenuHeader}>
-              <button onClick={toggleMobileMenu} className={Styles.backButton}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
-              </button>
-            </div>
-            <ul className={Styles["mobile-nav-links"]}>
-              <li>
-                <a href="#about" onClick={toggleMobileMenu}>About Us</a>
-              </li>
-              <li>
-                <a href="#contact" onClick={toggleMobileMenu}>Contact Us</a>
-              </li>
-              <li>
-                <NavProfile /> {/* NavProfile might need adjustment for mobile */}
-              </li>
-            </ul>
+        <div
+          className={`${Styles.mobileMenu} ${
+            isMobileMenuOpen ? Styles.open : ""
+          }`}
+        >
+          <div className={Styles.mobileMenuHeader}>
+            <button onClick={toggleMobileMenu} className={Styles.backButton}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </button>
           </div>
+          <ul className={Styles["mobile-nav-links"]}>
+            <li>
+              <a href="#about" onClick={toggleMobileMenu}>
+                About Us
+              </a>
+            </li>
+            <li>
+              <a href="#contact" onClick={toggleMobileMenu}>
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <NavProfile />
+            </li>
+          </ul>
+        </div>
       </nav>
     </div>
   );

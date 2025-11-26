@@ -1,0 +1,69 @@
+/* Page background wrapper */
+.profilePage {
+  display: flex;
+  justify-content: center;
+  align-items: center;      /* Center vertically */
+  padding: 20px 15px;       /* Smaller padding */
+  background-color: #f5f6f7;
+  min-height: 100vh;        /* Always full screen height */
+}
+
+/* Smaller white card container */
+.profileContainer {
+  background: white;
+  width: 100%;
+  max-width: 340px;         /* Slightly smaller */
+  padding: 24px;            /* Less padding */
+  border-radius: 12px;
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.07);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Title */
+.profileTitle {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+  color: #333;
+}
+
+/* Image uploader centered */
+.imageLeftWrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.7rem;
+}
+
+/* Form spacing */
+.profileContainer > *:not(:last-child) {
+  margin-bottom: 0.7rem;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .profilePage {
+    padding: 10px;
+  }
+
+  .profileContainer {
+    padding: 18px;
+    max-width: 95%;
+  }
+
+  .profileTitle {
+    font-size: 20px;
+  }
+}

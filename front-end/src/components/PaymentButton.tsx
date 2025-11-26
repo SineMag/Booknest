@@ -6,6 +6,7 @@ import type PaystackPop from "@paystack/inline-js";
 
 export default function PaymentButton() {
   const dispatch = useDispatch<AppDispatch>();
+  const { access_code, loading, transaction } = useSelector(
   const { access_code, loading } = useSelector(
     (state: RootState) => state.payment
   );
@@ -16,6 +17,7 @@ export default function PaymentButton() {
       initializePayment({
         email: "msizi@example.com",
         amount: 1000,
+        callback_url: "https://booknest-j3la.onrender.com/",
       })
     );
   };
@@ -46,6 +48,15 @@ export default function PaymentButton() {
     if (access_code) {
       console.log("popup: ", window.PaystackPop);
       const popup = new window.PaystackPop();
+      //   popup.resumeTransaction(access_code);
+      popup.newTransaction({
+        key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
+        email: "sample@email.com",
+        amount: 23400,
+        onSuccess: (transaction: any) => {
+          console.log(10001, transaction);
+        },
+      });
       popup.resumeTransaction(access_code);
     }
   }, [access_code]);

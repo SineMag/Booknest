@@ -12,6 +12,12 @@ const app = express();
 
 // MIDDLEWARE
 // For Stripe webhooks, we need the raw body, so we have a custom middleware for it
+app.use(express.json());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(
   express.json({
     verify: (req, res, buf) => {
