@@ -15,8 +15,6 @@ import styles from "./AccomodationDetails.module.css";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 
-
-
 const hotels: Hotel[] = [
   {
     id: 1,
@@ -38,13 +36,20 @@ const hotels: Hotel[] = [
   },
 ];
 
-
-
 export default function AccomodationDetails() {
-  const { accommodationId: accommodationIdParam } = useParams<{ accommodationId: string }>();
-  const accommodationId = accommodationIdParam ? parseInt(accommodationIdParam, 10) : undefined;
+  const { accommodationId: accommodationIdParam } = useParams<{
+    accommodationId: string;
+  }>();
+  const accommodationId = accommodationIdParam
+    ? parseInt(accommodationIdParam, 10)
+    : undefined;
+  const [liked, setLiked] = useState(false);
 
+  const onLiked = () => {
+    setLiked(!liked);
+  };
 
+<<<<<<< HEAD
   //  const onLiked = () => {
   //    setLiked(!liked);
   //  };
@@ -68,6 +73,23 @@ export default function AccomodationDetails() {
        alert("Sharing not supported on this browser.");
      }
    };
+=======
+  const onShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Blue Lagoon Hotel",
+          text: "Check out this beautiful hotel!",
+          url: window.location.href,
+        });
+      } catch (err) {
+        console.log("Share cancelled");
+      }
+    } else {
+      alert("Sharing not supported on this browser.");
+    }
+  };
+>>>>>>> 1c2062699e98ee37e89fe04c23bb6983beade8a0
   return (
     <div
       className="accomodationPage"
@@ -89,10 +111,7 @@ export default function AccomodationDetails() {
                     isActive={liked}
                   />
 
-                  <IconButton
-                    icon={SlShare}
-                    onClick={onShare} 
-                  />
+                  <IconButton icon={SlShare} onClick={onShare} />
                 </div>
               </div>
             </div>
@@ -136,7 +155,11 @@ export default function AccomodationDetails() {
                 justifyContent: "center",
               }}
             >
-              <Link to={accommodationId ? `/booking/${accommodationId}` : "/booking"}>
+              <Link
+                to={
+                  accommodationId ? `/booking/${accommodationId}` : "/booking"
+                }
+              >
                 <Button width={100}>BOOK NOW</Button>
               </Link>
             </div>

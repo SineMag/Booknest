@@ -2,8 +2,12 @@
   "type": "module",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.2",
+    "@types/axios": "^0.9.36",
+    "@types/cors": "^2.8.19",
     "@types/node": "^24.10.0",
     "@types/typescript": "^0.4.29",
+    "axios": "^1.13.2",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "serverless-http": "^4.0.0",
@@ -12,7 +16,7 @@
   },
   "scripts": {
     "start": "tsc --watch & nodemon dist/app.js",
-    "dev": "tsc --watch & nodemon dist/app.js"
+    "dev": "netlify dev"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
