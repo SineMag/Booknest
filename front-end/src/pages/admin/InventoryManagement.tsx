@@ -2,7 +2,7 @@ import { useEffect, useState, type JSX } from "react";
 import axios from "axios";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
-import styles from "./inventory.module.css";
+import styles from "./InventoryManagement.module.css";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import type { AppDispatch, RootState } from "../../../store";
@@ -134,7 +134,7 @@ export default function InventoryManagement(): JSX.Element {
 
   return (
     <>
-      <Navbar />
+    
       <div className={styles.inventory}>
         <div className={styles.header}>
           <h2>Inventory Management</h2>
@@ -226,7 +226,7 @@ export default function InventoryManagement(): JSX.Element {
           </div>
         )}
       </div>
-      <Footer />
+     
     </>
   );
 }

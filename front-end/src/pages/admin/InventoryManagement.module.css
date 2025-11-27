@@ -6,20 +6,17 @@
   padding: 20px;
   flex: 1;
 }
-
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 30px;
 }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
 }
-
 .card {
   background: #fff;
   border-radius: 12px;
@@ -58,13 +55,24 @@
   margin: 2px 15px;
   color: #555;
 }
-
 .cardButtons {
   display: flex;
   justify-content: space-between;
+<<<<<<< HEAD:front-end/src/pages/admin/inventory.module.css
   margin: 15px;
+=======
+  margin-top: 8px;
 }
-
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+.price {
+  font-weight: bold;
+  margin-top: 4px;
+>>>>>>> 1705dc023795d18461054db4067ee2690dde99d6:front-end/src/pages/admin/InventoryManagement.module.css
+}
 .modalOverlay {
   position: fixed;
   top: 0;
@@ -78,7 +86,6 @@
   align-items: center;
   padding: 20px;
 }
-
 .modal {
   background: #fff;
   border-radius: 12px;
@@ -101,13 +108,13 @@
   flex-direction: column;
   gap: 12px;
 }
-
 .modalButtons {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
 }
 
+<<<<<<< HEAD:front-end/src/pages/admin/inventory.module.css
 .loadingText {
   text-align: center;
   font-size: 1rem;
@@ -178,4 +185,9 @@
   border: 1px solid #ccc;
   border-radius: 6px;
 }
+=======
+
+
+
+>>>>>>> 1705dc023795d18461054db4067ee2690dde99d6:front-end/src/pages/admin/InventoryManagement.module.css
 
