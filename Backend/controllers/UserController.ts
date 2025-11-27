@@ -1,10 +1,10 @@
 import type { Request, Response } from "express";
+import { log } from "node:console";
 import {
   putIntoUser,
   selectAllUsers,
   selectUserById,
-} from "../services/UserService";
-import { log } from "node:console";
+} from "../services/userService";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {

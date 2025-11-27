@@ -1,141 +1,163 @@
-/* Navbar.module.css */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+    /* NAVBAR MAIN WRAPPER */
+    .navbar {
+      width: 100%;
+      height: 70px;
+      padding: 0 20px;
+      background: #000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #222;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-.navbar-wrapper {
-  width: 100%;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-  background-color: rgba(0, 0, 0, 0.9); /* Semi-transparent black */
-  backdrop-filter: blur(10px); /* Frosted glass effect */
-  -webkit-backdrop-filter: blur(10px); /* For Safari */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
+    /* LOGO SECTION */
+    .logo-img img {
+      width: 55px;
+      height: auto;
+      cursor: pointer;
+      filter: brightness(0) invert(1);
+    }
 
-.navbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1rem 2rem;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-}
+    /* DESKTOP NAV LINKS */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      list-style: none;
+    }
 
+    .nav-links li a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: 500;
+      transition: 0.3s ease;
+    }
 
+    .nav-links li a:hover {
+      color: #0077ff;
+    }
 
-.logo-img img {
-  width: 45px;
-  filter: brightness(0) invert(1);
-}
+    /* HAMBURGER BUTTON (HIDDEN ON DESKTOP) */
+    .hamburgerContainer {
+      display: none;
+    }
 
-.nav-links {
-  display: flex;
-  gap: 25px;
-}
+    /* MOBILE MENU CONTAINER */
+    .mobileMenu {
+      position: fixed;
+      top: 0;
+      right: 100%;
+      width: 50%;
+      max-width: 300px;
+      height: 100vh;
+      background: #000;
+      padding: 80px 30px; /* Add padding from top */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      box-shadow: 2px 0 12px rgba(0, 0, 0, 0.4);
+      transition: left 0.3s ease-in-out;
+      z-index: 2000;
+    }
 
-.nav-links a {
-  color: white;
-  text-decoration: none;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  font-family: inherit;
-}
+    .mobileMenu.open {
+      right:0;
+    }
 
-.nav-links a:hover {
-  color: #2b97fb; /* hover color */
-}
+    /* MOBILE MENU HEADER (Close Button) */
+    .mobileMenuHeader {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
 
-.profile-icon {
-  color: white; /* icon color */
-  font-size: 24px;
-  background-color: white; /* black span */
-  padding: 8px; /* space for the circle */
-  border-radius: 50%; /* make it a circle */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px; /* set circle size */
-  height: 40px;
-  cursor: pointer;
-  font-family: inherit;
-}
+    .backButton {
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
 
-/* Hamburger menu styles */
-.hamburgerContainer {
-  display: none; /* Hidden by default on desktop */
-}
+    .backButton svg {
+      stroke: #fff;
+      width: 30px;
+      height: 30px;
+      transition: 0.25s ease;
+    }
 
-.mobileMenu {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  right: -100%; /* Start off-screen */
-  width: 70%; /* Or specific width */
-  height: 100vh;
-  background-color: black;
-  padding-top: 60px; /* Space for navbar */
-  transition: right 0.3s ease-in-out;
-  z-index: 998;
-}
+    .backButton:hover svg {
+      stroke: #0077ff;
+      transform: translateX(-3px);
+    }
 
-.mobileMenu.open {
-  right: 0; /* Slide in */
-}
+    /* MOBILE NAV LINKS */
+    .mobile-nav-links {
+      list-style: none;
+      padding: 1;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: 100%;
+    }
 
-.mobile-nav-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
+    .mobile-nav-links li {
+      width: 100%;
+    }
 
-.mobile-nav-links li a {
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-}
+    .mobile-nav-links li a {
+      display: block;
+      width: 100%;
+      text-decoration: none;
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: 500;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: 0.2s ease;
+    }
 
-.mobileMenuHeader {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10px;
-}
+    .mobile-nav-links li a:hover {
+      color: #0077ff;
+      transform: translateX(5px);
+    }
 
-.backButton {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 10px;
-}
+    /* ------------------------------ */
+    /* RESPONSIVE BREAKPOINTS         */
+    /* ------------------------------ */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* Hide desktop links */
+      }
 
-.backButton svg {
-  stroke: white;
-  width: 24px;
-  height: 24px;
-}
+      .hamburgerContainer {
+        display: block; /* Show mobile hamburger */
+        cursor: pointer;
+      }
 
-/* Media queries for mobile */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none; /* Hide desktop nav links */
-  }
+      .navbar {
+        padding: 0 15px;
+      }
 
-  .hamburgerContainer {
-    display: block; /* Show hamburger */
-  }
+      .mobileMenu {
+        padding-top: 100px; /* More space for top */
+        padding-left: 25px;
+        padding-right: 25px;
+      }
+    }
+    @media (max-width: 400px) {
+      .mobileMenu {
+        width: 85%;
+      }
+    }
+    .navbar-wrapper {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
 
-  .navbar {
-    justify-content: space-between; /* Adjust navbar alignment */
-  }
-
-  .mobileMenu {
-    right: -100%; /* Ensure it's off screen when not open */
-  }
-}

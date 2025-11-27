@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import { PaymentController } from '../controllers/PaymentController';
+import { Router } from "express";
+import { initializePayment } from "../controllers/paymentController";
 
 const router = Router();
 
-router.post('/create-payment-intent', PaymentController.createPaymentIntent);
-router.post('/webhook', PaymentController.handleWebhook);
+router.get("/", (req, res) => res.send("Hello Payment!"));
+router.post("/initialize", initializePayment);
 
 export default router;

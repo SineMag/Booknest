@@ -2,22 +2,17 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/UserRouter";
-import bookingRouter from "./routes/UserBookingRouter";
-import paymentRouter from "./routes/PaymentRouter";
-import { type ITransaction, PayStack } from "./utils/paystack";
-import payRouter from "./routes/payRouter";
+import userRouter from "./routes/userRouter";
+import accomodationRouter from "./routes/accomodationRouter";
 import cors from "cors";
+import paymentRouter from "./routes/paymentRouter";
+import { userTableQuery } from "./models/User";
+import { accomodationTableQuery } from "./models/Accomodation";
 const app = express();
 
 // MIDDLEWARE
 // For Stripe webhooks, we need the raw body, so we have a custom middleware for it
 app.use(express.json());
-app.use(
-  cors({
-    origin: "*",
-  })
-);
 app.use(
   express.json({
     verify: (req, res, buf) => {
@@ -26,23 +21,24 @@ app.use(
     },
   })
 );
-app.use(cors({
-  origin: "*",
-}))
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-app.use("/bookings", userBookingRouter);
 app.use("/payments", paymentRouter);
-app.use("/payment", payRouter);
+app.use("/accomodations", accomodationRouter);
 
-const pay = new PayStack();
-// pay
-//   .initialiseTransaction({ amount: 10000, email: "4B0fD@example.com" })
-//   .then((res: ITransaction) => console.log("Results: ", res));
-
-// pay
-//   .verifyTransaction("test")
-//   .then((res) => console.log("Verify Results: ", res));
+// INITIALISE DATABASE
+async function initializeDatabase() {
+  await userTableQuery();
+  console.log("user table created");
+  await accomodationTableQuery();
+  console.log("accomodation table created");
+}
+initializeDatabase();
 
 export default app;
