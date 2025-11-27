@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import SearchBar from "../../components/Searchbar/Searchbar";
+import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 
 const UserDashboard: React.FC = () => {
@@ -57,8 +58,9 @@ const UserDashboard: React.FC = () => {
       <Navbar />
       <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
         <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "30px" }}>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "baseline", gap: "20px", marginBottom: "30px" }}>
           <SearchBar placeholder="Search accommodations..." />
+          <Filter />
         </div>
         <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap" }}>
           {accommodations.map(acc => (
