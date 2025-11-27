@@ -2,7 +2,7 @@ import { useEffect, useState, type JSX } from "react";
 import axios from "axios";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
-import styles from "./inventory.module.css";
+import styles from "./InventoryManagement.module.css";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 
