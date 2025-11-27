@@ -37,6 +37,7 @@ const UserRegister: React.FC = () => {
         physicalAddress,
       })
     );
+    navigate('/login');
   };
 
   return (
