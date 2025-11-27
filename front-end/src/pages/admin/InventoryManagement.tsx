@@ -146,7 +146,7 @@ export default function InventoryManagement(): JSX.Element {
 
   return (
     <>
-      <Navbar />
+    
       <div className={styles.inventory}>
         <div className={styles.header}>
           <h2>Inventory Management</h2>
@@ -308,7 +308,7 @@ export default function InventoryManagement(): JSX.Element {
           </div>
         )}
       </div>
-      <Footer />
+     
     </>
   );
 }
