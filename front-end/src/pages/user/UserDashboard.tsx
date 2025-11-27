@@ -9,6 +9,7 @@ import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
+  const [searchTerm, setSearchTerm] = useState("");
 
   const accommodations = [
     {
@@ -37,6 +38,10 @@ const UserDashboard: React.FC = () => {
     },
   ];
 
+  const filteredAccommodations = accommodations.filter(acc =>
+    acc.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const handleFavoriteToggle = (id: number) => {
     setFavorites(prev => {
       const newFavorites = new Set(prev);
@@ -59,11 +64,11 @@ const UserDashboard: React.FC = () => {
       <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
         <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "baseline", gap: "20px", marginBottom: "30px" }}>
-          <SearchBar placeholder="Search accommodations..." />
+          <SearchBar placeholder="Search accommodations..." onSearch={setSearchTerm} />
           <Filter />
         </div>
         <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap" }}>
-          {accommodations.map(acc => (
+          {filteredAccommodations.map(acc => (
             <DashboardCard
               key={acc.id}
               image={acc.image}
