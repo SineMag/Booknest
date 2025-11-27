@@ -54,7 +54,7 @@ const UserRegister: React.FC = () => {
             setField={setFirstName} // setter function
           />
           <InputField
-            placeholder="last name"
+            placeholder="Last name"
             type="text"
             field={lastName} // current value
             setField={setLastName} // setter function
