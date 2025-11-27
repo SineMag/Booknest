@@ -35,6 +35,7 @@
     "@types/leaflet": "^1.9.21",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.2",
+    "@types/react-date-range": "^1.4.10",
     "@types/react-dom": "^19.2.2",
     "@types/react-leaflet": "^2.8.3",
     "@vitejs/plugin-react": "^5.1.0",
