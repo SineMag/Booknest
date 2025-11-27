@@ -2,9 +2,9 @@ import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import Tag from "../../components/Tag/Tag";
 import { TiWiFi } from "react-icons/ti";
-import { FaParking, FaSwimmingPool } from "react-icons/fa";
+import { FaParking, FaSwimmingPool, FaHeart, FaRegHeart } from "react-icons/fa";
 import { GiBeachBucket } from "react-icons/gi";
-import { BiDrink, BiHeart } from "react-icons/bi";
+import { BiDrink } from "react-icons/bi";
 import Gallery from "../../components/Gallery/Gallery";
 import IconButton from "../../components/Iconbutton/Iconbutton";
 import { SlShare } from "react-icons/sl";
@@ -13,57 +13,94 @@ import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
 import { Link, useParams } from "react-router-dom";
-import { useState } from "react";
-
-
-
+import { useEffect, useState } from "react";
+import { getFavorites, toggleFavorite } from "../../service/api";
 const hotels: Hotel[] = [
-  {
-    id: 1,
-    name: "Hotel 1",
-    position: [420, 120],
-    address: "Average",
-  },
-  {
-    id: 1,
-    name: "Hotel 1",
-    position: [100, 120],
-    address: "Good",
-  },
-  {
-    id: 1,
-    name: "Hotel 1",
-    position: [300, 120],
-    address: "Bad",
-  },
+  { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
+  { id: 2, name: "Hotel 2", position: [100, 120], address: "Good" },
+  { id: 3, name: "Hotel 3", position: [300, 120], address: "Bad" },
 ];
 
-
-
 export default function AccomodationDetails() {
-  const { accommodationId: accommodationIdParam } = useParams<{ accommodationId: string }>();
-  const accommodationId = accommodationIdParam ? parseInt(accommodationIdParam, 10) : undefined;
+  const { id } = useParams<{ id: string }>();
+  const hotelId = parseInt(id || "0");
 
+  const [liked, setLiked] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-   const onLiked = () => {
-     setLiked(!liked);
-   };
+  // ----------------------------
+  // CHECK IF HOTEL IS ALREADY FAVORITE
+  // ----------------------------
+  useEffect(() => {
+    const loadFavoriteStatus = async () => {
+      try {
+        const response = await getFavorites();
+        const favorites = response.data;
+        const isLiked = favorites.some((fav: any) => fav.hotelId === hotelId);
+        setLiked(isLiked);
+      } catch (err) {
+        console.error("Failed to load favorites:", err);
+      }
+    };
 
-   const onShare = async () => {
-     if (navigator.share) {
-       try {
-         await navigator.share({
-           title: "Blue Lagoon Hotel",
-           text: "Check out this beautiful hotel!",
-           url: window.location.href,
-         });
-       } catch (err) {
-         console.log("Share cancelled");
-       }
-     } else {
-       alert("Sharing not supported on this browser.");
-     }
-   };
+    if (hotelId) loadFavoriteStatus();
+  }, [hotelId]);
+
+  // ----------------------------
+  // LIKE / UNLIKE HOTEL
+  // ----------------------------
+  const onLiked = async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // Toggle favorite in backend
+      await toggleFavorite(hotelId, liked);
+
+      // Update UI immediately
+      setLiked((prev) => !prev);
+
+      // Trigger global state refresh for MyFavorites
+      const event = new CustomEvent("favoriteUpdated");
+      window.dispatchEvent(event);
+    } catch (err) {
+      setError("Failed to update favorites");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+  // ----------------------------
+  // SHARE FUNCTION
+  // ----------------------------
+  const onShare = async () => {
+    const hotelName = "Blue Lagoon"; // Can be dynamic later
+    const hotelDescription =
+      "Offers relaxing coastal escape with modern, comfortable rooms, pool, beach access, and more!";
+    const hotelUrl = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: hotelName,
+          text: hotelDescription,
+          url: hotelUrl,
+        });
+      } catch {
+        console.log("Share cancelled");
+      }
+    } else {
+      // Fallback: open email client
+      const subject = encodeURIComponent(`Check out ${hotelName}`);
+      const body = encodeURIComponent(
+        `${hotelDescription}\n\nMore details: ${hotelUrl}`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+  };
+  // ----------------------------
+  // PAGE RENDER
+  // ----------------------------
   return (
     <div
       className="accomodationPage"
@@ -79,16 +116,14 @@ export default function AccomodationDetails() {
               </div>
               <div className="col-2">
                 <div className="row">
+                  {/* HEART ICON */}
                   <IconButton
-                    icon={BiHeart}
+                    icon={liked ? FaHeart : FaRegHeart}
                     onClick={onLiked}
                     isActive={liked}
                   />
-
-                  <IconButton
-                    icon={SlShare}
-                    onClick={onShare} 
-                  />
+                  {/* SHARE ICON */}
+                  <IconButton icon={SlShare} onClick={onShare} />
                 </div>
               </div>
             </div>
@@ -98,26 +133,18 @@ export default function AccomodationDetails() {
                 and warm hospitality. Located just minutes from the beach, the
                 hotel features spacious accommodations, a serene atmosphere, and
                 amenities designed for both leisure and business travelers.
-                Guests can enjoy on-site dining, free Wi-Fi, scenic outdoor
-                spaces, and convenient access to nearby attractions. Whether
-                you’re seeking a peaceful getaway or a stylish base for
-                exploring the area, Blue Lagoon promises a refreshing and
-                memorable stay.
               </p>
             </div>
           </div>
+          {/* MAP SECTION */}
           <div className="col-6">
             <Map hotels={hotels} center={[-29, 24]} />
           </div>
         </div>
+        {/* TAGS & SAVE BUTTON */}
         <div className="row" style={{ alignItems: "center" }}>
           <div className="col-6">
-            <div
-              style={{
-                display: "flex",
-                margin: "1rem 0",
-              }}
-            >
+            <div style={{ display: "flex", margin: "1rem 0" }}>
               <Tag text="Free Wifi" icon={TiWiFi} />
               <Tag text="Swimming Pool" icon={FaSwimmingPool} />
               <Tag text="Parking" icon={FaParking} />
@@ -127,17 +154,46 @@ export default function AccomodationDetails() {
           </div>
           <div className="col-6">
             <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
+              style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
             >
-              <Link to={accommodationId ? `/booking/${accommodationId}` : "/booking"}>
+              <Link to="/booking">
                 <Button width={100}>BOOK NOW</Button>
               </Link>
+              {/* SAVE BUTTON */}
+              <button
+                onClick={onLiked}
+                disabled={loading}
+                style={{
+                  background: liked ? "#4a90e2" : "transparent",
+                  border: "1px solid #4a90e2",
+                  borderRadius: "4px",
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  color: liked ? "white" : "#4a90e2",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {liked ? <FaHeart /> : <FaRegHeart />}
+                {loading ? "Saving..." : liked ? "Saved" : "Save"}
+              </button>
             </div>
+            {error && (
+              <div
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {error}
+              </div>
+            )}
           </div>
         </div>
+        {/* GALLERY + REVIEWS */}
         <div className="row">
           <div className="col-6">
             <Gallery />
@@ -169,3 +225,8 @@ export default function AccomodationDetails() {
     </div>
   );
 }
+
+
+
+
+
