@@ -14,7 +14,7 @@ import UserProfile from "./pages/user/UserProfile";
 import MyFavorites from "./pages/user/MyFavorites";
 import AccomodationDetails from "./pages/user/AccomodationDetails";
 import AdminLogin from "./pages/admin/AdminLogin";
-
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import ReservationManagement from "./pages/admin/ReservationManagement";
@@ -48,7 +48,7 @@ function App() {
 
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route
           path="/inventory-management"
           element={<InventoryManagement />}

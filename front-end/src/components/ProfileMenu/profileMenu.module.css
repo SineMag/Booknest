@@ -2,7 +2,7 @@
 .wrapper {
   position: relative;
   display: inline-block;
-  z-index: 9999;   /* ensures visibility */
+  z-index: 9999; /* ensures visibility */
 }
 
 /* Profile icon */
@@ -20,7 +20,7 @@
 /* Dropdown menu */
 .menu {
   position: absolute;
-  top: 100%;      /* distance below the icon */
+  top: 100%; /* distance below the icon */
   margin-top: 8px;
   right: 0;
   background: grey; /* Cleaner, higher contrast background */
@@ -31,7 +31,7 @@
   flex-direction: column;
   gap: 5px; /* Tighter spacing */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
-  z-index: 99999;   /* ensure full visibility */
+  z-index: 99999; /* ensure full visibility */
 }
 
 /* Each menu item */
@@ -52,7 +52,7 @@
 
 .menu a:hover,
 .menu button:hover {
-  background-color: 0; /* Light grey on hover for feedback */
+  background-color: rgba(0, 0, 0, 0.04); /* Light grey on hover for feedback */
 }
 
 .logoutBtn {
@@ -61,6 +61,30 @@
 }
 
 .logoutBtn:hover {
-  background-color: 0; /* Light red background on hover */
+  background-color: rgba(210, 47, 47, 0.06); /* Light red background on hover */
   color: #c62828; /* Darken the text slightly on hover */
+}
+
+/* Selector block for not-logged-in choices */
+.selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.selectorBtn {
+  background: transparent;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-align: left;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.submenu {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 8px;
 }
