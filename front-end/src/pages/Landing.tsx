@@ -1,13 +1,4 @@
 import React, { useState, useEffect } from "react";
-import {
-  FaWifi,
-  FaSwimmingPool,
-  FaUtensils,
-  FaParking,
-  FaSpa,
-  FaConciergeBell,
-} from "react-icons/fa";
-import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import HeroSection from "../components/heroSection/HeroSection";
@@ -17,8 +8,6 @@ import SnackbarComponent from "../components/Snackbar/snackbar";
 import Button from "../components/Button/Button";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
-import ReviewCard from "../components/ReviewCard/ReviewCard";
-import ReviewModal from "../components/ReviewModal/ReviewModal";
 import PaymentButton from "../components/PaymentButton";
 
 const Landing: React.FC = () => {
@@ -77,11 +66,11 @@ const Landing: React.FC = () => {
     },
   ];
 
-//   const MainContent = styled.div`
-//   padding-top: 80px;
-//   min-height: 100vh;
-//   width: 100%;
-// `;
+  //   const MainContent = styled.div`
+  //   padding-top: 80px;
+  //   min-height: 100vh;
+  //   width: 100%;
+  // `;
 
   const testimonials = [
     {
@@ -123,9 +112,8 @@ const Landing: React.FC = () => {
 
   return (
     <div>
+      <Navbar />
 
-  <Navbar />
-  
       <HeroSection />
       <div style={{ textAlign: "center", padding: "20px" }}>
         <Button onClick={handleOpenReviewModal}>Write a Review</Button>

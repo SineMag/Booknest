@@ -19,19 +19,20 @@
 }
 
 .profile-icon:hover {
-  background: #1d4ed8;
   transform: scale(1.05);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
+  background-color: gray;
+  border-radius: 0.8rem;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
   right: 0;
   top: 100%;
+  font-size: 0.8rem;
 }
 
 .dropdown-content a {

@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getLocalUser } from "../utils/LocalStorage";
 
 const API_BASE_URL = "https://booknestapi.netlify.app/";
 
@@ -25,10 +26,7 @@ export const createUser = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       console.log("register thunk...");
-      const response = await axios.post(
-        API_BASE_URL + "/auth/register",
-        user
-      );
+      const response = await axios.post(API_BASE_URL + "/auth/register", user);
       console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
@@ -75,10 +73,10 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
-const userFromLocalStorage = localStorage.getItem("user");
+const userFromLocalStorage = getLocalUser();
 
 const initialState = {
-  user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null,
+  user: userFromLocalStorage ? userFromLocalStorage : null,
   isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
   errorMessage: "",
 };
@@ -87,7 +85,8 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => { // Add a logout reducer
+    logout: (state) => {
+      // Add a logout reducer
       state.user = null;
       state.isLoggedIn = false;
       localStorage.removeItem("user");

@@ -23,3 +23,7 @@ export const getLocalUser = (): User | null => {
 
   return userObj;
 };
+
+export const removeLocalUser = () => {
+  localStorage.removeItem("user");
+};

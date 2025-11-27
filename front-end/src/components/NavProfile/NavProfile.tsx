@@ -1,12 +1,14 @@
 import type { MouseEventHandler } from "react";
 import styles from "./NavProfile.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { removeLocalUser } from "../../utils/LocalStorage";
 
 type ProfileIconProps = {
   onClick?: MouseEventHandler<HTMLSpanElement>;
 };
 
 export default function ProfileIcon({ onClick }: ProfileIconProps) {
+  const navigate = useNavigate();
   return (
     <span className={styles["profile-icon"]} onClick={onClick}>
       {/* White SVG icon */}
@@ -21,9 +23,24 @@ export default function ProfileIcon({ onClick }: ProfileIconProps) {
 
       {/* Dropdown Menu */}
       <div className={styles["dropdown-content"]}>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-        <Link to="/adminRegister">Login as Admin</Link> {/* <-- Added */}
+        <Link style={{ backgroundColor: "gray" }} to="/login">
+          Login
+        </Link>
+        <Link style={{ backgroundColor: "gray" }} to="/register">
+          Register
+        </Link>
+        <Link style={{ backgroundColor: "gray" }} to="/adminRegister">
+          Login as Admin
+        </Link>{" "}
+        <button
+          style={{ backgroundColor: "gray" }}
+          onClick={() => {
+            removeLocalUser();
+            navigate("/login");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </span>
   );
