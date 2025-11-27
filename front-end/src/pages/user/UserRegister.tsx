@@ -23,12 +23,7 @@ const UserRegister: React.FC = () => {
   const navigate = useNavigate();
 
   // useEffect
-  useEffect(() => {
-    if (user) {
-      console.log("user: ", user);
-      navigate("/login");
-    }
-  }, [user]);
+  // Removed redirect to allow access to register page
 
   const handleRegister = () => {
     console.log("registering user...");
@@ -42,6 +37,7 @@ const UserRegister: React.FC = () => {
         physicalAddress,
       })
     );
+    navigate('/login');
   };
 
   return (
@@ -59,7 +55,7 @@ const UserRegister: React.FC = () => {
             setField={setFirstName} // setter function
           />
           <InputField
-            placeholder="last name"
+            placeholder="Last name"
             type="text"
             field={lastName} // current value
             setField={setLastName} // setter function

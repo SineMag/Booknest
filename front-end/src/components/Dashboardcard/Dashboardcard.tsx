@@ -1,7 +1,7 @@
 import React from "react";
 import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
 import Button from "../Button/Button";
-import styles from "./DashboardCards.module.css";
+import styles from "./Dashboardcard.module.css";
 
 interface DashboardCardProps {
   image: string;

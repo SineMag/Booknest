@@ -2,7 +2,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import UserLogin from "./pages/user/UserLogin";
-import Error404 from "./pages/Error404";
+import Error404 from "../src/pages/user/Error404";
 import UserRegister from "./pages/user/UserRegister";
 import Booking from "./pages/user/Booking";
 import UserDashboard from "./pages/user/UserDashboard";
