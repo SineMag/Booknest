@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RootState } from "../../../store";
+import type { RootState } from "../../../store";
 import ProfileMenu from "../ProfileMenu/profileMenu";
 import styles from "./NavProfile.module.css";
 
@@ -28,7 +28,8 @@ export default function NavProfile() {
           </div>
         </>
       )}
-    <span className={styles["profile-icon"]} onClick={onClick}>
+      
+    <span className={styles["profile-icon"]} onClick={onclick}>
       {/* White SVG icon */}
       <svg
         width="22"
@@ -45,6 +46,7 @@ export default function NavProfile() {
         <Link to="/register">Register</Link>
         <Link to="/adminRegister">Login as Admin</Link> {/* <-- Added */}
       </div>
+    </span>
     </span>
   );
 }
