@@ -2,20 +2,21 @@ import { useEffect, useState, type JSX } from "react";
 import axios from "axios";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
-import styles from "./inventory.module.css";
+import styles from "./InventoryManagement.module.css";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 
-/** Type for hotel returned by backend */
 type Hotel = {
-  _id?: string;
+  id: number;
   name: string;
-  description?: string;
-  price?: number | string;
-  location?: string;
-  imageUrl?: string;
-  createdBy?: string;
-  createdAt?: string;
+  description: string;
+  imageGallery: string[];
+  amenities: string[];
+  physicalAddress: string;
+  phoneNumber: string;
+  emailAddress: string;
+  roomTypes: string[];
+  rating: number;
 };
 
 export default function InventoryManagement(): JSX.Element {
@@ -27,16 +28,20 @@ export default function InventoryManagement(): JSX.Element {
   const [form, setForm] = useState({
     name: "",
     description: "",
-    price: "",
-    location: "",
-    imageUrl: "",
+    imageGallery: "",
+    amenities: "",
+    physicalAddress: "",
+    phoneNumber: "",
+    emailAddress: "",
+    roomTypes: "",
+    rating: "",
   });
 
-  const [editingHotelId, setEditingHotelId] = useState<string | null>(null);
+  const [editingHotelId, setEditingHotelId] = useState<number | null>(null);
 
   const API_URL = "https://booknestapi.netlify.app/accomodations";
 
-  /** Fetch all hotels from backend */
+  /** Fetch hotels from backend */
   const fetchHotels = async () => {
     try {
       setLoading(true);
@@ -60,53 +65,54 @@ export default function InventoryManagement(): JSX.Element {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
-  /** Open modal for editing a hotel */
-  const openModalForEdit = (hotel: Hotel & { _id: string }) => {
+  /** Open modal for editing hotel */
+  const openModalForEdit = (hotel: Hotel) => {
     setForm({
       name: hotel.name,
-      description: hotel.description ?? "",
-      price: hotel.price?.toString() ?? "",
-      location: hotel.location ?? "",
-      imageUrl: hotel.imageUrl ?? "",
+      description: hotel.description,
+      imageGallery: hotel.imageGallery.join(", "),
+      amenities: hotel.amenities.join(", "),
+      physicalAddress: hotel.physicalAddress,
+      phoneNumber: hotel.phoneNumber,
+      emailAddress: hotel.emailAddress,
+      roomTypes: hotel.roomTypes.join(", "),
+      rating: hotel.rating.toString(),
     });
-    setEditingHotelId(hotel._id);
+    setEditingHotelId(hotel.id);
     setShowModal(true);
   };
 
-  const deleteHotel = async (hotelId?: string) => {
-    if (!hotelId) {
-      console.error("Hotel ID is missing, cannot delete");
-      return;
-    }
-
+  /** Delete hotel */
+  const deleteHotel = async (hotelId: number) => {
     try {
-      await axios.delete(
-        `https://booknestapi.netlify.app/accomodations/${hotelId}`,
-        { withCredentials: true }
-      );
-      // refresh hotels after deletion
+      await axios.delete(`${API_URL}/${hotelId}`);
       fetchHotels();
     } catch (err) {
       console.error("Failed to delete hotel:", err);
+      alert("Failed to delete hotel.");
     }
   };
 
-
-  /** Handle add/update form submission */
+  /** Add or update hotel */
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    try {
-      const payload = {
-        ...form,
-        price: form.price === "" ? undefined : Number(form.price),
-      };
+    const payload: Partial<Hotel> = {
+      name: form.name,
+      description: form.description,
+      imageGallery: form.imageGallery.split(",").map((s) => s.trim()),
+      amenities: form.amenities.split(",").map((s) => s.trim()),
+      physicalAddress: form.physicalAddress,
+      phoneNumber: form.phoneNumber,
+      emailAddress: form.emailAddress,
+      roomTypes: form.roomTypes.split(",").map((s) => s.trim()),
+      rating: Number(form.rating) || 0,
+    };
 
+    try {
       if (editingHotelId) {
-        // Update existing hotel
         await axios.put(`${API_URL}/${editingHotelId}`, payload);
       } else {
-        // Add new hotel
         await axios.post(API_URL, payload);
       }
 
@@ -115,11 +121,16 @@ export default function InventoryManagement(): JSX.Element {
       setForm({
         name: "",
         description: "",
-        price: "",
-        location: "",
-        imageUrl: "",
+        imageGallery: "",
+        amenities: "",
+        physicalAddress: "",
+        phoneNumber: "",
+        emailAddress: "",
+        roomTypes: "",
+        rating: "",
       });
-      await fetchHotels();
+
+      fetchHotels();
     } catch (err) {
       console.error("Failed to submit hotel:", err);
       alert("Failed to submit hotel.");
@@ -129,12 +140,13 @@ export default function InventoryManagement(): JSX.Element {
   const overlayClick = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).classList.contains(styles.modalOverlay)) {
       setShowModal(false);
+      setEditingHotelId(null);
     }
   };
 
   return (
     <>
-      <Navbar />
+    
       <div className={styles.inventory}>
         <div className={styles.header}>
           <h2>Inventory Management</h2>
@@ -146,46 +158,53 @@ export default function InventoryManagement(): JSX.Element {
         {loading && <p>Loading hotels…</p>}
         {error && <p style={{ color: "red" }}>{error}</p>}
 
-        {/* Hotel Cards */}
         <div className={styles.grid}>
-          {hotels.map((h, index) => {
-            const key = h._id ?? `${h.name}-${index}`;
-            return (
-              <div key={key} className={styles.card}>
-                <img
-                  src={h.imageUrl ?? "/placeholder-hotel.jpg"}
-                  alt={h.name}
-                />
-                <h3>{h.name}</h3>
-                {h.location && <p>{h.location}</p>}
-                {h.price !== undefined && (
-                  <p className={styles.price}>R {h.price}</p>
+          {hotels.map((h) => (
+            <div key={h.id} className={styles.card}>
+              <div className={styles.imageGallery}>
+                {h.imageGallery?.length > 0 ? (
+                  h.imageGallery.map((url, index) => (
+                    <img
+                      key={index}
+                      src={url}
+                      alt={`${h.name} ${index + 1}`}
+                      className={styles.hotelImage}
+                    />
+                  ))
+                ) : (
+                  <img
+                    src="/placeholder-hotel.jpg"
+                    alt={h.name}
+                    className={styles.hotelImage}
+                  />
                 )}
-
-                <div className={styles.cardButtons}>
-                  <Button
-                    type="button"
-                    width={80}
-                    onClick={() =>
-                      openModalForEdit(h as Hotel & { _id: string })
-                    }
-                  >
-                    Edit
-                  </Button>
-                  <Button
-                    type="button"
-                    width={80}
-                    onClick={() => deleteHotel(h._id!)}
-                  >
-                    Delete
-                  </Button>
-                </div>
               </div>
-            );
-          })}
+
+              <h3>{h.name}</h3>
+              <p>{h.physicalAddress}</p>
+              <p>{h.emailAddress}</p>
+              <p>Rating: {h.rating}</p>
+
+              <div className={styles.cardButtons}>
+                <Button
+                  type="button"
+                  width={80}
+                  onClick={() => openModalForEdit(h)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  type="button"
+                  width={80}
+                  onClick={() => deleteHotel(h.id)}
+                >
+                  Delete
+                </Button>
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Modal Form */}
         {showModal && (
           <div className={styles.modalOverlay} onClick={overlayClick}>
             <div className={styles.modal} role="dialog" aria-modal="true">
@@ -194,9 +213,7 @@ export default function InventoryManagement(): JSX.Element {
                 <InputField
                   type="text"
                   field={form.name}
-                  setField={(value) =>
-                    setForm({ ...form, name: String(value) })
-                  }
+                  setField={(v) => setForm({ ...form, name: String(v) })}
                   placeholder="Hotel Name"
                   label="Hotel Name"
                   for="hotel-name"
@@ -204,42 +221,72 @@ export default function InventoryManagement(): JSX.Element {
                 <InputField
                   type="text"
                   field={form.description}
-                  setField={(value) =>
-                    setForm({ ...form, description: String(value) })
-                  }
-                  placeholder="Short description"
+                  setField={(v) => setForm({ ...form, description: String(v) })}
+                  placeholder="Description"
                   label="Description"
                   for="hotel-description"
                 />
                 <InputField
+                  type="text"
+                  field={form.imageGallery}
+                  setField={(v) =>
+                    setForm({ ...form, imageGallery: String(v) })
+                  }
+                  placeholder="Image URLs (comma separated)"
+                  label="Image Gallery"
+                  for="hotel-images"
+                />
+                <InputField
+                  type="text"
+                  field={form.amenities}
+                  setField={(v) => setForm({ ...form, amenities: String(v) })}
+                  placeholder="Amenities (comma separated)"
+                  label="Amenities"
+                  for="hotel-amenities"
+                />
+                <InputField
+                  type="text"
+                  field={form.physicalAddress}
+                  setField={(v) =>
+                    setForm({ ...form, physicalAddress: String(v) })
+                  }
+                  placeholder="Address"
+                  label="Address"
+                  for="hotel-address"
+                />
+                <InputField
+                  type="text"
+                  field={form.phoneNumber}
+                  setField={(v) => setForm({ ...form, phoneNumber: String(v) })}
+                  placeholder="Phone"
+                  label="Phone Number"
+                  for="hotel-phone"
+                />
+                <InputField
+                  type="text"
+                  field={form.emailAddress}
+                  setField={(v) =>
+                    setForm({ ...form, emailAddress: String(v) })
+                  }
+                  placeholder="Email"
+                  label="Email Address"
+                  for="hotel-email"
+                />
+                <InputField
+                  type="text"
+                  field={form.roomTypes}
+                  setField={(v) => setForm({ ...form, roomTypes: String(v) })}
+                  placeholder="Room Types (comma separated)"
+                  label="Room Types"
+                  for="hotel-rooms"
+                />
+                <InputField
                   type="number"
-                  field={form.price}
-                  setField={(value) =>
-                    setForm({ ...form, price: String(value) })
-                  }
-                  placeholder="Price per night"
-                  label="Price"
-                  for="hotel-price"
-                />
-                <InputField
-                  type="text"
-                  field={form.location}
-                  setField={(value) =>
-                    setForm({ ...form, location: String(value) })
-                  }
-                  placeholder="Location"
-                  label="Location"
-                  for="hotel-location"
-                />
-                <InputField
-                  type="text"
-                  field={form.imageUrl}
-                  setField={(value) =>
-                    setForm({ ...form, imageUrl: String(value) })
-                  }
-                  placeholder="Image URL"
-                  label="Image URL"
-                  for="hotel-image"
+                  field={form.rating}
+                  setField={(v) => setForm({ ...form, rating: String(v) })}
+                  placeholder="Rating"
+                  label="Rating"
+                  for="hotel-rating"
                 />
                 <div className={styles.modalButtons}>
                   <Button type="submit" width={130}>
@@ -261,7 +308,7 @@ export default function InventoryManagement(): JSX.Element {
           </div>
         )}
       </div>
-      <Footer />
+     
     </>
   );
 }

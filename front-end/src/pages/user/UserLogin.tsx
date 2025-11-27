@@ -46,7 +46,6 @@ const UserLogin: React.FC = () => {
 
       <div className="loginPage">
         <div className="loginContainer">
-          <Filter />
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Login</h2>
           <InputField
             placeholder="Email Address"
