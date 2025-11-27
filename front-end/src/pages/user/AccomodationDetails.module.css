@@ -1,3 +1,113 @@
+.accomodationPage {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
 .title {
+  font-size: 1.8rem;
+  color: #1e3a8a;
   margin: 0.8rem 0;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.col-6 {
+  flex: 0 0 48%;
+}
+
+.align-center {
+  display: flex;
+  align-items: center;
+}
+
+.details-container {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+.back-btn {
+  text-decoration: none;
+  color: #1e3a8a;
+  font-weight: bold;
+  display: inline-block;
+  margin-bottom: 15px;
+  transition: color 0.2s;
+}
+
+.back-btn:hover {
+  color: #3749a1;
+}
+
+.tags-container {
+  display: flex;
+  gap: 0.7rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.star-rating {
+  display: flex;
+  gap: 5px;
+  font-size: 20px;
+  margin: 0.5rem 0;
+}
+
+.star {
+  color: #ccc;
+}
+
+.star.active {
+  color: gold;
+}
+
+.review-section {
+  margin-top: 1rem;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.admin-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.admin-btn.edit {
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.admin-btn.edit:hover {
+  background-color: #3749a1;
+}
+
+.admin-btn.delete {
+  background-color: #dc2626;
+  color: white;
+}
+
+.admin-btn.delete:hover {
+  background-color: #f43f5e;
+}
+
+@media (max-width: 768px) {
+  .col-6 {
+    flex: 0 0 100%;
+  }
 }

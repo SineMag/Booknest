@@ -7,16 +7,18 @@ import {
 import axios from "axios";
 
 export type Hotel = {
+  longitude: number;
+  latitude: number;
   price: any;
   id: number;
   name: string;
   description: string;
-  imageGallery: string[];
+  imagegallery: string[];
   amenities: string[];
-  physicalAddress: string;
-  phoneNumber: string;
-  emailAddress: string;
-  roomTypes: string[];
+  physicaladdress: string;
+  phonenumber: string;
+  emailaddress: string;
+  roomtypes: string[];
   rating: number;
 };
 
@@ -28,7 +30,7 @@ interface InventoryState {
 
 const initialState: InventoryState = {
   hotels: [],
-  loading: false,
+  loading: true,
   error: null,
 };
 
@@ -39,6 +41,7 @@ export const fetchHotels = createAsyncThunk(
   "inventory/fetchHotels",
   async () => {
     const res = await axios.get<Hotel[]>(API_URL);
+    console.log("Fetched hotels:", res.data);
     // Normalize IDs if backend returns _id
     const data = res.data.map((h: any) => ({
       ...h,
@@ -106,6 +109,7 @@ const inventoryManagementSlice = createSlice({
         (state, action: PayloadAction<Hotel[]>) => {
           state.hotels = action.payload;
           state.loading = false;
+          console.log("Fetched hotels:", action.payload);
         }
       )
       .addCase(fetchHotels.rejected, (state, action) => {
