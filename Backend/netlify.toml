@@ -30,5 +30,10 @@
   to = "/.netlify/functions/room_types/:splat"
   status = 200
 
+[[redirects]]
+  from = "/bookings/*"
+  to = "/.netlify/functions/bookings/:splat"
+  status = 200
+
 [functions]
   node_bundler = "esbuild"

@@ -27,6 +27,7 @@ export const updateAccomodationDB = async (
   accomodation: Accomodation
 ) => {
   const result = await updateAccomodationQuery(id, accomodation);
+  console.log(701, result);
   return result;
 };
 
