@@ -82,9 +82,9 @@ export default function ProfileMenu({
     admin: [
       { label: "HOME", to: "/" },
       { label: "PROFILE", to: "/profile" },
-      { label: "DASHBOARD", to: "/adminDashboard" },
-      { label: "RESERVATION", to: "/reservation" },
-      { label: "INVENTORY", to: "/inventoryManagement" },
+      { label: "DASHBOARD", to: "/admin-dashboard" },
+      { label: "RESERVATION", to: "/reservation-management" },
+      { label: "INVENTORY", to: "/inventory-management" },
       { label: "LOGOUT", to: "/", logout: true },
     ],
   };
@@ -132,8 +132,8 @@ export default function ProfileMenu({
 
               {subMenu === "admin" && (
                 <div className={styles.submenu}>
-                  <Link to="/adminRegister">Register as Admin</Link>
-                  <Link to="/adminlogin">Login as Admin</Link>
+                  <Link to="/admin-register">Register as Admin</Link>
+                  <Link to="/admin-login">Login as Admin</Link>
                 </div>
               )}
             </div>
