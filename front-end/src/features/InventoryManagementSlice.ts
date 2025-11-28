@@ -7,25 +7,6 @@ import {
 import axios from "axios";
 
 export type Hotel = {
-  coverimage: string;
-  videotour: string;
-  checkin: string;
-  checkout: string;
-  totalrooms: any;
-  city: string;
-  province: string;
-  country: string;
-  googlemap: string;
-  baseprice: any;
-  peakprice: any;
-  discount: any;
-  taxes: any;
-  cancellation: string;
-  petpolicy: string;
-  smoking: string;
-  longitude: number;
-  latitude: number;
-  price: any;
   id: number;
   name: string;
   description: string;
@@ -46,7 +27,7 @@ interface InventoryState {
 
 const initialState: InventoryState = {
   hotels: [],
-  loading: true,
+  loading: false,
   error: null,
 };
 
@@ -57,14 +38,17 @@ export const fetchHotels = createAsyncThunk(
   "inventory/fetchHotels",
   async () => {
     const res = await axios.get<Hotel[]>(API_URL);
-    console.log("Fetched hotels:", res.data);
-    // Normalize IDs if backend returns _id
     const data = res.data.map((h: any) => ({
-      ...h,
-      id: h.id ?? h._id,
-      imageGallery: Array.isArray(h.imageGallery) ? h.imageGallery : [],
+      id: Number(h.id ?? h._id),
+      name: h.name ?? "",
+      description: h.description ?? "",
+      imagegallery: Array.isArray(h.imagegallery) ? h.imagegallery : [],
       amenities: Array.isArray(h.amenities) ? h.amenities : [],
-      roomTypes: Array.isArray(h.roomTypes) ? h.roomTypes : [],
+      physicaladdress: h.physicaladdress ?? "",
+      phonenumber: h.phonenumber ?? "",
+      emailaddress: h.emailaddress ?? "",
+      roomtypes: Array.isArray(h.roomtypes) ? h.roomtypes : [],
+      rating: Number(h.rating) || 0,
     }));
     return data;
   }
@@ -77,10 +61,12 @@ export const addHotel = createAsyncThunk(
     const res = await axios.post(API_URL, hotel);
     return {
       ...res.data,
-      id: res.data.id ?? res.data._id,
-      imageGallery: res.data.imageGallery ?? [],
-      amenities: res.data.amenities ?? [],
-      roomTypes: res.data.roomTypes ?? [],
+      id: Number(res.data.id ?? res.data._id),
+      imagegallery: Array.isArray(res.data.imagegallery)
+        ? res.data.imagegallery
+        : [],
+      amenities: Array.isArray(res.data.amenities) ? res.data.amenities : [],
+      roomtypes: Array.isArray(res.data.roomtypes) ? res.data.roomtypes : [],
     };
   }
 );
@@ -92,10 +78,12 @@ export const updateHotel = createAsyncThunk(
     const res = await axios.put(`${API_URL}/${id}`, hotel);
     return {
       ...res.data,
-      id: res.data.id ?? res.data._id,
-      imageGallery: res.data.imageGallery ?? [],
-      amenities: res.data.amenities ?? [],
-      roomTypes: res.data.roomTypes ?? [],
+      id: Number(res.data.id ?? res.data._id),
+      imagegallery: Array.isArray(res.data.imagegallery)
+        ? res.data.imagegallery
+        : [],
+      amenities: Array.isArray(res.data.amenities) ? res.data.amenities : [],
+      roomtypes: Array.isArray(res.data.roomtypes) ? res.data.roomtypes : [],
     };
   }
 );
@@ -125,7 +113,6 @@ const inventoryManagementSlice = createSlice({
         (state, action: PayloadAction<Hotel[]>) => {
           state.hotels = action.payload;
           state.loading = false;
-          console.log("Fetched hotels:", action.payload);
         }
       )
       .addCase(fetchHotels.rejected, (state, action) => {

@@ -7,7 +7,6 @@ import UserLogin from "./pages/user/UserLogin";
 import Error404 from "../src/pages/user/Error404";
 import UserRegister from "./pages/user/UserRegister";
 import Booking from "./pages/user/Booking";
-import { UserDashboard } from "./pages/user/UserDashboard";
 import Confirmation from "./pages/user/Confirmation";
 import MyBookings from "./pages/user/MyBookings";
 import UserProfile from "./pages/user/UserProfile";
@@ -18,6 +17,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import AccommodationDetails from "./pages/user/AccomodationDetails";
+import UserDashboard from "./pages/user/UserDashboard";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {

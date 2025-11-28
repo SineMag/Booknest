@@ -8,7 +8,7 @@ import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 import type { AppDispatch, RootState } from "../../../store";
 import { fetchHotels, type Hotel } from "../../features/InventoryManagementSlice";
-import Filter from "../../components/Filter/Filter";
+
 
 
 const UserDashboard: React.FC = () => {
@@ -51,7 +51,6 @@ const UserDashboard: React.FC = () => {
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
       <Navbar />
-<<<<<<< HEAD
       <div
         style={{
           flex: 1,
@@ -80,17 +79,10 @@ const UserDashboard: React.FC = () => {
           <SearchBar
             placeholder="Search accommodations..."
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setSearchQuery(e.target.value)
+              setSearchTerm(e.target.value)
             }
           />
           <Filter/>
-=======
-      <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "baseline", gap: "20px", marginBottom: "30px" }}>
-          <SearchBar placeholder="Search accommodations..." onSearch={setSearchTerm} />
-          <Filter />
->>>>>>> 07f0c7ca8637b622a65b6d3826d064755cbc3d43
         </div>
         <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap" }}>
           {filteredAccommodations.map(acc => (
