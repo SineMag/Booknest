@@ -13,42 +13,74 @@
 
 .modalContent {
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 500px;
+  border-radius: 12px; /* Slightly more rounded */
+  padding: 30px; /* Increased padding */
+  max-width: 550px; /* Slightly wider */
   width: 90%;
-  max-height: 80vh;
+  max-height: 90vh;
   overflow-y: auto;
   position: relative;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* More prominent shadow */
 }
 
 .closeButton {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 28px; /* Larger close button */
   cursor: pointer;
+  color: #555;
+  transition: color 0.2s ease-in-out;
+}
+
+.closeButton:hover {
   color: #333;
+}
+
+h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px; /* Increased gap */
 }
 
 .form label {
   display: flex;
   flex-direction: column;
-  font-weight: bold;
+  font-weight: 600; /* Slightly bolder labels */
+  color: #444;
+  margin-bottom: 5px; /* Added margin to labels */
 }
 
 .form input,
 .form select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 10px 12px; /* Increased padding */
+  border: 1px solid #ddd;
+  border-radius: 6px; /* Slightly more rounded inputs */
   font-size: 16px;
+  width: 100%;
+  box-sizing: border-box; /* Include padding and border in element's total width and height */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form input:focus,
+.form select:focus {
+  border-color: #1a73e8; /* Blue border on focus */
+  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2); /* Subtle glow on focus */
+  outline: none;
+}
+
+.dateRangePickerContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }

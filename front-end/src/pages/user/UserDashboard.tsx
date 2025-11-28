@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import SearchBar from "../../components/Searchbar/Searchbar";
+import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 import type { AppDispatch, RootState } from "../../../store";
 import { fetchHotels, type Hotel } from "../../features/InventoryManagementSlice";
@@ -14,7 +15,7 @@ const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
   const { hotels, loading, error } = useSelector(
     (state: RootState) => state.hotels
@@ -23,6 +24,10 @@ const UserDashboard: React.FC = () => {
   useEffect(() => {
     dispatch(fetchHotels());
   }, [dispatch]);
+
+  const filteredAccommodations = hotels.filter((acc: Hotel) =>
+    acc.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleFavoriteToggle = (id: number) => {
     setFavorites((prev) => {
@@ -40,16 +45,13 @@ const UserDashboard: React.FC = () => {
     navigate(`/accomodation-details/${id}`);
   };
 
-  // Filter hotels based on search query
-  const filteredHotels = hotels.filter((h: { name: string; }) =>
-    h.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
       <Navbar />
+<<<<<<< HEAD
       <div
         style={{
           flex: 1,
@@ -82,20 +84,16 @@ const UserDashboard: React.FC = () => {
             }
           />
           <Filter/>
+=======
+      <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
+        <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "baseline", gap: "20px", marginBottom: "30px" }}>
+          <SearchBar placeholder="Search accommodations..." onSearch={setSearchTerm} />
+          <Filter />
+>>>>>>> 07f0c7ca8637b622a65b6d3826d064755cbc3d43
         </div>
-
-        {loading && <p>Loading accommodations…</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            gap: "20px",
-            flexWrap: "wrap",
-          }}
-        >
-          {filteredHotels.map((acc: Hotel) => (
+        <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap" }}>
+          {filteredAccommodations.map(acc => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}

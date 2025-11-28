@@ -111,51 +111,6 @@
   width: 100%;
 }
 
-/* Full width for textarea and long inputs */
-.modal form textarea,
-.modal form input[type="text"],
-.modal form input[type="number"],
-.modal form input[type="time"] {
-  width: 100%;
-  padding: 0.6rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 0.5rem;
-  font-size: 0.95rem;
-  font-family: inherit;
-}
-
-/* Make textarea taller */
-textarea {
-  min-height: 80px;
-  resize: vertical;
-}
-
-/* Full-width fields for URLs, address, description */
-.modal form .fullWidth {
-  grid-column: span 2;
-}
-
-/* Modal buttons */
-.modalButtons {
-  grid-column: span 2;
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-/* Buttons */
-.modalButtons button {
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.modalButtons button:hover {
-  opacity: 0.9;
-}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
@@ -169,11 +124,6 @@ textarea {
   }
 }
 
-/* Optional: modal header */
-.modal h2 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
 
 /* Scroll inside modal if content is tall */
 .modal {
