@@ -22,13 +22,40 @@ const UserLogin: React.FC = () => {
 
   // useEffect
   // Removed redirect to allow access to login page
+  // Load remembered user credentials on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem("rememberedUser");
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed.emailAddress) setEmailAddress(parsed.emailAddress);
+        if (parsed.password) setPassword(parsed.password);
+        setRememberMe(true);
+      }
+    } catch (err) {
+      // ignore parse errors
+    }
+  }, []);
+
   useEffect(() => {
     if (user && isLoggedIn) {
       setLocalUser(user);
+      if (rememberMe) {
+        try {
+          localStorage.setItem(
+            "rememberedUser",
+            JSON.stringify({ emailAddress, password })
+          );
+        } catch (e) {
+          // ignore
+        }
+      } else {
+        localStorage.removeItem("rememberedUser");
+      }
     } else {
       setLocalUser({});
     }
-  }, [user]);
+  }, [user, isLoggedIn, rememberMe, emailAddress, password]);
 
   const handleLogin = () => {
     console.log("registering user...");
@@ -55,7 +82,7 @@ const UserLogin: React.FC = () => {
           />
           <InputField
             placeholder="Password"
-            type="email"
+            type="password"
             field={password}
             setField={setPassword}
           />

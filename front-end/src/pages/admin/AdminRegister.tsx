@@ -6,6 +6,8 @@ import Footer from "../../components/footer/Footer";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 
+// Password toggles are handled by `InputField`; no react-icons needed here
+
 export default function AdminRegister() {
   // --- Form State ---
   const [firstName, setFirstName] = useState("");
@@ -15,7 +17,6 @@ export default function AdminRegister() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // --- Submit Handler ---
   const handleRegister = () => {
     console.log("Registering admin...", {
       firstName,
@@ -25,17 +26,15 @@ export default function AdminRegister() {
       password,
       confirmPassword,
     });
-    // TODO: Dispatch Redux action or call API
   };
 
-  // --- Inline Styles ---
   const containerStyle = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "50px 20px",
     background: "#f0f4f8",
-    minHeight: "calc(100vh - 64px)", // subtract navbar height if needed
+    minHeight: "calc(100vh - 64px)",
   };
 
   const formWrapperStyle = {
@@ -76,6 +75,16 @@ export default function AdminRegister() {
     fontWeight: 600,
   };
 
+  const eyeIconStyle = {
+    position: "absolute" as const,
+    right: "12px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    cursor: "pointer",
+    color: "#475569",
+    fontSize: "20px",
+  };
+
   return (
     <>
       <Navbar />
@@ -112,6 +121,7 @@ export default function AdminRegister() {
             setField={setWorkEmailAddress}
           />
 
+          {/* Password (InputField provides its own toggle) */}
           <InputField
             placeholder="Password"
             type="password"
@@ -119,6 +129,7 @@ export default function AdminRegister() {
             setField={setPassword}
           />
 
+          {/* Confirm Password (InputField provides its own toggle) */}
           <InputField
             placeholder="Confirm Password"
             type="password"
@@ -132,6 +143,7 @@ export default function AdminRegister() {
               Sign In
             </Link>
           </p>
+
           <Link to="/login">
             <Button
               variant="primary"
