@@ -155,7 +155,12 @@ export default function Booking() {
         special_request: specialRequest,
       })
     );
-    navigate("/confirmation");
+
+    console.log(2022, errorMessage);
+
+    if (!errorMessage) {
+      handlePayment();
+    }
   };
 
   const handleCancel = () => {
@@ -203,17 +208,16 @@ export default function Booking() {
     if (access_code) {
       console.log("popup: ", window.PaystackPop);
       const popup = new window.PaystackPop();
-      //   popup.resumeTransaction(access_code);
       popup.newTransaction({
         key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
         email: "sample@email.com",
         amount: 23400,
         onSuccess: (transaction: any) => {
           // add booking and navigate to confirmation
-          handleProceed();
+          console.log(2019, "transaction", transaction);
+          navigate("/confirmation");
         },
       });
-      popup.resumeTransaction(access_code);
     }
   }, [access_code]);
 
@@ -357,7 +361,7 @@ export default function Booking() {
               Cancel
             </Button>
             <Button
-              onClick={handlePayment}
+              onClick={handleProceed}
               variant="primary"
               disabled={status === "loading"}
             >
