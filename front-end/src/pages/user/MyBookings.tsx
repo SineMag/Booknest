@@ -1,12 +1,18 @@
 import React from 'react';
-import Navbar from '../../components/NavBar/Navbar';
-import Footer from '../../components/footer/Footer';
+import ReviewCard from '../../components/ReviewCard/ReviewCard';
+import styles from "./MyBookings.module.css"
 
 const MyBookings: React.FC = () => {
   return (
-    <div>
-      
+    <>
+    <div className='mybookingsCard'>
+      <ReviewCard >
+
+
+      </ReviewCard>
+
     </div>
+    </>
   );
 };
 
