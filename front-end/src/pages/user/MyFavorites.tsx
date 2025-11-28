@@ -1,3 +1,4 @@
+import React from "react";
 import { useEffect, useState } from "react";
 import { getFavorites, toggleFavorite } from "../../service/api";
 import { FaHeart } from "react-icons/fa";

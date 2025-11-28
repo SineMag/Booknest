@@ -46,9 +46,9 @@ export const fetchHotels = createAsyncThunk(
     const data = res.data.map((h: any) => ({
       ...h,
       id: h.id ?? h._id,
-      imageGallery: Array.isArray(h.imageGallery) ? h.imageGallery : [],
+      imagegallery: Array.isArray(h.imagegallery) ? h.imagegallery : [],
       amenities: Array.isArray(h.amenities) ? h.amenities : [],
-      roomTypes: Array.isArray(h.roomTypes) ? h.roomTypes : [],
+      roomtypes: Array.isArray(h.roomtypes) ? h.roomtypes : [],
     }));
     return data;
   }
@@ -62,9 +62,9 @@ export const addHotel = createAsyncThunk(
     return {
       ...res.data,
       id: res.data.id ?? res.data._id,
-      imageGallery: res.data.imageGallery ?? [],
+      imagegallery: res.data.imagegallery ?? [],
       amenities: res.data.amenities ?? [],
-      roomTypes: res.data.roomTypes ?? [],
+      roomtypes: res.data.roomtypes ?? [],
     };
   }
 );
@@ -77,9 +77,9 @@ export const updateHotel = createAsyncThunk(
     return {
       ...res.data,
       id: res.data.id ?? res.data._id,
-      imageGallery: res.data.imageGallery ?? [],
+      imagegallery: res.data.imagegallery ?? [],
       amenities: res.data.amenities ?? [],
-      roomTypes: res.data.roomTypes ?? [],
+      roomtypes: res.data.roomtypes ?? [],
     };
   }
 );

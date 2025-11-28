@@ -78,8 +78,6 @@ export default function AdminRegister() {
 
   return (
     <>
-      <Navbar />
-
       <div style={containerStyle}>
         <div style={formWrapperStyle}>
           <h2 style={headingStyle}>Admin Register</h2>
@@ -143,8 +141,6 @@ export default function AdminRegister() {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }

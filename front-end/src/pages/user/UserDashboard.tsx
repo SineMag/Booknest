@@ -49,7 +49,7 @@ const UserDashboard: React.FC = () => {
     <div
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
-      <Navbar />
+     
       <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
         <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "baseline", gap: "20px", marginBottom: "30px" }}>
@@ -72,7 +72,6 @@ const UserDashboard: React.FC = () => {
           ))}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };
