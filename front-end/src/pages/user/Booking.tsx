@@ -66,14 +66,6 @@ const roomTypes = [
 ];
 
 export default function Booking() {
-  // Removed accommodationId prop
-  const { accommodationId: accommodationIdParam } = useParams<{
-    accommodationId: string;
-  }>(); // Get from URL params
-  const accommodationId = accommodationIdParam
-    ? parseInt(accommodationIdParam, 10)
-    : undefined;
-
   const [selectedRoomType, setSelectedRoomType] = useState(roomTypes[0]);
   const [numberOfRooms, setNumberOfRooms] = useState(""); // Changed to empty string
   const [numberOfGuests, setNumberOfGuests] = useState(""); // Changed to empty string
@@ -93,7 +85,7 @@ export default function Booking() {
   console.log("Current user state in Booking.tsx:", user); // ADDED FOR DEBUGGING
   const { status, error } = useSelector((state: RootState) => state.booking);
   const [params] = useSearchParams();
-  const accId = params.get("accommodationId");
+  const accId = Number(params.get("accommodationId"));
 
   console.log("accomodation id", accId);
 
@@ -135,7 +127,7 @@ export default function Booking() {
       return;
     }
 
-    if (!accommodationId || isNaN(accommodationId)) {
+    if (!accId || isNaN(accId)) {
       setErrorMessage(
         "Accommodation ID is missing or invalid. Please select an accommodation first."
       );
@@ -145,14 +137,15 @@ export default function Booking() {
 
     dispatch(
       createBooking({
-        user_id: user.id,
-        accommodation_id: accommodationId, // Using param
-        check_in: checkIn,
-        check_out: checkOut,
-        guests: parseInt(numberOfGuests) || 0, // Parse guests, treat empty string as 0
-        total_price: totalPrice,
-        phone: phone,
-        special_request: specialRequest,
+        userId: user.id,
+        accommodationId: accId, // Using param
+        checkInDate: new Date(checkIn),
+        checkOutDate: new Date(checkOut),
+        numberOfGuests: parseInt(numberOfGuests) || 0, // Parse guests, treat empty string as 0
+        totalPrice: totalPrice,
+        specialRequest: specialRequest,
+        status: "Booked",
+        roomTypeId: 2,
       })
     );
 
