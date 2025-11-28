@@ -24,6 +24,7 @@ import ReservationManagement from "./pages/admin/ReservationManagement";
 function App() {
   return (
     <>
+    <Navbar/>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
@@ -66,6 +67,7 @@ function App() {
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
       </Routes>
+      <Footer />
     </>
   );
 }
