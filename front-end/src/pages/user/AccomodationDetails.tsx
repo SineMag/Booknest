@@ -23,7 +23,6 @@ const hotels: Hotel[] = [
   { id: 2, name: "Hotel 2", position: [100, 120], address: "Good" },
   { id: 3, name: "Hotel 3", position: [300, 120], address: "Bad" },
 ];
-
 export default function AccomodationDetails() {
   const { id } = useParams<{ id: string }>();
   const hotelId = parseInt(id || "0");

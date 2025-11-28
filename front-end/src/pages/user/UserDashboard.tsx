@@ -10,6 +10,7 @@ import type { AppDispatch, RootState } from "../../../store";
 import { fetchHotels, type Hotel } from "../../features/InventoryManagementSlice";
 
 
+
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
