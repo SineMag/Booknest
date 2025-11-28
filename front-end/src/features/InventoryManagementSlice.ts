@@ -39,16 +39,11 @@ export const fetchHotels = createAsyncThunk(
   async () => {
     const res = await axios.get<Hotel[]>(API_URL);
     const data = res.data.map((h: any) => ({
-      id: Number(h.id ?? h._id),
-      name: h.name ?? "",
-      description: h.description ?? "",
+      ...h,
+      id: h.id ?? h._id,
       imagegallery: Array.isArray(h.imagegallery) ? h.imagegallery : [],
       amenities: Array.isArray(h.amenities) ? h.amenities : [],
-      physicaladdress: h.physicaladdress ?? "",
-      phonenumber: h.phonenumber ?? "",
-      emailaddress: h.emailaddress ?? "",
       roomtypes: Array.isArray(h.roomtypes) ? h.roomtypes : [],
-      rating: Number(h.rating) || 0,
     }));
     return data;
   }
@@ -61,12 +56,10 @@ export const addHotel = createAsyncThunk(
     const res = await axios.post(API_URL, hotel);
     return {
       ...res.data,
-      id: Number(res.data.id ?? res.data._id),
-      imagegallery: Array.isArray(res.data.imagegallery)
-        ? res.data.imagegallery
-        : [],
-      amenities: Array.isArray(res.data.amenities) ? res.data.amenities : [],
-      roomtypes: Array.isArray(res.data.roomtypes) ? res.data.roomtypes : [],
+      id: res.data.id ?? res.data._id,
+      imagegallery: res.data.imagegallery ?? [],
+      amenities: res.data.amenities ?? [],
+      roomtypes: res.data.roomtypes ?? [],
     };
   }
 );
@@ -78,12 +71,10 @@ export const updateHotel = createAsyncThunk(
     const res = await axios.put(`${API_URL}/${id}`, hotel);
     return {
       ...res.data,
-      id: Number(res.data.id ?? res.data._id),
-      imagegallery: Array.isArray(res.data.imagegallery)
-        ? res.data.imagegallery
-        : [],
-      amenities: Array.isArray(res.data.amenities) ? res.data.amenities : [],
-      roomtypes: Array.isArray(res.data.roomtypes) ? res.data.roomtypes : [],
+      id: res.data.id ?? res.data._id,
+      imagegallery: res.data.imagegallery ?? [],
+      amenities: res.data.amenities ?? [],
+      roomtypes: res.data.roomtypes ?? [],
     };
   }
 );
