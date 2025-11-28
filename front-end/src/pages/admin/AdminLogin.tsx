@@ -61,7 +61,15 @@ const AdminLogin: React.FC = () => {
     } else {
       setLocalUser({});
     }
-  }, [user, isLoggedIn, navigate, rememberMe, emailAddress, username, password]);
+  }, [
+    user,
+    isLoggedIn,
+    navigate,
+    rememberMe,
+    emailAddress,
+    username,
+    password,
+  ]);
 
   const handleLogin = () => {
     dispatch(
