@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { loginUser } from "../../features/userSlice";
 import { setLocalUser } from "../../utils/LocalStorage";
-import Filter from "../../components/Filter/Filter";
+import styles from "./UserLogin.module.css";
+import { FaGoogle, FaFacebook } from "react-icons/fa"; // Import icons..react
 
 const UserLogin: React.FC = () => {
   // states
@@ -24,11 +25,22 @@ const UserLogin: React.FC = () => {
   useEffect(() => {
     if (user && isLoggedIn) {
       setLocalUser(user);
-      navigate("/dashboard"); // Navigate automatically if user is logged in
+      if (rememberMe) {
+        try {
+          localStorage.setItem(
+            "rememberedUser",
+            JSON.stringify({ emailAddress, password })
+          );
+        } catch (e) {
+          // ignore
+        }
+      } else {
+        localStorage.removeItem("rememberedUser");
+      }
     } else {
       setLocalUser({});
     }
-  }, [user, isLoggedIn, navigate]);
+  }, [user, isLoggedIn, rememberMe, emailAddress, password]);
 
   const handleLogin = () => {
     dispatch(
@@ -43,10 +55,8 @@ const UserLogin: React.FC = () => {
 
   return (
     <>
-      <Navbar />
-
-      <div className="loginPage">
-        <div className="loginContainer">
+      <div className={styles.loginPage}>
+        <div className={styles.loginContainer}>
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Login</h2>
 
           <InputField
@@ -58,7 +68,7 @@ const UserLogin: React.FC = () => {
 
           <InputField
             placeholder="Password"
-            type="password"
+            type="password" // Changed type to password for security
             field={password}
             setField={setPassword}
           />
@@ -79,10 +89,27 @@ const UserLogin: React.FC = () => {
           <Button variant="primary" width={100} onClick={handleLogin}>
             Login
           </Button>
+
+          <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>
+
+          <div className={styles.oauthIcons}>
+            <a
+              href="#"
+              onClick={() => alert("Google Login Button/Icon (not functional)")}
+            >
+              <FaGoogle size={30} />
+            </a>
+            <a
+              href="#"
+              onClick={() =>
+                alert("Facebook Login Button/Icon (not functional)")
+              }
+            >
+              <FaFacebook size={30} />
+            </a>
+          </div>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

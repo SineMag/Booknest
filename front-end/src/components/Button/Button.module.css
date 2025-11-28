@@ -29,6 +29,16 @@
   color: white;
 }
 
+.google {
+  background-color: #DB4437; /* Google's red */
+  color: white;
+}
+
+.facebook {
+  background-color: #4267B2; /* Facebook's blue */
+  color: white;
+}
+
 .button:hover {
   opacity: 0.9;
 }

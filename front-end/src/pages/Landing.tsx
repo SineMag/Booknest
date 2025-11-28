@@ -77,11 +77,11 @@ const Landing: React.FC = () => {
     },
   ];
 
-//   const MainContent = styled.div`
-//   padding-top: 80px;
-//   min-height: 100vh;
-//   width: 100%;
-// `;
+  //   const MainContent = styled.div`
+  //   padding-top: 80px;
+  //   min-height: 100vh;
+  //   width: 100%;
+  // `;
 
   const testimonials = [
     {
@@ -123,9 +123,6 @@ const Landing: React.FC = () => {
 
   return (
     <div>
-
-  <Navbar />
-  
       <HeroSection />
       <div style={{ textAlign: "center", padding: "20px" }}>
         <Button onClick={handleOpenReviewModal}>Write a Review</Button>
@@ -135,9 +132,6 @@ const Landing: React.FC = () => {
         show={showSnackbar}
         onClose={handleCloseSnackbar}
       />
-      <PaymentButton />
-
-      <Footer />
     </div>
   );
 };
