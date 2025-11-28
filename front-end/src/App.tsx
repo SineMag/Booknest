@@ -24,7 +24,7 @@ import ReservationManagement from "./pages/admin/ReservationManagement";
 function App() {
   return (
     <>
-      <Navbar />
+    <Navbar/>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
