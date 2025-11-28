@@ -7,7 +7,7 @@ import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchHotels } from "../../features/InventoryManagementSlice";
+import { addHotel, fetchHotels} from "../../features/InventoryManagementSlice";
 import type { Hotel } from "../../features/InventoryManagementSlice";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -100,24 +100,24 @@ export default function InventoryManagement(): JSX.Element {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const payload: Partial<Hotel> = {
+    const payload = {
       name: form.name,
       description: form.description,
-      imagegallery: form.imagegallery.split(",").map((s) => s.trim()),
+      imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
       amenities: form.amenities.split(",").map((s) => s.trim()),
-      roomtypes: form.roomtypes.split(",").map((s) => s.trim()),
-      physicaladdress: form.physicaladdress,
-      phonenumber: form.phonenumber,
-      emailaddress: form.emailaddress,
+      roomTypes: form.roomtypes.split(",").map((s) => s.trim()),
+      physicalAddress: form.physicaladdress,
+      phoneNumber: form.phonenumber,
+      emailAddress: form.emailaddress,
       rating: Number(form.rating) || 0,
     };
 
     try {
-      if (editingHotelId) {
-        await axios.put(`${API_URL}/${editingHotelId}`, payload);
-      } else {
-        await axios.post(API_URL, payload);
-      }
+      // if (editingHotelId) {
+      //   await axios.put(`${API_URL}/${editingHotelId}`, payload);
+      // } else {
+      //   await axios.post(API_URL, payload);
+      // }
 
       setShowModal(false);
       setEditingHotelId(null);
@@ -133,7 +133,10 @@ export default function InventoryManagement(): JSX.Element {
         rating: "",
       });
 
-      dispatch(fetchHotels());
+      console.log(payload);
+
+      // dispatch(fetchHotels());
+      dispatch(addHotel(payload));
     } catch (err) {
       console.error("Failed to submit hotel:", err);
       alert("Failed to submit hotel.");
@@ -184,26 +187,28 @@ export default function InventoryManagement(): JSX.Element {
               <div className={styles.cardButtons}>
                 <Button
                   type="button"
-                  width={80}
+                  width={60}
                   onClick={() => viewHotel(h.id)}
+                  variant="success"
                 >
-                  <FaEye /> View
+                  <FaEye />
                 </Button>
 
                 <Button
                   type="button"
-                  width={80}
+                  width={60}
                   onClick={() => openModalForEdit(h)}
                 >
-                  <FaEdit /> Edit
+                  <FaEdit />
                 </Button>
 
                 <Button
                   type="button"
-                  width={80}
+                  width={60}
                   onClick={() => deleteHotel(h.id)}
+                  variant="danger"
                 >
-                  <FaTrash /> Delete
+                  <FaTrash /> 
                 </Button>
               </div>
             </div>

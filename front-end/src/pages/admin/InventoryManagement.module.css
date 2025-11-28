@@ -3,7 +3,7 @@
 .inventory {
   max-width: 1200px;
   margin: 0 auto;
-   margin-top: 80px;
+  margin-top: 80px;
   padding: 20px;
   flex: 1;
   font-family: "Inter", sans-serif;
@@ -67,9 +67,11 @@
 
 .cardButtons {
   display: flex;
-  justify-content: space-between;
-  margin: 10px 15px;
+  gap: 10px; /* adjust to how much space you want */
+  margin-top: 8px;
+  justify-content: flex-start; /* align left */
 }
+
 
 .price {
   font-weight: bold;

@@ -1,106 +1,218 @@
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../../store";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
+import Tag from "../../components/Tag/Tag";
+import { TiWiFi } from "react-icons/ti";
+import { FaParking, FaSwimmingPool, FaHeart, FaRegHeart } from "react-icons/fa";
+import { GiBeachBucket } from "react-icons/gi";
+import { BiDrink } from "react-icons/bi";
+import Gallery from "../../components/Gallery/Gallery";
+import IconButton from "../../components/Iconbutton/Iconbutton";
+import { SlShare } from "react-icons/sl";
+import ReviewCard from "../../components/ReviewCard/ReviewCard";
+import Button from "../../components/Button/Button";
+import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
-
-export default function AccommodationDetails() {
+import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getFavorites, toggleFavorite } from "../../service/api";
+const hotels: Hotel[] = [
+  { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
+  { id: 2, name: "Hotel 2", position: [100, 120], address: "Good" },
+  { id: 3, name: "Hotel 3", position: [300, 120], address: "Bad" },
+];
+export default function AccomodationDetails() {
   const { id } = useParams<{ id: string }>();
-  const hotelId = Number(id);
-  const navigate = useNavigate();
-
-  const hotel = useSelector((state: RootState) =>
-    state.hotels.hotels.find((h) => h.id === hotelId)
-  );
-
-  if (!hotel)
-    return (
-      <h2 style={{ textAlign: "center", marginTop: "100px" }}>
-        Hotel not found.
-      </h2>
-    );
-
-  const handleDelete = (id: number) => {
-    // Use your existing delete API logic here
-    if (confirm("Are you sure you want to delete this hotel?")) {
-      console.log("Delete hotel:", id);
+  const hotelId = parseInt(id || "0");
+  const [liked, setLiked] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  // ----------------------------
+  // CHECK IF HOTEL IS ALREADY FAVORITE
+  // ----------------------------
+  useEffect(() => {
+    const loadFavoriteStatus = async () => {
+      try {
+        const response = await getFavorites();
+        const favorites = response.data;
+        const isLiked = favorites.some((fav: any) => fav.hotelId === hotelId);
+        setLiked(isLiked);
+      } catch (err) {
+        console.error("Failed to load favorites:", err);
+      }
+    };
+    if (hotelId) loadFavoriteStatus();
+  }, [hotelId]);
+  // ----------------------------
+  // LIKE / UNLIKE HOTEL
+  // ----------------------------
+  const onLiked = async () => {
+    try {
+      setLoading(true);
+      setError("");
+      // Toggle favorite in backend
+      await toggleFavorite(hotelId, liked);
+      // Update UI immediately
+      setLiked((prev) => !prev);
+      // Trigger global state refresh for MyFavorites
+      const event = new CustomEvent("favoriteUpdated");
+      window.dispatchEvent(event);
+    } catch (err) {
+      setError("Failed to update favorites");
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
-
+  // ----------------------------
+  // SHARE FUNCTION
+  // ----------------------------
+  const onShare = async () => {
+    const hotelName = "Blue Lagoon"; // Can be dynamic later
+    const hotelDescription =
+      "Offers relaxing coastal escape with modern, comfortable rooms, pool, beach access, and more!";
+    const hotelUrl = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: hotelName,
+          text: hotelDescription,
+          url: hotelUrl,
+        });
+      } catch {
+        console.log("Share cancelled");
+      }
+    } else {
+      // Fallback: open email client
+      const subject = encodeURIComponent(`Check out ${hotelName}`);
+      const body = encodeURIComponent(
+        `${hotelDescription}\n\nMore details: ${hotelUrl}`
+      );
+      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+  };
+  // ----------------------------
+  // PAGE RENDER
+  // ----------------------------
   return (
-    <div>
+    <div
+      className="accomodationPage"
+      style={{ marginTop: "80px", padding: "2rem" }}
+    >
       <Navbar />
-
-      <div className={styles.headerSection}>
-        <h1 className={styles.hotelName}>{hotel.name}</h1>
-        <div className={styles.hotelLocation}>{hotel.physicaladdress}</div>
-        <div className={styles.ratingRow}>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <span
-              key={i}
-              className={i < hotel.rating ? styles.starActive : styles.star}
-            >
-              ★
-            </span>
-          ))}
-          <span className={styles.ratingText}>{hotel.rating}/5</span>
-        </div>
-      </div>
-
-      <div className={styles.galleryGrid}>
-        {hotel.imagegallery.map((img, i) => (
-          <img key={i} src={img} alt="" className={styles.galleryImg} />
-        ))}
-      </div>
-
-      <div className={styles.contentWrapper}>
-        {/* LEFT CONTENT */}
-        <div className={styles.leftColumn}>
-          <h2>About This Accommodation</h2>
-          <p className={styles.description}>{hotel.description}</p>
-
-          <h3>Amenities</h3>
-          <div className={styles.amenitiesGrid}>
-            {hotel.amenities.map((am, i) => (
-              <div key={i} className={styles.amenityItem}>
-                • {am}
+      <main style={{ flex: 1 }}>
+        <div className="row">
+          <div className="col-6">
+            <div className="row align-center">
+              <div className="col-10">
+                <h1 className={styles.title}>Blue Lagoon</h1>
               </div>
-            ))}
+              <div className="col-2">
+                <div className="row">
+                  {/* HEART ICON */}
+                  <IconButton
+                    icon={liked ? FaHeart : FaRegHeart}
+                    onClick={onLiked}
+                    isActive={liked}
+                  />
+                  {/* SHARE ICON */}
+                  <IconButton icon={SlShare} onClick={onShare} />
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <p className={styles.title}>
+                Offers a relaxing coastal escape with modern, comfortable rooms
+                and warm hospitality. Located just minutes from the beach, the
+                hotel features spacious accommodations, a serene atmosphere, and
+                amenities designed for both leisure and business travelers.
+              </p>
+            </div>
           </div>
-
-          <h3>Room Types</h3>
-          <ul className={styles.roomList}>
-            {hotel.roomtypes.map((rt, i) => (
-              <li key={i}>{rt}</li>
-            ))}
-          </ul>
-
-          <h3>Contact</h3>
-          <p>Email: {hotel.emailaddress}</p>
-          <p>Phone: {hotel.phonenumber}</p>
+          {/* MAP SECTION */}
+          <div className="col-6">
+            <Map hotels={hotels} center={[-29, 24]} />
+          </div>
         </div>
-
-        {/* RIGHT SIDEBAR (Booking-style panel) */}
-        <div className={styles.bookingCard}>
-          <h3 className={styles.cardTitle}>Manage Listing</h3>
-
-          <button
-            className={`${styles.actionBtn} ${styles.editBtn}`}
-            onClick={() => navigate(`/admin/edit/${hotel.id}`)}
-          >
-            Edit
-          </button>
-
-          <button
-            className={`${styles.actionBtn} ${styles.deleteBtn}`}
-            onClick={() => handleDelete(hotel.id)}
-          >
-            Delete
-          </button>
+        {/* TAGS & SAVE BUTTON */}
+        <div className="row" style={{ alignItems: "center" }}>
+          <div className="col-6">
+            <div style={{ display: "flex", margin: "1rem 0" }}>
+              <Tag text="Free Wifi" icon={TiWiFi} />
+              <Tag text="Swimming Pool" icon={FaSwimmingPool} />
+              <Tag text="Parking" icon={FaParking} />
+              <Tag text="Beachfront" icon={GiBeachBucket} />
+              <Tag text="Bar" icon={BiDrink} />
+            </div>
+          </div>
+          <div className="col-6">
+            <div
+              style={{ display: "flex", justifyContent: "center", gap: "1rem" }}
+            >
+              <Link to="/booking">
+                <Button width={100}>BOOK NOW</Button>
+              </Link>
+              {/* SAVE BUTTON */}
+              <button
+                onClick={onLiked}
+                disabled={loading}
+                style={{
+                  background: liked ? "#4A90E2" : "transparent",
+                  border: "1px solid #4A90E2",
+                  borderRadius: "4px",
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  color: liked ? "white" : "#4A90E2",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                {liked ? <FaHeart /> : <FaRegHeart />}
+                {loading ? "Saving..." : liked ? "Saved" : "Save"}
+              </button>
+            </div>
+            {error && (
+              <div
+                style={{
+                  color: "red",
+                  textAlign: "center",
+                  marginTop: "0.5rem",
+                }}
+              >
+                {error}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-
+        {/* GALLERY + REVIEWS */}
+        <div className="row">
+          <div className="col-6">
+            <Gallery />
+          </div>
+          <div className="col-6">
+            <h2 style={{ padding: ".5rem 1rem" }}>Reviews</h2>
+            <ReviewCard
+              reviewText="Great stay.."
+              reviewer="M.S Mwelase"
+              starRatings={3.5}
+              date="12 Dec 2023"
+            />
+            <ReviewCard
+              reviewText="Great stay.."
+              reviewer="M.S Mwelase"
+              starRatings={3.5}
+              date="12 Dec 2023"
+            />
+            <ReviewCard
+              reviewText="Great stay.."
+              reviewer="M.S Mwelase"
+              starRatings={3.5}
+              date="12 Dec 2023"
+            />
+          </div>
+        </div>
+      </main>
       <Footer />
     </div>
   );
