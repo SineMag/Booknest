@@ -5,11 +5,13 @@ import authRouter from "./routes/authRouter";
 import userRouter from "./routes/userRouter";
 import accomodationRouter from "./routes/accomodationRouter";
 import roomTypeRouter from "./routes/roomTypeRouter";
+import bookingRouter from "./routes/bookingRouter";
 import cors from "cors";
 import paymentRouter from "./routes/paymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
 import { createRoomTypeTableQuery } from "./models/RoomType";
+import { createBookingTableQuery } from "./models/Booking";
 const app = express();
 
 // MIDDLEWARE
@@ -34,6 +36,7 @@ app.use("/users", userRouter);
 app.use("/payments", paymentRouter);
 app.use("/accomodations", accomodationRouter);
 app.use("/room_types", roomTypeRouter);
+app.use("/bookings", bookingRouter);
 
 // INITIALISE DATABASE
 async function initializeDatabase() {
@@ -43,6 +46,8 @@ async function initializeDatabase() {
   console.log("accomodation table created");
   await createRoomTypeTableQuery();
   console.log("roomtype table created");
+  await createBookingTableQuery();
+  console.log("booking table created");
 }
 initializeDatabase();
 
