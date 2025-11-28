@@ -58,9 +58,6 @@
 .cardButtons {
   display: flex;
   justify-content: space-between;
-<<<<<<< HEAD:front-end/src/pages/admin/inventory.module.css
-  margin: 15px;
-=======
   margin-top: 8px;
 }
 .card img {
@@ -71,7 +68,6 @@
 .price {
   font-weight: bold;
   margin-top: 4px;
->>>>>>> 1705dc023795d18461054db4067ee2690dde99d6:front-end/src/pages/admin/InventoryManagement.module.css
 }
 .modalOverlay {
   position: fixed;
@@ -114,80 +110,7 @@
   margin-top: 20px;
 }
 
-<<<<<<< HEAD:front-end/src/pages/admin/inventory.module.css
-.loadingText {
-  text-align: center;
-  font-size: 1rem;
-  color: #666;
-}
-
-.errorText {
-  text-align: center;
-  color: red;
-  font-size: 0.95rem;
-}
-
-.address, .email, .rating {
-  margin: 0 15px 5px;
-  font-size: 0.9rem;
-  color: #444;
-}
-
-.iconButton {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.15s ease;
-}
-
-.iconButton:hover {
-  transform: scale(1.15);
-}
-
-.star-rating {
-  display: flex;
-  gap: 4px;
-  cursor: pointer;
-}
-
-.star {
-  font-size: 20px;
-  color: #ccc;
-  transition: color 0.2s ease-in-out;
-}
-
-.star.active {
-  color: gold;
-}
-
-.filters-container {
-  display: flex;
-  gap: 1rem;
-  padding: 10px;
-  background: #f8f8f8;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.filter-input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  width: 180px;
-}
-
-.filter-select {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-=======
 
 
 
->>>>>>> 1705dc023795d18461054db4067ee2690dde99d6:front-end/src/pages/admin/InventoryManagement.module.css
 
