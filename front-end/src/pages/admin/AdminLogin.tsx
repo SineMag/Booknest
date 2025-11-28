@@ -13,7 +13,6 @@ import { setLocalUser } from "../../utils/LocalStorage";
 import { loginUser } from "../../features/userSlice";
 
 const AdminLogin: React.FC = () => {
-  
   const [emailAddress, setEmailAddress] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +22,6 @@ const AdminLogin: React.FC = () => {
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  
   useEffect(() => {
     if (user && isLoggedIn) {
       console.log("Logged-in user:", user);
@@ -46,13 +44,13 @@ const AdminLogin: React.FC = () => {
 
   return (
     <>
-      <Navbar />
-
       <div className="loginPage">
         <div className="loginContainer">
           <Filter />
 
-          <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Admin Login</h2>
+          <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
+            Admin Login
+          </h2>
 
           <InputField
             placeholder="Email Address"
@@ -91,8 +89,6 @@ const AdminLogin: React.FC = () => {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

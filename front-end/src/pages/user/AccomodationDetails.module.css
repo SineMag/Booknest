@@ -2,13 +2,18 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .title {
   font-size: 1.8rem;
   color: #1e3a8a;
   margin: 0.8rem 0;
+}
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .row {

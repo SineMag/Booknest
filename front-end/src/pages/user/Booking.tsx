@@ -136,7 +136,6 @@ export default function Booking() { // Removed accommodationId prop
 
   return (
     <div className={styles.bookingContainer}>
-      <Navbar />
       <div className={styles.contentWrapper}>
         {/* Left Column: Form */}
         <div className={styles.formColumn}>
@@ -241,7 +240,6 @@ export default function Booking() { // Removed accommodationId prop
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }
