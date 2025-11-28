@@ -7,7 +7,11 @@ import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
-import { addHotel, fetchHotels} from "../../features/InventoryManagementSlice";
+import {
+  addHotel,
+  fetchHotels,
+  updateHotel,
+} from "../../features/InventoryManagementSlice";
 import type { Hotel } from "../../features/InventoryManagementSlice";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -97,7 +101,7 @@ export default function InventoryManagement(): JSX.Element {
     }
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const onAddHotel = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const payload = {
@@ -113,12 +117,6 @@ export default function InventoryManagement(): JSX.Element {
     };
 
     try {
-      // if (editingHotelId) {
-      //   await axios.put(`${API_URL}/${editingHotelId}`, payload);
-      // } else {
-      //   await axios.post(API_URL, payload);
-      // }
-
       setShowModal(false);
       setEditingHotelId(null);
       setForm({
@@ -137,6 +135,46 @@ export default function InventoryManagement(): JSX.Element {
 
       // dispatch(fetchHotels());
       dispatch(addHotel(payload));
+    } catch (err) {
+      console.error("Failed to submit hotel:", err);
+      alert("Failed to submit hotel.");
+    }
+  };
+  const onUpdateHotel = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const payload = {
+      name: form.name,
+      description: form.description,
+      imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
+      amenities: form.amenities.split(",").map((s) => s.trim()),
+      roomTypes: form.roomtypes.split(",").map((s) => s.trim()),
+      physicalAddress: form.physicaladdress,
+      phoneNumber: form.phonenumber,
+      emailAddress: form.emailaddress,
+      rating: Number(form.rating) || 0,
+    };
+
+    try {
+      setShowModal(false);
+      setEditingHotelId(null);
+      setForm({
+        name: "",
+        description: "",
+        imagegallery: "",
+        amenities: "",
+        physicaladdress: "",
+        phonenumber: "",
+        emailaddress: "",
+        roomtypes: "",
+        rating: "",
+      });
+
+      console.log(payload);
+
+      // dispatch(fetchHotels());
+      console.log("Editting ID: ", editingHotelId);
+      dispatch(updateHotel({ id: editingHotelId!, hotel: payload }));
     } catch (err) {
       console.error("Failed to submit hotel:", err);
       alert("Failed to submit hotel.");
@@ -208,7 +246,7 @@ export default function InventoryManagement(): JSX.Element {
                   onClick={() => deleteHotel(h.id)}
                   variant="danger"
                 >
-                  <FaTrash /> 
+                  <FaTrash />
                 </Button>
               </div>
             </div>
@@ -219,7 +257,10 @@ export default function InventoryManagement(): JSX.Element {
           <div className={styles.modalOverlay} onClick={overlayClick}>
             <div className={styles.modal} role="dialog" aria-modal="true">
               <h2>{editingHotelId ? "Edit Hotel" : "Add New Hotel"}</h2>
-              <form onSubmit={onSubmit} className={styles.modalForm}>
+              <form
+                onSubmit={editingHotelId ? onUpdateHotel : onAddHotel}
+                className={styles.modalForm}
+              >
                 <InputField
                   type="text"
                   field={form.name}
@@ -398,7 +439,13 @@ export default function InventoryManagement(): JSX.Element {
                 />
 
                 <div className={styles.modalButtons}>
-                  <Button type="submit" width={130}>
+                  <Button
+                    type="submit"
+                    width={130}
+                    onClick={() => {
+                      console.log("Clicked...");
+                    }}
+                  >
                     {editingHotelId ? "UPDATE" : "ADD HOTEL"}
                   </Button>
                   <Button
