@@ -7,6 +7,7 @@ import SearchBar from "../../components/Searchbar/Searchbar";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 import type { AppDispatch, RootState } from "../../../store";
 import { fetchHotels, type Hotel } from "../../features/InventoryManagementSlice";
+import Filter from "../../components/Filter/Filter";
 
 
 const UserDashboard: React.FC = () => {
@@ -80,6 +81,7 @@ const UserDashboard: React.FC = () => {
               setSearchQuery(e.target.value)
             }
           />
+          <Filter/>
         </div>
 
         {loading && <p>Loading accommodations…</p>}

@@ -7,6 +7,22 @@ import {
 import axios from "axios";
 
 export type Hotel = {
+  coverimage: string;
+  videotour: string;
+  checkin: string;
+  checkout: string;
+  totalrooms: any;
+  city: string;
+  province: string;
+  country: string;
+  googlemap: string;
+  baseprice: any;
+  peakprice: any;
+  discount: any;
+  taxes: any;
+  cancellation: string;
+  petpolicy: string;
+  smoking: string;
   longitude: number;
   latitude: number;
   price: any;

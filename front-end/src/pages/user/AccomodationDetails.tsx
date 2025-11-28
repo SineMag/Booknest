@@ -31,71 +31,76 @@ export default function AccommodationDetails() {
   return (
     <div>
       <Navbar />
-      <div className={styles["details-container"]}>
-        <Link to="/admin/inventory" className={styles["back-btn"]}>
-          ⬅ Back
-        </Link>
 
-        <h2>{hotel.name}</h2>
-
-        <div className={styles["details-gallery"]}>
-          {hotel.imagegallery.map((img, i) => (
-            <img key={i} src={img} alt="" className={styles["detail-img"]} />
-          ))}
-        </div>
-
-        <p>
-          <strong>Description:</strong> {hotel.description}
-        </p>
-        <p>
-          <strong>Location:</strong> {hotel.physicaladdress}
-        </p>
-        <p>
-          <strong>Email:</strong> {hotel.emailaddress}
-        </p>
-        <p>
-          <strong>Phone:</strong> {hotel.phonenumber}
-        </p>
-
-        <h3>Amenities</h3>
-        <ul>
-          {hotel.amenities.map((am, i) => (
-            <li key={i}>{am}</li>
-          ))}
-        </ul>
-
-        <h3>Room Types</h3>
-        <ul>
-          {hotel.roomtypes.map((rt, i) => (
-            <li key={i}>{rt}</li>
-          ))}
-        </ul>
-
-        <h3>Rating</h3>
-        <div className={styles["star-rating"]}>
+      <div className={styles.headerSection}>
+        <h1 className={styles.hotelName}>{hotel.name}</h1>
+        <div className={styles.hotelLocation}>{hotel.physicaladdress}</div>
+        <div className={styles.ratingRow}>
           {Array.from({ length: 5 }).map((_, i) => (
-            <span key={i} className={i < hotel.rating ? "star active" : "star"}>
+            <span
+              key={i}
+              className={i < hotel.rating ? styles.starActive : styles.star}
+            >
               ★
             </span>
           ))}
+          <span className={styles.ratingText}>{hotel.rating}/5</span>
+        </div>
+      </div>
+
+      <div className={styles.galleryGrid}>
+        {hotel.imagegallery.map((img, i) => (
+          <img key={i} src={img} alt="" className={styles.galleryImg} />
+        ))}
+      </div>
+
+      <div className={styles.contentWrapper}>
+        {/* LEFT CONTENT */}
+        <div className={styles.leftColumn}>
+          <h2>About This Accommodation</h2>
+          <p className={styles.description}>{hotel.description}</p>
+
+          <h3>Amenities</h3>
+          <div className={styles.amenitiesGrid}>
+            {hotel.amenities.map((am, i) => (
+              <div key={i} className={styles.amenityItem}>
+                • {am}
+              </div>
+            ))}
+          </div>
+
+          <h3>Room Types</h3>
+          <ul className={styles.roomList}>
+            {hotel.roomtypes.map((rt, i) => (
+              <li key={i}>{rt}</li>
+            ))}
+          </ul>
+
+          <h3>Contact</h3>
+          <p>Email: {hotel.emailaddress}</p>
+          <p>Phone: {hotel.phonenumber}</p>
         </div>
 
-        {/* Admin Actions */}
-        <div className={styles["admin-actions"]}>
+        {/* RIGHT SIDEBAR (Booking-style panel) */}
+        <div className={styles.bookingCard}>
+          <h3 className={styles.cardTitle}>Manage Listing</h3>
+
           <button
-            className={`${styles["admin-btn"]} ${styles.edit}`}
+            className={`${styles.actionBtn} ${styles.editBtn}`}
             onClick={() => navigate(`/admin/edit/${hotel.id}`)}
           >
             Edit
           </button>
+
           <button
-            className={`${styles["admin-btn"]} ${styles.delete}`}
+            className={`${styles.actionBtn} ${styles.deleteBtn}`}
             onClick={() => handleDelete(hotel.id)}
           >
             Delete
           </button>
         </div>
       </div>
+
       <Footer />
     </div>
   );

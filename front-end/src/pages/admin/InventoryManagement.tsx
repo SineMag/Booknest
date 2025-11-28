@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchHotels } from "../../features/InventoryManagementSlice";
 import type { Hotel } from "../../features/InventoryManagementSlice";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function InventoryManagement(): JSX.Element {
   const [showModal, setShowModal] = useState(false);
@@ -19,12 +19,28 @@ export default function InventoryManagement(): JSX.Element {
     name: "",
     description: "",
     imagegallery: "",
+    coverimage: "",
+    videotour: "",
     amenities: "",
     physicaladdress: "",
     phonenumber: "",
     emailaddress: "",
     roomtypes: "",
     rating: "",
+    checkin: "",
+    checkout: "",
+    totalrooms: "",
+    city: "",
+    province: "",
+    country: "",
+    googlemap: "",
+    baseprice: "",
+    peakprice: "",
+    discount: "",
+    taxes: "",
+    cancellation: "",
+    petpolicy: "",
+    smoking: "",
   });
 
   const [editingHotelId, setEditingHotelId] = useState<number | null>(null);
@@ -37,16 +53,22 @@ export default function InventoryManagement(): JSX.Element {
   );
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(fetchHotels());
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setShowModal(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
   }, []);
+
+  // Detect ?edit=ID in URL to open modal for editing
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const editId = urlParams.get("edit");
+
+    if (editId && hotels.length > 0) {
+      const hotelToEdit = hotels.find((h) => h.id === Number(editId));
+      if (hotelToEdit) openModalForEdit(hotelToEdit);
+    }
+  }, [hotels, location.search]);
 
   /** Open modal for editing hotel */
   const openModalForEdit = (hotel: Hotel) => {
@@ -54,12 +76,28 @@ export default function InventoryManagement(): JSX.Element {
       name: hotel.name,
       description: hotel.description,
       imagegallery: hotel.imagegallery.join(", "),
+      coverimage: hotel.coverimage || "",
+      videotour: hotel.videotour || "",
       amenities: hotel.amenities.join(", "),
       physicaladdress: hotel.physicaladdress,
       phonenumber: hotel.phonenumber,
       emailaddress: hotel.emailaddress,
       roomtypes: hotel.roomtypes.join(", "),
       rating: hotel.rating.toString(),
+      checkin: hotel.checkin || "",
+      checkout: hotel.checkout || "",
+      totalrooms: hotel.totalrooms?.toString() || "",
+      city: hotel.city || "",
+      province: hotel.province || "",
+      country: hotel.country || "",
+      googlemap: hotel.googlemap || "",
+      baseprice: hotel.baseprice?.toString() || "",
+      peakprice: hotel.peakprice?.toString() || "",
+      discount: hotel.discount?.toString() || "",
+      taxes: hotel.taxes?.toString() || "",
+      cancellation: hotel.cancellation || "",
+      petpolicy: hotel.petpolicy || "",
+      smoking: hotel.smoking || "",
     });
     setEditingHotelId(hotel.id);
     setShowModal(true);
@@ -88,6 +126,8 @@ export default function InventoryManagement(): JSX.Element {
     const payload: Partial<Hotel> = {
       name: form.name,
       description: form.description,
+      coverimage: form.coverimage,
+      videotour: form.videotour,
       imagegallery: form.imagegallery.split(",").map((s) => s.trim()),
       amenities: form.amenities.split(",").map((s) => s.trim()),
       physicaladdress: form.physicaladdress,
@@ -95,6 +135,20 @@ export default function InventoryManagement(): JSX.Element {
       emailaddress: form.emailaddress,
       roomtypes: form.roomtypes.split(",").map((s) => s.trim()),
       rating: Number(form.rating) || 0,
+      checkin: form.checkin,
+      checkout: form.checkout,
+      totalrooms: Number(form.totalrooms) || 0,
+      city: form.city,
+      province: form.province,
+      country: form.country,
+      googlemap: form.googlemap,
+      baseprice: Number(form.baseprice) || 0,
+      peakprice: Number(form.peakprice) || 0,
+      discount: Number(form.discount) || 0,
+      taxes: Number(form.taxes) || 0,
+      cancellation: form.cancellation,
+      petpolicy: form.petpolicy,
+      smoking: form.smoking,
     };
 
     try {
@@ -110,12 +164,28 @@ export default function InventoryManagement(): JSX.Element {
         name: "",
         description: "",
         imagegallery: "",
+        coverimage: "",
+        videotour: "",
         amenities: "",
         physicaladdress: "",
         phonenumber: "",
         emailaddress: "",
         roomtypes: "",
         rating: "",
+        checkin: "",
+        checkout: "",
+        totalrooms: "",
+        city: "",
+        province: "",
+        country: "",
+        googlemap: "",
+        baseprice: "",
+        peakprice: "",
+        discount: "",
+        taxes: "",
+        cancellation: "",
+        petpolicy: "",
+        smoking: "",
       });
 
       dispatch(fetchHotels());
@@ -134,7 +204,8 @@ export default function InventoryManagement(): JSX.Element {
 
   return (
     <>
-    
+      <Navbar />
+
       <div className={styles.inventory}>
         <div className={styles.header}>
           <h2>Inventory Management</h2>
@@ -151,7 +222,11 @@ export default function InventoryManagement(): JSX.Element {
             <div key={h.id} className={styles.card}>
               <div className={styles.imagegallery}>
                 <img
-                  src={h.imagegallery[0] || "/placeholder-hotel.jpg"}
+                  src={
+                    h.coverimage ||
+                    h.imagegallery[0] ||
+                    "/placeholder-hotel.jpg"
+                  }
                   alt={h.name}
                   className={styles.hotelImage}
                 />
@@ -205,7 +280,229 @@ export default function InventoryManagement(): JSX.Element {
                   label="Hotel Name"
                   for="hotel-name"
                 />
-                {/* Add the rest of the InputFields as before */}
+
+                <InputField
+                  type="textarea"
+                  field={form.description}
+                  setField={(v) => setForm({ ...form, description: String(v) })}
+                  placeholder="Description"
+                  label="Description"
+                  for="description"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.coverimage}
+                  setField={(v) => setForm({ ...form, coverimage: String(v) })}
+                  placeholder="Cover Image URL"
+                  label="Cover Image URL"
+                  for="coverimage"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.imagegallery}
+                  setField={(v) =>
+                    setForm({ ...form, imagegallery: String(v) })
+                  }
+                  placeholder="Image URLs (comma-separated)"
+                  label="Image Gallery"
+                  for="imagegallery"
+                />
+
+                {/* <InputField
+                  type="text"
+                  field={form.videotour}
+                  setField={(v) => setForm({ ...form, videotour: String(v) })}
+                  placeholder="Video Tour URL"
+                  label="Video Tour (optional)"
+                  for="videotour"
+                /> */}
+
+                <InputField
+                  type="text"
+                  field={form.amenities}
+                  setField={(v) => setForm({ ...form, amenities: String(v) })}
+                  placeholder="Amenities (comma-separated)"
+                  label="Amenities"
+                  for="amenities"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.roomtypes}
+                  setField={(v) => setForm({ ...form, roomtypes: String(v) })}
+                  placeholder="Room Types (comma-separated)"
+                  label="Room Types"
+                  for="roomtypes"
+                />
+
+                <InputField
+                  type="number"
+                  field={form.rating}
+                  setField={(v) => setForm({ ...form, rating: String(v) })}
+                  placeholder="Rating (0-5)"
+                  label="Rating"
+                  for="rating"
+                />
+
+                <InputField
+                  type="time"
+                  field={form.checkin}
+                  setField={(v) => setForm({ ...form, checkin: String(v) })}
+                  label="Check-in Time"
+                  for="checkin"
+                />
+
+                <InputField
+                  type="time"
+                  field={form.checkout}
+                  setField={(v) => setForm({ ...form, checkout: String(v) })}
+                  label="Check-out Time"
+                  for="checkout"
+                />
+
+                <InputField
+                  type="number"
+                  field={String(form.totalrooms)}
+                  setField={(v) => setForm({ ...form, totalrooms: Number(v) })}
+                  placeholder="Total Rooms"
+                  label="Total Rooms"
+                  for="totalrooms"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.physicaladdress}
+                  setField={(v) =>
+                    setForm({ ...form, physicaladdress: String(v) })
+                  }
+                  placeholder="Address"
+                  label="Address"
+                  for="physicaladdress"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.city}
+                  setField={(v) => setForm({ ...form, city: String(v) })}
+                  placeholder="City"
+                  label="City"
+                  for="city"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.province}
+                  setField={(v) => setForm({ ...form, province: String(v) })}
+                  placeholder="Province"
+                  label="Province"
+                  for="province"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.country}
+                  setField={(v) => setForm({ ...form, country: String(v) })}
+                  placeholder="Country"
+                  label="Country"
+                  for="country"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.googlemap}
+                  setField={(v) => setForm({ ...form, googlemap: String(v) })}
+                  placeholder="Google Map URL"
+                  label="Google Map URL"
+                  for="googlemap"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.emailaddress}
+                  setField={(v) =>
+                    setForm({ ...form, emailaddress: String(v) })
+                  }
+                  placeholder="Email"
+                  label="Email"
+                  for="emailaddress"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.phonenumber}
+                  setField={(v) => setForm({ ...form, phonenumber: String(v) })}
+                  placeholder="Phone"
+                  label="Phone"
+                  for="phonenumber"
+                />
+
+                <InputField
+                  type="number"
+                  field={String(form.baseprice)}
+                  setField={(v) => setForm({ ...form, baseprice: Number(v) })}
+                  placeholder="Base Price"
+                  label="Base Price (per night)"
+                  for="baseprice"
+                />
+
+                <InputField
+                  type="number"
+                  field={String(form.peakprice)}
+                  setField={(v) => setForm({ ...form, peakprice: Number(v) })}
+                  placeholder="Peak Season Price"
+                  label="Peak Price"
+                  for="peakprice"
+                />
+
+                <InputField
+                  type="number"
+                  field={String(form.discount)}
+                  setField={(v) => setForm({ ...form, discount: Number(v) })}
+                  placeholder="Discount (%)"
+                  label="Discount (%)"
+                  for="discount"
+                />
+
+                <InputField
+                  type="number"
+                  field={String(form.taxes)}
+                  setField={(v) => setForm({ ...form, taxes: Number(v) })}
+                  placeholder="Taxes (%)"
+                  label="Taxes (%)"
+                  for="taxes"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.cancellation}
+                  setField={(v) =>
+                    setForm({ ...form, cancellation: String(v) })
+                  }
+                  placeholder="Cancellation Policy"
+                  label="Cancellation Policy"
+                  for="cancellation"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.petpolicy}
+                  setField={(v) => setForm({ ...form, petpolicy: String(v) })}
+                  placeholder="Pet Policy"
+                  label="Pet Policy"
+                  for="petpolicy"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.smoking}
+                  setField={(v) => setForm({ ...form, smoking: String(v) })}
+                  placeholder="Smoking Policy"
+                  label="Smoking Policy"
+                  for="smoking"
+                />
+
                 <div className={styles.modalButtons}>
                   <Button type="submit" width={130}>
                     {editingHotelId ? "UPDATE" : "ADD HOTEL"}
@@ -226,7 +523,8 @@ export default function InventoryManagement(): JSX.Element {
           </div>
         )}
       </div>
-     
+
+      <Footer />
     </>
   );
 }

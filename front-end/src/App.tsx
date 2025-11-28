@@ -17,20 +17,12 @@ import AdminLogin from "./pages/admin/AdminLogin";
 
 import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
-<<<<<<< HEAD
 import AccommodationDetails from "./pages/user/AccomodationDetails";
-=======
-import ReservationManagement from "./pages/admin/ReservationManagement";
->>>>>>> 1705dc023795d18461054db4067ee2690dde99d6
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
   return (
     <>
-<<<<<<< HEAD
-=======
-      <Navbar />
->>>>>>> 1705dc023795d18461054db4067ee2690dde99d6
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
@@ -53,7 +45,6 @@ function App() {
 
         {/* Admin */}
 
-<<<<<<< HEAD
         <Route path="/adminRegister" element={<AdminRegister />} />
         <Route path="/adminlogin" element={<AdminLogin />} />
         <Route path="/adminDashboard" element={<UserDashboard />} />
@@ -65,27 +56,10 @@ function App() {
         {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
         <Route path="/inventoryManagement" element={<InventoryManagement />} />
         {/* <Route path="/reservationManagement" element={<ReservationManagement />} /> */}
-=======
-        <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
-        <Route
-          path="/inventory-management"
-          element={<InventoryManagement />}
-        />
-        <Route
-          path="/reservation-management"
-          element={<ReservationManagement />}
-        />
->>>>>>> 1705dc023795d18461054db4067ee2690dde99d6
 
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
       </Routes>
-<<<<<<< HEAD
-=======
-      <Footer />
->>>>>>> 1705dc023795d18461054db4067ee2690dde99d6
     </>
   );
 }
