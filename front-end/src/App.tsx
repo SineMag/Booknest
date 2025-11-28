@@ -18,6 +18,7 @@ import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import AccommodationDetails from "./pages/user/AccomodationDetails";
 import UserDashboard from "./pages/user/UserDashboard";
+import ReservationManagement from "./pages/admin/ReservationManagement";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
@@ -36,6 +37,10 @@ function App() {
           path="/accomodation-details/"
           element={<AccomodationDetails />}
         />
+        <Route
+          path="/accomodation-details/:id"
+          element={<AccomodationDetails />}
+        />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
@@ -45,12 +50,13 @@ function App() {
 
         {/* Admin */}
 
-        <Route path="/adminRegister" element={<AdminRegister />} />
-        <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/adminDashboard" element={<UserDashboard />} />
+        <Route path="/admin-register" element={<AdminRegister />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        <Route path="/inventory-management" element={<InventoryManagement />} />
         <Route
-          path="/accommodation-details/:id"
-          element={<AccommodationDetails />}
+          path="/reservation-management"
+          element={<ReservationManagement />}
         />
 
         {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}

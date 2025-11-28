@@ -30,9 +30,6 @@ export default function Navbar() {
         {/* Desktop Navigation Links */}
         <ul className={Styles["nav-links"]}>
           <li>
-            <Link to="/my-bookings">Bookings</Link>
-          </li>
-          <li>
             <a href="#about">About Us</a>
           </li>
           <li>
@@ -67,11 +64,6 @@ export default function Navbar() {
             </button>
           </div>
           <ul className={Styles["mobile-nav-links"]}>
-            <li>
-              <Link to="/my-bookings" onClick={toggleMobileMenu}>
-                Bookings
-              </Link>
-            </li>
             <li>
               <a href="#about" onClick={toggleMobileMenu}>
                 About Us

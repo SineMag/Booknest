@@ -3,13 +3,17 @@
 /* ------------------------- */
 .headerSection {
   padding: 2rem;
-  max-width: 1200px;
-  margin: auto;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .hotelName {
   font-size: 2rem;
   font-weight: 700;
+}
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .hotelLocation {

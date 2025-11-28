@@ -7,6 +7,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { createUser } from "../../features/userSlice";
 import { type AppDispatch, type RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
+import styles from "./UserRegister.module.css";
+import { FaGoogle, FaFacebook } from "react-icons/fa"; 
+
 
 const UserRegister: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -19,7 +22,7 @@ const UserRegister: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState(""); // state for phone number
   const [physicalAddress, setPhysicalAddress] = useState(""); // state for physical address
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
+  // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
   // useEffect
@@ -107,6 +110,11 @@ const UserRegister: React.FC = () => {
           <Button variant="primary" width={100} onClick={handleRegister}>
             Register
           </Button>
+         <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>
+           <div className={styles.oauthIcons}>
+                      <a href="#" onClick={() => alert("Google Login Button/Icon (not functional)")}><FaGoogle size={30} /></a>
+                      <a href="#" onClick={() => alert("Facebook Login Button/Icon (not functional)")}><FaFacebook size={30} /></a>
+                    </div>
         </div>
       </div>
       <Footer />
