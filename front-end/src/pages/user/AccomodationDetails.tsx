@@ -147,7 +147,7 @@ export default function AccomodationDetails() {
                     gap: "1rem",
                   }}
                 >
-                  <Link to="/booking">
+                  <Link to={`/booking?accommodationId=${current.id}`}>
                     <Button width={100}>BOOK NOW</Button>
                   </Link>
                   {/* SAVE BUTTON */}

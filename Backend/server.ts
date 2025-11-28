@@ -35,7 +35,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-app.use("/payments", paymentRouter);
+app.use("/payment", paymentRouter);
 app.use("/accomodations", accomodationRouter);
 app.use("/room_types", roomTypeRouter);
 app.use("/bookings", bookingRouter);
