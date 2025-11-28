@@ -37,6 +37,10 @@ function App() {
           path="/accomodation-details/"
           element={<AccomodationDetails />}
         />
+        <Route
+          path="/accomodation-details/:id"
+          element={<AccomodationDetails />}
+        />
         <Route path="/confirmation" element={<Confirmation />} />
         <Route path="/my-bookings" element={<MyBookings />} />
         <Route path="/profile" element={<UserProfile />} />
@@ -49,10 +53,7 @@ function App() {
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route
-          path="/inventory-management"
-          element={<InventoryManagement />}
-        />
+        <Route path="/inventory-management" element={<InventoryManagement />} />
         <Route
           path="/reservation-management"
           element={<ReservationManagement />}
