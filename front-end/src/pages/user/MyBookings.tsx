@@ -5,9 +5,7 @@ import Footer from '../../components/footer/Footer';
 const MyBookings: React.FC = () => {
   return (
     <div>
-      <Navbar />
       
-      <Footer />
     </div>
   );
 };

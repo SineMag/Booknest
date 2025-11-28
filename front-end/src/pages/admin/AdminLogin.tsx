@@ -24,22 +24,6 @@ const AdminLogin: React.FC = () => {
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  // Load remembered admin credentials (if any) on mount
-  useEffect(() => {
-    try {
-      const saved = localStorage.getItem("rememberedAdmin");
-      if (saved) {
-        const parsed = JSON.parse(saved);
-        if (parsed.emailAddress) setEmailAddress(parsed.emailAddress);
-        if (parsed.username) setUsername(parsed.username);
-        if (parsed.password) setPassword(parsed.password);
-        setRememberMe(true);
-      }
-    } catch (err) {
-      // ignore parse errors
-    }
-  }, []);
-
   useEffect(() => {
     if (user && isLoggedIn) {
       setLocalUser(user);
@@ -84,8 +68,6 @@ const AdminLogin: React.FC = () => {
 
   return (
     <>
-      <Navbar />
-
       <div className="loginPage">
         <div className="loginContainer">
           <Filter />
@@ -132,8 +114,6 @@ const AdminLogin: React.FC = () => {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

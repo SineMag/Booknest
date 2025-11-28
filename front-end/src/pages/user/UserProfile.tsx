@@ -15,7 +15,7 @@ const UserProfile: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
+   
 
       <div className={styles.profilePage}>
         <div className={styles.profileContainer}>
@@ -64,7 +64,6 @@ const UserProfile: React.FC = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };
