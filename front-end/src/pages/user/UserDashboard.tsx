@@ -60,9 +60,9 @@ const UserDashboard: React.FC = () => {
           {filteredAccommodations.map(acc => (
             <DashboardCard
               key={acc.id}
-              image={acc.imageGallery?.[0] ?? "/placeholder-hotel.jpg"}
+              image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
               name={acc.name}
-              place={acc.physicalAddress}
+              place={acc.physicaladdress}
               description={acc.description}
               price={acc.price ? `R${acc.price}` : "N/A"} // use price from backend
               isFavorite={favorites.has(acc.id)}
