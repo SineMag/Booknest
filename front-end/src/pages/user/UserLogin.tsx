@@ -21,23 +21,24 @@ const UserLogin: React.FC = () => {
   const navigate = useNavigate();
 
   // useEffect
-  // Removed redirect to allow access to login page
   useEffect(() => {
     if (user && isLoggedIn) {
       setLocalUser(user);
+      navigate("/dashboard"); // Navigate automatically if user is logged in
     } else {
       setLocalUser({});
     }
-  }, [user]);
+  }, [user, isLoggedIn, navigate]);
 
   const handleLogin = () => {
-    console.log("registering user...");
     dispatch(
       loginUser({
         emailAddress,
         password,
       })
     );
+    // Navigate after dispatching login
+    navigate("/dashboard");
   };
 
   return (
@@ -47,31 +48,40 @@ const UserLogin: React.FC = () => {
       <div className="loginPage">
         <div className="loginContainer">
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Login</h2>
+
           <InputField
             placeholder="Email Address"
             type="email"
             field={emailAddress}
             setField={setEmailAddress}
           />
+
           <InputField
             placeholder="Password"
-            type="email"
+            type="password"
             field={password}
             setField={setPassword}
           />
+
           <div>
-            <input type="checkbox" onClick={() => setRememberMe(!rememberMe)} />
+            <input
+              type="checkbox"
+              checked={rememberMe}
+              onChange={() => setRememberMe(!rememberMe)}
+            />
             <span> Remember me</span>
           </div>
+
           <p style={{ margin: ".6rem 0" }}>
             Don't have an account? <Link to={"/register"}>Sign Up</Link>
           </p>
-          <br />
+
           <Button variant="primary" width={100} onClick={handleLogin}>
             Login
           </Button>
         </div>
       </div>
+
       <Footer />
     </>
   );
