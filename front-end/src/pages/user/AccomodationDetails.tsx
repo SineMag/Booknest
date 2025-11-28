@@ -37,10 +37,6 @@ export default function AccomodationDetails() {
     dispatch(fetchAccomodationById(id!));
   }, [id]);
 
-  useEffect(() => {
-    console.log("Current updated:", current, loading);
-  }, [current]);
-
   // ----------------------------
   // CHECK IF HOTEL IS ALREADY FAVORITE
   // ----------------------------
@@ -121,25 +117,12 @@ export default function AccomodationDetails() {
           <>
             <div className="row">
               <div className="col-6">
-                <div className="row align-center">
-                  <div className="col-10">
-                    <h1 className={styles.title}>{current.name}</h1>
-                  </div>
-                  <div className="col-2">
-                    <div className="row">
-                      {/* HEART ICON */}
-                      <IconButton
-                        icon={liked ? FaHeart : FaRegHeart}
-                        onClick={() => {}}
-                        isActive={liked}
-                      />
-                      {/* SHARE ICON */}
-                      <IconButton icon={SlShare} onClick={onShare} />
-                    </div>
-                  </div>
+                <div className={styles.titleRow}>
+                  <h1 className={styles.title}>{current.name}</h1>
+                  <IconButton icon={SlShare} onClick={onShare} />
                 </div>
                 <div className="row">
-                  <p className={styles.title}>{current.description}</p>
+                  <p className={styles.description}>{current.description}</p>
                 </div>
               </div>
               {/* MAP SECTION */}
@@ -154,11 +137,6 @@ export default function AccomodationDetails() {
                   {current.amenities.map((amenity: string) => (
                     <Tag text={amenity} key={amenity} />
                   ))}
-                  <Tag text="Free Wifi" icon={TiWiFi} />
-                  <Tag text="Swimming Pool" icon={FaSwimmingPool} />
-                  <Tag text="Parking" icon={FaParking} />
-                  <Tag text="Beachfront" icon={GiBeachBucket} />
-                  <Tag text="Bar" icon={BiDrink} />
                 </div>
               </div>
               <div className="col-6">
@@ -209,7 +187,7 @@ export default function AccomodationDetails() {
             {/* GALLERY + REVIEWS */}
             <div className="row">
               <div className="col-6">
-                <Gallery />
+                <Gallery images={current.imagegallery} />
               </div>
               <div className="col-6">
                 <h2 style={{ padding: ".5rem 1rem" }}>Reviews</h2>
