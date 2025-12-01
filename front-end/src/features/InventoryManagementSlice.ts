@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 
 export type Hotel = {
-  price: any;
+
   id: number;
   name: string;
   description: string;

@@ -37,10 +37,11 @@ const UserDashboard: React.FC = () => {
     dispatch(fetchHotels());
   }, [dispatch]);
 
-  const filteredAccommodations = hotels.filter((acc: Hotel) =>
-    acc.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    acc.name !== "Aparthotel Stare Miasto" &&
-    acc.name !== "ApartmentPrestige Central Station"
+  const filteredAccommodations = hotels.filter(
+    (acc: Hotel) =>
+      acc.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      acc.name !== "Aparthotel Stare Miasto" &&
+      acc.name !== "ApartmentPrestige Central Station"
   );
 
   const handleFavoriteToggle = (id: number) => {
@@ -64,13 +65,16 @@ const UserDashboard: React.FC = () => {
 
   return (
     <div
-      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
     >
       <div
         style={{
           flex: 1,
           padding: "20px",
-          maxWidth: "1200px",
           margin: "0 auto",
         }}
       >
@@ -88,23 +92,25 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "baseline",
-            gap: "20px",
+            gap: "10px",
             marginBottom: "30px",
           }}
         >
-          <SearchBar
-            placeholder="Search accommodations..."
-            onSearch={setSearchTerm}
-          />
+          <div style={{ flex: 1 }}>
+            <SearchBar
+              placeholder="Search accommodations..."
+              onSearch={setSearchTerm}
+            />
+          </div>
           <Filter />
         </div>
 
         <div
           style={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             gap: "20px",
             flexWrap: "wrap",
           }}
@@ -116,7 +122,9 @@ const UserDashboard: React.FC = () => {
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
+              amenities={acc.amenities}
               price={acc.price ? `R${acc.price}` : "N/A"}
+              rating={acc.rating}
               isFavorite={favorites.has(acc.id)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
               onView={() => handleView(acc.id)}
