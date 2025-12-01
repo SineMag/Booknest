@@ -33,7 +33,7 @@ export default function ProfileMenu({
     if (!loggedIn && showProfileMenuSelector) {
       setOpen(true);
     }
-  }, [loggedIn, showProfileMenuSelector]);
+  }, [loggedIn, showProfileMenuSelector, dispatch]);
 
   /** -------------------------------------------
    * ADVANCED ROLE DETECTION
