@@ -32,6 +32,16 @@
   to = "/.netlify/functions/room_types/:splat"
   status = 200
 
+[[redirects]]
+  from = "/bookings/*"
+  to = "/.netlify/functions/bookings/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/reviews/*"
+  to = "/.netlify/functions/reviews/:splat"
+  status = 200
+
 >>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
 [functions]
   node_bundler = "esbuild"

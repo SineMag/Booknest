@@ -1,8 +1,13 @@
+import 'react-date-range/dist/styles.css'; // main style file
+import 'react-date-range/dist/theme/default.css'; // theme css file
+
 import React, { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import styles from "./EditBookingModal.module.css";
+import { DateRangePicker } from 'react-date-range';
+import { addDays } from 'date-fns';
 
-type BookingStatus = "Pending Approval" | "Approved" | "Declined";
+type BookingStatus = "Pending" | "Approved" | "Declined";
 
 const mockAccommodations = [
   "Cozy Cottage",
@@ -34,10 +39,27 @@ const EditBookingModal: React.FC<EditBookingModalProps> = ({
   bookingData,
   onSave,
 }) => {
-  const [formData, setFormData] = useState<BookingData | null>(null);
+  const [formData, setFormData] = useState<Omit<BookingData, 'checkIn' | 'checkOut'> | null>(null);
+  const [dateRange, setDateRange] = useState([
+    {
+      startDate: new Date(),
+      endDate: addDays(new Date(), 7), // Default to 7 days from now
+      key: 'selection'
+    }
+  ]);
 
   useEffect(() => {
-    setFormData(bookingData);
+    if (bookingData) {
+      const { checkIn, checkOut, ...rest } = bookingData;
+      setFormData(rest);
+      setDateRange([
+        {
+          startDate: new Date(checkIn),
+          endDate: new Date(checkOut),
+          key: 'selection'
+        }
+      ]);
+    }
   }, [bookingData]);
 
   const handleChange = (
@@ -48,9 +70,17 @@ const EditBookingModal: React.FC<EditBookingModalProps> = ({
     }
   };
 
+  const handleDateChange = (item: any) => {
+    setDateRange([item.selection]);
+  };
+
   const handleSubmit = () => {
-    if (formData) {
-      onSave(formData);
+    if (formData && dateRange[0].startDate && dateRange[0].endDate) {
+      onSave({
+        ...formData,
+        checkIn: dateRange[0].startDate.toISOString().split('T')[0],
+        checkOut: dateRange[0].endDate.toISOString().split('T')[0],
+      });
     }
   };
 
@@ -87,28 +117,23 @@ const EditBookingModal: React.FC<EditBookingModalProps> = ({
               ))}
             </select>
           </label>
-          <label>
-            Check-in Date:
-            <input
-              type="date"
-              name="checkIn"
-              value={formData.checkIn}
-              onChange={handleChange}
+          
+          <div className={styles.dateRangePickerContainer}>
+            <DateRangePicker
+              ranges={dateRange}
+              onChange={handleDateChange}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={1}
+              direction="horizontal"
+              rangeColors={['#B2FFB2']} // Pale green for highlighting
             />
-          </label>
-          <label>
-            Check-out Date:
-            <input
-              type="date"
-              name="checkOut"
-              value={formData.checkOut}
-              onChange={handleChange}
-            />
-          </label>
+          </div>
+
           <label>
             Status:
             <select name="status" value={formData.status} onChange={handleChange}>
-              <option value="Pending Approval">Pending Approval</option>
+              <option value="Pending">Pending</option>
               <option value="Approved">Approved</option>
               <option value="Declined">Declined</option>
             </select>

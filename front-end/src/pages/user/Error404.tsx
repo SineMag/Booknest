@@ -9,7 +9,6 @@ const Error404 = () => {
   return (
     <div>
       {" "}
-      <Navbar />
       <div className={styles.container}>
         <h1 className={styles.code}>404</h1>
 
@@ -23,7 +22,6 @@ const Error404 = () => {
           <Button variant="primary">BACK TO HOME</Button>
         </Link>
       </div>
-      <Footer />
     </div>
   );
 };

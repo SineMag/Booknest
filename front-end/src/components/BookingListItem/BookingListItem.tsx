@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../Button/Button';
 import styles from './BookingListItem.module.css';
 
-type BookingStatus = "Pending Approval" | "Approved" | "Declined";
+type BookingStatus = "Pending" | "Approved" | "Declined";
 
 interface BookingListItemProps {
   bookingId: string;
@@ -12,8 +12,7 @@ interface BookingListItemProps {
   checkOut: string;
   status: BookingStatus;
   createdAt: Date;
-  onApprove: () => void;
-  onDecline: () => void;
+  onCancel: () => void;
   onEdit: () => void;
 }
 
@@ -25,8 +24,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   checkOut,
   status,
   createdAt,
-  onApprove,
-  onDecline,
+  onCancel,
   onEdit,
 }) => {
   const statusClass = status.toLowerCase().replace(' ', '-');
@@ -46,8 +44,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
         </div>
       </div>
       <div className={styles.actions}>
-        <Button onClick={onApprove} variant="success">Approve</Button>
-        <Button onClick={onDecline} variant="danger">Decline</Button>
+        {status === 'Approved' && <Button onClick={onCancel} variant="danger">Cancel</Button>}
         <Button onClick={onEdit} variant="secondary">Edit</Button>
       </div>
     </div>

@@ -3,6 +3,7 @@ import userReducer from "./src/features/userSlice";
 import bookingReducer from "./src/features/bookingSlice";
 import paymentReducer from "./src/features/paymentSlice";
 import hotelReducer from "./src/features/InventoryManagementSlice";
+import accomodationReducer from "./src/features/accomodationSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     booking: bookingReducer,
     payment: paymentReducer,
     hotels: hotelReducer,
+    accomodation: accomodationReducer,
   },
 });
 

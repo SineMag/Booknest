@@ -9,8 +9,6 @@ import {
 } from "react-icons/fa";
 
 import HeroSection from "../components/heroSection/HeroSection";
-import Navbar from "../components/NavBar/Navbar";
-import Footer from "../components/footer/Footer";
 import SnackbarComponent from "../components/Snackbar/snackbar";
 import Button from "../components/Button/Button";
 import ReviewModal from "../components/ReviewModal/ReviewModal";
@@ -105,7 +103,6 @@ const Landing: React.FC = () => {
 
   return (
     <div className="landing-wrapper">
-      <Navbar />
       <HeroSection /> {/* LEFT EXACTLY AS YOU SAID */}
       {/* ------------------------------ POPULAR DESTINATIONS ------------------------------ */}
       <section className="luxury-section">
