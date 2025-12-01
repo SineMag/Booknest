@@ -49,7 +49,7 @@ const MyBookings: React.FC = () => {
             <BookingListItem
               key={booking.id}
               bookingId={booking.id!}
-              userName={user?.firstName || "N/A"}
+              userName={`${user?.firstName} ${user?.lastName}` || "N/A"}
               accommodationName={getAccommodationName(booking.accommodationId)}
               checkIn={new Date(booking.checkInDate).toLocaleDateString()}
               checkOut={new Date(booking.checkOutDate).toLocaleDateString()}

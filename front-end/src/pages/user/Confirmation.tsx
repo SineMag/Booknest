@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 
 type IconProps = { size?: number; color?: string; className?: string };
@@ -32,6 +32,18 @@ const CheckCircle = ({
 );
 
 const Confirmation: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log("You will be redirected in 5 seconds");
+      
+      navigate("/my-bookings");
+    }, 5000); // 5-second delay
+
+    return () => clearTimeout(timer); // Cleanup the timer if the component unmounts
+  }, [navigate]);
+
   return (
     <>
     
