@@ -28,3 +28,10 @@
 .oauthIcons a:hover {
   color: #1a73e8;
 }
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: -5px;
+  margin-bottom: 10px;
+}
+
