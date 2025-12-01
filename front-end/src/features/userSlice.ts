@@ -15,6 +15,22 @@ export interface User {
   createdAt?: Date;
 }
 
+const userFromLocalStorage = localStorage.getItem("user");
+
+interface UserState {
+  user: User | null;
+  isLoggedIn: boolean;
+  errorMessage: string;
+}
+
+const initialState: UserState = {
+  user: userFromLocalStorage
+    ? (JSON.parse(userFromLocalStorage) as User)
+    : null,
+  isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
+  errorMessage: "",
+};
+
 export interface LoginCredentials {
   emailAddress: string;
   password: string;
@@ -25,10 +41,7 @@ export const createUser = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       console.log("register thunk...");
-      const response = await axios.post(
-        API_BASE_URL + "/auth/register",
-        user
-      );
+      const response = await axios.post(API_BASE_URL + "/auth/register", user);
       console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
@@ -75,19 +88,12 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
-const userFromLocalStorage = localStorage.getItem("user");
-
-const initialState = {
-  user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null,
-  isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
-  errorMessage: "",
-};
-
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => { // Add a logout reducer
+    logout: (state) => {
+      // Add a logout reducer
       state.user = null;
       state.isLoggedIn = false;
       localStorage.removeItem("user");

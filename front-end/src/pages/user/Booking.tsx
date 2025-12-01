@@ -4,67 +4,19 @@ import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import Tag from "../../components/Tag/Tag";
-import { createBooking } from "../../features/bookingSlice";
-import type { AppDispatch, RootState } from "../../../store";
 import bedImage from "../../images/bed.png"; // Import the local image
-
-import {
-  FaWifi,
-  FaTv,
-  FaFan,
-  FaGlassWhiskey,
-  FaHotTub,
-  FaBed,
-  FaCouch,
-  FaCrown,
-  FaSwimmingPool,
-} from "react-icons/fa";
-
 import styles from "./Booking.module.css"; // Import the CSS module
 import { initializePayment } from "../../features/paymentSlice";
-
-const getAmenityIcon = (amenity: string) => {
-  switch (amenity) {
-    case "Wifi":
-      return <FaWifi />;
-    case "TV":
-      return <FaTv />;
-    case "AC":
-      return <FaFan />; // Using FaFan for AC
-    case "Mini-bar":
-      return <FaGlassWhiskey />;
-    case "Jacuzzi":
-      return <FaHotTub />;
-    case "Indoor Pool":
-      return <FaSwimmingPool />;
-    default:
-      return null;
-  }
-};
-
-const roomTypes = [
-  {
-    name: "Standard",
-    amenities: ["Wifi", "TV"],
-    basePrice: 100,
-    icon: <FaBed />,
-  },
-  {
-    name: "Deluxe",
-    amenities: ["Wifi", "TV", "AC", "Mini-bar"],
-    basePrice: 150,
-    icon: <FaCouch />,
-  },
-  {
-    name: "Suite",
-    amenities: ["Wifi", "TV", "AC", "Mini-bar", "Jacuzzi", "Indoor Pool"],
-    basePrice: 250,
-    icon: <FaCrown />,
-  },
-];
+import type { AppDispatch, RootState } from "../../../store";
+import { createBooking } from "../../features/bookingSlice";
+import { ROOM_TYPES, type RoomType } from "../../types/RoomType";
+import { fetchAccomodationById } from "../../features/accomodationSlice";
+import MiniTag from "../../components/Tag/MiniTag";
 
 export default function Booking() {
-  const [selectedRoomType, setSelectedRoomType] = useState(roomTypes[0]);
+  const [selectedRoomType, setSelectedRoomType] = useState<RoomType | null>(
+    null
+  );
   const [numberOfRooms, setNumberOfRooms] = useState(""); // Changed to empty string
   const [numberOfGuests, setNumberOfGuests] = useState(""); // Changed to empty string
   const [checkIn, setCheckIn] = useState("");
@@ -73,6 +25,7 @@ export default function Booking() {
   const [specialRequest, setSpecialRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error messages
+  const [roomTypes, setRoomTypes] = useState<RoomType[]>([]);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -80,12 +33,37 @@ export default function Booking() {
   const { access_code } = useSelector((state: RootState) => state.payment);
   const [paystackReady, setPaystackReady] = useState(false);
 
-  console.log("Current user state in Booking.tsx:", user); // ADDED FOR DEBUGGING
-  const { status, error } = useSelector((state: RootState) => state.booking);
   const [params] = useSearchParams();
   const accId = Number(params.get("accommodationId"));
+  const { current } = useSelector((state: RootState) => state.accomodation);
 
-  console.log("accomodation id", accId);
+  useEffect(() => {
+    if (accId) {
+      dispatch(fetchAccomodationById(accId));
+    }
+  }, [accId, dispatch]);
+
+  // FROM db RoomType ["..", "..."] to RoomTypeObjects [{...}, {...}, ...]
+  const getRoomTypes = (keys: string[]) => {
+    const roomTypes: RoomType[] = [];
+    keys.forEach((key) => {
+      const roomType = ROOM_TYPES.find((r) => r.name === key);
+      if (roomType) {
+        roomTypes.push(roomType);
+      }
+    });
+    return roomTypes;
+  };
+
+  useEffect(() => {
+    if (!current || !current.amenities) return;
+
+    const roomTypeKeys = current.roomtypes; // ["Standard Room", "Suite", ...]
+    const mapped = getRoomTypes(roomTypeKeys);
+
+    setRoomTypes(mapped);
+    setSelectedRoomType(mapped[0]);
+  }, [current]); // runs ONLY when current changes
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -97,8 +75,9 @@ export default function Booking() {
 
         const rooms = parseInt(numberOfRooms) || 1; // Default to 1 if empty/NaN, treat 0 as 0
 
-        if (numberOfNights > 0 && rooms > 0) {
-          const price = numberOfNights * selectedRoomType.basePrice * rooms;
+        if (numberOfNights > 0 && rooms > 0 && selectedRoomType) {
+          const price =
+            numberOfNights * selectedRoomType.pricePerPersonPerNight * rooms;
           setTotalPrice(price);
         } else {
           setTotalPrice(0);
@@ -126,7 +105,9 @@ export default function Booking() {
     }
 
     if (new Date(checkOut) < new Date(checkIn)) {
-      setErrorMessage("Check-out date cannot be earlier than the check-in date.");
+      setErrorMessage(
+        "Check-out date cannot be earlier than the check-in date."
+      );
       return;
     }
 
@@ -140,7 +121,7 @@ export default function Booking() {
 
     dispatch(
       createBooking({
-        userId: user.id,
+        userId: user.id!,
         accommodationId: accId, // Using param
         checkInDate: new Date(checkIn),
         checkOutDate: new Date(checkOut),
@@ -151,8 +132,6 @@ export default function Booking() {
         roomTypeId: 2,
       })
     );
-
-    console.log(2022, errorMessage);
 
     if (!errorMessage) {
       handlePayment();
@@ -171,12 +150,13 @@ export default function Booking() {
   const handlePayment = () => {
     dispatch(
       initializePayment({
-        email: "msizi@example.com",
-        amount: 1000,
-        callback_url: "https://booknest-j3la.onrender.com/",
+        email: "msizimwelase007@gmail.com",
+        amount: totalPrice,
       })
     );
   };
+
+  console.log("CURRENT USER: ", user);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -202,15 +182,13 @@ export default function Booking() {
     if (!paystackReady) return;
 
     if (access_code) {
-      console.log("popup: ", window.PaystackPop);
       const popup = new window.PaystackPop();
       popup.newTransaction({
         key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
-        email: "sample@email.com",
-        amount: 23400,
+        email: user!.emailAddress,
+        amount: totalPrice * 100,
         onSuccess: (transaction: any) => {
           // add booking and navigate to confirmation
-          console.log(2019, "transaction", transaction);
           navigate("/confirmation");
         },
       });
@@ -220,8 +198,8 @@ export default function Booking() {
   const getTodayString = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -263,36 +241,28 @@ export default function Booking() {
             </h2>
             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
               {roomTypes.map((room) => (
-                <Button 
+                <Button
                   key={room.name}
                   onClick={() => setSelectedRoomType(room)}
                   variant={
-                    selectedRoomType.name === room.name
-                      ? "primary"
+                    selectedRoomType?.name === room.name
+                      ? "facebook"
                       : "secondary"
                   }
                 >
-                  {room.icon} {room.name}
+                  {room.name}
                 </Button>
               ))}
             </div>
             <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
-              {selectedRoomType.amenities.map((amenity) => (
-                <Tag
-                  key={amenity}
-                  text={
-                    <span>
-                      {getAmenityIcon(amenity)} {amenity}
-                    </span>
-                  }
-                />
-              ))}
+              {selectedRoomType &&
+                selectedRoomType!.amenities.map((amenity) => (
+                  <MiniTag text={amenity.label} icon={amenity.icon} />
+                ))}
             </div>
           </div>
 
-          <div className="booking-ui"
-          
-          >
+          <div className="booking-ui">
             <InputField
               type="date"
               label="Check-in Date"
@@ -323,7 +293,7 @@ export default function Booking() {
               type="number"
               label="Number of Guests"
               field={String(numberOfGuests)}
-              setField={(val) => setNumberOfGuests(Number(val))}
+              setField={(val) => setNumberOfGuests(val)}
               details="Including yourself and any companions."
               name="numberOfGuests"
             />
@@ -351,7 +321,7 @@ export default function Booking() {
               details="We'll use this to contact you about your booking."
               name="phoneNumber"
             />
-        
+
             <InputField
               type="text"
               label="Special Requests (optional)"
@@ -410,7 +380,7 @@ export default function Booking() {
             >
               <span style={{ color: "#7f8c8d" }}>Room Type:</span>
               <span style={{ fontWeight: "bold" }}>
-                {selectedRoomType.name}
+                {/* {selectedRoomType.name} */}
               </span>
             </div>
             <div
@@ -452,8 +422,8 @@ export default function Booking() {
                   justifyContent: "space-between",
                   fontSize: "1.5rem",
                   fontWeight: "bold",
-                  className: styles.totalPrice,
                 }}
+                className={styles.totalPrice}
               >
                 <span>Total:</span>
                 <span>R {totalPrice.toFixed(2)}</span>
