@@ -42,9 +42,11 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
         <p className={styles.description}>{description}</p>
         <div className={styles.footer}>
           <span className={styles.price}>{price} per month</span>
-          <Button onClick={onView} variant="primary">
-            View
-          </Button>
+          <div className={styles.viewButton}>
+            <Button onClick={onView} variant="primary">
+              View
+            </Button>
+          </div>
         </div>
       </div>
     </div>
