@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import Filter from "../../components/Filter/Filter";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";

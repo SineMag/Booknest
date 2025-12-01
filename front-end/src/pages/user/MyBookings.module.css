@@ -1,0 +1,16 @@
+.container {
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.title {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}

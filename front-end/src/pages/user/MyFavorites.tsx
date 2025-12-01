@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import type { AppDispatch, RootState } from "../../../store";
 import {
   fetchHotels,
@@ -40,7 +38,6 @@ const MyFavorites: React.FC = () => {
 
   return (
     <div className="fav-wrapper">
-      <Navbar />
 
       <div className="fav-container">
         <div className="fav-header">
