@@ -1,41 +1,106 @@
-import type { Dispatch, SetStateAction } from "react";
-import type { IconType } from "react-icons";
-import styles from "./inputfield.module.css";
+import React, { useState } from "react";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
-interface Props {
-  for?: string;
+type Props = {
+  placeholder?: string;
   type: string;
-  placeholder?: string; // Made placeholder optional as label might be sufficient
   field: string;
-  setField: Dispatch<SetStateAction<string>>;
-  icon?: IconType;
-  disabled?: boolean;
-  label?: string; // New prop for the label
-  details?: string; // New prop for additional details/helper text
-}
+  setField: (value: string) => void;
+  label?: string;
+  details?: string;
+  name?: string;
+  min?: string;
+  /**
+   * Optional controlled visibility: if provided, the parent controls
+   * whether the password is shown. `onToggleShow` must be provided
+   * when using `showPassword`.
+   */
+  showPassword?: boolean;
+  onToggleShow?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
+};
 
-export default function InputField(props: Props) {
+export default function InputField({
+  placeholder,
+  type,
+  field,
+  setField,
+  showPassword,
+  onToggleShow,
+  className,
+  style,
+  label,
+  details,
+  name,
+  min,
+}: Props) {
+  const [localShow, setLocalShow] = useState(false);
+
+  const isPassword = type === "password";
+
+  const controlled =
+    typeof showPassword === "boolean" && typeof onToggleShow === "function";
+  const visible = controlled ? showPassword! : localShow;
+
+  const handleToggle = () => {
+    if (controlled) onToggleShow!();
+    else setLocalShow((s) => !s);
+  };
+
   return (
-    <div className={styles.inputGroup}>
-      {props.label && <label className={styles.label} htmlFor={props.for}>{props.label}</label>}
-      <div className={styles.inputContainer}> {/* Added container for input and icon */}
-        {props.icon ? (
-          <div className={styles.inputIcon}>
-            <props.icon />
-          </div>
-        ) : null}
-        <input
-          type={props.type}
-          className={styles.input}
-          placeholder={props.placeholder}
-          value={props.field}
-          onChange={(e) => props.setField(e.target.value)}
-          required
-          disabled={props.disabled}
-          id={props.for} // Connect label to input
-        />
-      </div>
-      {props.details && <p className={styles.details}>{props.details}</p>}
+    <div
+      className={className}
+      style={{
+        position: "relative",
+        width: "100%",
+        marginBottom: "1rem",
+        ...(style || {}),
+      }}
+    >
+      {label && <label htmlFor={name} style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#333" }}>{label}</label>}
+      <input
+        placeholder={placeholder}
+        type={isPassword ? (visible ? "text" : "password") : type}
+        value={field}
+        onChange={(e) => setField(e.target.value)}
+        name={name}
+        id={name}
+        min={min}
+        style={{
+          width: "100%",
+          padding: isPassword ? "14px 45px 14px 14px" : "14px",
+          borderRadius: "8px",
+          border: "1px solid #d1d5db",
+          fontSize: "1rem",
+        }}
+      />
+      {details && <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "5px" }}>{details}</p>}
+
+      {/* SHOW / HIDE ICON */}
+      {isPassword && (
+        <button
+          type="button"
+          onClick={handleToggle}
+          aria-label={visible ? "Hide password" : "Show password"}
+          style={{
+            position: "absolute",
+            right: "12px",
+            top: "50%",
+            transform: "translateY(-50%)",
+            cursor: "pointer",
+            fontSize: "20px",
+            color: "#475569",
+            background: "transparent",
+            border: "none",
+            padding: 0,
+            display: "inline-flex",
+            alignItems: "center",
+          }}
+        >
+          {visible ? <FiEyeOff /> : <FiEye />}
+        </button>
+      )}
     </div>
   );
 }

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RoomTypes API Documentation</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .route {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #2980b9;
+        margin-bottom: 20px;
+        border-radius: 6px;
+      }
+
+      code {
+        background: #ecf0f1;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+
+      pre {
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>RoomTypes API Documentation</h1>
+      <h2>Route: /room_types</h2>
+      <h4>
+        Public Route:
+        <a href="https://booknestapi.netlify.app/room_types.html">
+          https://booknestapi.netlify.app/room_types.html
+        </a>
+      </h4>
+
+      <h2>📘 Introduction</h2>
+      <p>
+        The <strong>/room_types</strong> API allows you to create, read, update,
+        and delete room type records in the BookNest platform. This page shows
+        you how each route works, what data you should send, and what responses
+        to expect.
+      </p>
+
+      <h2>🧩 Data Model</h2>
+      <p>Each room type has the following structure:</p>
+      <pre>
+{
+  id: number,
+  name: string,
+  description: string,
+  pricePerPersonPerNight: number,
+  beds: number
+}</pre
+      >
+
+      <hr />
+
+      <h2>📡 Routes Overview</h2>
+
+      <!-- GET ALL -->
+      <div class="route">
+        <h3>GET /room_types</h3>
+        <p>Returns a list of all room types.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+[
+  {
+    "id": 1,
+    "name": "Deluxe Studio",
+    "description": "A comfortable studio with sea view",
+    "pricePerPersonPerNight": 120,
+    "beds": 2
+  },
+  {
+    "id": 2,
+    "name": "Executive Suite",
+    "description": "A large suite with king bed",
+    "pricePerPersonPerNight": 250,
+    "beds": 1
+  }
+]</pre
+        >
+      </div>
+
+      <!-- GET BY ID -->
+      <div class="route">
+        <h3>GET /room_types/:id</h3>
+        <p>Returns a specific room type by ID.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /room_types/1</pre>
+      </div>
+
+      <!-- CREATE -->
+      <div class="route">
+        <h3>POST /room_types</h3>
+        <p>Creates a new room type. Returns the full inserted object.</p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "name": "Luxury Suite",
+  "description": "Spacious suite with balcony",
+  "pricePerPersonPerNight": 300,
+  "beds": 2
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 10,
+  "name": "Luxury Suite",
+  "description": "Spacious suite with balcony",
+  "pricePerPersonPerNight": 300,
+  "beds": 2
+}</pre
+        >
+      </div>
+
+      <!-- UPDATE -->
+      <div class="route">
+        <h3>PUT /room_types/:id</h3>
+        <p>Updates a room type and returns the updated record.</p>
+
+        <h4>✔ Example</h4>
+        <pre>PUT /room_types/5</pre>
+      </div>
+
+      <!-- DELETE -->
+      <div class="route">
+        <h3>DELETE /room_types/:id</h3>
+        <p>Deletes a room type and returns the deleted record.</p>
+
+        <h4>✔ Example</h4>
+        <pre>DELETE /room_types/5</pre>
+      </div>
+
+      <hr />
+
+      <h2>📄 /docs — Documentation Route</h2>
+      <p>This page can be served at:</p>
+      <pre>GET /docs/room_types</pre>
+
+      <hr />
+
+      <h2>❓ Need Help?</h2>
+      <p>
+        For more details on request examples, error responses, or
+        authentication, extend this page as needed.
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>

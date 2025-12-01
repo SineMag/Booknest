@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import ImageUploader from "../../components/image/ImageUploader";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
@@ -15,7 +13,7 @@ const UserProfile: React.FC = () => {
 
   return (
     <div>
-      <Navbar />
+   
 
       <div className={styles.profilePage}>
         <div className={styles.profileContainer}>
@@ -64,7 +62,6 @@ const UserProfile: React.FC = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

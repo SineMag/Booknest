@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reviews API Documentation</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .route {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #2980b9;
+        margin-bottom: 20px;
+        border-radius: 6px;
+      }
+
+      code {
+        background: #ecf0f1;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+
+      pre {
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>Reviews API Documentation</h1>
+      <h2>Route: /reviews</h2>
+
+      <h2>📘 Introduction</h2>
+      <p>
+        The <strong>/reviews</strong> API allows users to create, read, update,
+        and delete reviews related to accommodations on the BookNest platform.
+        This documentation explains each route, what it expects, and what it
+        returns.
+      </p>
+
+      <h2>🧩 Data Model</h2>
+      <p>Each review has the following structure:</p>
+      <pre>
+{
+  id: number,
+  starRatings: number,
+  reviewer: string,
+  reviewText: string,
+  createdAt: Date,
+  userId: number,
+  accomodationId: number
+}</pre
+      >
+
+      <hr />
+
+      <h2>📡 Routes Overview</h2>
+
+      <!-- TEST ROUTE -->
+      <div class="route">
+        <h3>GET /reviews/test</h3>
+        <p>Simple test route to verify that the service is working.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+"Hello Service!"
+</pre
+        >
+      </div>
+
+      <!-- GET ALL REVIEWS -->
+      <div class="route">
+        <h3>GET /reviews</h3>
+        <p>Returns all reviews in the system.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+[
+  {
+    "id": 1,
+    "starRatings": 5,
+    "reviewer": "John Doe",
+    "reviewText": "Great experience!",
+    "createdAt": "2025-01-18T10:00:00.000Z",
+    "userId": 3,
+    "accomodationId": 12
+  }
+]</pre
+        >
+      </div>
+
+      <!-- GET REVIEW BY ID -->
+      <div class="route">
+        <h3>GET /reviews/:id</h3>
+        <p>Returns a specific review by its ID.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /reviews/1</pre>
+      </div>
+
+      <!-- GET REVIEWS BY USER ID -->
+      <div class="route">
+        <h3>GET /reviews/user/:id</h3>
+        <p>Returns all reviews created by a specific user.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /reviews/user/3</pre>
+      </div>
+
+      <!-- CREATE REVIEW -->
+      <div class="route">
+        <h3>POST /reviews</h3>
+        <p>Creates a new review. Returns the created record.</p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "starRatings": 4,
+  "reviewer": "Alice Smith",
+  "reviewText": "Nice place!",
+  "userId": 2,
+  "accomodationId": 5
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 12,
+  "starRatings": 4,
+  "reviewer": "Alice Smith",
+  "reviewText": "Nice place!",
+  "createdAt": "2025-01-18T12:00:00.000Z",
+  "userId": 2,
+  "accomodationId": 5
+}</pre
+        >
+      </div>
+
+      <!-- UPDATE REVIEW -->
+      <div class="route">
+        <h3>PUT /reviews</h3>
+        <p>
+          Updates an existing review. Requires the <code>id</code> in the body.
+        </p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "id": 12,
+  "starRatings": 5,
+  "reviewer": "Alice Smith Updated",
+  "reviewText": "Amazing stay!"
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 12,
+  "starRatings": 5,
+  "reviewer": "Alice Smith Updated",
+  "reviewText": "Amazing stay!",
+  "createdAt": "2025-01-18T12:00:00.000Z",
+  "userId": 2,
+  "accomodationId": 5
+}</pre
+        >
+      </div>
+
+      <!-- DELETE REVIEW -->
+      <div class="route">
+        <h3>DELETE /reviews</h3>
+        <p>
+          Deletes a review based on the <code>id</code> provided in the body.
+        </p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "id": 12
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "message": "Review deleted successfully",
+  "deletedReview": {
+    "id": 12,
+    "starRatings": 4,
+    "reviewer": "Alice Smith",
+    "reviewText": "Nice place!",
+    "userId": 2,
+    "accomodationId": 5
+  }
+}</pre
+        >
+      </div>
+
+      <hr />
+
+      <h2>📄 /docs — Documentation Route</h2>
+      <p>This page can be served at:</p>
+      <pre>GET /docs/reviews</pre>
+
+      <hr />
+
+      <h2>❓ Need Help?</h2>
+      <p>
+        You can extend this document with authentication, error handling, or
+        examples of failed responses. Let me know if you want an expanded
+        version.
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>

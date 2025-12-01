@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import InputField from "../../components/InputField/InputField";
-import Navbar from "../../components/NavBar/Navbar";
 import Button from "../../components/Button/Button";
-import Footer from "../../components/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { createUser } from "../../features/userSlice";
-import { type AppDispatch, type RootState } from "../../../store";
-import { useDispatch, useSelector } from "react-redux";
+import { type AppDispatch } from "../../../store";
+import { useDispatch } from "react-redux";
+import styles from "./UserRegister.module.css";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const UserRegister: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -19,16 +19,11 @@ const UserRegister: React.FC = () => {
   const [phoneNumber, setPhoneNumber] = useState(""); // state for phone number
   const [physicalAddress, setPhysicalAddress] = useState(""); // state for physical address
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
+  // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
   // useEffect
-  useEffect(() => {
-    if (user) {
-      console.log("user: ", user);
-      navigate("/login");
-    }
-  }, [user]);
+  // Removed redirect to allow access to register page
 
   const handleRegister = () => {
     console.log("registering user...");
@@ -42,11 +37,11 @@ const UserRegister: React.FC = () => {
         physicalAddress,
       })
     );
+    navigate("/login");
   };
 
   return (
     <>
-      <Navbar />
       <div className="loginPage">
         <div className="loginContainer">
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
@@ -59,7 +54,7 @@ const UserRegister: React.FC = () => {
             setField={setFirstName} // setter function
           />
           <InputField
-            placeholder="last name"
+            placeholder="Last name"
             type="text"
             field={lastName} // current value
             setField={setLastName} // setter function
@@ -111,9 +106,25 @@ const UserRegister: React.FC = () => {
           <Button variant="primary" width={100} onClick={handleRegister}>
             Register
           </Button>
+          <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>
+          <div className={styles.oauthIcons}>
+            <a
+              href="#"
+              onClick={() => alert("Google Login Button/Icon (not functional)")}
+            >
+              <FaGoogle size={30} />
+            </a>
+            <a
+              href="#"
+              onClick={() =>
+                alert("Facebook Login Button/Icon (not functional)")
+              }
+            >
+              <FaFacebook size={30} />
+            </a>
+          </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

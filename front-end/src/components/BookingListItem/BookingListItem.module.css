@@ -1,0 +1,80 @@
+.pending-approval {
+  background-color: #f39c12;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+}
+
+.item:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+  color: #333;
+}
+
+.detail {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0;
+}
+
+.statusContainer {
+  flex-shrink: 0;
+}
+
+.status {
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.8rem;
+  color: white;
+  text-transform: uppercase;
+}
+
+.pending {
+  background-color: #f39c12;
+}
+
+.approved {
+  background-color: #2ecc71;
+}
+
+.declined {
+  background-color: #e74c3c;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.iconActions {
+  display: flex;
+  gap: 0.5rem;
+}
+

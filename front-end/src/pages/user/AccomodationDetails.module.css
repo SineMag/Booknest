@@ -1,3 +1,165 @@
-.title {
-  margin: 0.8rem 0;
+/* ------------------------- */
+/* HEADER SECTION */
+/* ------------------------- */
+.headerSection {
+  padding: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.hotelName {
+  font-size: 2rem;
+  font-weight: 700;
+}
+.titleRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hotelLocation {
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+.ratingRow {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  margin-top: 0.3rem;
+}
+
+.star {
+  color: #ccc;
+  font-size: 1.3rem;
+}
+
+.starActive {
+  color: #febb02;
+  font-size: 1.3rem;
+}
+
+.ratingText {
+  margin-left: 0.5rem;
+  font-weight: 600;
+}
+
+/* ------------------------- */
+/* GALLERY GRID */
+/* ------------------------- */
+.galleryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.galleryImg {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* ------------------------- */
+/* CONTENT WRAPPER */
+/* ------------------------- */
+.contentWrapper {
+  max-width: 1200px;
+  margin: 2rem auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 2rem;
+}
+
+/* ------------------------- */
+/* LEFT COLUMN */
+/* ------------------------- */
+.leftColumn {
+  background: white;
+  padding: 1rem;
+}
+
+.description {
+  margin-bottom: 1rem;
+}
+
+/* Amenities */
+.amenitiesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.4rem 1rem;
+  margin-bottom: 1rem;
+}
+
+.amenityItem {
+  color: #333;
+}
+
+/* Rooms */
+.roomList {
+  padding-left: 1.2rem;
+}
+
+/* ------------------------- */
+/* BOOKING / MANAGEMENT CARD */
+/* ------------------------- */
+.bookingCard {
+  background: #f7f9fc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #dce3ed;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.cardTitle {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+
+/* Admin Buttons */
+.actionBtn {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.6rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.editBtn {
+  background: #0071c2;
+  color: white;
+}
+
+.deleteBtn {
+  background: #d9534f;
+  color: white;
+}
+
+/* ------------------------- */
+/* RESPONSIVE */
+/* ------------------------- */
+@media (max-width: 900px) {
+  .contentWrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .galleryGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .galleryImg {
+    height: 220px;
+  }
 }

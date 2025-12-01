@@ -1,0 +1,27 @@
+import React from "react";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button/Button";
+import styles from "./Error404.module.css";
+
+const Error404 = () => {
+  return (
+    <div>
+      {" "}
+      <div className={styles.container}>
+        <h1 className={styles.code}>404</h1>
+
+        <h2 className={styles.title}>Page Not Found</h2>
+
+        <p className={styles.text}>
+          It looks like nothing was found at this location.
+        </p>
+
+        <Link to="/" style={{ marginTop: "30px" }}>
+          <Button variant="primary">BACK TO HOME</Button>
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default Error404;
