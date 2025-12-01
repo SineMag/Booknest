@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { fetchAccomodationById } from "../../features/accomodationSlice";
+import { AMENITIES } from "../../types/Amenity";
 
 const hotels: Hotel[] = [
   { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
@@ -27,7 +28,7 @@ export default function AccomodationDetails() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { current, loading, error } = useSelector(
+  const { current, loading } = useSelector(
     (state: RootState) => state.accomodation
   );
 
@@ -62,6 +63,8 @@ export default function AccomodationDetails() {
     navigate("/myfavorites");
   };
 
+  console.log("Curent: ", current);
+
   return (
     <div
       className="accomodationPage"
@@ -87,11 +90,16 @@ export default function AccomodationDetails() {
               </div>
             </div>
 
+            {/* TAGS */}
             <div className="row" style={{ alignItems: "center" }}>
               <div className="col-6">
                 <div style={{ display: "flex", margin: "1rem 0" }}>
                   {current.amenities.map((amenity: string) => (
-                    <Tag text={amenity} key={amenity} />
+                    <Tag
+                      text={amenity}
+                      key={amenity}
+                      icon={AMENITIES[amenity]}
+                    />
                   ))}
                 </div>
               </div>
@@ -131,11 +139,13 @@ export default function AccomodationDetails() {
               </div>
             </div>
 
+            {/* IMAGE GALLERY */}
             <div className="row">
               <div className="col-6">
                 <Gallery images={current.imagegallery} />
               </div>
 
+              {/* REVIEW2 CARDS */}
               <div className="col-6">
                 <h2 style={{ padding: ".5rem 1rem" }}>Reviews</h2>
                 <ReviewCard

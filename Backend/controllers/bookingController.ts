@@ -41,7 +41,6 @@ export const getBookingsByUserId = async (req: Request, res: Response) => {
 
 export const createBooking = async (req: Request, res: Response) => {
   try {
-    console.log(101, req.body);
     const booking = req.body as Booking;
     const newBooking = await createBookingDB(booking);
     res.status(201).json(newBooking);

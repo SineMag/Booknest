@@ -1,13 +1,24 @@
-import { AMENITIES, type Amenity } from "./Amenity";
+import type { IconType } from "react-icons";
+import { AMENITIES } from "./Amenity";
+
+export interface RoomAmenity {
+  label: string;
+  icon: IconType;
+}
 
 export interface RoomType {
   id: number;
   name: string;
   description: string;
-  amenities: Amenity[]; // changed from string[] to Amenity[]
+  amenities: RoomAmenity[];
   pricePerPersonPerNight: number;
   beds: number;
 }
+
+const A = (label: string) => ({
+  label,
+  icon: AMENITIES[label],
+});
 
 export const ROOM_TYPES: RoomType[] = [
   {
@@ -18,14 +29,14 @@ export const ROOM_TYPES: RoomType[] = [
     pricePerPersonPerNight: 650,
     beds: 1,
     amenities: [
-      AMENITIES.FreeWiFi,
-      AMENITIES.FlatScreenTV,
-      AMENITIES.AirConditioning,
-      AMENITIES.WorkDesk,
-      AMENITIES.Wardrobe,
-      AMENITIES.ComplimentaryToiletries,
-      AMENITIES.DailyHousekeeping,
-      AMENITIES.CoffeeTeaStation,
+      A("Free Wi-Fi"),
+      A("Flat-screen TV"),
+      A("Air Conditioning"),
+      A("Work Desk"),
+      A("Wardrobe"),
+      A("Complimentary Toiletries"),
+      A("Daily Housekeeping"),
+      A("Coffee/Tea Station"),
     ],
   },
   {
@@ -36,15 +47,15 @@ export const ROOM_TYPES: RoomType[] = [
     pricePerPersonPerNight: 950,
     beds: 1,
     amenities: [
-      AMENITIES.HighSpeedWiFi,
-      AMENITIES.SmartTV,
-      AMENITIES.AirConditioning,
-      AMENITIES.MiniBar,
-      AMENITIES.PremiumBedding,
-      AMENITIES.RainfallShower,
-      AMENITIES.InRoomSafe,
-      AMENITIES.ComplimentaryBottledWater,
-      AMENITIES.CoffeeMaker,
+      A("High-speed Wi-Fi"),
+      A("Smart TV with Streaming"),
+      A("Air Conditioning"),
+      A("Mini-bar"),
+      A("Premium Bedding"),
+      A("Rainfall Shower"),
+      A("In-room Safe"),
+      A("Complimentary Bottled Water"),
+      A("Coffee Maker"),
     ],
   },
   {
@@ -55,15 +66,15 @@ export const ROOM_TYPES: RoomType[] = [
     pricePerPersonPerNight: 1300,
     beds: 1,
     amenities: [
-      AMENITIES.HighSpeedWiFi,
-      AMENITIES.LargeSmartTV,
-      AMENITIES.ErgonomicWorkDesk,
-      AMENITIES.AirConditioning,
-      AMENITIES.MiniBar,
-      AMENITIES.InRoomSafe,
-      AMENITIES.IronIroningBoard,
-      AMENITIES.PremiumBathroomAmenities,
-      AMENITIES.ComplimentaryBreakfast,
+      A("High-speed Wi-Fi"),
+      A("Smart TV with Streaming"),
+      A("Ergonomic Work Desk"),
+      A("Air Conditioning"),
+      A("Mini-bar"),
+      A("In-room Safe"),
+      A("Iron & Ironing Board"),
+      A("Luxury Toiletries"),
+      A("Complimentary Breakfast Access"),
     ],
   },
   {
@@ -74,15 +85,15 @@ export const ROOM_TYPES: RoomType[] = [
     pricePerPersonPerNight: 1800,
     beds: 1,
     amenities: [
-      AMENITIES.SeparateSeatingArea,
-      AMENITIES.KingSizeBed,
-      AMENITIES.HighSpeedWiFi,
-      AMENITIES.LargeSmartTV,
-      AMENITIES.NespressoMachine,
-      AMENITIES.LuxuryToiletries,
-      AMENITIES.Bathtub,
-      AMENITIES.MiniFridge,
-      AMENITIES.BathrobesSlippers,
+      A("Separate Seating Area"),
+      A("King-size Bed"),
+      A("High-speed Wi-Fi"),
+      A("Smart TV with Streaming"),
+      A("Nespresso Coffee Machine"),
+      A("Luxury Toiletries"),
+      A("Bathtub"),
+      A("Mini-fridge"),
+      A("Bathrobes & Slippers"),
     ],
   },
   {
@@ -93,14 +104,14 @@ export const ROOM_TYPES: RoomType[] = [
     pricePerPersonPerNight: 2600,
     beds: 2,
     amenities: [
-      AMENITIES.LivingRoomBedroom,
-      AMENITIES.Kitchenette,
-      AMENITIES.WalkInCloset,
-      AMENITIES.FullyStockedMiniBar,
-      AMENITIES.JacuzziBathtub,
-      AMENITIES.PremiumSoundSystem,
-      AMENITIES.DiningMeetingTable,
-      AMENITIES.LuxuryBedding,
+      A("Living Room"),
+      A("Kitchenette"),
+      A("Walk-in Closet"),
+      A("Fully-stocked Mini-bar"),
+      A("Jacuzzi Bathtub"),
+      A("Premium Sound System"),
+      A("Dining/Meeting Table"),
+      A("Premium Bedding"),
     ],
   },
   {
@@ -111,15 +122,15 @@ export const ROOM_TYPES: RoomType[] = [
     pricePerPersonPerNight: 4800,
     beds: 3,
     amenities: [
-      AMENITIES.PrivateTerrace,
-      AMENITIES.FullKitchen,
-      AMENITIES.HomeTheater,
-      AMENITIES.WalkInSpaBathroom,
-      AMENITIES.Jacuzzi,
-      AMENITIES.DiningRoom,
-      AMENITIES.LargeLivingRoom,
-      AMENITIES.PersonalConcierge,
-      AMENITIES.PremiumToiletriesRobes,
+      A("Private Terrace"),
+      A("Full Kitchen"),
+      A("Premium Sound System"),
+      A("Spa Bathroom"),
+      A("Jacuzzi Bathtub"),
+      A("Dining/Meeting Table"),
+      A("Separate Seating Area"),
+      A("Personal Concierge"),
+      A("Luxury Toiletries"),
     ],
   },
 ];

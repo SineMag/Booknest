@@ -18,7 +18,7 @@ const MyBookings: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchBookinsByUserId(user.id));
+      dispatch(fetchBookinsByUserId(user.id!));
       dispatch(fetchAccomodations());
     }
   }, [dispatch, user]);
@@ -65,7 +65,7 @@ const MyBookings: React.FC = () => {
                   checkIn={new Date(booking.checkInDate).toLocaleDateString()}
                   checkOut={new Date(booking.checkOutDate).toLocaleDateString()}
                   status={booking.status as "Pending" | "Approved" | "Declined"}
-                  createdAt={new Date(booking.createdAt!)}
+                  createdAt={new Date()}
                   onCancel={() => console.log("Cancel booking")}
                   onEdit={() => console.log("Edit booking")}
                   onDelete={() => console.log("Delete booking")}

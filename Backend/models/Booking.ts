@@ -10,7 +10,6 @@ export interface Booking {
   status: string;
   userId: number;
   accommodationId: number;
-  roomTypeId: number;
 }
 
 export const createBookingTableQuery = () => sql`
@@ -24,10 +23,8 @@ CREATE TABLE IF NOT EXISTS bookings (
   status VARCHAR(255) NOT NULL,
   userId INTEGER NOT NULL,
   accommodationId INTEGER NOT NULL,
-  roomTypeId INTEGER NOT NULL,
   FOREIGN KEY (userId) REFERENCES users(id)  ON DELETE CASCADE,
-  FOREIGN KEY (accommodationId) REFERENCES accomodations(id) ON DELETE CASCADE,
-  FOREIGN KEY (roomTypeId) REFERENCES roomTypes(id)  ON DELETE CASCADE
+  FOREIGN KEY (accommodationId) REFERENCES accomodations(id) ON DELETE CASCADE
 );
 `;
 
@@ -52,8 +49,7 @@ export const createBookingQuery = (booking: Booking) => sql`
     specialRequest,
     status,
     userId,
-    accommodationId,
-    roomTypeId
+    accommodationId
   ) VALUES (
     ${booking.checkInDate},
     ${booking.checkOutDate},
@@ -62,8 +58,7 @@ export const createBookingQuery = (booking: Booking) => sql`
     ${booking.specialRequest},
     ${booking.status},
     ${booking.userId},
-    ${booking.accommodationId},
-    ${booking.roomTypeId}
+    ${booking.accommodationId}
   ) RETURNING *;`;
 
 export const updateBookingQuery = (id: number, booking: Booking) => sql`
@@ -75,8 +70,7 @@ export const updateBookingQuery = (id: number, booking: Booking) => sql`
     specialRequest=${booking.specialRequest},
     status=${booking.status},
     userId=${booking.userId},
-    accommodationId=${booking.accommodationId},
-    roomTypeId=${booking.roomTypeId}
+    accommodationId=${booking.accommodationId}
   WHERE id=${id} RETURNING *;`;
 
 export const deleteBookingQuery = (id: number) => sql`
