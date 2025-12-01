@@ -6,7 +6,7 @@ import Button from '../../components/Button/Button';
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
 
-// Mock Data
+// Mock Data..real data will come the backend https://booknestapi.netlify.app/bookings for the my bookings page
 const mockBookings = [
   {
     bookingId: '101',

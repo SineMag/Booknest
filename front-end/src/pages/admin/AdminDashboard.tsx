@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './AdminDashboard.module.css';
 import AdminCard from '../../components/AdminCard/AdminCard';
 import { useNavigate } from 'react-router-dom';

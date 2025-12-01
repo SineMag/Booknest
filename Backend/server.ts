@@ -2,20 +2,19 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/userRouter";
 import accomodationRouter from "./routes/accomodationRouter";
 import roomTypeRouter from "./routes/roomTypeRouter";
 import bookingRouter from "./routes/bookingRouter";
 import reviewRouter from "./routes/reviewRouter";
 import cors from "cors";
-import paymentRouter from "./routes/paymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
 import { createRoomTypeTableQuery } from "./models/RoomType";
 import { createBookingTableQuery } from "./models/Booking";
 import { createReviewTableQuery } from "./models/Review";
+import userRouter from "./routes/userRouter";
+import paymentRouter from "./routes/paymentRouter";
 const app = express();
-
 // MIDDLEWARE
 // For Stripe webhooks, we need the raw body, so we have a custom middleware for it
 app.use(express.json());
@@ -40,7 +39,6 @@ app.use("/accomodations", accomodationRouter);
 app.use("/room_types", roomTypeRouter);
 app.use("/bookings", bookingRouter);
 app.use("/reviews", reviewRouter);
-
 // INITIALISE DATABASE
 async function initializeDatabase() {
   await userTableQuery();
@@ -55,5 +53,4 @@ async function initializeDatabase() {
   console.log("review table created");
 }
 initializeDatabase();
-
 export default app;

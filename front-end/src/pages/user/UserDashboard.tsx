@@ -18,6 +18,19 @@ const UserDashboard: React.FC = () => {
     (state: RootState) => state.accomodation
   );
 
+  // Load favorites from localStorage when page loads
+  useEffect(() => {
+    const stored = localStorage.getItem("favorites");
+    if (stored) {
+      setFavorites(new Set(JSON.parse(stored)));
+    }
+  }, []);
+
+  // Save favorites to localStorage anytime the Set changes
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify([...favorites]));
+  }, [favorites]);
+
   useEffect(() => {
     dispatch(fetchAccomodations());
   }, [dispatch]);
@@ -36,6 +49,9 @@ const UserDashboard: React.FC = () => {
       }
       return newFavorites;
     });
+
+    // Redirect to My Favorites page
+    navigate("/my-favorites");
   };
 
   const handleView = (id: number) => {

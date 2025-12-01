@@ -1,6 +1,4 @@
 import React from "react";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 
@@ -36,7 +34,7 @@ const CheckCircle = ({
 const Confirmation: React.FC = () => {
   return (
     <>
-      <Navbar />
+    
       <div
         style={{
           display: "flex",
@@ -120,7 +118,6 @@ const Confirmation: React.FC = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

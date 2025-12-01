@@ -1,15 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 
-// Password toggles are handled by `InputField`; no react-icons needed here
 
 export default function AdminRegister() {
-  // --- Form State ---
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");

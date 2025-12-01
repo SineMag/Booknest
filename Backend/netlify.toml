@@ -39,6 +39,6 @@
   from = "/reviews/*"
   to = "/.netlify/functions/reviews/:splat"
   status = 200
-
+  
 [functions]
   node_bundler = "esbuild"

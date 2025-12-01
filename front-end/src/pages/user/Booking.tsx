@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import Tag from "../../components/Tag/Tag";
@@ -127,6 +125,11 @@ export default function Booking() {
       return;
     }
 
+    if (new Date(checkOut) < new Date(checkIn)) {
+      setErrorMessage("Check-out date cannot be earlier than the check-in date.");
+      return;
+    }
+
     if (!accId || isNaN(accId)) {
       setErrorMessage(
         "Accommodation ID is missing or invalid. Please select an accommodation first."
@@ -214,6 +217,14 @@ export default function Booking() {
     }
   }, [access_code]);
 
+  const getTodayString = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className={styles.bookingContainer}>
       <div className={styles.contentWrapper}>
@@ -252,7 +263,7 @@ export default function Booking() {
             </h2>
             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
               {roomTypes.map((room) => (
-                <Button
+                <Button 
                   key={room.name}
                   onClick={() => setSelectedRoomType(room)}
                   variant={
@@ -279,13 +290,8 @@ export default function Booking() {
             </div>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "20px",
-              marginBottom: "20px",
-            }}
+          <div className="booking-ui"
+          
           >
             <InputField
               type="date"
@@ -293,6 +299,8 @@ export default function Booking() {
               field={checkIn}
               setField={setCheckIn}
               details="Select your arrival date."
+              name="checkInDate"
+              min={getTodayString()}
             />
             <InputField
               type="date"
@@ -300,6 +308,8 @@ export default function Booking() {
               field={checkOut}
               setField={setCheckOut}
               details="Select your departure date."
+              name="checkOutDate"
+              min={checkIn || getTodayString()}
             />
             <InputField
               type="number"
@@ -307,6 +317,7 @@ export default function Booking() {
               field={String(numberOfRooms)}
               setField={setNumberOfRooms}
               details="Specify how many rooms you need."
+              name="numberOfRooms"
             />
             <InputField
               type="number"
@@ -314,6 +325,7 @@ export default function Booking() {
               field={String(numberOfGuests)}
               setField={(val) => setNumberOfGuests(Number(val))}
               details="Including yourself and any companions."
+              name="numberOfGuests"
             />
           </div>
 
@@ -337,7 +349,9 @@ export default function Booking() {
               field={phone}
               setField={setPhone}
               details="We'll use this to contact you about your booking."
+              name="phoneNumber"
             />
+        
             <InputField
               type="text"
               label="Special Requests (optional)"
@@ -345,6 +359,7 @@ export default function Booking() {
               field={specialRequest}
               setField={setSpecialRequest}
               details="Any particular needs or preferences?"
+              name="specialRequests"
             />
           </div>
 
