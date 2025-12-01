@@ -171,26 +171,28 @@ export default function AccomodationDetails() {
                 <Button width={100}>BOOK NOW</Button>
               </Link>
 
-              {/* SAVE BUTTON */}
-              <button
-                onClick={onLiked}
-                disabled={loading}
-                style={{
-                  background: liked ? "#4a90e2" : "transparent",
-                  border: "1px solid #4a90e2",
-                  borderRadius: "4px",
-                  padding: "0.5rem 1rem",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  color: liked ? "white" : "#4a90e2",
-                  transition: "all 0.2s ease",
-                }}
-              >
-                {liked ? <FaHeart /> : <FaRegHeart />}
-                {loading ? "Saving..." : liked ? "Saved" : "Save"}
-              </button>
+              <Link to="my-favorites">
+                {/* SAVE BUTTON */}
+                <button
+                  onClick={onLiked}
+                  disabled={loading}
+                  style={{
+                    background: liked ? "#4a90e2" : "transparent",
+                    border: "1px solid #4a90e2",
+                    borderRadius: "4px",
+                    padding: "0.5rem 1rem",
+                    cursor: "pointer",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.5rem",
+                    color: liked ? "white" : "#4a90e2",
+                    transition: "all 0.2s ease",
+                  }}
+                >
+                  {liked ? <FaHeart /> : <FaRegHeart />}
+                  {loading ? "Saving..." : liked ? "Saved" : "Save"}
+                </button>
+              </Link>
             </div>
 
             {error && (
