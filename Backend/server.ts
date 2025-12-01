@@ -2,13 +2,13 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/UserRouter";
+import userRouter from "./routes/userRouter";
 import accomodationRouter from "./routes/accomodationRouter";
 import roomTypeRouter from "./routes/roomTypeRouter";
 import bookingRouter from "./routes/bookingRouter";
 import reviewRouter from "./routes/reviewRouter";
 import cors from "cors";
-import paymentRouter from "./routes/PaymentRouter";
+import paymentRouter from "./routes/paymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
 import { createRoomTypeTableQuery } from "./models/RoomType";

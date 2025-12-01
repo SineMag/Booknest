@@ -3,19 +3,11 @@ import Button from "../Button/Button";
 import IconButton from "../Iconbutton/Iconbutton";
 import { useState } from "react";
 import { BsFilter } from "react-icons/bs";
-
-interface Hotel {
-  id: number;
-  title: string;
-  price: number;
-  rating: number;
-  location: string;
-  image: string;
-}
+import type { Accomodation } from "../../types/Accomodation";
 
 interface FilterProps {
-  data: Hotel[];
-  onFilter: (filtered: Hotel[]) => void;
+  data: Accomodation[];
+  onFilter: (filtered: Accomodation[]) => void;
 }
 
 export default function Filter({ data, onFilter }: FilterProps) {
@@ -42,20 +34,20 @@ export default function Filter({ data, onFilter }: FilterProps) {
   const closeModal = () => setIsToggled(false);
 
   const applyFilters = () => {
-    let filtered = data.filter(
-      (hotel) =>
-        hotel.price >= priceRange[0] &&
-        hotel.price <= priceRange[1] &&
-        hotel.rating >= rating
-    );
+    // let filtered = data.filter(
+    //   (hotel) =>
+    //     hotel.price >= priceRange[0] &&
+    //     hotel.price <= priceRange[1] &&
+    //     hotel.rating >= rating
+    // );
 
     // Sorting
-    if (sortOption === "priceAsc") filtered.sort((a, b) => a.price - b.price);
-    if (sortOption === "priceDesc") filtered.sort((a, b) => b.price - a.price);
-    if (sortOption === "ratingDesc")
-      filtered.sort((a, b) => b.rating - a.rating);
+    // if (sortOption === "priceAsc") filtered.sort((a, b) => a.price - b.price);
+    // if (sortOption === "priceDesc") filtered.sort((a, b) => b.price - a.price);
+    // if (sortOption === "ratingDesc")
+    //   filtered.sort((a, b) => b.rating - a.rating);
 
-    onFilter(filtered); // update parent
+    // onFilter(filtered); // update parent
     closeModal();
   };
 
