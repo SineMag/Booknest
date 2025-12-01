@@ -9,6 +9,7 @@ import {
 } from "../../features/InventoryManagementSlice";
 import { FaEye, FaHeart, FaShare } from "react-icons/fa";
 import Button from "../../components/Button/Button";
+import { Link } from "react-router";
 
 
 const MyFavorites: React.FC = () => {
@@ -69,13 +70,20 @@ const MyFavorites: React.FC = () => {
                 </div>
 
                 <div className="fav-card-actions">
-                  <Button className="fav-icon" ><FaEye/></Button>
-                  <Button className="fav-icon"><FaShare/></Button>
+                  <Link to={`/accomodation-details/:id`}>
+                    <Button className="fav-icon">
+                      <FaEye />
+                    </Button>
+                  </Link>
+
+                  <Button className="fav-icon">
+                    <FaShare />
+                  </Button>
                   <Button
                     className="fav-icon-heart"
                     onClick={() => removeFavorite(hotel.id)}
                   >
-                    <FaHeart/>
+                    <FaHeart />
                   </Button>
                 </div>
               </div>
