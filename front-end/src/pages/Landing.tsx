@@ -11,8 +11,6 @@ import { MdLocationOn, MdEmail, MdPhone } from "react-icons/md";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import HeroSection from "../components/heroSection/HeroSection";
-import Navbar from "../components/NavBar/Navbar";
-import Footer from "../components/footer/Footer";
 import SnackbarComponent from "../components/Snackbar/snackbar";
 import Button from "../components/Button/Button";
 import { useSelector } from "react-redux";

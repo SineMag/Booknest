@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";

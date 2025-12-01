@@ -73,3 +73,8 @@
   gap: 1rem;
 }
 
+.iconActions {
+  display: flex;
+  gap: 0.5rem;
+}
+

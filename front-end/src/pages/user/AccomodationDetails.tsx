@@ -1,5 +1,3 @@
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import Tag from "../../components/Tag/Tag";
 import { TiWiFi } from "react-icons/ti";
 import { FaParking, FaSwimmingPool, FaHeart, FaRegHeart } from "react-icons/fa";
@@ -108,7 +106,7 @@ export default function AccomodationDetails() {
       className="accomodationPage"
       style={{ marginTop: "80px", padding: "2rem" }}
     >
-      <Navbar />
+   
       <main style={{ flex: 1 }}>
         {loading ? (
           <h2>Loading...</h2>

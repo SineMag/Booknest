@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import Tag from "../../components/Tag/Tag";

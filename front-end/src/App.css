@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.main-section {
+  min-height: 90vh;
+}
+
 .loginPage {
   display: flex;
   justify-content: center;

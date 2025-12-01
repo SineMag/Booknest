@@ -25,6 +25,7 @@ function App() {
   return (
     <>
     <Navbar/>
+    <main className="main-section">
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<UserLogin />} />
@@ -67,6 +68,7 @@ function App() {
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
       </Routes>
+      </main>
       <Footer />
     </>
   );
