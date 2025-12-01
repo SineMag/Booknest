@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../features/userSlice";
@@ -9,8 +9,8 @@ import styles from "./profileMenu.module.css";
 type Role = "user" | "admin";
 
 type ProfileMenuProps = {
-  userType?: Role; // optional override
-  isLoggedIn?: boolean; // optional override
+  userType?: Role;
+  isLoggedIn?: boolean;
 };
 
 export default function ProfileMenu({
@@ -21,40 +21,53 @@ export default function ProfileMenu({
   const [subMenu, setSubMenu] = useState<Role | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const { user, isLoggedIn: reduxLoggedIn } = useSelector(
     (state: RootState) => state.user
   );
 
-  /** -------------------------------------------
-   * Determine Login State
-   * ------------------------------------------- */
   const loggedIn = isLoggedIn ?? reduxLoggedIn;
 
   /** -------------------------------------------
-   * FIXED + ADVANCED ROLE DETECTION
+   * ADVANCED ROLE DETECTION
    * ------------------------------------------- */
-  // Robust admin detection: check multiple possible fields returned by different backends
   const isAdminFlag = (() => {
     if (!user) return false;
     const u: any = user;
+
     const roleVal = (u.role ??
       u.userType ??
       u.type ??
       u.accountType ??
       u.roleName) as string | undefined;
-    if (roleVal && typeof roleVal === "string") {
-      if (roleVal.toLowerCase().includes("admin")) return true;
-    }
-    if (typeof u.isAdmin === "boolean") return u.isAdmin === true;
-    if (typeof u.admin === "boolean") return u.admin === true;
-    if (typeof u.is_admin === "boolean") return u.is_admin === true;
-    // fallback: check common boolean-like strings
+
+    if (roleVal?.toLowerCase().includes("admin")) return true;
+
+    if (u.isAdmin === true) return true;
+    if (u.admin === true) return true;
+    if (u.is_admin === true) return true;
+
     if (typeof u.role === "number" && u.role === 1) return true;
+
     return false;
   })();
 
   const resolvedRole: Role = userType ?? (isAdminFlag ? "admin" : "user");
+
+  /** -------------------------------------------
+   * CLOSE ON OUTSIDE CLICK
+   * ------------------------------------------- */
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+        setSubMenu(null);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   /** -------------------------------------------
    * LOGOUT HANDLER
@@ -65,7 +78,7 @@ export default function ProfileMenu({
   };
 
   /** -------------------------------------------
-   * ROLE-BASED MENU CONFIG
+   * MENU LIST BASED ON ROLE
    * ------------------------------------------- */
   const menus: Record<
     Role,
@@ -90,11 +103,11 @@ export default function ProfileMenu({
   };
 
   /** -------------------------------------------
-   * NOT LOGGED IN → ROLE SELECTOR
+   * NOT LOGGED IN → LOGIN/REGISTER SELECTOR
    * ------------------------------------------- */
   if (!loggedIn) {
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} ref={menuRef}>
         <ProfileIcon
           onClick={() => {
             setOpen(!open);
@@ -103,9 +116,8 @@ export default function ProfileMenu({
         />
 
         {open && (
-          <div className={styles.menu}>
+          <div className={`${styles.menu} ${styles.open}`}>
             <div className={styles.selector}>
-              {/* USER OPTION */}
               <button
                 type="button"
                 className={styles.selectorBtn}
@@ -116,12 +128,15 @@ export default function ProfileMenu({
 
               {subMenu === "user" && (
                 <div className={styles.submenu}>
-                  <Link to="/register">Register as User</Link>
-                  <Link to="/login">Login as User</Link>
+                  <Link to="/register" onClick={() => setOpen(false)}>
+                    Register as User
+                  </Link>
+                  <Link to="/login" onClick={() => setOpen(false)}>
+                    Login as User
+                  </Link>
                 </div>
               )}
 
-              {/* ADMIN OPTION */}
               <button
                 type="button"
                 className={styles.selectorBtn}
@@ -132,8 +147,12 @@ export default function ProfileMenu({
 
               {subMenu === "admin" && (
                 <div className={styles.submenu}>
-                  <Link to="/admin-register">Register as Admin</Link>
-                  <Link to="/admin-login">Login as Admin</Link>
+                  <Link to="/admin-register" onClick={() => setOpen(false)}>
+                    Register as Admin
+                  </Link>
+                  <Link to="/admin-login" onClick={() => setOpen(false)}>
+                    Login as Admin
+                  </Link>
                 </div>
               )}
             </div>
@@ -144,14 +163,14 @@ export default function ProfileMenu({
   }
 
   /** -------------------------------------------
-   * LOGGED IN → SHOW USER OR ADMIN MENU
+   * LOGGED IN → USER/ADMIN MENU
    * ------------------------------------------- */
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} ref={menuRef}>
       <ProfileIcon onClick={() => setOpen(!open)} />
 
       {open && (
-        <div className={styles.menu}>
+        <div className={`${styles.menu} ${styles.open}`}>
           {menus[resolvedRole].map((item, index) =>
             item.logout ? (
               <Link
@@ -163,7 +182,11 @@ export default function ProfileMenu({
                 {item.label}
               </Link>
             ) : (
-              <Link key={index} to={item.to}>
+              <Link
+                key={index}
+                to={item.to}
+                onClick={() => setOpen(false)} // auto close
+              >
                 {item.label}
               </Link>
             )

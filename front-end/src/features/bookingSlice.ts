@@ -29,7 +29,12 @@ export const fetchBookingsByUser = createAsyncThunk(
         throw new Error("Failed to fetch bookings.");
       }
       const data = await response.json();
-      return data;
+      console.log("Raw bookings data from API:", data);
+      const filteredData = data.filter(
+        (booking: Booking) => booking.userId === Number(userId)
+      );
+      console.log("Filtered bookings data:", filteredData);
+      return filteredData;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }

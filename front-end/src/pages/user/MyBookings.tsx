@@ -4,7 +4,13 @@ import BookingListItem from "../../components/BookingListItem/BookingListItem";
 import styles from "./MyBookings.module.css";
 import { fetchBookingsByUser } from "../../features/bookingSlice";
 import { fetchAccomodations } from "../../features/accomodationSlice";
-import type { AppDispatch, RootState } from "../../../store"; 
+import type { AppDispatch, RootState } from "../../../store";
+import {
+  FaCalendarPlus,
+  FaExclamationTriangle,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
+import Button from "../../components/Button/Button";
 
 const MyBookings: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -12,6 +18,7 @@ const MyBookings: React.FC = () => {
     (state: RootState) => state.booking
   );
   const { user } = useSelector((state: RootState) => state.user);
+  console.log("User object from Redux store:", user);
   const { accomodations } = useSelector(
     (state: RootState) => state.accomodation
   );
@@ -35,21 +42,47 @@ const MyBookings: React.FC = () => {
   }
 
   if (status === "failed") {
-    return <p>Error: {error}</p>;
+    return (
+      <div className={styles.errorContainer}>
+        <FaExclamationTriangle className={styles.errorIcon} />
+        <p className={styles.errorText}>
+          {error || "An unknown error occurred."}
+        </p>
+        <Button
+          onClick={() => {
+            if (user) {
+              dispatch(fetchBookingsByUser(user.id));
+              dispatch(fetchAccomodations());
+            }
+          }}
+          variant="danger"
+          className={styles.retryButton}
+        >
+          Retry
+        </Button>
+      </div>
+    );
   }
 
+  console.log("Bookings from Redux store:", bookings);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>My Bookings</h1>
       {bookings.length === 0 ? (
-        <p>You have no bookings yet.</p>
+        <div className={styles.noBookings}>
+          <FaCalendarPlus className={styles.noBookingsIcon} />
+          <p className={styles.noBookingsText}>You have no bookings yet.</p>
+          <Link to="/dashboard" className={styles.noBookingsButton}>
+            <Button variant="primary">Book Now</Button>
+          </Link>
+        </div>
       ) : (
         <div className={styles.bookingList}>
           {bookings.map((booking) => (
             <BookingListItem
               key={booking.id}
               bookingId={booking.id!}
-              userName={user?.firstName || "N/A"}
+              userName={`${user?.firstName} ${user?.lastName}` || "N/A"}
               accommodationName={getAccommodationName(booking.accommodationId)}
               checkIn={new Date(booking.checkInDate).toLocaleDateString()}
               checkOut={new Date(booking.checkOutDate).toLocaleDateString()}

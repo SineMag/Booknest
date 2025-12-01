@@ -69,22 +69,20 @@ width: 100%;
 
 /* STAR RATING */
 .stars {
-display: flex;
-gap: 0.4rem;
-cursor: pointer;
-font-size: 1.8rem;
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
 }
-
 
 .star {
-color: #ccc;
+  font-size: 1.5rem;
+  color: #ccc; /* default gray */
+  transition: color 0.2s ease;
 }
 
-
-.starActive {
-color: gold;
+.star.active {
+  color: #ffc107; /* yellow for active stars */
 }
-
 
 /* DROPDOWN */
 .dropdown {
