@@ -81,16 +81,20 @@ const initialState = {
   user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null,
   isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
   errorMessage: "",
+  showProfileMenuSelector: false, // New state property
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => { // Add a logout reducer
+    logout: (state) => {
       state.user = null;
       state.isLoggedIn = false;
       localStorage.removeItem("user");
+    },
+    setShowProfileMenuSelector: (state, action) => { // New reducer
+      state.showProfileMenuSelector = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -126,5 +130,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions; // Export logout action
+export const { logout, setShowProfileMenuSelector } = userSlice.actions; // Export logout action
 export default userSlice.reducer;

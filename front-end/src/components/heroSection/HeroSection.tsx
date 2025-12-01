@@ -3,9 +3,12 @@ import styles from "./HeroSection.module.css";
 import image from "../../images/bed.png";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setShowProfileMenuSelector } from "../../features/userSlice";
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const heroLeftRef = useRef<HTMLDivElement>(null);
   const heroRightRef = useRef<HTMLDivElement>(null);
 
@@ -38,7 +41,7 @@ export default function HeroSection() {
 
           {/* BUTTON */}
           <div className={styles.heroButtons}>
-            <Button onClick={() => navigate("/register")}>Get Started</Button>
+            <Button onClick={() => dispatch(setShowProfileMenuSelector(true))}>Get Started</Button>
           </div>
         </div>
 
