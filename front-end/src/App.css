@@ -4,6 +4,209 @@
   box-sizing: border-box;
 }
 
+/* ------------------------------ GLOBAL ------------------------------ */
+
+/* Main section title */
+.luxury-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #111;
+  position: relative;
+}
+
+.luxury-title::after {
+  content: "";
+  width: 80px;
+  height: 3px;
+  background: #d4af37; /* gold */
+  display: block;
+  margin: 10px auto 0;
+  border-radius: 10px;
+}
+
+/* Standard section wrapper */
+.luxury-section {
+  padding: 60px 5%;
+}
+
+/* ------------------------------ GRID BASE ------------------------------ */
+
+.luxury-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+.lux-hotel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+/* ------------------------------ DESTINATION & PROPERTY CARDS ------------------------------ */
+
+.lux-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px;
+  height: 220px;
+  cursor: pointer;
+  background: #000;
+}
+
+.lux-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: 0.4s ease;
+}
+
+.lux-card:hover img {
+  transform: scale(1.08);
+  opacity: 0.75;
+}
+
+.lux-card-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: white;
+}
+
+.lux-card-overlay h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* ------------------------------ FEATURED HOTELS ------------------------------ */
+
+.lux-hotel-card {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.lux-hotel-card:hover {
+  transform: translateY(-5px);
+  border-color: #d4af37;
+}
+
+.lux-hotel-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.lux-hotel-info {
+  padding: 20px;
+}
+
+.lux-hotel-info h3 {
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.lux-hotel-info p {
+  margin: 4px 0;
+  color: #555;
+}
+
+.lux-hotel-info .price {
+  font-weight: bold;
+  color: #d4af37;
+}
+
+.lux-hotel-info .rating {
+  font-weight: 600;
+}
+
+/* ------------------------------ AMENITIES ------------------------------ */
+
+.lux-amenities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 25px;
+  text-align: center;
+}
+
+.lux-amenity {
+  padding: 25px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  background: #fff;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.lux-amenity:hover {
+  border-color: #d4af37;
+  transform: translateY(-6px);
+}
+
+.lux-amenity .icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #d4af37;
+}
+
+/* ------------------------------ TESTIMONIALS ------------------------------ */
+
+.lux-testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+}
+
+/* ------------------------------ RESPONSIVE ------------------------------ */
+
+@media (max-width: 768px) {
+  .luxury-title {
+    font-size: 1.6rem;
+  }
+
+  .lux-hotel-card img {
+    height: 180px;
+  }
+
+  .lux-card {
+    height: 180px;
+  }
+
+  .lux-amenities-grid {
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .luxury-section {
+    padding: 40px 4%;
+  }
+
+  .luxury-title {
+    font-size: 1.4rem;
+  }
+
+  .lux-hotel-card img,
+  .lux-card {
+    height: 160px;
+  }
+}
+
+
+
+
+
 .loginPage {
   display: flex;
   justify-content: center;

@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { UserBooking } from "../../../Backend/models/UserBookings";
+import type { UserBooking } from "../../../Backend/models/Booking";
 import type { Booking } from "../types/Booking";
 
 interface BookingState {
+  bookings: Booking[];
   booking: UserBooking | null;
   clientSecret: string | null;
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -10,11 +11,30 @@ interface BookingState {
 }
 
 const initialState: BookingState = {
+  bookings: [],
   booking: null,
   clientSecret: null,
   status: "idle",
   error: null,
 };
+
+export const fetchBookingsByUser = createAsyncThunk(
+  "booking/fetchBookingsByUser",
+  async (userId: string, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `https://booknestapi.netlify.app/bookings`
+      );
+      if (!response.ok) {
+        throw new Error("Failed to fetch bookings.");
+      }
+      const data = await response.json();
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 
 export const createBooking = createAsyncThunk(
   "booking/createBooking",
@@ -88,6 +108,17 @@ const bookingSlice = createSlice({
         state.clientSecret = action.payload;
       })
       .addCase(createPaymentIntent.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBookingsByUser.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchBookingsByUser.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.bookings = action.payload;
+      })
+      .addCase(fetchBookingsByUser.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
       });

@@ -1,5 +1,7 @@
 import React from 'react';
+import { FaHeart, FaRegHeart, FaPencilAlt, FaTrash } from 'react-icons/fa';
 import Button from '../Button/Button';
+import IconButton from '../Iconbutton/Iconbutton';
 import styles from './BookingListItem.module.css';
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
@@ -14,6 +16,9 @@ interface BookingListItemProps {
   createdAt: Date;
   onCancel: () => void;
   onEdit: () => void;
+  onDelete: () => void;
+  onFavorite: () => void;
+  isFavorite: boolean;
 }
 
 const BookingListItem: React.FC<BookingListItemProps> = ({
@@ -26,6 +31,9 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   createdAt,
   onCancel,
   onEdit,
+  onDelete,
+  onFavorite,
+  isFavorite,
 }) => {
   const statusClass = status.toLowerCase().replace(' ', '-');
   return (
@@ -45,7 +53,11 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
       </div>
       <div className={styles.actions}>
         {status === 'Approved' && <Button onClick={onCancel} variant="danger">Cancel</Button>}
-        <Button onClick={onEdit} variant="secondary">Edit</Button>
+        <div className={styles.iconActions}>
+          <IconButton icon={isFavorite ? FaHeart : FaRegHeart} onClick={onFavorite} isActive={isFavorite} />
+          <IconButton icon={FaPencilAlt} onClick={onEdit} />
+          <IconButton icon={FaTrash} onClick={onDelete} />
+        </div>
       </div>
     </div>
   );
