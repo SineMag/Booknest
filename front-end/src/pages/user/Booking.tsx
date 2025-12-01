@@ -125,6 +125,11 @@ export default function Booking() {
       return;
     }
 
+    if (new Date(checkOut) < new Date(checkIn)) {
+      setErrorMessage("Check-out date cannot be earlier than the check-in date.");
+      return;
+    }
+
     if (!accId || isNaN(accId)) {
       setErrorMessage(
         "Accommodation ID is missing or invalid. Please select an accommodation first."
@@ -212,6 +217,14 @@ export default function Booking() {
     }
   }, [access_code]);
 
+  const getTodayString = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   return (
     <div className={styles.bookingContainer}>
       <div className={styles.contentWrapper}>
@@ -287,6 +300,7 @@ export default function Booking() {
               setField={setCheckIn}
               details="Select your arrival date."
               name="checkInDate"
+              min={getTodayString()}
             />
             <InputField
               type="date"
@@ -295,6 +309,7 @@ export default function Booking() {
               setField={setCheckOut}
               details="Select your departure date."
               name="checkOutDate"
+              min={checkIn || getTodayString()}
             />
             <InputField
               type="number"

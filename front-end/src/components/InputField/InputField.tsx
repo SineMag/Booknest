@@ -9,6 +9,7 @@ type Props = {
   label?: string;
   details?: string;
   name?: string;
+  min?: string;
   /**
    * Optional controlled visibility: if provided, the parent controls
    * whether the password is shown. `onToggleShow` must be provided
@@ -32,6 +33,7 @@ export default function InputField({
   label,
   details,
   name,
+  min,
 }: Props) {
   const [localShow, setLocalShow] = useState(false);
 
@@ -64,6 +66,7 @@ export default function InputField({
         onChange={(e) => setField(e.target.value)}
         name={name}
         id={name}
+        min={min}
         style={{
           width: "100%",
           padding: isPassword ? "14px 45px 14px 14px" : "14px",
