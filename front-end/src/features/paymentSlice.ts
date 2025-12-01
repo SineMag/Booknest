@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = "https://booknestapi.netlify.app";
+const BASE_URL = "http://localhost:8888";
 // const BASE_URL = "http://localhost:8888";
 
 export interface Payment {
@@ -32,6 +32,7 @@ export const initializePayment = createAsyncThunk(
       email: payment.email,
       amount: payment.amount, // amount must be in kobo (₦500 = 50000)
     });
+    console.log("pAYsTACK response", response.data);
 
     console.log("React response", response.data);
     return response.data.data;

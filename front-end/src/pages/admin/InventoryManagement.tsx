@@ -13,18 +13,25 @@ import {
 import type { Hotel } from "../../features/InventoryManagementSlice";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
-import { AMENITIES } from "../../types/Amenity";
 import { ROOM_TYPES } from "../../types/RoomType";
+import {
+  createAccomodation,
+  deleteAccomodation,
+  fetchAccomodations,
+  updateAccomodation,
+} from "../../features/accomodationSlice";
+import type { Accomodation, IAccomodation } from "../../types/Accomodation";
+import { AMENITIES } from "../../types/Amenity";
 
 interface HotelForm {
   name: string;
   description: string;
   imagegallery: string;
-  amenities: (keyof typeof AMENITIES)[]; // store keys instead of CSV
+  amenities: string[]; // array of amenity labels
   physicaladdress: string;
   phonenumber: string;
   emailaddress: string;
-  roomtypes: (keyof typeof ROOM_TYPES)[];
+  roomtypes: string[]; // array of room type names
   rating: string;
 }
 
@@ -43,7 +50,6 @@ export default function InventoryManagement(): JSX.Element {
   });
   const [editingHotelId, setEditingHotelId] = useState<number | null>(null);
 
-  // Dropdown states
   const [amenitiesOpen, setAmenitiesOpen] = useState(false);
   const [roomTypesOpen, setRoomTypesOpen] = useState(false);
 
@@ -60,11 +66,14 @@ export default function InventoryManagement(): JSX.Element {
   }, [dispatch]);
 
   useEffect(() => {
+    if (loading) dispatch(fetchAccomodations());
+  }, [loading, dispatch]);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const editId = urlParams.get("edit");
-
-    if (editId && hotels.length > 0) {
-      const hotelToEdit = hotels.find((h) => h.id === Number(editId));
+    if (editId && accomodations.length > 0) {
+      const hotelToEdit = accomodations.find((h) => h.id === Number(editId));
       if (hotelToEdit) openModalForEdit(hotelToEdit);
     }
   }, [hotels, location.search]);
@@ -74,45 +83,44 @@ export default function InventoryManagement(): JSX.Element {
       name: hotel.name,
       description: hotel.description,
       imagegallery: hotel.imagegallery.join(", "),
-      amenities: hotel.amenities.map(
-        (name) =>
-          Object.keys(AMENITIES).find(
-            (key) => AMENITIES[key as keyof typeof AMENITIES].name === name
-          ) as keyof typeof AMENITIES
-      ),
+      amenities: hotel.amenities, // already labels
+      roomtypes: hotel.roomtypes, // already names
       physicaladdress: hotel.physicaladdress,
       phonenumber: hotel.phonenumber,
       emailaddress: hotel.emailaddress,
-      roomtypes: hotel.roomtypes.map(
-        (name) =>
-          Object.keys(ROOM_TYPES).find(
-            (key) => ROOM_TYPES[key as keyof typeof ROOM_TYPES].name === name
-          ) as keyof typeof ROOM_TYPES
-      ),
       rating: hotel.rating.toString(),
     });
-
-    setEditingHotelId(hotel.id);
+    setEditingHotelId(hotel.id!);
     setShowModal(true);
   };
 
-  const viewHotel = (id: number) => {
-    navigate(`/accommodation-details/${id}`);
+  const viewHotel = (id: number) => navigate(`/accommodation-details/${id}`);
+
+  const resetForm = () => {
+    setForm({
+      name: "",
+      description: "",
+      imagegallery: "",
+      amenities: [],
+      physicaladdress: "",
+      phonenumber: "",
+      emailaddress: "",
+      roomtypes: [],
+      rating: "",
+    });
+    setEditingHotelId(null);
+    setShowModal(false);
   };
 
-  const onAddHotel = async (e: React.FormEvent) => {
+  const onSubmitHotel = async (e: React.FormEvent) => {
     e.preventDefault();
 
     const payload = {
       name: form.name,
       description: form.description,
       imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
-      amenities: form.amenities.map(
-        (key) => AMENITIES[key as keyof typeof AMENITIES].name
-      ),
-      roomTypes: form.roomtypes.map(
-        (key) => ROOM_TYPES[key as keyof typeof ROOM_TYPES].name
-      ),
+      amenities: form.amenities,
+      roomTypes: form.roomtypes,
       physicalAddress: form.physicaladdress,
       phoneNumber: form.phonenumber,
       emailAddress: form.emailaddress,
@@ -120,68 +128,14 @@ export default function InventoryManagement(): JSX.Element {
     };
 
     try {
-      setShowModal(false);
-      setEditingHotelId(null);
-      setForm({
-        name: "",
-        description: "",
-        imagegallery: "",
-        amenities: [],
-        physicaladdress: "",
-        phonenumber: "",
-        emailaddress: "",
-        roomtypes: [],
-        rating: "",
-      });
-
-      console.log("Payload @inventory management", payload);
-
-      // dispatch(fetchHotels());
-      dispatch(addHotel(payload));
-    } catch (err) {
-      console.error("Failed to submit hotel:", err);
-      alert("Failed to submit hotel.");
-    }
-  };
-  const onUpdateHotel = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    const payload = {
-      name: form.name,
-      description: form.description,
-      imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
-      amenities: form.amenities.map(
-        (key) => AMENITIES[key as keyof typeof AMENITIES].name
-      ),
-      roomTypes: form.roomtypes.map(
-        (key) => ROOM_TYPES[key as keyof typeof ROOM_TYPES].name
-      ),
-      physicalAddress: form.physicaladdress,
-      phoneNumber: form.phonenumber,
-      emailAddress: form.emailaddress,
-      rating: Number(form.rating) || 0,
-    };
-
-    try {
-      setShowModal(false);
-      setEditingHotelId(null);
-      setForm({
-        name: "",
-        description: "",
-        imagegallery: "",
-        amenities: [],
-        physicaladdress: "",
-        phonenumber: "",
-        emailaddress: "",
-        roomtypes: [],
-        rating: "",
-      });
-
-      console.log(payload);
-
-      // dispatch(fetchHotels());
-      console.log("Editting ID: ", editingHotelId);
-      dispatch(updateHotel({ id: editingHotelId!, hotel: payload }));
+      if (editingHotelId) {
+        await dispatch(
+          updateAccomodation({ id: editingHotelId, accomodation: payload })
+        );
+      } else {
+        await dispatch(createAccomodation(payload));
+      }
+      resetForm();
     } catch (err) {
       console.error("Failed to submit hotel:", err);
       alert("Failed to submit hotel.");
@@ -189,10 +143,8 @@ export default function InventoryManagement(): JSX.Element {
   };
 
   const overlayClick = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).classList.contains(styles.modalOverlay)) {
-      setShowModal(false);
-      setEditingHotelId(null);
-    }
+    if ((e.target as HTMLElement).classList.contains(styles.modalOverlay))
+      resetForm();
   };
 
   return (
@@ -256,42 +208,106 @@ export default function InventoryManagement(): JSX.Element {
           ))}
         </div>
 
-        {showModal && (
-          <div className={styles.modalOverlay} onClick={overlayClick}>
-            <div className={styles.modal} role="dialog" aria-modal="true">
-              <h2>{editingHotelId ? "Edit Hotel" : "Add New Hotel"}</h2>
-              <form
-                onSubmit={editingHotelId ? onUpdateHotel : onAddHotel}
-                className={styles.modalForm}
-              >
-                <InputField
-                  type="text"
-                  field={form.name}
-                  setField={(v) => setForm({ ...form, name: String(v) })}
-                  placeholder="Hotel Name"
-                />
-                <InputField
-                  type="textarea"
-                  field={form.description}
-                  setField={(v) => setForm({ ...form, description: String(v) })}
-                  placeholder="Description"
-                />
+            <div className={styles.grid}>
+              {accomodations.map((h) => (
+                <div key={h.id} className={styles.card}>
+                  <div className={styles.imagegallery}>
+                    <img
+                      src={h.imagegallery?.[0] || "/placeholder-hotel.jpg"}
+                      alt={h.name}
+                      className={styles.hotelImage}
+                    />
+                  </div>
+                  <h3>{h.name}</h3>
+                  <p>{h.physicaladdress}</p>
+                  <p>{h.emailaddress}</p>
+                  <p>Rating: {h.rating}</p>
 
-                {/* Image Gallery */}
-                <div className={styles.formGroup}>
-                  <label>Image Gallery</label>
-                  {form.imagegallery.split(",").map((img, idx) => (
-                    <div key={idx} className={styles.imageInputRow}>
-                      <input
-                        type="text"
-                        value={img}
-                        onChange={(e) => {
-                          const images = form.imagegallery.split(",");
-                          images[idx] = e.target.value;
-                          setForm({ ...form, imagegallery: images.join(",") });
-                        }}
-                        placeholder={`Image URL ${idx + 1}`}
-                      />
+                  <div className={styles.cardButtons}>
+                    <Button
+                      type="button"
+                      width={60}
+                      onClick={() => viewHotel(h.id!)}
+                      variant="success"
+                    >
+                      <FaEye />
+                    </Button>
+                    <Button
+                      type="button"
+                      width={60}
+                      onClick={() => openModalForEdit(h)}
+                    >
+                      <FaEdit />
+                    </Button>
+                    <Button
+                      type="button"
+                      width={60}
+                      onClick={() => {
+                        if (window.confirm("Are you sure you want to delete?"))
+                          dispatch(deleteAccomodation(h.id!));
+                      }}
+                      variant="danger"
+                    >
+                      <FaTrash />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {showModal && (
+              <div className={styles.modalOverlay} onClick={overlayClick}>
+                <div className={styles.modal} role="dialog" aria-modal="true">
+                  <h2>{editingHotelId ? "Edit Hotel" : "Add New Hotel"}</h2>
+                  <form onSubmit={onSubmitHotel} className={styles.modalForm}>
+                    <InputField
+                      type="text"
+                      field={form.name}
+                      setField={(v) => setForm({ ...form, name: String(v) })}
+                      placeholder="Hotel Name"
+                    />
+                    <InputField
+                      type="textarea"
+                      field={form.description}
+                      setField={(v) =>
+                        setForm({ ...form, description: String(v) })
+                      }
+                      placeholder="Description"
+                    />
+
+                    {/* Image Gallery */}
+                    <div className={styles.formGroup}>
+                      <label>Image Gallery</label>
+                      {form.imagegallery.split(",").map((img, idx) => (
+                        <div key={idx} className={styles.imageInputRow}>
+                          <input
+                            type="text"
+                            value={img}
+                            onChange={(e) => {
+                              const images = form.imagegallery.split(",");
+                              images[idx] = e.target.value;
+                              setForm({
+                                ...form,
+                                imagegallery: images.join(","),
+                              });
+                            }}
+                            placeholder={`Image URL ${idx + 1}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const images = form.imagegallery.split(",");
+                              images.splice(idx, 1);
+                              setForm({
+                                ...form,
+                                imagegallery: images.join(","),
+                              });
+                            }}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      ))}
                       <button
                         type="button"
                         onClick={() => {
@@ -303,21 +319,128 @@ export default function InventoryManagement(): JSX.Element {
                         Remove
                       </button>
                     </div>
-                  ))}
-                  <button
-                    type="button"
-                    className={styles.addImageButton}
-                    onClick={() =>
-                      setForm({
-                        ...form,
-                        imagegallery: form.imagegallery
-                          ? form.imagegallery + ","
-                          : "",
-                      })
-                    }
-                  >
-                    Add Image
-                  </button>
+
+                    {/* Amenities Dropdown */}
+                    <div className={styles.dropdownWrapper}>
+                      <label>Amenities</label>
+                      <div
+                        className={styles.dropdownHeader}
+                        onClick={() => setAmenitiesOpen(!amenitiesOpen)}
+                      >
+                        {form.amenities.length
+                          ? form.amenities.join(", ")
+                          : "Select amenities"}
+                        <span className={styles.arrow}>
+                          {amenitiesOpen ? "▲" : "▼"}
+                        </span>
+                      </div>
+                      {amenitiesOpen && (
+                        <div className={styles.dropdownList}>
+                          {Object.keys(AMENITIES).map((label) => (
+                            <label key={label} className={styles.dropdownItem}>
+                              <input
+                                type="checkbox"
+                                checked={form.amenities.includes(label)}
+                                onChange={(e) => {
+                                  const selected = [...form.amenities];
+                                  if (e.target.checked) selected.push(label);
+                                  else
+                                    selected.splice(selected.indexOf(label), 1);
+                                  setForm({ ...form, amenities: selected });
+                                }}
+                              />
+                              {label}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Room Types Dropdown */}
+                    <div className={styles.dropdownWrapper}>
+                      <label>Room Types</label>
+                      <div
+                        className={styles.dropdownHeader}
+                        onClick={() => setRoomTypesOpen(!roomTypesOpen)}
+                      >
+                        {form.roomtypes.length
+                          ? form.roomtypes.join(", ")
+                          : "Select room types"}
+                        <span className={styles.arrow}>
+                          {roomTypesOpen ? "▲" : "▼"}
+                        </span>
+                      </div>
+                      {roomTypesOpen && (
+                        <div className={styles.dropdownList}>
+                          {ROOM_TYPES.map((room) => (
+                            <label
+                              key={room.name}
+                              className={styles.dropdownItem}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={form.roomtypes.includes(room.name)}
+                                onChange={(e) => {
+                                  const selected = [...form.roomtypes];
+                                  if (e.target.checked)
+                                    selected.push(room.name);
+                                  else
+                                    selected.splice(
+                                      selected.indexOf(room.name),
+                                      1
+                                    );
+                                  setForm({ ...form, roomtypes: selected });
+                                }}
+                              />
+                              {room.name}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    <InputField
+                      type="number"
+                      field={form.rating}
+                      setField={(v) => setForm({ ...form, rating: String(v) })}
+                      placeholder="Rating (0-5)"
+                    />
+                    <InputField
+                      type="text"
+                      field={form.physicaladdress}
+                      setField={(v) =>
+                        setForm({ ...form, physicaladdress: String(v) })
+                      }
+                      placeholder="Address"
+                    />
+                    <div className={styles.inputGroup}>
+                      <InputField
+                        type="text"
+                        field={form.phonenumber}
+                        setField={(v) =>
+                          setForm({ ...form, phonenumber: String(v) })
+                        }
+                        placeholder="Phone Number"
+                      />
+                      <InputField
+                        type="text"
+                        field={form.emailaddress}
+                        setField={(v) =>
+                          setForm({ ...form, emailaddress: String(v) })
+                        }
+                        placeholder="Email Address"
+                      />
+                    </div>
+
+                    <div className={styles.modalButtons}>
+                      <Button type="submit" width={130}>
+                        {editingHotelId ? "UPDATE" : "ADD HOTEL"}
+                      </Button>
+                      <Button type="button" width={130} onClick={resetForm}>
+                        CANCEL
+                      </Button>
+                    </div>
+                  </form>
                 </div>
 
                 {/* Amenities Dropdown */}

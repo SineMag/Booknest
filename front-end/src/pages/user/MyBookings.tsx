@@ -25,7 +25,7 @@ const MyBookings: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchBookingsByUser(user.id));
+      dispatch(fetchBookinsByUserId(user.id!));
       dispatch(fetchAccomodations());
     }
   }, [dispatch, user]);
@@ -67,15 +67,35 @@ const MyBookings: React.FC = () => {
   console.log("Bookings from Redux store:", bookings);
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>My Bookings</h1>
-      {bookings.length === 0 ? (
-        <div className={styles.noBookings}>
-          <FaCalendarPlus className={styles.noBookingsIcon} />
-          <p className={styles.noBookingsText}>You have no bookings yet.</p>
-          <Link to="/dashboard" className={styles.noBookingsButton}>
-            <Button variant="primary">Book Now</Button>
-          </Link>
-        </div>
+      {bookings ? (
+        <>
+          <h1 className={styles.title}>My Bookings</h1>
+          {bookings.length === 0 ? (
+            <p>You have no bookings yet.</p>
+          ) : (
+            <div className={styles.bookingList}>
+              {bookings.map((booking) => (
+                <BookingListItem
+                  key={booking.id}
+                  bookingId={booking.id!}
+                  userName={user?.firstName || "N/A"}
+                  accommodationName={getAccommodationName(
+                    booking.accommodationId
+                  )}
+                  checkIn={new Date(booking.checkInDate).toLocaleDateString()}
+                  checkOut={new Date(booking.checkOutDate).toLocaleDateString()}
+                  status={booking.status as "Pending" | "Approved" | "Declined"}
+                  createdAt={new Date()}
+                  onCancel={() => console.log("Cancel booking")}
+                  onEdit={() => console.log("Edit booking")}
+                  onDelete={() => console.log("Delete booking")}
+                  onFavorite={() => console.log("Favorite booking")}
+                  isFavorite={false} // Hardcoded for now
+                />
+              ))}
+            </div>
+          )}
+        </>
       ) : (
         <div className={styles.bookingList}>
           {bookings.map((booking) => (
