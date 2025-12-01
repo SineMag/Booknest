@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 type Props = {
-  placeholder: string;
+  placeholder?: string;
   type: string;
   field: string;
   setField: (value: string) => void;
+  label?: string;
+  details?: string;
+  name?: string;
+  min?: string;
   /**
    * Optional controlled visibility: if provided, the parent controls
    * whether the password is shown. `onToggleShow` must be provided
@@ -26,6 +30,10 @@ export default function InputField({
   onToggleShow,
   className,
   style,
+  label,
+  details,
+  name,
+  min,
 }: Props) {
   const [localShow, setLocalShow] = useState(false);
 
@@ -50,11 +58,15 @@ export default function InputField({
         ...(style || {}),
       }}
     >
+      {label && <label htmlFor={name} style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#333" }}>{label}</label>}
       <input
         placeholder={placeholder}
         type={isPassword ? (visible ? "text" : "password") : type}
         value={field}
         onChange={(e) => setField(e.target.value)}
+        name={name}
+        id={name}
+        min={min}
         style={{
           width: "100%",
           padding: isPassword ? "14px 45px 14px 14px" : "14px",
@@ -63,6 +75,7 @@ export default function InputField({
           fontSize: "1rem",
         }}
       />
+      {details && <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "5px" }}>{details}</p>}
 
       {/* SHOW / HIDE ICON */}
       {isPassword && (
