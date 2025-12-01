@@ -13,52 +13,59 @@ import {
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const {
+    hotels: allHotels,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.hotels);
+
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { hotels, loading, error } = useSelector(
-    (state: RootState) => state.hotels
-  );
+  // Filtered list of hotels
+  const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
 
-  // Load favorites from localStorage when page loads
+  // Initialize filteredHotels once Redux data is loaded
+  useEffect(() => {
+    setFilteredHotels(allHotels);
+  }, [allHotels]);
+
+  // Load favorites from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
-    if (stored) {
-      setFavorites(new Set(JSON.parse(stored)));
-    }
+    if (stored) setFavorites(new Set(JSON.parse(stored)));
   }, []);
 
-  // Save favorites to localStorage anytime the Set changes
+  // Save favorites
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify([...favorites]));
   }, [favorites]);
 
+  // Fetch hotels from API
   useEffect(() => {
     dispatch(fetchHotels());
   }, [dispatch]);
 
-  const filteredAccommodations = hotels.filter((acc: Hotel) =>
-    acc.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
   const handleFavoriteToggle = (id: number) => {
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
-      if (newFavorites.has(id)) {
-        newFavorites.delete(id);
-      } else {
-        newFavorites.add(id);
-      }
+      if (newFavorites.has(id)) newFavorites.delete(id);
+      else newFavorites.add(id);
       return newFavorites;
     });
 
-    // Redirect to My Favorites page
     navigate("/my-favorites");
   };
 
   const handleView = (id: number) => {
     navigate(`/accomodation-details/${id}`);
   };
+
+  // Filter by search term
+  const displayedHotels = filteredHotels.filter((hotel) =>
+    hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div
@@ -90,13 +97,14 @@ const UserDashboard: React.FC = () => {
             alignItems: "baseline",
             gap: "20px",
             marginBottom: "30px",
+            flexWrap: "wrap",
           }}
         >
           <SearchBar
             placeholder="Search accommodations..."
             onSearch={setSearchTerm}
           />
-          <Filter />
+          <Filter data={allHotels} onFilter={setFilteredHotels} />
         </div>
 
         <div
@@ -107,7 +115,7 @@ const UserDashboard: React.FC = () => {
             flexWrap: "wrap",
           }}
         >
-          {filteredAccommodations.map((acc) => (
+          {displayedHotels.map((acc) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
