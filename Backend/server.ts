@@ -2,22 +2,19 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/userRouter";
+import userRouter from "./routes/UserRouter";
 import accomodationRouter from "./routes/accomodationRouter";
-<<<<<<< HEAD
-=======
 import roomTypeRouter from "./routes/roomTypeRouter";
->>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
+import bookingRouter from "./routes/bookingRouter";
+import reviewRouter from "./routes/reviewRouter";
 import cors from "cors";
-import paymentRouter from "./routes/paymentRouter";
+import paymentRouter from "./routes/PaymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
-<<<<<<< HEAD
-=======
 import { createRoomTypeTableQuery } from "./models/RoomType";
->>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
+import { createBookingTableQuery } from "./models/Booking";
+import { createReviewTableQuery } from "./models/Review";
 const app = express();
-
 // MIDDLEWARE
 // For Stripe webhooks, we need the raw body, so we have a custom middleware for it
 app.use(express.json());
@@ -37,25 +34,23 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
-app.use("/payments", paymentRouter);
+app.use("/payment", paymentRouter);
 app.use("/accomodations", accomodationRouter);
-<<<<<<< HEAD
-=======
 app.use("/room_types", roomTypeRouter);
->>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
-
+app.use("/bookings", bookingRouter);
+app.use("/reviews", reviewRouter);
 // INITIALISE DATABASE
 async function initializeDatabase() {
   await userTableQuery();
   console.log("user table created");
   await accomodationTableQuery();
   console.log("accomodation table created");
-<<<<<<< HEAD
-=======
   await createRoomTypeTableQuery();
   console.log("roomtype table created");
->>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
+  await createBookingTableQuery();
+  console.log("booking table created");
+  await createReviewTableQuery();
+  console.log("review table created");
 }
 initializeDatabase();
-
 export default app;
