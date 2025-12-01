@@ -72,7 +72,6 @@
   justify-content: flex-start; /* align left */
 }
 
-
 .price {
   font-weight: bold;
   margin-top: 4px;
@@ -88,7 +87,7 @@
   background-color: rgba(0, 0, 0, 0.55);
   z-index: 9999;
   display: flex;
- flex-direction: column;
+  flex-direction: column;
   align-items: center;
   overflow-y: auto;
   padding: 1rem;
@@ -114,6 +113,12 @@
 
 /* Form Groups */
 .formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inputGroup {
   display: flex;
   flex-direction: column;
   gap: 8px;
