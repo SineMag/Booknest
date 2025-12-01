@@ -18,6 +18,7 @@ const MyBookings: React.FC = () => {
     (state: RootState) => state.booking
   );
   const { user } = useSelector((state: RootState) => state.user);
+  console.log("User object from Redux store:", user);
   const { accomodations } = useSelector(
     (state: RootState) => state.accomodation
   );
@@ -63,6 +64,7 @@ const MyBookings: React.FC = () => {
     );
   }
 
+  console.log("Bookings from Redux store:", bookings);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>My Bookings</h1>
