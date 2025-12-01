@@ -1,64 +1,78 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { UserBooking } from "../../../Backend/models/UserBookings";
 import type { Booking } from "../types/Booking";
+import axios from "axios";
 
 interface BookingState {
-  booking: UserBooking | null;
-  clientSecret: string | null;
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null | undefined;
+  booking: Booking | null;
+  loading: boolean;
+  error: string;
 }
 
 const initialState: BookingState = {
   booking: null,
-  clientSecret: null,
-  status: "idle",
-  error: null,
+  loading: true,
+  error: "",
 };
+
+const BASE_URL = "http://localhost:8888/bookings";
+
+export const fetchBookings = createAsyncThunk(
+  "booking/fetchBookings",
+  async () => {
+    const { data } = await axios.get(BASE_URL);
+    return data;
+  }
+);
+
+export const fetchBookingById = createAsyncThunk(
+  "booking/fetchBookingById",
+  async (id: number) => {
+    const { data } = await axios.get(`${BASE_URL}/${id}`);
+    return data;
+  }
+);
 
 export const createBooking = createAsyncThunk(
   "booking/createBooking",
   async (bookingData: Booking, { rejectWithValue }) => {
     try {
-      const response = await fetch("https://booknestapi.netlify.app/bookings", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookingData),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to create booking.");
-      }
-      const data = await response.json();
-      console.log("BOOKED!");
+      const { data } = await axios.post(BASE_URL, bookingData);
       return data;
     } catch (error: any) {
-      console.log("ERROR BOOKING...");
-      return rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data || "Failed to create booking"
+      );
     }
   }
 );
 
-export const createPaymentIntent = createAsyncThunk(
-  "booking/createPaymentIntent",
-  async (bookingId: number, { rejectWithValue }) => {
+export const updateBooking = createAsyncThunk(
+  "booking/updateBooking",
+  async (bookingData: Booking, { rejectWithValue }) => {
     try {
-      const response = await fetch("/api/payments/create-payment-intent", {
-        // Assuming proxy
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ bookingId }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to create payment intent.");
-      }
-      const data = await response.json();
-      return data.clientSecret;
+      const { data } = await axios.put(
+        `${BASE_URL}/${bookingData.id}`,
+        bookingData
+      );
+      return data;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(
+        error.response?.data || "Failed to update booking"
+      );
+    }
+  }
+);
+
+export const deleteBooking = createAsyncThunk(
+  "booking/deleteBooking",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const { data } = await axios.delete(`${BASE_URL}/${id}`);
+      return data;
+    } catch (error: any) {
+      return rejectWithValue(
+        error.response?.data || "Failed to delete booking"
+      );
     }
   }
 );
@@ -70,25 +84,57 @@ const bookingSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createBooking.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
-      .addCase(createBooking.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.booking = action.payload;
+      .addCase(createBooking.fulfilled, (state) => {
+        state.loading = false;
       })
       .addCase(createBooking.rejected, (state, action) => {
-        state.status = "failed";
+        state.loading = false;
         state.error = action.payload as string;
       })
-      .addCase(createPaymentIntent.pending, (state) => {
-        state.status = "loading";
+      .addCase(fetchBookings.fulfilled, (state, action) => {
+        state.loading = false;
+        state.booking = action.payload;
       })
-      .addCase(createPaymentIntent.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.clientSecret = action.payload;
+      .addCase(fetchBookings.pending, (state) => {
+        state.loading = true;
       })
-      .addCase(createPaymentIntent.rejected, (state, action) => {
-        state.status = "failed";
+      .addCase(fetchBookings.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fetchBookingById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.booking = action.payload;
+      })
+      .addCase(fetchBookingById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchBookingById.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(updateBooking.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(updateBooking.fulfilled, (state, action) => {
+        state.loading = false;
+        state.booking = action.payload;
+      })
+      .addCase(updateBooking.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(deleteBooking.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(deleteBooking.fulfilled, (state, action) => {
+        state.loading = false;
+        state.booking = action.payload;
+      })
+      .addCase(deleteBooking.rejected, (state, action) => {
+        state.loading = false;
         state.error = action.payload as string;
       });
   },

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 import type { AppDispatch, RootState } from "../../../store";
-import { fetchHotels, type Hotel } from "../../features/InventoryManagementSlice";
-
-
+import { fetchAccomodations } from "../../features/accomodationSlice";
+import type { Accomodation } from "../../types/Accomodation";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,15 +14,15 @@ const UserDashboard: React.FC = () => {
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { hotels, loading, error } = useSelector(
-    (state: RootState) => state.hotels
+  const { accomodations, loading, error } = useSelector(
+    (state: RootState) => state.accomodation
   );
 
   useEffect(() => {
-    dispatch(fetchHotels());
+    dispatch(fetchAccomodations());
   }, [dispatch]);
 
-  const filteredAccommodations = hotels.filter((acc: Hotel) =>
+  const filteredAccommodations = accomodations.filter((acc: Accomodation) =>
     acc.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -45,27 +42,59 @@ const UserDashboard: React.FC = () => {
     navigate(`/accomodation-details/${id}`);
   };
 
-
   return (
     <div
       style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
-     
-      <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
-        <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "baseline", gap: "20px", marginBottom: "30px" }}>
-          <SearchBar placeholder="Search accommodations..." onSearch={setSearchTerm} />
+      <div
+        style={{
+          flex: 1,
+          padding: "20px",
+          maxWidth: "1200px",
+          margin: "0 auto",
+        }}
+      >
+        <h1
+          style={{
+            textAlign: "center",
+            marginBottom: "30px",
+            fontSize: "2.5rem",
+            color: "#333",
+          }}
+        >
+          Available Accommodations
+        </h1>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "baseline",
+            gap: "20px",
+            marginBottom: "30px",
+          }}
+        >
+          <SearchBar
+            placeholder="Search accommodations..."
+            onSearch={setSearchTerm}
+          />
           <Filter />
         </div>
-        <div style={{ display: "flex", justifyContent: "center", gap: "20px", flexWrap: "wrap" }}>
-          {filteredAccommodations.map(acc => (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            gap: "20px",
+            flexWrap: "wrap",
+          }}
+        >
+          {filteredAccommodations.map((acc) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
-              price={acc.price ? `R${acc.price}` : "N/A"} // use price from backend
+              price={"N/A"} // use price from backend
               isFavorite={favorites.has(acc.id)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
               onView={() => handleView(acc.id)}

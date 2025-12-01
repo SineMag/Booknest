@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_BASE_URL = "https://booknestapi.netlify.app/";
+const API_BASE_URL = "http://localhost:8888";
 
 export interface User {
   id?: number;
@@ -25,10 +25,7 @@ export const createUser = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       console.log("register thunk...");
-      const response = await axios.post(
-        API_BASE_URL + "/auth/register",
-        user
-      );
+      const response = await axios.post(API_BASE_URL + "/auth/register", user);
       console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
@@ -87,7 +84,8 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => { // Add a logout reducer
+    logout: (state) => {
+      // Add a logout reducer
       state.user = null;
       state.isLoggedIn = false;
       localStorage.removeItem("user");

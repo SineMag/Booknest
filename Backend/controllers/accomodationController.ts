@@ -31,6 +31,7 @@ export const getAccomodationById = async (req: Request, res: Response) => {
 export const createAccomodation = async (req: Request, res: Response) => {
   try {
     const accomodationBody = req.body as Accomodation;
+    console.log("Accomodation body @controller",accomodationBody);
     const accomodation = await createAccomodationDB(accomodationBody);
     res.status(201).json(accomodation);
   } catch (error) {
