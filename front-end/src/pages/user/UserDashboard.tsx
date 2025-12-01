@@ -9,6 +9,7 @@ import {
   fetchHotels,
   type Hotel,
 } from "../../features/InventoryManagementSlice";
+// TESTING
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
