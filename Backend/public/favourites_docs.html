@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favourites API Documentation</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .route {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #27ae60;
+        margin-bottom: 20px;
+        border-radius: 6px;
+      }
+
+      code {
+        background: #ecf0f1;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+
+      pre {
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>Favourites API</h1>
+      <h4>
+        Public Route:
+        <a href="https://booknestapi.netlify.app/favourites.html">
+          https://booknestapi.netlify.app/favourites.html
+        </a>
+      </h4>
+
+      <h2>📘 Introduction</h2>
+      <p>
+        The <strong>/favourites</strong> API allows users to save and manage
+        their favourite accommodations on the BookNest platform. It supports
+        creating favourites, listing all favourites per user, and removing a
+        favourite.
+      </p>
+
+      <h2>🧩 Data Model</h2>
+      <p>Each favourite record has the following structure:</p>
+
+      <pre>
+{
+  id: number,
+  userId: number,
+  accommodationId: number
+}</pre
+      >
+
+      <hr />
+
+      <h2>📡 Routes Overview</h2>
+
+      <!-- TEST ROUTE -->
+      <div class="route">
+        <h3>GET /favourites/test</h3>
+        <p>Simple test route to confirm the Favourite API is working.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>"Hello Favourite!"</pre>
+      </div>
+
+      <!-- GET BY USER ID -->
+      <div class="route">
+        <h3>GET /favourites/:id</h3>
+        <p>
+          Returns all favourite accommodations for a specific user based on
+          <code>userId</code>.
+        </p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /favourites/5</pre>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+[
+  {
+    "id": 12,
+    "userId": 5,
+    "accommodationId": 3
+  },
+  {
+    "id": 13,
+    "userId": 5,
+    "accommodationId": 8
+  }
+]</pre
+        >
+      </div>
+
+      <!-- CREATE FAVOURITE -->
+      <div class="route">
+        <h3>POST /favourites</h3>
+        <p>Adds a new favourite record for a user.</p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "userId": 5,
+  "accommodationId": 10
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 21,
+  "userId": 5,
+  "accommodationId": 10
+}</pre
+        >
+      </div>
+
+      <!-- DELETE FAVOURITE -->
+      <div class="route">
+        <h3>DELETE /favourites/:id</h3>
+        <p>
+          Deletes a favourite by its <code>id</code> and returns the deleted
+          record.
+        </p>
+
+        <h4>✔ Example</h4>
+        <pre>DELETE /favourites/21</pre>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 21,
+  "userId": 5,
+  "accommodationId": 10
+}</pre
+        >
+      </div>
+
+      <hr />
+
+      <h2>🛠 Related Database Schema</h2>
+
+      <pre>
+CREATE TABLE IF NOT EXISTS favourites (
+  id SERIAL PRIMARY KEY,
+  userId INTEGER NOT NULL,
+  accommodationId INTEGER NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (accommodationId) REFERENCES accomodations(id) ON DELETE CASCADE
+);</pre
+      >
+
+      <hr />
+
+      <h2>📄 /docs — Documentation Route</h2>
+      <p>This page can be served at:</p>
+      <pre>GET /docs/favourites</pre>
+
+      <p>
+        Use it for internal developer reference or external API documentation.
+      </p>
+
+      <hr />
+
+      <h2>❓ Need Help?</h2>
+      <p>
+        If you'd like an interactive Swagger/OpenAPI version of this page, just
+        ask!
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>
