@@ -21,14 +21,14 @@ const UserLogin: React.FC = () => {
   const navigate = useNavigate();
 
   // useEffect
-  // Removed redirect to allow access to login page
   useEffect(() => {
     if (user && isLoggedIn) {
       setLocalUser(user);
+      navigate("/dashboard");
     } else {
       setLocalUser({});
     }
-  }, [user]);
+  }, [user, isLoggedIn, navigate]);
 
   const handleLogin = () => {
     console.log("registering user...");

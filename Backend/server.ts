@@ -4,10 +4,18 @@ import path from "path";
 import authRouter from "./routes/authRouter";
 import userRouter from "./routes/userRouter";
 import accomodationRouter from "./routes/accomodationRouter";
+<<<<<<< HEAD
+=======
+import roomTypeRouter from "./routes/roomTypeRouter";
+>>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
 import cors from "cors";
 import paymentRouter from "./routes/paymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
+<<<<<<< HEAD
+=======
+import { createRoomTypeTableQuery } from "./models/RoomType";
+>>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
 const app = express();
 
 // MIDDLEWARE
@@ -31,6 +39,10 @@ app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/payments", paymentRouter);
 app.use("/accomodations", accomodationRouter);
+<<<<<<< HEAD
+=======
+app.use("/room_types", roomTypeRouter);
+>>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
 
 // INITIALISE DATABASE
 async function initializeDatabase() {
@@ -38,6 +50,11 @@ async function initializeDatabase() {
   console.log("user table created");
   await accomodationTableQuery();
   console.log("accomodation table created");
+<<<<<<< HEAD
+=======
+  await createRoomTypeTableQuery();
+  console.log("roomtype table created");
+>>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
 }
 initializeDatabase();
 

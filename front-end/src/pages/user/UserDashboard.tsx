@@ -1,49 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import Navbar from "../../components/NavBar/Navbar";
 import Footer from "../../components/footer/Footer";
 import SearchBar from "../../components/Searchbar/Searchbar";
 import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
+import type { AppDispatch, RootState } from "../../../store";
+import { fetchHotels, type Hotel } from "../../features/InventoryManagementSlice";
+
 
 const UserDashboard: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
-  const accommodations = [
-    {
-      id: 1,
-      image: "https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-      name: "Luxury Beach Resort",
-      place: "Durban, KwaZulu-Natal",
-      description: "Experience ultimate luxury with ocean views, private beach access, and world-class amenities.",
-      price: "R4299",
-    },
-    {
-      id: 2,
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo-fplMdzubdT3s_1rVfc7m-qT0xhVq67VBg&s",
-      name: "Mountain View Lodge",
-      place: "Cape Town, Western Cape",
-      description: "Nestled in the heart of the mountains, perfect for nature lovers and adventure seekers.",
-      price: "R3249",
-    },
-    {
-      id: 3,
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9O7VQ1XL8XGSMqMAUdQ7iy3eS1iqMtPnlw&s",
-      name: "Urban Oasis Hotel",
-      place: "Sandton, Pretoria",
-      description: "Modern luxury in the heart of the city, steps away from major attractions and business centers.",
-      price: "R5349",
-    },
-  ];
+  const { hotels, loading, error } = useSelector(
+    (state: RootState) => state.hotels
+  );
 
-  const filteredAccommodations = accommodations.filter(acc =>
+  useEffect(() => {
+    dispatch(fetchHotels());
+  }, [dispatch]);
+
+  const filteredAccommodations = hotels.filter((acc: Hotel) =>
     acc.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const handleFavoriteToggle = (id: number) => {
-    setFavorites(prev => {
+    setFavorites((prev) => {
       const newFavorites = new Set(prev);
       if (newFavorites.has(id)) {
         newFavorites.delete(id);
@@ -58,8 +44,11 @@ const UserDashboard: React.FC = () => {
     navigate(`/accomodation-details/${id}`);
   };
 
+
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
+    >
       <Navbar />
       <div style={{ flex: 1, padding: "20px", maxWidth: "1200px", margin: "0 auto" }}>
         <h1 style={{ textAlign: "center", marginBottom: "30px", fontSize: "2.5rem", color: "#333" }}>Available Accommodations</h1>
@@ -71,11 +60,11 @@ const UserDashboard: React.FC = () => {
           {filteredAccommodations.map(acc => (
             <DashboardCard
               key={acc.id}
-              image={acc.image}
+              image={acc.imageGallery?.[0] ?? "/placeholder-hotel.jpg"}
               name={acc.name}
-              place={acc.place}
+              place={acc.physicalAddress}
               description={acc.description}
-              price={acc.price}
+              price={acc.price ? `R${acc.price}` : "N/A"} // use price from backend
               isFavorite={favorites.has(acc.id)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
               onView={() => handleView(acc.id)}
@@ -87,4 +76,5 @@ const UserDashboard: React.FC = () => {
     </div>
   );
 };
+
 export default UserDashboard;
