@@ -286,6 +286,7 @@ export default function Booking() {
               field={checkIn}
               setField={setCheckIn}
               details="Select your arrival date."
+              name="checkInDate"
             />
             <InputField
               type="date"
@@ -293,6 +294,7 @@ export default function Booking() {
               field={checkOut}
               setField={setCheckOut}
               details="Select your departure date."
+              name="checkOutDate"
             />
             <InputField
               type="number"
@@ -300,6 +302,7 @@ export default function Booking() {
               field={String(numberOfRooms)}
               setField={setNumberOfRooms}
               details="Specify how many rooms you need."
+              name="numberOfRooms"
             />
             <InputField
               type="number"
@@ -307,6 +310,7 @@ export default function Booking() {
               field={String(numberOfGuests)}
               setField={(val) => setNumberOfGuests(Number(val))}
               details="Including yourself and any companions."
+              name="numberOfGuests"
             />
           </div>
 
@@ -330,7 +334,9 @@ export default function Booking() {
               field={phone}
               setField={setPhone}
               details="We'll use this to contact you about your booking."
+              name="phoneNumber"
             />
+        
             <InputField
               type="text"
               label="Special Requests (optional)"
@@ -338,6 +344,7 @@ export default function Booking() {
               field={specialRequest}
               setField={setSpecialRequest}
               details="Any particular needs or preferences?"
+              name="specialRequests"
             />
           </div>
 
