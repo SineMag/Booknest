@@ -10,15 +10,3 @@ export interface Accomodation {
   roomtypes: string[];
   rating: number;
 }
-
-export interface IAccomodation {
-  name: string;
-  description: string;
-  imageGallery: string[];
-  amenities: string[];
-  roomTypes: string[];
-  physicalAddress: string;
-  phoneNumber: string;
-  emailAddress: string;
-  rating: number;
-}

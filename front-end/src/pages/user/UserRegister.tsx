@@ -12,83 +12,21 @@ const UserRegister: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [physicalAddress, setPhysicalAddress] = useState("");
 
-  // error states
-  const [errors, setErrors] = useState({
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    password: "",
-    confirmPassword: "",
-    phoneNumber: "",
-    physicalAddress: "",
-  });
-
+  // state for email
+  const [password, setPassword] = useState(""); // state for password
+  const [confirmPassword, setConfirmPassword] = useState(""); // state for confirm password
+  const [phoneNumber, setPhoneNumber] = useState(""); // state for phone number
+  const [physicalAddress, setPhysicalAddress] = useState(""); // state for physical address
   const dispatch = useDispatch<AppDispatch>();
+  // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  /** --------------------------------------------------
-   * VALIDATE FORM
-   * -------------------------------------------------- */
-  const validateForm = () => {
-    const newErrors: typeof errors = {
-      firstName: "",
-      lastName: "",
-      emailAddress: "",
-      password: "",
-      confirmPassword: "",
-      phoneNumber: "",
-      physicalAddress: "",
-    };
-    let valid = true;
+  // useEffect
+  // Removed redirect to allow access to register page
 
-    if (!firstName.trim()) {
-      newErrors.firstName = "First name is required";
-      valid = false;
-    }
-    if (!lastName.trim()) {
-      newErrors.lastName = "Last name is required";
-      valid = false;
-    }
-    if (!emailAddress.trim()) {
-      newErrors.emailAddress = "Email address is required";
-      valid = false;
-    }
-    if (!password.trim()) {
-      newErrors.password = "Password is required";
-      valid = false;
-    }
-    if (!confirmPassword.trim()) {
-      newErrors.confirmPassword = "Confirm password is required";
-      valid = false;
-    } else if (confirmPassword !== password) {
-      newErrors.confirmPassword = "Passwords do not match";
-      valid = false;
-    }
-    if (!phoneNumber.trim()) {
-      newErrors.phoneNumber = "Phone number is required";
-      valid = false;
-    }
-    if (!physicalAddress.trim()) {
-      newErrors.physicalAddress = "Physical address is required";
-      valid = false;
-    }
-
-    setErrors(newErrors);
-    return valid;
-  };
-
-  /** --------------------------------------------------
-   * HANDLE REGISTER
-   * -------------------------------------------------- */
   const handleRegister = () => {
-    if (!validateForm()) return; // stop if form is invalid
-
-    // Dispatch createUser action
+    console.log("registering user...");
     dispatch(
       createUser({
         firstName,
@@ -99,130 +37,95 @@ const UserRegister: React.FC = () => {
         physicalAddress,
       })
     );
-
     navigate("/login");
   };
 
   return (
-    <div className="loginPage">
-      <div className="loginContainer">
-        <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>Register</h2>
-
-        <InputField
-          placeholder="First Name"
-          type="text"
-          field={firstName}
-          setField={setFirstName}
-        />
-        {errors.firstName && <p className={styles.error}>{errors.firstName}</p>}
-
-        <InputField
-          placeholder="Last Name"
-          type="text"
-          field={lastName}
-          setField={setLastName}
-        />
-        {errors.lastName && <p className={styles.error}>{errors.lastName}</p>}
-
-        <InputField
-          placeholder="Email Address"
-          type="email"
-          field={emailAddress}
-          setField={setEmailAddress}
-        />
-        {errors.emailAddress && (
-          <p className={styles.error}>{errors.emailAddress}</p>
-        )}
-
-        <InputField
-          placeholder="Password"
-          type="password"
-          field={password}
-          setField={setPassword}
-        />
-        {errors.password && <p className={styles.error}>{errors.password}</p>}
-
-        <InputField
-          placeholder="Confirm Password"
-          type="password"
-          field={confirmPassword}
-          setField={setConfirmPassword}
-        />
-        {errors.confirmPassword && (
-          <p className={styles.error}>{errors.confirmPassword}</p>
-        )}
-
-        <InputField
-          placeholder="Phone Number"
-          type="number"
-          field={phoneNumber}
-          setField={setPhoneNumber}
-        />
-        {errors.phoneNumber && (
-          <p className={styles.error}>{errors.phoneNumber}</p>
-        )}
-
-        <InputField
-          placeholder="Physical Address"
-          type="text"
-          field={physicalAddress}
-          setField={setPhysicalAddress}
-        />
-        {errors.physicalAddress && (
-          <p className={styles.error}>{errors.physicalAddress}</p>
-        )}
-
-        <p style={{ marginTop: "0.4rem", fontSize: "0.95rem" }}>
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            style={{
-              fontWeight: "600",
-              color: "#000",
-              textDecoration: "underline",
-            }}
-          >
-            Sign In
-          </Link>
-        </p>
-
-        <br />
-        <Button
-          variant="primary"
-          width={100}
-          onClick={handleRegister}
-          disabled={
-            !firstName ||
-            !lastName ||
-            !emailAddress ||
-            !password ||
-            !confirmPassword ||
-            !phoneNumber ||
-            !physicalAddress
-          }
-        >
-          Register
-        </Button>
-
-        <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>
-
-        <div className={styles.oauthIcons}>
-          <a
-            href="#"
-            onClick={() => alert("Google Login Button/Icon (not functional)")}
-          >
-            <FaGoogle size={30} />
-          </a>
-          <a
-            href="#"
-            onClick={() => alert("Facebook Login Button/Icon (not functional)")}
-          >
-            <FaFacebook size={30} />
-          </a>
+    <>
+      <div className="loginPage">
+        <div className="loginContainer">
+          <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
+            Register
+          </h2>
+          <InputField
+            placeholder="First Name"
+            type="text"
+            field={firstName} // current value
+            setField={setFirstName} // setter function
+          />
+          <InputField
+            placeholder="Last name"
+            type="text"
+            field={lastName} // current value
+            setField={setLastName} // setter function
+          />
+          <InputField
+            placeholder="email address"
+            type="text"
+            field={emailAddress} // current value
+            setField={setEmailAddress} // setter function
+          />
+          <InputField
+            placeholder="password"
+            type="password"
+            field={password} // current value
+            setField={setPassword} // setter function
+          />
+          <InputField
+            placeholder="confirm password"
+            type="password"
+            field={confirmPassword} // current value
+            setField={setConfirmPassword} // setter function
+          />
+          <InputField
+            placeholder="phone number"
+            type="number"
+            field={phoneNumber} // current value
+            setField={setPhoneNumber} // setter function
+          />
+          <InputField
+            placeholder="physical address"
+            type="text"
+            field={physicalAddress} // current value
+            setField={setPhysicalAddress} // setter function
+          />
+          <p style={{ marginTop: "0.4rem", fontSize: "0.95rem" }}>
+            Already have an account?{" "}
+            <Link
+              to="/login"
+              style={{
+                fontWeight: "600",
+                color: "#000",
+                textDecoration: "underline",
+              }}
+            >
+              Sign In
+            </Link>
+          </p>
+          <br />
+          <Button variant="primary" width={100} onClick={handleRegister}>
+            Register
+          </Button>
+          <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>
+          <div className={styles.oauthIcons}>
+            <a
+              href="#"
+              onClick={() => alert("Google Login Button/Icon (not functional)")}
+            >
+              <FaGoogle size={30} />
+            </a>
+            <a
+              href="#"
+              onClick={() =>
+                alert("Facebook Login Button/Icon (not functional)")
+              }
+            >
+              <FaFacebook size={30} />
+            </a>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
-
 export default UserRegister;

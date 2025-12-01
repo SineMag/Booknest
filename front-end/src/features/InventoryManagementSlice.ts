@@ -7,7 +7,7 @@ import {
 import axios from "axios";
 
 export type Hotel = {
-
+  price: any;
   id: number;
   name: string;
   description: string;
@@ -18,7 +18,6 @@ export type Hotel = {
   emailaddress: string;
   roomtypes: string[];
   rating: number;
-  price: number;
 };
 
 interface InventoryState {

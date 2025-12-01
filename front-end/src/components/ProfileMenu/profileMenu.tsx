@@ -70,19 +70,6 @@ export default function ProfileMenu({
   }, []);
 
   /** -------------------------------------------
-   * OPEN FROM HERO (global event)
-   * ------------------------------------------- */
-  useEffect(() => {
-    const handler = () => {
-      setOpen(true);
-      setSubMenu(null);
-    };
-    window.addEventListener("openProfileMenu", handler as EventListener);
-    return () =>
-      window.removeEventListener("openProfileMenu", handler as EventListener);
-  }, []);
-
-  /** -------------------------------------------
    * LOGOUT HANDLER
    * ------------------------------------------- */
   const handleLogout = () => {

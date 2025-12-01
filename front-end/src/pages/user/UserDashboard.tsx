@@ -5,27 +5,31 @@ import SearchBar from "../../components/Searchbar/Searchbar";
 import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 import type { AppDispatch, RootState } from "../../../store";
-import { fetchAccomodations } from "../../features/accomodationSlice";
-import type { Accomodation } from "../../types/Accomodation";
+import {
+  fetchHotels,
+  type Hotel,
+} from "../../features/InventoryManagementSlice";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { accomodations, loading, error } = useSelector(
-    (state: RootState) => state.accomodation
-  );
+  const {
+    hotels: allHotels,
+    loading,
+    error,
+  } = useSelector((state: RootState) => state.hotels);
 
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filtered list of hotels
-  const [filteredHotels, setFilteredHotels] = useState<Accomodation[]>([]);
+  const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
 
   // Initialize filteredHotels once Redux data is loaded
   useEffect(() => {
-    setFilteredHotels(accomodations);
-  }, [accomodations]);
+    setFilteredHotels(allHotels);
+  }, [allHotels]);
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -40,7 +44,7 @@ const UserDashboard: React.FC = () => {
 
   // Fetch hotels from API
   useEffect(() => {
-    dispatch(fetchAccomodations());
+    dispatch(fetchHotels());
   }, [dispatch]);
 
   const handleFavoriteToggle = (id: number) => {
@@ -103,7 +107,7 @@ const UserDashboard: React.FC = () => {
             placeholder="Search accommodations..."
             onSearch={setSearchTerm}
           />
-          <Filter data={accomodations} onFilter={setFilteredHotels} />
+          <Filter data={allHotels} onFilter={setFilteredHotels} />
         </div>
 
         <div

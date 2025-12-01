@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import type { AppDispatch, RootState } from "../../../store";
+import {
+  fetchHotels,
+  type Hotel,
+} from "../../features/InventoryManagementSlice";
 import { FaEye, FaHeart, FaShare } from "react-icons/fa";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router";
-import type { AppDispatch, RootState } from "../../../store";
-import { fetchAccomodations } from "../../features/accomodationSlice";
-import type { Accomodation } from "../../types/Accomodation";
+
 
 const MyFavorites: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
-  const { accomodations, loading } = useSelector(
-    (state: RootState) => state.accomodation
-  );
+  const { hotels, loading } = useSelector((state: RootState) => state.hotels);
 
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
@@ -21,11 +22,11 @@ const MyFavorites: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(fetchAccomodations());
+    dispatch(fetchHotels());
   }, [dispatch]);
 
-  const favoriteHotels = accomodations.filter((hotel: Accomodation) =>
-    favorites.has(hotel.id!)
+  const favoriteHotels = hotels.filter((hotel: Hotel) =>
+    favorites.has(hotel.id)
   );
 
   const removeFavorite = (id: number) => {
@@ -37,6 +38,7 @@ const MyFavorites: React.FC = () => {
 
   return (
     <div className="fav-wrapper">
+
       <div className="fav-container">
         <div className="fav-header">
           <h1>My Favorites</h1>
@@ -51,7 +53,7 @@ const MyFavorites: React.FC = () => {
           </div>
         ) : (
           <div className="fav-grid">
-            {favoriteHotels.map((hotel: Accomodation) => (
+            {favoriteHotels.map((hotel: Hotel) => (
               <div className="fav-card-grid" key={hotel.id}>
                 <img
                   src={hotel.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
@@ -66,15 +68,18 @@ const MyFavorites: React.FC = () => {
 
                 <div className="fav-card-actions">
                   <Link to={`/accomodation-details/:id`}>
-                    <Button>
+                    <Button className="fav-icon">
                       <FaEye />
                     </Button>
                   </Link>
 
-                  <Button>
+                  <Button className="fav-icon">
                     <FaShare />
                   </Button>
-                  <Button onClick={() => removeFavorite(hotel.id!)}>
+                  <Button
+                    className="fav-icon-heart"
+                    onClick={() => removeFavorite(hotel.id)}
+                  >
                     <FaHeart />
                   </Button>
                 </div>
