@@ -41,5 +41,10 @@
   to = "/.netlify/functions/reviews/:splat"
   status = 200
 
+[[redirects]]
+  from = "/favourites/*"
+  to = "/.netlify/functions/favourites/:splat"
+  status = 200
+
 [functions]
   node_bundler = "esbuild"
