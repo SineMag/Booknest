@@ -12,11 +12,11 @@ export default function HeroSection() {
   useEffect(() => {
     // Fade in text and floating animation for the bed image
     if (heroLeftRef.current && heroRightRef.current) {
-      heroLeftRef.current.style.opacity = '1';
-      heroLeftRef.current.style.transform = 'translateY(0)';
-      
-      heroRightRef.current.style.opacity = '1';
-      heroRightRef.current.style.transform = 'translateY(0) rotate(0deg)';
+      heroLeftRef.current.style.opacity = "1";
+      heroLeftRef.current.style.transform = "translateY(0)";
+
+      heroRightRef.current.style.opacity = "1";
+      heroRightRef.current.style.transform = "translateY(0) rotate(0deg)";
     }
   }, []);
 
@@ -38,7 +38,20 @@ export default function HeroSection() {
 
           {/* BUTTON */}
           <div className={styles.heroButtons}>
-            <Button onClick={() => navigate("/register")}>Get Started</Button>
+            <Button
+              onClick={() => {
+                // Open the profile menu in the navbar
+                try {
+                  window.dispatchEvent(new Event("openProfileMenu"));
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                } catch (e) {
+                  // Fallback to navigation if events are blocked
+                  navigate("/register");
+                }
+              }}
+            >
+              Get Started
+            </Button>
           </div>
         </div>
 
