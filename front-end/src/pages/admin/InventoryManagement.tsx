@@ -13,16 +13,18 @@ import {
 import type { Hotel } from "../../features/InventoryManagementSlice";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 import { useNavigate, useLocation } from "react-router-dom";
+import { AMENITIES } from "../../types/Amenity";
+import { ROOM_TYPES } from "../../types/RoomType";
 
 interface HotelForm {
   name: string;
   description: string;
   imagegallery: string;
-  amenities: string;
+  amenities: (keyof typeof AMENITIES)[]; // store keys instead of CSV
   physicaladdress: string;
   phonenumber: string;
   emailaddress: string;
-  roomtypes: string;
+  roomtypes: (keyof typeof ROOM_TYPES)[];
   rating: string;
 }
 
@@ -32,11 +34,11 @@ export default function InventoryManagement(): JSX.Element {
     name: "",
     description: "",
     imagegallery: "",
-    amenities: "",
+    amenities: [],
     physicaladdress: "",
     phonenumber: "",
     emailaddress: "",
-    roomtypes: "",
+    roomtypes: [],
     rating: "",
   });
   const [editingHotelId, setEditingHotelId] = useState<number | null>(null);
@@ -44,8 +46,6 @@ export default function InventoryManagement(): JSX.Element {
   // Dropdown states
   const [amenitiesOpen, setAmenitiesOpen] = useState(false);
   const [roomTypesOpen, setRoomTypesOpen] = useState(false);
-
-  const API_URL = "https://booknestapi.netlify.app/accomodations";
 
   const dispatch = useDispatch<AppDispatch>();
   const { hotels, loading, error } = useSelector(
@@ -74,29 +74,30 @@ export default function InventoryManagement(): JSX.Element {
       name: hotel.name,
       description: hotel.description,
       imagegallery: hotel.imagegallery.join(", "),
-      amenities: hotel.amenities.join(", "),
+      amenities: hotel.amenities.map(
+        (name) =>
+          Object.keys(AMENITIES).find(
+            (key) => AMENITIES[key as keyof typeof AMENITIES].name === name
+          ) as keyof typeof AMENITIES
+      ),
       physicaladdress: hotel.physicaladdress,
       phonenumber: hotel.phonenumber,
       emailaddress: hotel.emailaddress,
-      roomtypes: hotel.roomtypes.join(", "),
+      roomtypes: hotel.roomtypes.map(
+        (name) =>
+          Object.keys(ROOM_TYPES).find(
+            (key) => ROOM_TYPES[key as keyof typeof ROOM_TYPES].name === name
+          ) as keyof typeof ROOM_TYPES
+      ),
       rating: hotel.rating.toString(),
     });
+
     setEditingHotelId(hotel.id);
     setShowModal(true);
   };
 
   const viewHotel = (id: number) => {
     navigate(`/accommodation-details/${id}`);
-  };
-
-  const deleteHotel = async (hotelId: number) => {
-    try {
-      await axios.delete(`${API_URL}/${hotelId}`);
-      dispatch(fetchHotels());
-    } catch (err) {
-      console.error("Failed to delete hotel:", err);
-      alert("Failed to delete hotel.");
-    }
   };
 
   const onAddHotel = async (e: React.FormEvent) => {
@@ -106,8 +107,12 @@ export default function InventoryManagement(): JSX.Element {
       name: form.name,
       description: form.description,
       imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
-      amenities: form.amenities.split(",").map((s) => s.trim()),
-      roomTypes: form.roomtypes.split(",").map((s) => s.trim()),
+      amenities: form.amenities.map(
+        (key) => AMENITIES[key as keyof typeof AMENITIES].name
+      ),
+      roomTypes: form.roomtypes.map(
+        (key) => ROOM_TYPES[key as keyof typeof ROOM_TYPES].name
+      ),
       physicalAddress: form.physicaladdress,
       phoneNumber: form.phonenumber,
       emailAddress: form.emailaddress,
@@ -121,15 +126,15 @@ export default function InventoryManagement(): JSX.Element {
         name: "",
         description: "",
         imagegallery: "",
-        amenities: "",
+        amenities: [],
         physicaladdress: "",
         phonenumber: "",
         emailaddress: "",
-        roomtypes: "",
+        roomtypes: [],
         rating: "",
       });
 
-      console.log(payload);
+      console.log("Payload @inventory management", payload);
 
       // dispatch(fetchHotels());
       dispatch(addHotel(payload));
@@ -145,8 +150,12 @@ export default function InventoryManagement(): JSX.Element {
       name: form.name,
       description: form.description,
       imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
-      amenities: form.amenities.split(",").map((s) => s.trim()),
-      roomTypes: form.roomtypes.split(",").map((s) => s.trim()),
+      amenities: form.amenities.map(
+        (key) => AMENITIES[key as keyof typeof AMENITIES].name
+      ),
+      roomTypes: form.roomtypes.map(
+        (key) => ROOM_TYPES[key as keyof typeof ROOM_TYPES].name
+      ),
       physicalAddress: form.physicaladdress,
       phoneNumber: form.phonenumber,
       emailAddress: form.emailaddress,
@@ -160,11 +169,11 @@ export default function InventoryManagement(): JSX.Element {
         name: "",
         description: "",
         imagegallery: "",
-        amenities: "",
+        amenities: [],
         physicaladdress: "",
         phonenumber: "",
         emailaddress: "",
-        roomtypes: "",
+        roomtypes: [],
         rating: "",
       });
 
@@ -185,9 +194,6 @@ export default function InventoryManagement(): JSX.Element {
       setEditingHotelId(null);
     }
   };
-
-  const amenitiesOptions = ["WiFi", "Pool", "Parking", "Gym", "Spa"];
-  const roomTypesOptions = ["Single", "Double", "Suite", "Family"];
 
   return (
     <>
@@ -263,16 +269,12 @@ export default function InventoryManagement(): JSX.Element {
                   field={form.name}
                   setField={(v) => setForm({ ...form, name: String(v) })}
                   placeholder="Hotel Name"
-                  label="Hotel Name"
-                  for="hotel-name"
                 />
                 <InputField
                   type="textarea"
                   field={form.description}
                   setField={(v) => setForm({ ...form, description: String(v) })}
                   placeholder="Description"
-                  label="Description"
-                  for="description"
                 />
 
                 {/* Image Gallery */}
@@ -325,8 +327,10 @@ export default function InventoryManagement(): JSX.Element {
                     className={styles.dropdownHeader}
                     onClick={() => setAmenitiesOpen(!amenitiesOpen)}
                   >
-                    {form.amenities
-                      ? form.amenities.split(",").join(", ")
+                    {form.amenities.length
+                      ? form.amenities
+                          .map((key) => AMENITIES[key].name)
+                          .join(", ")
                       : "Select amenities"}
                     <span className={styles.arrow}>
                       {amenitiesOpen ? "▲" : "▼"}
@@ -334,24 +338,28 @@ export default function InventoryManagement(): JSX.Element {
                   </div>
                   {amenitiesOpen && (
                     <div className={styles.dropdownList}>
-                      {amenitiesOptions.map((a) => (
-                        <label key={a} className={styles.dropdownItem}>
+                      {Object.keys(AMENITIES).map((key) => (
+                        <label key={key} className={styles.dropdownItem}>
                           <input
                             type="checkbox"
-                            checked={form.amenities.split(",").includes(a)}
+                            checked={form.amenities.includes(
+                              key as keyof typeof AMENITIES
+                            )}
                             onChange={(e) => {
-                              const selected = form.amenities
-                                ? form.amenities.split(",")
-                                : [];
-                              if (e.target.checked) selected.push(a);
-                              else selected.splice(selected.indexOf(a), 1);
-                              setForm({
-                                ...form,
-                                amenities: selected.join(","),
-                              });
+                              const selected = [...form.amenities];
+                              if (e.target.checked)
+                                selected.push(key as keyof typeof AMENITIES);
+                              else
+                                selected.splice(
+                                  selected.indexOf(
+                                    key as keyof typeof AMENITIES
+                                  ),
+                                  1
+                                );
+                              setForm({ ...form, amenities: selected });
                             }}
                           />
-                          {a}
+                          {AMENITIES[key as keyof typeof AMENITIES].name}
                         </label>
                       ))}
                     </div>
@@ -365,8 +373,10 @@ export default function InventoryManagement(): JSX.Element {
                     className={styles.dropdownHeader}
                     onClick={() => setRoomTypesOpen(!roomTypesOpen)}
                   >
-                    {form.roomtypes
-                      ? form.roomtypes.split(",").join(", ")
+                    {form.roomtypes.length
+                      ? form.roomtypes
+                          .map((key) => ROOM_TYPES[key].name)
+                          .join(", ")
                       : "Select room types"}
                     <span className={styles.arrow}>
                       {roomTypesOpen ? "▲" : "▼"}
@@ -374,24 +384,28 @@ export default function InventoryManagement(): JSX.Element {
                   </div>
                   {roomTypesOpen && (
                     <div className={styles.dropdownList}>
-                      {roomTypesOptions.map((r) => (
-                        <label key={r} className={styles.dropdownItem}>
+                      {Object.keys(ROOM_TYPES).map((key) => (
+                        <label key={key} className={styles.dropdownItem}>
                           <input
                             type="checkbox"
-                            checked={form.roomtypes.split(",").includes(r)}
+                            checked={form.roomtypes.includes(
+                              key as keyof typeof ROOM_TYPES
+                            )}
                             onChange={(e) => {
-                              const selected = form.roomtypes
-                                ? form.roomtypes.split(",")
-                                : [];
-                              if (e.target.checked) selected.push(r);
-                              else selected.splice(selected.indexOf(r), 1);
-                              setForm({
-                                ...form,
-                                roomtypes: selected.join(","),
-                              });
+                              const selected = [...form.roomtypes];
+                              if (e.target.checked)
+                                selected.push(key as keyof typeof ROOM_TYPES);
+                              else
+                                selected.splice(
+                                  selected.indexOf(
+                                    key as keyof typeof ROOM_TYPES
+                                  ),
+                                  1
+                                );
+                              setForm({ ...form, roomtypes: selected });
                             }}
                           />
-                          {r}
+                          {ROOM_TYPES[key as keyof typeof ROOM_TYPES].name}
                         </label>
                       ))}
                     </div>
@@ -403,8 +417,6 @@ export default function InventoryManagement(): JSX.Element {
                   field={form.rating}
                   setField={(v) => setForm({ ...form, rating: String(v) })}
                   placeholder="Rating (0-5)"
-                  label="Rating"
-                  for="rating"
                 />
                 <InputField
                   type="text"
@@ -413,27 +425,11 @@ export default function InventoryManagement(): JSX.Element {
                     setForm({ ...form, physicaladdress: String(v) })
                   }
                   placeholder="Address"
-                  label="Address"
-                  for="physicaladdress"
                 />
-                <InputField
-                  type="text"
-                  field={form.emailaddress}
-                  setField={(v) =>
-                    setForm({ ...form, emailaddress: String(v) })
-                  }
-                  placeholder="Email"
-                  label="Email"
-                  for="emailaddress"
-                />
-                <InputField
-                  type="text"
-                  field={form.phonenumber}
-                  setField={(v) => setForm({ ...form, phonenumber: String(v) })}
-                  placeholder="Phone"
-                  label="Phone"
-                  for="phonenumber"
-                />
+                <div className={styles.inputGroup}>
+                  <p>1</p>
+                  <p>2</p>
+                </div>
 
                 <div className={styles.modalButtons}>
                   <Button

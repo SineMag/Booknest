@@ -25,9 +25,9 @@ CREATE TABLE IF NOT EXISTS bookings (
   userId INTEGER NOT NULL,
   accommodationId INTEGER NOT NULL,
   roomTypeId INTEGER NOT NULL,
-  FOREIGN KEY (userId) REFERENCES users(id),
-  FOREIGN KEY (accommodationId) REFERENCES accomodations(id),
-  FOREIGN KEY (roomTypeId) REFERENCES roomTypes(id)
+  FOREIGN KEY (userId) REFERENCES users(id)  ON DELETE CASCADE,
+  FOREIGN KEY (accommodationId) REFERENCES accomodations(id) ON DELETE CASCADE,
+  FOREIGN KEY (roomTypeId) REFERENCES roomTypes(id)  ON DELETE CASCADE
 );
 `;
 

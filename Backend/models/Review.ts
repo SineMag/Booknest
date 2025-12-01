@@ -19,8 +19,8 @@ export const createReviewTableQuery = () => sql`
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     userId INTEGER NOT NULL,
     accomodationId INTEGER NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(id),
-    FOREIGN KEY (accomodationId) REFERENCES accomodations(id)
+    FOREIGN KEY (userId) REFERENCES users(id)  ON DELETE CASCADE,
+    FOREIGN KEY (accomodationId) REFERENCES accomodations(id)  ON DELETE CASCADE
   );
 `;
 
