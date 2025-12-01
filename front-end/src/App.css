@@ -286,3 +286,163 @@
     margin-bottom: 0.5rem;
   }
 }
+/* =========================================================
+   PAGE WRAPPER
+   ========================================================= */
+.fav-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin-top: 80px;
+}
+
+/* =========================================================
+   MAIN CONTENT CONTAINER
+   ========================================================= */
+.fav-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================================================
+   HEADER (TITLE + HOME BUTTON)
+   ========================================================= */
+.fav-header {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 40px;
+}
+
+.fav-header h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+.fav-empty {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.fav-empty h2 {
+  margin-bottom: 8px;
+  color: #666;
+}
+
+/* =========================================================
+   GRID CONTAINER (mobile = stacked, desktop = grid)
+   ========================================================= */
+.fav-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* =========================================================
+   FAVORITE CARD (MOBILE VERSION)
+   ========================================================= */
+.fav-card-grid {
+  background: #e2e2e2;
+  padding: 18px;
+  border-radius: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* hide images on mobile */
+.fav-card-img {
+  display: none;
+}
+
+/* TEXT BLOCK */
+.fav-card-info h3 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.fav-card-info p {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 5px;
+}
+
+/* ACTION ICON ROW */
+.fav-card-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.fav-icon,
+.fav-icon-heart {
+  background: white;
+  border: 1px solid black;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.fav-icon:hover,
+.fav-icon-heart:hover {
+  transform: scale(1.1);
+}
+@media (min-width: 900px) {
+  .fav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 30px;
+    padding: 20px 10px;
+  }
+
+  .fav-card-grid {
+    display: grid;
+    grid-template-columns: 150px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 22px;
+    border-radius: 18px;
+    background: #f1f1f1;
+  }
+
+  .fav-card-img {
+    display: block;
+    width: 150px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 12px;
+  }
+
+  .fav-card-info h3 {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+
+  .fav-card-info p {
+    font-size: 0.95rem;
+  }
+
+  /* UPDATED: ICONS HORIZONTAL */
+  .fav-card-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fav-icon,
+  .fav-icon-heart {
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+}

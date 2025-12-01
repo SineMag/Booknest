@@ -250,7 +250,7 @@ export default function Booking() {
             </h2>
             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
               {roomTypes.map((room) => (
-                <Button
+                <Button 
                   key={room.name}
                   onClick={() => setSelectedRoomType(room)}
                   variant={
@@ -277,13 +277,8 @@ export default function Booking() {
             </div>
           </div>
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "20px",
-              marginBottom: "20px",
-            }}
+          <div className="booking-ui"
+          
           >
             <InputField
               type="date"
