@@ -1,4 +1,4 @@
-import { useEffect, useState, type JSX } from "react";
+import { useEffect, useMemo, useState, type JSX } from "react";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import styles from "./InventoryManagement.module.css";
@@ -13,8 +13,9 @@ import {
   createAccomodation,
   deleteAccomodation,
   fetchAccomodations,
+  updateAccomodation,
 } from "../../features/accomodationSlice";
-import type { Accomodation } from "../../types/Accomodation";
+import type { Accomodation, IAccomodation } from "../../types/Accomodation";
 
 interface AccomodationForm {
   name: string;
@@ -60,6 +61,12 @@ export default function InventoryManagement(): JSX.Element {
   }, [dispatch]);
 
   useEffect(() => {
+    if (loading) {
+      dispatch(fetchAccomodations());
+    }
+  }, [loading]);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const editId = urlParams.get("edit");
 
@@ -103,7 +110,7 @@ export default function InventoryManagement(): JSX.Element {
   const onAddHotel = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const payload = {
+    const payload: IAccomodation = {
       name: form.name,
       description: form.description,
       imageGallery: form.imagegallery.split(",").map((s) => s.trim()),
@@ -181,7 +188,9 @@ export default function InventoryManagement(): JSX.Element {
 
       // dispatch(fetchHotels());
       console.log("Editting ID: ", editingHotelId);
-      dispatch(updateHotel({ id: editingHotelId!, hotel: payload }));
+      dispatch(
+        updateAccomodation({ id: editingHotelId!, accomodation: payload })
+      );
     } catch (err) {
       console.error("Failed to submit hotel:", err);
       alert("Failed to submit hotel.");
@@ -237,7 +246,7 @@ export default function InventoryManagement(): JSX.Element {
                     <Button
                       type="button"
                       width={60}
-                      onClick={() => viewHotel(h.id)}
+                      onClick={() => viewHotel(h.id!)}
                       variant="success"
                     >
                       <FaEye />
@@ -258,7 +267,7 @@ export default function InventoryManagement(): JSX.Element {
                         if (
                           window.confirm("Are you sure you want to delete?")
                         ) {
-                          dispatch(deleteAccomodation(h.id));
+                          dispatch(deleteAccomodation(h.id!));
                         }
                       }}
                       variant="danger"

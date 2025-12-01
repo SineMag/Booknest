@@ -53,8 +53,8 @@ export const updateAccomodation = async (req: Request, res: Response) => {
 export const deleteAccomodation = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
-    await deleteAccomodationDB(id);
-    res.sendStatus(204);
+    const deleted = await deleteAccomodationDB(id);
+    res.status(200).json(deleted);
   } catch (error) {
     log(error);
   }

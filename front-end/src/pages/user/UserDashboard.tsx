@@ -95,9 +95,9 @@ const UserDashboard: React.FC = () => {
               place={acc.physicaladdress}
               description={acc.description}
               price={"N/A"} // use price from backend
-              isFavorite={favorites.has(acc.id)}
-              onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
-              onView={() => handleView(acc.id)}
+              isFavorite={favorites.has(acc.id!)}
+              onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
+              onView={() => handleView(acc.id!)}
             />
           ))}
         </div>

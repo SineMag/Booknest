@@ -68,8 +68,7 @@
 .cardButtons {
   display: flex;
   gap: 10px; /* adjust to how much space you want */
-  margin-top: 8px;
-  justify-content: flex-start; /* align left */
+  margin: 1rem 0.5rem;
 }
 
 .price {
@@ -286,4 +285,22 @@ textarea {
 
 .dropdownList::-webkit-scrollbar-track {
   background-color: #f1f1f1;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* or a fixed height if you prefer */
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Make the button row stick to the bottom */
+.cardButtons {
+  margin-top: auto; /* pushes this section to the bottom */
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 }

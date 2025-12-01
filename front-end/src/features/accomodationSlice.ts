@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { Accomodation } from "../types/Accomodation";
+import type { Accomodation, IAccomodation } from "../types/Accomodation";
 import axios from "axios";
 
 const initialState = {
@@ -29,7 +29,7 @@ export const fetchAccomodationById = createAsyncThunk(
 
 export const createAccomodation = createAsyncThunk(
   "accomodations/createAccomodation",
-  async (accomodation: Accomodation) => {
+  async (accomodation: IAccomodation) => {
     const { data } = await axios.post(BASE_URL, accomodation);
     return data;
   }
@@ -37,11 +37,8 @@ export const createAccomodation = createAsyncThunk(
 
 export const updateAccomodation = createAsyncThunk(
   "accomodations/updateAccomodation",
-  async (accomodation: Accomodation) => {
-    const { data } = await axios.put(
-      `${BASE_URL}/${accomodation.id}`,
-      accomodation
-    );
+  async ({ id, accomodation }: { id: number; accomodation: IAccomodation }) => {
+    const { data } = await axios.put(`${BASE_URL}/${id}`, accomodation);
     return data;
   }
 );
@@ -86,8 +83,9 @@ const accomodationSlice = createSlice({
     });
 
     //create accomodation
-    builder.addCase(createAccomodation.fulfilled, (state) => {
+    builder.addCase(createAccomodation.fulfilled, (state, action) => {
       state.loading = false;
+      state.accomodations.push(action.payload);
     });
     builder.addCase(createAccomodation.pending, (state) => {
       state.loading = true;
@@ -120,6 +118,7 @@ const accomodationSlice = createSlice({
       state.accomodations = state.accomodations.filter(
         (accomodation) => accomodation.id !== action.payload.id
       );
+      console.log(action.payload);
       state.loading = false;
     });
     builder.addCase(deleteAccomodation.pending, (state) => {
