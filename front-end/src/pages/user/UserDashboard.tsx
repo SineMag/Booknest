@@ -5,64 +5,63 @@ import SearchBar from "../../components/Searchbar/Searchbar";
 import Filter from "../../components/Filter/Filter";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
 import type { AppDispatch, RootState } from "../../../store";
-import {
-  fetchHotels,
-  type Hotel,
-} from "../../features/InventoryManagementSlice";
-// TESTING
+import { fetchAccomodations } from "../../features/accomodationSlice";
+import type { Accomodation } from "../../types/Accomodation";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const { accomodations, loading, error } = useSelector(
+    (state: RootState) => state.accomodation
+  );
+
   const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
-  const { hotels, loading, error } = useSelector(
-    (state: RootState) => state.hotels
-  );
+  // Filtered list of hotels
+  const [filteredHotels, setFilteredHotels] = useState<Accomodation[]>([]);
 
-  // Load favorites from localStorage when page loads
+  // Initialize filteredHotels once Redux data is loaded
+  useEffect(() => {
+    setFilteredHotels(accomodations);
+  }, [accomodations]);
+
+  // Load favorites from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
-    if (stored) {
-      setFavorites(new Set(JSON.parse(stored)));
-    }
+    if (stored) setFavorites(new Set(JSON.parse(stored)));
   }, []);
 
-  // Save favorites to localStorage anytime the Set changes
+  // Save favorites
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify([...favorites]));
   }, [favorites]);
 
+  // Fetch hotels from API
   useEffect(() => {
-    dispatch(fetchHotels());
+    dispatch(fetchAccomodations());
   }, [dispatch]);
-
-  const filteredAccommodations = hotels.filter(
-    (acc: Hotel) =>
-      acc.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      acc.name !== "Aparthotel Stare Miasto" &&
-      acc.name !== "ApartmentPrestige Central Station"
-  );
 
   const handleFavoriteToggle = (id: number) => {
     setFavorites((prev) => {
       const newFavorites = new Set(prev);
-      if (newFavorites.has(id)) {
-        newFavorites.delete(id);
-      } else {
-        newFavorites.add(id);
-      }
+      if (newFavorites.has(id)) newFavorites.delete(id);
+      else newFavorites.add(id);
       return newFavorites;
     });
 
-    // Redirect to My Favorites page
     navigate("/my-favorites");
   };
 
   const handleView = (id: number) => {
     navigate(`/accomodation-details/${id}`);
   };
+
+  // Filter by search term
+  const displayedHotels = filteredHotels.filter((hotel) =>
+    hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div
@@ -97,15 +96,14 @@ const UserDashboard: React.FC = () => {
             alignItems: "baseline",
             gap: "10px",
             marginBottom: "30px",
+            flexWrap: "wrap",
           }}
         >
-          <div style={{ flex: 1 }}>
-            <SearchBar
-              placeholder="Search accommodations..."
-              onSearch={setSearchTerm}
-            />
-          </div>
-          <Filter />
+          <SearchBar
+            placeholder="Search accommodations..."
+            onSearch={setSearchTerm}
+          />
+          <Filter data={accomodations} onFilter={setFilteredHotels} />
         </div>
 
         <div
@@ -116,7 +114,7 @@ const UserDashboard: React.FC = () => {
             flexWrap: "wrap",
           }}
         >
-          {filteredAccommodations.map((acc) => (
+          {displayedHotels.map((acc) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}

@@ -25,8 +25,7 @@
   to = "/.netlify/functions/accomodations/:splat"
   status = 200
 
-<<<<<<< HEAD
-=======
+
 [[redirects]]
   from = "/room_types/*"
   to = "/.netlify/functions/room_types/:splat"
@@ -42,6 +41,10 @@
   to = "/.netlify/functions/reviews/:splat"
   status = 200
 
->>>>>>> a51d74dabf21556acbb5865764ca262d461d4f92
+[[redirects]]
+  from = "/favourites/*"
+  to = "/.netlify/functions/favourites/:splat"
+  status = 200
+
 [functions]
   node_bundler = "esbuild"

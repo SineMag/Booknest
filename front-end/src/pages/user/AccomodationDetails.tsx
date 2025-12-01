@@ -9,8 +9,8 @@ import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../store";
 import { fetchAccomodationById } from "../../features/accomodationSlice";
 
 const hotels: Hotel[] = [
@@ -32,7 +32,7 @@ export default function AccomodationDetails() {
   );
 
   useEffect(() => {
-    dispatch(fetchAccomodationById(id!));
+    dispatch(fetchAccomodationById(Number(id)));
   }, [id]);
 
   // Load initial liked state from localStorage
@@ -67,7 +67,6 @@ export default function AccomodationDetails() {
       className="accomodationPage"
       style={{ marginTop: "80px", padding: "2rem" }}
     >
-   
       <main style={{ flex: 1 }}>
         {loading ? (
           <h2>Loading...</h2>
