@@ -1,170 +1,90 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import { getFavorites, toggleFavorite } from "../../service/api";
-import { FaHeart } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import Navbar from "../../components/NavBar/Navbar";
+import Footer from "../../components/footer/Footer";
+import type { AppDispatch, RootState } from "../../../store";
+import {
+  fetchHotels,
+  type Hotel,
+} from "../../features/InventoryManagementSlice";
+import { FaEye, FaHeart, FaShare } from "react-icons/fa";
 import Button from "../../components/Button/Button";
 
-type FavoriteHotel = {
-  id: number;
-  hotelId: number;
-  name: string;
-  address: string;
-  image?: string;
-};
 
-export default function MyFavorites() {
-  const [favorites, setFavorites] = useState<FavoriteHotel[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [removing, setRemoving] = useState<number | null>(null);
+const MyFavorites: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const [favorites, setFavorites] = useState<Set<number>>(new Set());
 
-  const loadFavorites = async () => {
-    try {
-      setLoading(true);
-      const response = await getFavorites();
-      setFavorites(response.data);
-    } catch (err) {
-      console.error("Failed to load favorites:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const { hotels, loading } = useSelector((state: RootState) => state.hotels);
 
   useEffect(() => {
-    loadFavorites();
+    const stored = localStorage.getItem("favorites");
+    if (stored) setFavorites(new Set(JSON.parse(stored)));
   }, []);
 
-  const removeFavorite = async (hotelId: number) => {
-    try {
-      setRemoving(hotelId);
-      await toggleFavorite(hotelId, true);
+  useEffect(() => {
+    dispatch(fetchHotels());
+  }, [dispatch]);
 
-      setFavorites((prev) => prev.filter((fav) => fav.hotelId !== hotelId));
-    } catch (err) {
-      console.error("Error removing favorite:", err);
-    } finally {
-      setRemoving(null);
-    }
+  const favoriteHotels = hotels.filter((hotel: Hotel) =>
+    favorites.has(hotel.id)
+  );
+
+  const removeFavorite = (id: number) => {
+    const newFavs = new Set(favorites);
+    newFavs.delete(id);
+    setFavorites(newFavs);
+    localStorage.setItem("favorites", JSON.stringify([...newFavs]));
   };
 
-  if (loading) {
-    return (
-      <p style={{ textAlign: "center", padding: "1rem", fontSize: "1.2rem" }}>
-        Loading favorites...
-      </p>
-    );
-  }
-
-  if (favorites.length === 0) {
-    return (
-      <div
-        style={{
-          padding: "2rem",
-          textAlign: "center",
-        }}
-      >
-        <h2 style={{ fontSize: "1.8rem", marginBottom: "0.5rem" }}>
-          No Favorites Yet
-        </h2>
-        <p style={{ color: "#555", marginBottom: "1rem" }}>
-          Start exploring and save your favorite hotels.
-        </p>
-        <Link to="/accommodations">
-          <Button width={150}>Browse Hotels</Button>
-        </Link>
-      </div>
-    );
-  }
-
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2 style={{ fontSize: "1.8rem", marginBottom: "1.5rem" }}>
-        My Favorite Hotels
-      </h2>
+    <div className="fav-wrapper">
+      <Navbar />
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))",
-          gap: "1.5rem",
-        }}
-      >
-        {favorites.map((fav) => (
-          <div
-            key={fav.id}
-            style={{
-              background: "#fff",
-              borderRadius: "10px",
-              padding: "1rem",
-              boxShadow: "0px 3px 10px rgba(0,0,0,0.08)",
-              transition: "0.2s ease",
-            }}
-          >
-            {/* IMAGE */}
-            <div
-              style={{
-                height: "160px",
-                overflow: "hidden",
-                borderRadius: "8px",
-                marginBottom: "0.5rem",
-              }}
-            >
-              <img
-                src={fav.image || "/placeholder-hotel.jpg"}
-                alt={fav.name}
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "cover",
-                }}
-              />
-            </div>
+      <div className="fav-container">
+        <div className="fav-header">
+          <h1>My Favorites</h1>
+        </div>
 
-            {/* TITLE */}
-            <h3 style={{ fontSize: "1.2rem", margin: "0.4rem 0" }}>
-              {fav.name}
-            </h3>
-
-            <p style={{ color: "#666", fontSize: "0.9rem" }}>{fav.address}</p>
-
-            {/* ACTIONS */}
-            <div
-              style={{
-                marginTop: "1rem",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              {/* VIEW BUTTON */}
-              <Link to={`/accommodation/${fav.hotelId}`}>
-                <Button width={120}>View</Button>
-              </Link>
-
-              {/* REMOVE FAVORITE BUTTON */}
-              <button
-                onClick={() => removeFavorite(fav.hotelId)}
-                disabled={removing === fav.hotelId}
-                style={{
-                  background: "transparent",
-                  border: "1px solid red",
-                  padding: "0.4rem 0.7rem",
-                  borderRadius: "6px",
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.4rem",
-                  color: "red",
-                  transition: "0.2s ease",
-                }}
-              >
-                <FaHeart color="red" />
-                {removing === fav.hotelId ? "Removing..." : "Remove"}
-              </button>
-            </div>
+        {loading ? (
+          <div className="fav-loading">Loading...</div>
+        ) : favoriteHotels.length === 0 ? (
+          <div className="fav-empty">
+            <h2>No favorites yet ❤️</h2>
+            <p>Start adding accommodations to your favorites!</p>
           </div>
-        ))}
+        ) : (
+          <div className="fav-grid">
+            {favoriteHotels.map((hotel: Hotel) => (
+              <div className="fav-card-grid" key={hotel.id}>
+                <img
+                  src={hotel.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
+                  alt={hotel.name}
+                  className="fav-card-img"
+                />
+
+                <div className="fav-card-info">
+                  <h3>{hotel.name}</h3>
+                  <p>{hotel.physicaladdress}</p>
+                </div>
+
+                <div className="fav-card-actions">
+                  <Button className="fav-icon" ><FaEye/></Button>
+                  <Button className="fav-icon"><FaShare/></Button>
+                  <Button
+                    className="fav-icon-heart"
+                    onClick={() => removeFavorite(hotel.id)}
+                  >
+                    <FaHeart/>
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
-}
+};
+
+export default MyFavorites;
