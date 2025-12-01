@@ -5,7 +5,7 @@
   background-color: white;
   transition: transform 0.2s, box-shadow 0.2s;
   margin: 16px;
-  max-width: 600px;
+  max-width: 1200px;
   display: flex;
   flex-direction: row;
 }

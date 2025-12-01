@@ -17,6 +17,7 @@ export type Hotel = {
   emailaddress: string;
   roomtypes: string[];
   rating: number;
+  price: number;
 };
 
 interface InventoryState {

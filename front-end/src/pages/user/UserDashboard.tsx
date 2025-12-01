@@ -26,7 +26,8 @@ const UserDashboard: React.FC = () => {
   }, [dispatch]);
 
   const filteredAccommodations = hotels.filter((acc: Hotel) =>
-    acc.name.toLowerCase().includes(searchTerm.toLowerCase())
+    acc.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase()) &&
+    acc.name !== "Aparthotel Stare Miasto"
   );
 
   const handleFavoriteToggle = (id: number) => {
