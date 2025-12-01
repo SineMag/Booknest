@@ -1,3 +1,12 @@
+html, body, #root {
+  height: 100%;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +19,7 @@
 main section for App.tsx 
 ======================================================================== */ */
 .main-section{
-  min-height: 90vh;
+  min-height: calc(100vh - 70px - 50px); /* Navbar height is 70px, estimated footer height is 50px */
 border: 2px solid red;
 }
 /* Main section title */
