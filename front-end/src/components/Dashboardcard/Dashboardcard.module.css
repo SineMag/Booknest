@@ -6,8 +6,10 @@
   transition: transform 0.2s, box-shadow 0.2s;
   margin: 16px;
   max-width: 1200px;
+  width: 100%;
   display: flex;
   flex-direction: row;
+  border: 1px solid red;
 }
 
 .card:hover {
@@ -17,8 +19,8 @@
 
 .imageContainer {
   position: relative;
-  width: 50%;
-  height: 200px;
+  width: 40%;
+  height: 250px;
 }
 
 .image {
