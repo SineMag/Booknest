@@ -26,6 +26,7 @@ interface HotelForm {
   emailaddress: string;
   roomtypes: (keyof typeof ROOM_TYPES)[];
   rating: string;
+  pricepernight: string;
 }
 
 export default function InventoryManagement(): JSX.Element {
@@ -40,6 +41,7 @@ export default function InventoryManagement(): JSX.Element {
     emailaddress: "",
     roomtypes: [],
     rating: "",
+    pricepernight: "",
   });
   const [editingHotelId, setEditingHotelId] = useState<number | null>(null);
 
@@ -90,6 +92,7 @@ export default function InventoryManagement(): JSX.Element {
           ) as keyof typeof ROOM_TYPES
       ),
       rating: hotel.rating.toString(),
+      pricepernight: String(hotel.pricepernight),
     });
 
     setEditingHotelId(hotel.id);
@@ -132,6 +135,7 @@ export default function InventoryManagement(): JSX.Element {
         emailaddress: "",
         roomtypes: [],
         rating: "",
+        pricepernight: "",
       });
 
       console.log("Payload @inventory management", payload);
@@ -175,6 +179,7 @@ export default function InventoryManagement(): JSX.Element {
         emailaddress: "",
         roomtypes: [],
         rating: "",
+        pricepernight: "",
       });
 
       console.log(payload);
@@ -197,7 +202,6 @@ export default function InventoryManagement(): JSX.Element {
 
   return (
     <>
-
       <div className={styles.inventory}>
         <div className={styles.header}>
           <h2>Inventory Management</h2>
@@ -424,6 +428,15 @@ export default function InventoryManagement(): JSX.Element {
                   setField={(v) =>
                     setForm({ ...form, physicaladdress: String(v) })
                   }
+                  placeholder="Physical Address"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.pricepernight}
+                  setField={(v) =>
+                    setForm({ ...form, pricepernight: String(v) })
+                  }
                   placeholder="Address"
                 />
                 {/* <div className={styles.inputGroup}>
@@ -457,7 +470,6 @@ export default function InventoryManagement(): JSX.Element {
           </div>
         )}
       </div>
-
     </>
   );
 }
