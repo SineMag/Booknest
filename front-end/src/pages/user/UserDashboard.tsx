@@ -9,6 +9,11 @@ import {
   fetchHotels,
   type Hotel,
 } from "../../features/InventoryManagementSlice";
+import {
+  addFavorite,
+  removeFavorite,
+  setFavorites,
+} from "../../features/favoritesSlice";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,8 +24,8 @@ const UserDashboard: React.FC = () => {
     loading,
     error,
   } = useSelector((state: RootState) => state.hotels);
+  const { favoriteIds } = useSelector((state: RootState) => state.favorites);
 
-  const [favorites, setFavorites] = useState<Set<number>>(new Set());
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filtered list of hotels
@@ -34,13 +39,15 @@ const UserDashboard: React.FC = () => {
   // Load favorites from localStorage
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
-    if (stored) setFavorites(new Set(JSON.parse(stored)));
-  }, []);
+    if (stored) {
+      dispatch(setFavorites(JSON.parse(stored)));
+    }
+  }, [dispatch]);
 
   // Save favorites
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify([...favorites]));
-  }, [favorites]);
+    localStorage.setItem("favorites", JSON.stringify(favoriteIds));
+  }, [favoriteIds]);
 
   // Fetch hotels from API
   useEffect(() => {
@@ -48,14 +55,11 @@ const UserDashboard: React.FC = () => {
   }, [dispatch]);
 
   const handleFavoriteToggle = (id: number) => {
-    setFavorites((prev) => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(id)) newFavorites.delete(id);
-      else newFavorites.add(id);
-      return newFavorites;
-    });
-
-    navigate("/my-favorites");
+    if (favoriteIds.includes(id)) {
+      dispatch(removeFavorite(id));
+    } else {
+      dispatch(addFavorite(id));
+    }
   };
 
   const handleView = (id: number) => {
@@ -128,7 +132,7 @@ const UserDashboard: React.FC = () => {
               amenities={acc.amenities}
               price={acc.price ? `R${acc.price}` : "N/A"}
               rating={acc.rating}
-              isFavorite={favorites.has(acc.id)}
+              isFavorite={favoriteIds.includes(acc.id)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
               onView={() => handleView(acc.id)}
             />

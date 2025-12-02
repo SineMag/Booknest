@@ -1,91 +1,48 @@
-import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import type { AppDispatch, RootState } from "../../../store";
-import {
-  fetchHotels,
-  type Hotel,
-} from "../../features/InventoryManagementSlice";
-import { FaEye, FaHeart, FaShare } from "react-icons/fa";
-import Button from "../../components/Button/Button";
-import { Link } from "react-router";
-
+import React from "react";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../store";
+import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
+import { Hotel } from "../../features/InventoryManagementSlice";
 
 const MyFavorites: React.FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-  const [favorites, setFavorites] = useState<Set<number>>(new Set());
-
-  const { hotels, loading } = useSelector((state: RootState) => state.hotels);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) setFavorites(new Set(JSON.parse(stored)));
-  }, []);
-
-  useEffect(() => {
-    dispatch(fetchHotels());
-  }, [dispatch]);
+  const { favoriteIds } = useSelector((state: RootState) => state.favorites);
+  const { hotels } = useSelector((state: RootState) => state.hotels);
 
   const favoriteHotels = hotels.filter((hotel: Hotel) =>
-    favorites.has(hotel.id)
+    favoriteIds.includes(hotel.id)
   );
 
-  const removeFavorite = (id: number) => {
-    const newFavs = new Set(favorites);
-    newFavs.delete(id);
-    setFavorites(newFavs);
-    localStorage.setItem("favorites", JSON.stringify([...newFavs]));
-  };
-
   return (
-    <div className="fav-wrapper">
-
-      <div className="fav-container">
-        <div className="fav-header">
-          <h1>My Favorites</h1>
-        </div>
-
-        {loading ? (
-          <div className="fav-loading">Loading...</div>
-        ) : favoriteHotels.length === 0 ? (
-          <div className="fav-empty">
-            <h2>No favorites yet ❤️</h2>
-            <p>Start adding accommodations to your favorites!</p>
-          </div>
+    <div style={{ padding: "20px" }}>
+      <h1 style={{ textAlign: "center", marginBottom: "30px" }}>
+        My Favorites
+      </h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: "20px",
+          flexWrap: "wrap",
+        }}
+      >
+        {favoriteHotels.length > 0 ? (
+          favoriteHotels.map((hotel) => (
+            <DashboardCard
+              key={hotel.id}
+              image={hotel.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
+              name={hotel.name}
+              place={hotel.physicaladdress}
+              description={hotel.description}
+              amenities={hotel.amenities}
+              price={hotel.price ? `R${hotel.price}` : "N/A"}
+              rating={hotel.rating}
+              isFavorite={true}
+              onFavoriteToggle={() => {}}
+              onView={() => {}}
+            />
+          ))
         ) : (
-          <div className="fav-grid">
-            {favoriteHotels.map((hotel: Hotel) => (
-              <div className="fav-card-grid" key={hotel.id}>
-                <img
-                  src={hotel.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
-                  alt={hotel.name}
-                  className="fav-card-img"
-                />
-
-                <div className="fav-card-info">
-                  <h3>{hotel.name}</h3>
-                  <p>{hotel.physicaladdress}</p>
-                </div>
-
-                <div className="fav-card-actions">
-                  <Link to={`/accomodation-details/:id`}>
-                    <Button className="fav-icon">
-                      <FaEye />
-                    </Button>
-                  </Link>
-
-                  <Button className="fav-icon">
-                    <FaShare />
-                  </Button>
-                  <Button
-                    className="fav-icon-heart"
-                    onClick={() => removeFavorite(hotel.id)}
-                  >
-                    <FaHeart />
-                  </Button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p>You have no favorite hotels yet.</p>
         )}
       </div>
     </div>

@@ -16,7 +16,6 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
-import AccommodationDetails from "./pages/user/AccomodationDetails";
 import UserDashboard from "./pages/user/UserDashboard";
 import ReservationManagement from "./pages/admin/ReservationManagement";
 // import AdminLogin from "./pages/admin/AdminLogin";
@@ -35,10 +34,6 @@ function App() {
         <Route path="/booking/" element={<Booking />} />
         <Route path="/dashboard" element={<UserDashboard />} />
 
-        <Route
-          path="/accomodation-details/"
-          element={<AccomodationDetails />}
-        />
         <Route
           path="/accomodation-details/:id"
           element={<AccomodationDetails />}
