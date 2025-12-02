@@ -10,6 +10,7 @@ type Props = {
   details?: string;
   name?: string;
   min?: string;
+  readOnly?: boolean; // Add readOnly prop
   /**
    * Optional controlled visibility: if provided, the parent controls
    * whether the password is shown. `onToggleShow` must be provided
@@ -34,6 +35,7 @@ export default function InputField({
   details,
   name,
   min,
+  readOnly, // Destructure readOnly prop
 }: Props) {
   const [localShow, setLocalShow] = useState(false);
 
@@ -67,6 +69,7 @@ export default function InputField({
         name={name}
         id={name}
         min={min}
+        readOnly={readOnly} // Pass readOnly prop to input element
         style={{
           width: "100%",
           padding: isPassword ? "14px 45px 14px 14px" : "14px",
