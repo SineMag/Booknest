@@ -22,76 +22,39 @@ const initialState: FavoriteState = {
 export const addToFavorites = createAsyncThunk(
   'favorites/addToFavorites',
   async ({ userId, accommodationId }: { userId: number; accommodationId: number }) => {
-    try {
-      const response = await fetch('/api/favorites', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ userId, accommodationId }),
-      });
-      
-      if (!response.ok) {
-        throw new Error('API failed, using localStorage fallback');
-      }
-      
-      return await response.json();
-    } catch (error) {
-      // Fallback to localStorage
-      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      const newFavorite = {
-        id: Date.now(),
-        userId,
-        accommodationId
-      };
-      favorites.push(newFavorite);
-      localStorage.setItem('favorites', JSON.stringify(favorites));
-      return newFavorite;
-    }
+    // Use localStorage for local development to avoid CORS issues
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const newFavorite = {
+      id: Date.now(),
+      userId,
+      accommodationId
+    };
+    favorites.push(newFavorite);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    return newFavorite;
   }
 );
 
 export const removeFavorite = createAsyncThunk(
   'favorites/removeFavorite',
   async ({ userId, accommodationId }: { userId: number; accommodationId: number }) => {
-    try {
-      const response = await fetch(`/api/favorites/${userId}/${accommodationId}`, {
-        method: 'DELETE',
-      });
-      
-      if (!response.ok) {
-        throw new Error('API failed, using localStorage fallback');
-      }
-      
-      return { userId, accommodationId };
-    } catch (error) {
-      // Fallback to localStorage
-      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      const updatedFavorites = favorites.filter(
-        (fav: { userId: number; accommodationId: number; }) => !(fav.userId === userId && fav.accommodationId === accommodationId)
-      );
-      localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
-      return { userId, accommodationId };
-    }
+    // Use localStorage for local development to avoid CORS issues
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const updatedFavorites = favorites.filter(
+      (fav: { userId: number; accommodationId: number; }) => !(fav.userId === userId && fav.accommodationId === accommodationId)
+    );
+    localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    return { userId, accommodationId };
   }
 );
 
 export const getFavoriteById = createAsyncThunk(
   'favorites/getFavoriteById',
   async (userId: number) => {
-    try {
-      const response = await fetch(`/api/favorites/user/${userId}`);
-      
-      if (!response.ok) {
-        throw new Error('API failed, using localStorage fallback');
-      }
-      
-      return await response.json();
-    } catch (error) {
-      // Fallback to localStorage
-      const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
-      return favorites.filter((fav: Favorite) => fav.userId === userId);
-    }
+    // Use localStorage for local development to avoid CORS issues
+    const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+    const userFavorites = favorites.filter((fav: Favorite) => fav.userId === userId);
+    return userFavorites;
   }
 );
 

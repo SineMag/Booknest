@@ -77,8 +77,27 @@ export const updateProfile = createAsyncThunk(
 
 const userFromLocalStorage = localStorage.getItem("user");
 
+const parseUserFromStorage = (data: string | null) => {
+  if (!data) return null;
+  
+  const user = JSON.parse(data);
+  
+  // Map the lowercase field names from API to the User interface
+  return {
+    id: user.id,
+    firstName: user.firstname,
+    lastName: user.lastname,
+    emailAddress: user.emailaddress,
+    phoneNumber: user.phonenumber,
+    physicalAddress: user.physicaladdress,
+    profilePicUrl: user.profilepicurl ?? null,
+    password: user.password,
+    createdAt: user.createdat,
+  };
+};
+
 const initialState = {
-  user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null,
+  user: parseUserFromStorage(userFromLocalStorage),
   isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
   errorMessage: "",
   showProfileMenuSelector: false, // New state property

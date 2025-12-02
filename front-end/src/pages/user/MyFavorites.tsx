@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import {
@@ -13,13 +13,20 @@ import { FaEye, FaHeart, FaShare } from "react-icons/fa";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router";
 
-
 const MyFavorites: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [currentUserId] = useState<number>(1); // TODO: Get from auth context
+  const { user } = useSelector((state: RootState) => state.user);
+  const currentUserId = user?.id;
 
   const { hotels, loading } = useSelector((state: RootState) => state.hotels);
   const { favorites, loading: favoritesLoading } = useSelector((state: RootState) => state.favorites);
+
+  // Debug logging
+  useEffect(() => {
+    console.log('User data:', user);
+    console.log('Current user ID:', currentUserId);
+    console.log('All favorites:', favorites);
+  }, [user, currentUserId, favorites]);
 
   useEffect(() => {
     dispatch(fetchHotels());
@@ -32,11 +39,13 @@ const MyFavorites: React.FC = () => {
   }, [dispatch, currentUserId]);
 
   const favoriteHotels = hotels.filter((hotel: Hotel) =>
-    favorites.some(fav => fav.accommodationId === hotel.id)
+    favorites.some(fav => fav.accommodationId === hotel.id && fav.userId === currentUserId)
   );
 
   const removeFavoriteHandler = (accommodationId: number) => {
-    dispatch(removeFavorite({ userId: currentUserId, accommodationId }));
+    if (currentUserId) {
+      dispatch(removeFavorite({ userId: currentUserId, accommodationId }));
+    }
   };
 
   return (

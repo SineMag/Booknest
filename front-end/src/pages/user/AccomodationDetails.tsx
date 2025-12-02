@@ -7,11 +7,16 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
 import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAccomodationById } from "../../features/accomodationSlice";
+import {
+  addToFavorites,
+  removeFavorite,
+  getFavoriteById,
+} from "../../features/favoriteSlice";
 
 const hotels: Hotel[] = [
   { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
@@ -22,12 +27,10 @@ const hotels: Hotel[] = [
 export default function AccomodationDetails() {
   const { id } = useParams<{ id: string }>();
   const hotelId = parseInt(id || "0");
-  const [liked, setLiked] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
-  const { current, loading, error } = useSelector(
+  const { current, loading } = useSelector(
     (state: RootState) => state.accomodation
   );
 
@@ -35,31 +38,41 @@ export default function AccomodationDetails() {
     dispatch(fetchAccomodationById(id!));
   }, [id]);
 
-  // Load initial liked state from localStorage
+  // Load user and fetch their favorites
+  const { user } = useSelector((state: RootState) => state.user);
+  const currentUserId = user?.id || 1; // Temporarily use 1 for testing
+  const { favorites } = useSelector((state: RootState) => state.favorites);
+  
   useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) {
-      const favSet = new Set(JSON.parse(stored));
-      setLiked(favSet.has(hotelId));
+    if (currentUserId) {
+      dispatch(getFavoriteById(currentUserId));
     }
-  }, [hotelId]);
+  }, [dispatch, currentUserId]);
 
+  // Check if this hotel is in user's favorites
+  const isFavorite = favorites.some(fav => fav.accommodationId === hotelId && fav.userId === currentUserId);
+
+ 
   const toggleLike = () => {
-    const stored = localStorage.getItem("favorites");
-    const favSet = stored ? new Set(JSON.parse(stored)) : new Set();
-
-    if (favSet.has(hotelId)) {
-      favSet.delete(hotelId);
-      setLiked(false);
+    if (!currentUserId) {
+      alert('No user ID found. Please make sure you are logged in.');
+      return;
+    }
+    
+    if (isFavorite) {
+      dispatch(removeFavorite({ userId: currentUserId, accommodationId: hotelId }))
+        .unwrap()
+        .then(() => console.log('Removed from favorites successfully'))
+        .catch((error) => console.error('Failed to remove from favorites:', error));
     } else {
-      favSet.add(hotelId);
-      setLiked(true);
+      dispatch(addToFavorites({ userId: currentUserId, accommodationId: hotelId }))
+        .unwrap()
+        .then(() => console.log('Added to favorites successfully'))
+        .catch((error) => console.error('Failed to add to favorites:', error));
     }
 
-    localStorage.setItem("favorites", JSON.stringify([...favSet]));
-
-    // Redirect to favorites page
-    navigate("/myfavorites");
+    // Don't redirect immediately for testing
+    // navigate("/myfavorites");
   };
 
   return (
@@ -113,7 +126,7 @@ export default function AccomodationDetails() {
                   <button
                     onClick={toggleLike}
                     style={{
-                      background: liked ? "#4A90E2" : "transparent",
+                      background: isFavorite ? "#4A90E2" : "transparent",
                       border: "1px solid #4A90E2",
                       borderRadius: "4px",
                       padding: "0.5rem 1rem",
@@ -121,12 +134,12 @@ export default function AccomodationDetails() {
                       display: "flex",
                       alignItems: "center",
                       gap: "0.5rem",
-                      color: liked ? "white" : "#4A90E2",
+                      color: isFavorite ? "white" : "#4A90E2",
                       transition: "all 0.2s ease",
                     }}
                   >
-                    {liked ? <FaHeart /> : <FaRegHeart />}
-                    {liked ? "Saved" : "Save"}
+                    {isFavorite ? <FaHeart /> : <FaRegHeart />}
+                    {isFavorite ? "Saved" : "Save"}
                   </button>
                 </div>
               </div>

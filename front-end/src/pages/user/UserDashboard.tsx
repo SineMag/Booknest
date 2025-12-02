@@ -18,6 +18,8 @@ import {
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const { user } = useSelector((state: RootState) => state.user);
+  const currentUserId = user?.id || 1; // Temporarily use 1 for testing
 
   const {
     hotels: allHotels,
@@ -25,7 +27,6 @@ const UserDashboard: React.FC = () => {
 
   const { favorites } = useSelector((state: RootState) => state.favorites);
   const [searchTerm, setSearchTerm] = useState("");
-  const [currentUserId] = useState<number>(1); // TODO: Get from auth context
 
   // Filtered list of hotels
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
@@ -49,11 +50,33 @@ const UserDashboard: React.FC = () => {
 
   // Debug favorites state
   useEffect(() => {
-    console.log('Favorites state updated:', favorites);
-  }, [favorites]);
+    console.log('UserDashboard debug:', {
+      currentUserId,
+      user,
+      favorites
+    });
+  }, [currentUserId, user, favorites]);
 
   const handleFavoriteToggle = (accommodationId: number) => {
-    const isFavorite = favorites.some(fav => fav.accommodationId === accommodationId);
+    console.log('=== HEART BUTTON CLICKED ===');
+    console.log('Current user ID:', currentUserId);
+    console.log('User object:', user);
+    console.log('Accommodation ID:', accommodationId);
+    
+    // Check localStorage directly
+    const localStorageUser = localStorage.getItem('user');
+    console.log('Raw localStorage user:', localStorageUser);
+    if (localStorageUser) {
+      console.log('Parsed localStorage user:', JSON.parse(localStorageUser));
+    }
+    
+    if (!currentUserId) {
+      console.log('No current user ID, returning');
+      alert('Please log in to add favorites');
+      return;
+    }
+    
+    const isFavorite = favorites.some(fav => fav.accommodationId === accommodationId && fav.userId === currentUserId);
     
     console.log('Toggle favorite:', { accommodationId, isFavorite, currentUserId });
     
@@ -151,7 +174,7 @@ const UserDashboard: React.FC = () => {
               place={acc.physicaladdress}
               description={acc.description}
               price={"N/A"}
-              isFavorite={favorites.some(fav => fav.accommodationId === acc.id!)}
+              isFavorite={favorites.some(fav => fav.accommodationId === acc.id! && fav.userId === currentUserId)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
               onView={() => handleView(acc.id!)}
               rating={acc.rating}
