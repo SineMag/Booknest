@@ -100,6 +100,7 @@ const UserDashboard: React.FC = () => {
             alignItems: "baseline",
             gap: "10px",
             marginBottom: "30px",
+            marginLeft: "50px",
             flexWrap: "wrap",
           }}
         >
@@ -118,7 +119,7 @@ const UserDashboard: React.FC = () => {
             flexWrap: "wrap",
           }}
         >
-          {displayedHotels.map((acc) => (
+          {displayedHotels.map((acc, index) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
@@ -126,7 +127,7 @@ const UserDashboard: React.FC = () => {
               place={acc.physicaladdress}
               description={acc.description}
               amenities={acc.amenities}
-              price={acc.price ? `R${acc.price}` : "N/A"}
+              price={`R${[100, 80, 50][index] ?? acc.price ?? 'N/A'}`}
               rating={acc.rating}
               isFavorite={favorites.has(acc.id)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
