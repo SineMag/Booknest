@@ -2,11 +2,12 @@ import type { Request, Response } from "express";
 import {
   createAdminDB,
   deleteAdminDB,
+  loginAdminDB,
   selectAdminById,
   selectAllAdmins,
   updateAdminDB,
 } from "../services/adminService";
-import type { Admin } from "../models/Admin";
+import type { Admin, LoginCredentials } from "../models/Admin";
 
 export const getAllAdmins = async (req: Request, res: Response) => {
   try {
@@ -41,6 +42,16 @@ export const createAdmin = async (req: Request, res: Response) => {
     const body = req.body as Admin;
     const newAdmin = await createAdminDB(body);
     res.status(201).json(newAdmin);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error", message: error });
+  }
+};
+
+export const loginAdmin = async (req: Request, res: Response) => {
+  try {
+    const body = req.body as LoginCredentials;
+    const admin = await loginAdminDB(body);
+    res.status(200).json(admin);
   } catch (error) {
     res.status(500).json({ error: "Internal server error", message: error });
   }

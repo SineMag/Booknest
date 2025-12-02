@@ -3,8 +3,10 @@ import {
   getAdminByIdQuery,
   getAdminsQuery,
   insertAdminQuery,
+  loginAdminQuery,
   putIntoAdminQuery,
   type Admin,
+  type LoginCredentials,
 } from "../models/Admin";
 
 export const selectAllAdmins = async () => {
@@ -14,6 +16,11 @@ export const selectAllAdmins = async () => {
 
 export const selectAdminById = async (id: number) => {
   const admin = await getAdminByIdQuery(id);
+  return admin;
+};
+
+export const loginAdminDB = async (credets: LoginCredentials) => {
+  const admin = await loginAdminQuery(credets);
   return admin;
 };
 
