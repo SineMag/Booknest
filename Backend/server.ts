@@ -16,6 +16,8 @@ import { accomodationTableQuery } from "./models/Accomodation";
 import { createRoomTypeTableQuery } from "./models/RoomType";
 import { createBookingTableQuery } from "./models/Booking";
 import { createReviewTableQuery } from "./models/Review";
+import { adminTableQuery } from "./models/Admin";
+import { createFavouriteTableQuery } from "./models/Favourite";
 const app = express();
 // MIDDLEWARE
 // For Stripe webhooks, we need the raw body, so we have a custom middleware for it
@@ -55,6 +57,10 @@ async function initializeDatabase() {
   console.log("booking table created");
   await createReviewTableQuery();
   console.log("review table created");
+  await adminTableQuery();
+  console.log("admin table created");
+  await createFavouriteTableQuery();
+  console.log("favourite table created");
 }
 initializeDatabase();
 export default app;
