@@ -13,9 +13,9 @@ import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAccomodationById } from "../../features/accomodationSlice";
 import {
-  addToFavorites,
-  removeFavorite,
-  getFavoriteById,
+  addToFavourites,
+  getFavouriteByUserId,
+  removeFavourite,
 } from "../../features/favoriteSlice";
 
 const hotels: Hotel[] = [
@@ -38,41 +38,45 @@ export default function AccomodationDetails() {
     dispatch(fetchAccomodationById(id!));
   }, [id]);
 
-  // Load user and fetch their favorites
+  // USER + FAVORITES
   const { user } = useSelector((state: RootState) => state.user);
-  const currentUserId = user?.id || 1; // Temporarily use 1 for testing
+  const currentUserId = user?.id;
+
   const { favorites } = useSelector((state: RootState) => state.favorites);
-  
+
   useEffect(() => {
     if (currentUserId) {
-      dispatch(getFavoriteById(currentUserId));
+      dispatch(getFavouriteByUserId(currentUserId));
     }
   }, [dispatch, currentUserId]);
 
-  // Check if this hotel is in user's favorites
-  const isFavorite = favorites.some(fav => fav.accommodationId === hotelId && fav.userId === currentUserId);
+  // Find favorite record for THIS accommodation
+  const matchedFavorite = favorites.find(
+    (fav) => fav.accommodationId === hotelId && fav.userId === currentUserId
+  );
 
- 
+  const isFavorite = !!matchedFavorite;
+  const favouriteId = matchedFavorite?.id || null;
+
+  // ********************
+  // TOGGLE FAVORITE
+  // ********************
   const toggleLike = () => {
     if (!currentUserId) {
-      alert('No user ID found. Please make sure you are logged in.');
+      alert("No user ID found. Please log in.");
       return;
     }
-    
-    if (isFavorite) {
-      dispatch(removeFavorite({ userId: currentUserId, accommodationId: hotelId }))
-        .unwrap()
-        .then(() => console.log('Removed from favorites successfully'))
-        .catch((error) => console.error('Failed to remove from favorites:', error));
-    } else {
-      dispatch(addToFavorites({ userId: currentUserId, accommodationId: hotelId }))
-        .unwrap()
-        .then(() => console.log('Added to favorites successfully'))
-        .catch((error) => console.error('Failed to add to favorites:', error));
-    }
 
-    // Don't redirect immediately for testing
-    // navigate("/myfavorites");
+    if (isFavorite && favouriteId) {
+      dispatch(removeFavourite(favouriteId));
+    } else {
+      dispatch(
+        addToFavourites({
+          userId: currentUserId,
+          accommodationId: hotelId,
+        })
+      );
+    }
   };
 
   return (
@@ -80,7 +84,6 @@ export default function AccomodationDetails() {
       className="accomodationPage"
       style={{ marginTop: "80px", padding: "2rem" }}
     >
-   
       <main style={{ flex: 1 }}>
         {loading ? (
           <h2>Loading...</h2>

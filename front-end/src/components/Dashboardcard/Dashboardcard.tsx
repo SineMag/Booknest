@@ -25,7 +25,6 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
   image,
   name,
   place,
-  description,
   amenities,
   price,
   rating,
@@ -64,7 +63,7 @@ const DashboardCard: React.FC<DashboardCardProps> = ({
           {name} {renderStars(rating)}
         </h3>
         <p className={styles.place}>{place}</p>
-        <p className={styles.amenities}>Amenities: {amenities.join(', ')}</p>
+        <p className={styles.amenities}>Amenities: {amenities.join(", ")}</p>
         <div className={styles.footer}>
           <span className={styles.price}>{price} per month</span>
           <div className={styles.viewButton}>

@@ -10,86 +10,75 @@ import {
   type Hotel,
 } from "../../features/InventoryManagementSlice";
 import {
-  addToFavorites,
-  removeFavorite,
-  getFavoriteById,
+  addToFavourites,
+  getFavouriteByUserId,
+  removeFavourite,
 } from "../../features/favoriteSlice";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user } = useSelector((state: RootState) => state.user);
-  const currentUserId = user?.id || 1; // Temporarily use 1 for testing
 
-  const {
-    hotels: allHotels,
-  } = useSelector((state: RootState) => state.hotels);
+  const { user } = useSelector((state: RootState) => state.user);
+  const currentUserId = user?.id;
+
+  const { hotels: allHotels } = useSelector((state: RootState) => state.hotels);
 
   const { favorites } = useSelector((state: RootState) => state.favorites);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  // Filtered list of hotels
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
 
-  // Initialize filteredHotels once Redux data is loaded
+  // Sync filtered list with hotel list
   useEffect(() => {
     setFilteredHotels(allHotels);
   }, [allHotels]);
 
-  // Fetch hotels from API
+  // Load hotels
   useEffect(() => {
     dispatch(fetchHotels());
   }, [dispatch]);
 
-  // Fetch user favorites
+  // Load favorites for logged user
   useEffect(() => {
     if (currentUserId) {
-      dispatch(getFavoriteById(currentUserId));
+      dispatch(getFavouriteByUserId(currentUserId));
     }
   }, [dispatch, currentUserId]);
 
-  // Debug favorites state
-  useEffect(() => {
-    console.log('UserDashboard debug:', {
-      currentUserId,
-      user,
-      favorites
-    });
-  }, [currentUserId, user, favorites]);
+  // Attach favouriteId + isFavorite to each hotel
+  const hotelsWithFavoriteInfo = filteredHotels.map((hotel) => {
+    const fav: any = favorites.find(
+      (f) => f.accommodationid === hotel.id && f.userid === currentUserId
+    );
 
-  const handleFavoriteToggle = (accommodationId: number) => {
-    console.log('=== HEART BUTTON CLICKED ===');
-    console.log('Current user ID:', currentUserId);
-    console.log('User object:', user);
-    console.log('Accommodation ID:', accommodationId);
-    
-    // Check localStorage directly
-    const localStorageUser = localStorage.getItem('user');
-    console.log('Raw localStorage user:', localStorageUser);
-    if (localStorageUser) {
-      console.log('Parsed localStorage user:', JSON.parse(localStorageUser));
-    }
-    
+    return {
+      ...hotel,
+      isFavorite: !!fav,
+      favouriteId: fav?.id || null,
+    };
+  });
+
+  // Toggle favourite
+  const handleFavoriteToggle = (
+    hotel: Hotel & { favouriteId: number | null }
+  ) => {
     if (!currentUserId) {
-      console.log('No current user ID, returning');
-      alert('Please log in to add favorites');
+      alert("Please log in to add favorites");
       return;
     }
-    
-    const isFavorite = favorites.some(fav => fav.accommodationId === accommodationId && fav.userId === currentUserId);
-    
-    console.log('Toggle favorite:', { accommodationId, isFavorite, currentUserId });
-    
-    if (isFavorite) {
-      dispatch(removeFavorite({ userId: currentUserId, accommodationId }))
-        .unwrap()
-        .then(() => console.log('Removed from favorites successfully'))
-        .catch((error) => console.error('Failed to remove from favorites:', error));
+
+    if (hotel.favouriteId) {
+      // REMOVE
+      dispatch(removeFavourite(hotel.favouriteId));
     } else {
-      dispatch(addToFavorites({ userId: currentUserId, accommodationId }))
-        .unwrap()
-        .then(() => console.log('Added to favorites successfully'))
-        .catch((error) => console.error('Failed to add to favorites:', error));
+      // ADD
+      dispatch(
+        addToFavourites({
+          userid: currentUserId,
+          accommodationid: hotel.id,
+        })
+      );
     }
   };
 
@@ -97,26 +86,16 @@ const UserDashboard: React.FC = () => {
     navigate(`/accomodation-details/${id}`);
   };
 
-  // Filter by search term
-  const displayedHotels = filteredHotels.filter((hotel) =>
+  // SEARCH
+  const displayedHotels = hotelsWithFavoriteInfo.filter((hotel) =>
     hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
     <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
+      style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}
     >
-      <div
-        style={{
-          flex: 1,
-          padding: "20px",
-          margin: "0 auto",
-        }}
-      >
+      <div style={{ flex: 1, padding: "20px", margin: "0 auto" }}>
         <h1
           style={{
             textAlign: "center",
@@ -134,7 +113,6 @@ const UserDashboard: React.FC = () => {
             justifyContent: "center",
             alignItems: "center",
             gap: "10px",
-            margin: "0 auto",
             marginBottom: "30px",
           }}
         >
@@ -142,19 +120,22 @@ const UserDashboard: React.FC = () => {
             placeholder="Search accommodations..."
             onSearch={setSearchTerm}
           />
-          <Filter 
-            data={allHotels.map(hotel => ({
+
+          <Filter
+            data={allHotels.map((hotel) => ({
               id: hotel.id,
               title: hotel.name,
               price: hotel.price || 0,
               rating: hotel.rating,
               location: hotel.physicaladdress,
-              image: hotel.imagegallery?.[0] || "/placeholder-hotel.jpg"
-            }))} 
+              image: hotel.imagegallery?.[0] || "/placeholder-hotel.jpg",
+            }))}
             onFilter={(filtered) => {
-              const mappedFiltered = filtered.map(f => allHotels.find(h => h.id === f.id)).filter(Boolean) as Hotel[];
+              const mappedFiltered = filtered
+                .map((f) => allHotels.find((h) => h.id === f.id))
+                .filter(Boolean) as Hotel[];
               setFilteredHotels(mappedFiltered);
-            }} 
+            }}
           />
         </div>
 
@@ -174,11 +155,11 @@ const UserDashboard: React.FC = () => {
               place={acc.physicaladdress}
               description={acc.description}
               price={"N/A"}
-              isFavorite={favorites.some(fav => fav.accommodationId === acc.id! && fav.userId === currentUserId)}
-              onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
-              onView={() => handleView(acc.id!)}
-              rating={acc.rating}
               amenities={acc.amenities}
+              rating={acc.rating}
+              isFavorite={acc.isFavorite}
+              onFavoriteToggle={() => handleFavoriteToggle(acc)}
+              onView={() => handleView(acc.id)}
             />
           ))}
         </div>
