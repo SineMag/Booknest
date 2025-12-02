@@ -3,6 +3,7 @@ import {
   deleteReviewQuery,
   getReviewByIdQuery,
   getReviewByUserId,
+  getReviewsByAccomodationIdQuery,
   getreviewsQuery,
   updateReviewQuery,
 } from "../models/Review";
@@ -35,4 +36,9 @@ export const updateReviewDB = async (id: number, review: any) => {
 export const deleteReviewDB = async (id: number) => {
   const result = await deleteReviewQuery(id);
   return result;
+};
+
+export const selectReviewByAccomodationId = async (id: number) => {
+  const reviews = await getReviewsByAccomodationIdQuery(id);
+  return reviews;
 };

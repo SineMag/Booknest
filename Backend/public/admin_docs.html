@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin API Documentation</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .route {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #8e44ad;
+        margin-bottom: 20px;
+        border-radius: 6px;
+      }
+
+      code {
+        background: #ecf0f1;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+
+      pre {
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>👮 Admin API Documentation</h1>
+
+      <h2>📘 Introduction</h2>
+      <p>
+        The <strong>/admins</strong> API manages administrative accounts for the
+        BookNest platform. This includes creating admins, updating profiles,
+        viewing all admins, and deleting admin accounts.
+      </p>
+
+      <h2>🧩 Data Model</h2>
+
+      <p>An admin has the following structure:</p>
+
+      <pre>
+{
+  id: number,
+  firstName: string,
+  lastName: string,
+  emailAddress: string,
+  physicalAddress: string,
+  phoneNumber: string,
+  profilePicUrl?: string,
+  password: string,
+  createdAt: Date
+}</pre
+      >
+
+      <hr />
+
+      <h2>📡 Routes Overview</h2>
+
+      <!-- TEST ROUTE -->
+      <div class="route">
+        <h3>GET /admins/test</h3>
+        <p>Simple test route to check the admin API is running.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>"Hello Admin!"</pre>
+      </div>
+
+      <!-- GET ALL ADMINS -->
+      <div class="route">
+        <h3>GET /admins</h3>
+        <p>Returns a list of all registered admins.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+[
+  {
+    "id": 1,
+    "firstName": "Sarah",
+    "lastName": "Williams",
+    "emailAddress": "sarah@example.com",
+    "physicalAddress": "123 Admin St",
+    "phoneNumber": "0783213344",
+    "profilePicUrl": "https://example.com/profile.jpg",
+    "createdAt": "2025-02-27T10:10:00Z"
+  }
+]</pre
+        >
+      </div>
+
+      <!-- GET BY ID -->
+      <div class="route">
+        <h3>GET /admins/:id</h3>
+        <p>Fetch a specific admin using its ID.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /admins/5</pre>
+      </div>
+
+      <!-- CREATE ADMIN -->
+      <div class="route">
+        <h3>POST /admins</h3>
+        <p>Creates a new admin account.</p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "emailAddress": "john@example.com",
+  "physicalAddress": "456 Example St",
+  "phoneNumber": "0712345678",
+  "profilePicUrl": "https://example.com/john.jpg",
+  "password": "securepassword123"
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 8,
+  "firstName": "John",
+  "lastName": "Doe",
+  "emailAddress": "john@example.com",
+  "physicalAddress": "456 Example St",
+  "phoneNumber": "0712345678",
+  "profilePicUrl": "https://example.com/john.jpg",
+  "createdAt": "2025-02-27T12:00:00Z"
+}</pre
+        >
+      </div>
+
+      <!-- UPDATE ADMIN -->
+      <div class="route">
+        <h3>PUT /admins/:id</h3>
+        <p>Updates an admin profile and returns the updated record.</p>
+
+        <h4>✔ Example</h4>
+        <pre>PUT /admins/3</pre>
+      </div>
+
+      <!-- DELETE ADMIN -->
+      <div class="route">
+        <h3>DELETE /admins/:id</h3>
+        <p>Deletes an admin by ID.</p>
+
+        <h4>✔ Example</h4>
+        <pre>DELETE /admins/3</pre>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 3,
+  "firstName": "John",
+  "lastName": "Doe",
+  "emailAddress": "john@example.com"
+}</pre
+        >
+      </div>
+
+      <hr />
+
+      <h2>📄 /docs — Documentation Route</h2>
+
+      <p>You may serve this documentation via:</p>
+
+      <pre>GET /docs/admin</pre>
+
+      <p>Useful for developers who manage admin accounts.</p>
+
+      <hr />
+
+      <h2>❓ Need Help?</h2>
+      <p>
+        You can extend this page with login examples, authentication, password
+        hashing, or token generation documentation.
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>

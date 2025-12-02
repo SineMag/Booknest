@@ -287,3 +287,227 @@ textarea {
 .dropdownList::-webkit-scrollbar-track {
   background-color: #f1f1f1;
 }
+
+/* ======================================
+   📱 TABLETS (≤ 1024px)
+====================================== */
+@media (max-width: 1024px) {
+  .inventory {
+    padding: 40px 1.5rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+  }
+
+  .card h3 {
+    font-size: 1.15rem;
+  }
+
+  .card p {
+    font-size: 0.85rem;
+  }
+
+  .hotelImage {
+    height: 160px;
+  }
+
+  .modal {
+    max-width: 500px;
+    padding: 20px 25px;
+  }
+}
+
+/* ======================================
+   📱 MOBILE (≤ 768px)
+====================================== */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .card h3 {
+    font-size: 1.1rem;
+  }
+
+  .card p {
+    font-size: 0.8rem;
+  }
+
+  .hotelImage {
+    height: 140px;
+  }
+
+  .cardButtons {
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+
+  .modal {
+    max-width: 90%;
+    padding: 18px 20px;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+}
+
+/* ======================================
+   📱 SMALL MOBILE (≤ 480px)
+====================================== */
+@media (max-width: 480px) {
+  .inventory {
+    margin-top: 60px;
+    padding: 20px 1rem;
+  }
+
+  .card h3 {
+    font-size: 1rem;
+  }
+
+  .card p {
+    font-size: 0.75rem;
+  }
+
+  .hotelImage {
+    height: 120px;
+  }
+
+  .cardButtons button {
+    flex: 1;
+    padding: 8px 0;
+  }
+
+  .modal {
+    width: 95%;
+    padding: 15px 18px;
+  }
+
+  .modalButtons {
+    gap: 8px;
+  }
+
+  .dropdownList {
+    max-height: 150px;
+  }
+}
+
+/* ======================================
+   📱 EXTRA SMALL (≤ 360px)
+====================================== */
+@media (max-width: 360px) {
+  .card h3 {
+    font-size: 0.95rem;
+  }
+
+  .card p {
+    font-size: 0.7rem;
+  }
+
+  .hotelImage {
+    height: 100px;
+  }
+
+  .modal {
+    padding: 12px 15px;
+  }
+
+  .modalButtons button {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+  }
+}
+
+/* ======================================
+   📱 TABLETS (≤ 1024px)
+====================================== */
+@media (max-width: 1024px) {
+  .modal {
+    max-width: 500px;
+    padding: 20px 25px;
+  }
+
+  .modalButtons {
+    flex-direction: row;
+    gap: 10px;
+  }
+}
+
+/* ======================================
+   📱 MOBILE (≤ 768px)
+====================================== */
+@media (max-width: 768px) {
+  .modal {
+    width: 90%;
+    padding: 18px 20px;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch; /* buttons take full width */
+  }
+
+  .modalForm input,
+  .modalForm textarea,
+  .modalForm select {
+    font-size: 0.9rem;
+    padding: 8px 10px;
+  }
+}
+
+/* ======================================
+   📱 SMALL MOBILE (≤ 480px)
+====================================== */
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;
+    padding: 15px 18px;
+  }
+
+  .modalButtons button {
+    font-size: 0.85rem;
+    padding: 8px 10px;
+  }
+
+  .modalForm input,
+  .modalForm textarea,
+  .modalForm select {
+    font-size: 0.85rem;
+    padding: 6px 8px;
+  }
+}
+
+/* ======================================
+   📱 EXTRA SMALL (≤ 360px)
+====================================== */
+@media (max-width: 360px) {
+  .modal {
+    width: 95%;
+    padding: 12px 15px;
+  }
+
+  .modalButtons button {
+    font-size: 0.8rem;
+    padding: 6px 8px;
+  }
+
+  .modalForm input,
+  .modalForm textarea,
+  .modalForm select {
+    font-size: 0.8rem;
+    padding: 5px 6px;
+  }
+}
+

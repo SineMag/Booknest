@@ -126,12 +126,12 @@ const UserDashboard: React.FC = () => {
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
-              amenities={acc.amenities}
-              price={`R${[100, 80, 50][index] ?? acc.price ?? 'N/A'}`}
+              price={"N/A"}
+              isFavorite={favorites.has(acc.id!)}
+              onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
+              onView={() => handleView(acc.id!)}
               rating={acc.rating}
-              isFavorite={favorites.has(acc.id)}
-              onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
-              onView={() => handleView(acc.id)}
+              amenities={acc.amenities}
             />
           ))}
         </div>

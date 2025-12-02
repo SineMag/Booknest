@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../features/userSlice";
+import { logout, setShowProfileMenuSelector } from "../../features/userSlice";
 import type { AppDispatch, RootState } from "../../../store";
 import ProfileIcon from "../ProfileIcon/profileIcon";
 import styles from "./profileMenu.module.css";
@@ -23,11 +23,17 @@ export default function ProfileMenu({
   const dispatch = useDispatch<AppDispatch>();
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const { user, isLoggedIn: reduxLoggedIn } = useSelector(
+  const { user, isLoggedIn: reduxLoggedIn, showProfileMenuSelector } = useSelector(
     (state: RootState) => state.user
   );
 
   const loggedIn = isLoggedIn ?? reduxLoggedIn;
+
+  useEffect(() => {
+    if (!loggedIn && showProfileMenuSelector) {
+      setOpen(true);
+    }
+  }, [loggedIn, showProfileMenuSelector, dispatch]);
 
   /** -------------------------------------------
    * ADVANCED ROLE DETECTION
@@ -63,6 +69,7 @@ export default function ProfileMenu({
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
         setOpen(false);
         setSubMenu(null);
+        dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -75,6 +82,7 @@ export default function ProfileMenu({
   const handleLogout = () => {
     dispatch(logout());
     setOpen(false);
+    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
   };
 
   /** -------------------------------------------
@@ -112,6 +120,7 @@ export default function ProfileMenu({
           onClick={() => {
             setOpen(!open);
             setSubMenu(null);
+            dispatch(setShowProfileMenuSelector(!open)); // Toggle Redux state
           }}
         />
 
@@ -128,10 +137,16 @@ export default function ProfileMenu({
 
               {subMenu === "user" && (
                 <div className={styles.submenu}>
-                  <Link to="/register" onClick={() => setOpen(false)}>
+                  <Link to="/register" onClick={() => {
+                    setOpen(false);
+                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                  }}>
                     Register as User
                   </Link>
-                  <Link to="/login" onClick={() => setOpen(false)}>
+                  <Link to="/login" onClick={() => {
+                    setOpen(false);
+                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                  }}>
                     Login as User
                   </Link>
                 </div>
@@ -147,10 +162,16 @@ export default function ProfileMenu({
 
               {subMenu === "admin" && (
                 <div className={styles.submenu}>
-                  <Link to="/admin-register" onClick={() => setOpen(false)}>
+                  <Link to="/admin-register" onClick={() => {
+                    setOpen(false);
+                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                  }}>
                     Register as Admin
                   </Link>
-                  <Link to="/admin-login" onClick={() => setOpen(false)}>
+                  <Link to="/admin-login" onClick={() => {
+                    setOpen(false);
+                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                  }}>
                     Login as Admin
                   </Link>
                 </div>
@@ -185,7 +206,10 @@ export default function ProfileMenu({
               <Link
                 key={index}
                 to={item.to}
-                onClick={() => setOpen(false)} // auto close
+                onClick={() => {
+                  setOpen(false);
+                  dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                }}
               >
                 {item.label}
               </Link>
