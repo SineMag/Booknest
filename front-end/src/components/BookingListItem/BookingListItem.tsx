@@ -1,5 +1,7 @@
 import React from 'react';
-import { FiCalendar, FiEdit, FiTrash2, FiHeart, FiXCircle, FiUsers, FiCreditCard, FiClipboard, FiInfo } from 'react-icons/fi';
+import { FiCalendar, FiEdit, FiUsers, FiCreditCard, FiClipboard, FiInfo, FiTrash2 } from 'react-icons/fi';
+import { AiFillHeart } from 'react-icons/ai';
+import { FiHeart } from 'react-icons/fi';
 import styles from './BookingListItem.module.css';
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
@@ -10,15 +12,14 @@ interface BookingListItemProps {
   checkIn: string;
   checkOut: string;
   status: BookingStatus;
-  onCancel: () => void;
   onReview: () => void;
-  onDelete: () => void;
   onFavorite: () => void;
   isFavorite: boolean;
   numberOfGuests: number;
   totalPrice?: string | number;
   specialRequest?: string;
   roomType: string;
+  onDelete: () => void;
 }
 
 const BookingListItem: React.FC<BookingListItemProps> = ({
@@ -27,24 +28,21 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   checkIn,
   checkOut,
   status,
-  onCancel,
   onReview,
-  onDelete,
   onFavorite,
   isFavorite,
   numberOfGuests,
   totalPrice = 0,
   specialRequest,
   roomType,
+  onDelete,
 }) => {
-  const statusClass = styles[status.toLowerCase()];
   const price = typeof totalPrice === 'string' ? parseFloat(totalPrice) : totalPrice;
 
   return (
     <div className={styles.card}>
       <div className={styles.header}>
         <h3 className={styles.accommodationName}>{accommodationName}</h3>
-        <span className={`${styles.status} ${statusClass}`}>{status}</span>
       </div>
       <div className={styles.body}>
         <div className={styles.detailItem}>
@@ -72,21 +70,30 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
       </div>
       <div className={styles.footer}>
         <div className={styles.actions}>
-          {status === 'Approved' && (
-            <button onClick={onCancel} className={`${styles.iconButton} ${styles.cancelButton}`}>
-              <FiXCircle />
-            </button>
-          )}
-          <button onClick={onFavorite} className={styles.iconButton}>
-            <FiHeart style={{ fill: isFavorite ? 'red' : 'none', stroke: 'red' }} />
+          <button 
+            onClick={onFavorite} 
+            className={`${styles.iconButton} ${isFavorite ? styles.favorited : ''}`}
+            title={isFavorite ? "Remove from favorites" : "Add to favorites"}
+          >
+            {isFavorite ? (
+              <AiFillHeart className={styles.heartFilled} />
+            ) : (
+              <FiHeart />
+            )}
           </button>
-          <button onClick={onDelete} className={styles.iconButton}>
-            <FiTrash2 />
-          </button>
-        </div>
-        <div className={styles.reviewIconContainer}>
-          <button onClick={onReview} className={styles.iconButton}>
+          <button 
+            onClick={onReview} 
+            className={styles.iconButton}
+            title="Write a review"
+          >
             <FiEdit />
+          </button>
+          <button 
+            onClick={onDelete} 
+            className={`${styles.iconButton} ${styles.deleteButton}`}
+            title="Delete booking"
+          >
+            <FiTrash2 />
           </button>
         </div>
       </div>

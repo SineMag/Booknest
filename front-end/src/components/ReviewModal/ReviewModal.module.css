@@ -1,4 +1,4 @@
-.modal {
+.modalOverlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -9,49 +9,151 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.modalContent {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal {
   background-color: white;
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 500px;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 600px;
   width: 90%;
   max-height: 80vh;
   overflow-y: auto;
   position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .closeButton {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 15px;
+  right: 15px;
   background: none;
   border: none;
-  font-size: 24px;
+  font-size: 32px;
   cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.closeButton:hover {
+  color: #000;
+}
+
+.modalTitle {
+  font-size: 24px;
+  font-weight: 600;
   color: #333;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .reviewSection {
-  flex: 1;
-  padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   gap: 20px;
-  
+}
+
+.ratingSection,
+.textAreaSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-weight: 600;
+  color: #333;
+  font-size: 16px;
+}
+
+.ratingSelect {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.ratingSelect:hover {
+  border-color: #0077ff;
+}
+
+.ratingSelect:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.1);
 }
 
 .textarea {
   width: 100%;
-  max-width: 500px;
-  min-height: 150px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   resize: vertical;
   font-family: inherit;
   font-size: 16px;
+  background-color: #f9f9f9;
+  transition: border-color 0.2s ease;
+}
+
+.textarea:hover {
+  border-color: #0077ff;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #0077ff;
+  box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.1);
+}
+
+.errorMessage {
+  color: #d32f2f;
+  font-size: 14px;
+  padding: 10px;
+  background-color: rgba(211, 47, 47, 0.1);
+  border-radius: 6px;
+  border-left: 4px solid #d32f2f;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modal {
+    width: 95%;
+    padding: 20px;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .closeButton {
+    font-size: 28px;
+    top: 10px;
+    right: 10px;
+  }
 }
