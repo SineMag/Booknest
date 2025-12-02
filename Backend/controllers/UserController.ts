@@ -45,7 +45,7 @@ export const updateUser = async (req: Request, res: Response) => {
       profilePicUrl,
       password,
     } = req.body;
-    
+
     console.log("Updating user with data:", {
       firstName,
       lastName,
@@ -55,7 +55,7 @@ export const updateUser = async (req: Request, res: Response) => {
       profilePicUrl,
       password: password ? "***" : undefined,
     });
-    
+
     const user = await putIntoUser(Number(id), {
       firstName,
       lastName,
@@ -65,7 +65,7 @@ export const updateUser = async (req: Request, res: Response) => {
       profilePicUrl,
       password,
     });
-    
+
     console.log("User updated successfully");
     return res.json(user);
   } catch (error) {
