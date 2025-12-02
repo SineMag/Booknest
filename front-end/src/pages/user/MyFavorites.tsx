@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store";
+import type { RootState } from "../../../store";
 import DashboardCard from "../../components/Dashboardcard/Dashboardcard";
-import { Hotel } from "../../features/InventoryManagementSlice";
+import type { Hotel } from "../../features/InventoryManagementSlice";
 
 const MyFavorites: React.FC = () => {
   const { favoriteIds } = useSelector((state: RootState) => state.favorites);
