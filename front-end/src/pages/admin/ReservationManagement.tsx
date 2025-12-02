@@ -82,11 +82,14 @@ export default function ReservationManagement() {
         <div className={styles.listContainer}>
           {filteredBookings.map((booking) => (
             <BookingListItem
-              key={booking.bookingId}
+              onDelete={function (): void {
+                throw new Error('Function not implemented.');
+              } } onFavorite={function (): void {
+                throw new Error('Function not implemented.');
+              } } isFavorite={false} key={booking.bookingId}
               {...booking}
               onCancel={() => handleCancel(booking.bookingId)}
-              onEdit={() => handleEdit(booking)}
-            />
+              onEdit={() => handleEdit(booking)}            />
           ))}
         </div>
       </div>

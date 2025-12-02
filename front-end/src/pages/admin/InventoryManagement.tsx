@@ -7,6 +7,7 @@ import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addHotel,
+  deleteHotel,
   fetchHotels,
   updateHotel,
 } from "../../features/InventoryManagementSlice";
@@ -426,15 +427,15 @@ export default function InventoryManagement(): JSX.Element {
                   }
                   placeholder="Address"
                 />
-                <div className={styles.inputGroup}>
+                {/* <div className={styles.inputGroup}>
                   <p>1</p>
                   <p>2</p>
-                </div>
+                </div> */}
 
                 <div className={styles.modalButtons}>
                   <Button
                     type="submit"
-                    width={130}
+                    width={100}
                     onClick={() => {
                       console.log("Clicked...");
                     }}
@@ -443,7 +444,7 @@ export default function InventoryManagement(): JSX.Element {
                   </Button>
                   <Button
                     type="button"
-                    width={130}
+                    width={100}
                     onClick={() => {
                       setShowModal(false);
                       setEditingHotelId(null);
