@@ -52,7 +52,9 @@ const UserProfile: React.FC = () => {
           setLastName(user.lastname || user.lastName || "");
           setEmail(user.emailaddress || user.emailAddress || "");
           setPhone(user.phonenumber || user.phoneNumber || "");
-          setPhysicalAddress(user.physicaladdress || user.physicalAddress || "");
+          setPhysicalAddress(
+            user.physicaladdress || user.physicalAddress || ""
+          );
           console.log("User data loaded successfully:", user);
         } else {
           setError("No user data returned from the API.");
@@ -91,7 +93,7 @@ const UserProfile: React.FC = () => {
         profilePicUrl: "",
         password: newPassword || reduxUser.password, // Use new password if provided, otherwise keep old
       };
-      
+
       console.log("Updating user with payload:", payload);
       await updateUserDetails(reduxUser.id, payload);
       setShowSnackbar(true);
@@ -107,11 +109,19 @@ const UserProfile: React.FC = () => {
   };
 
   if (loading) {
-    return <div className={styles.profilePage}><p>Loading user profile...</p></div>;
+    return (
+      <div className={styles.profilePage}>
+        <p>Loading user profile...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <div className={styles.profilePage}><p style={{ color: "red" }}>{error}</p></div>;
+    return (
+      <div className={styles.profilePage}>
+        <p style={{ color: "red" }}>{error}</p>
+      </div>
+    );
   }
 
   return (
@@ -123,25 +133,73 @@ const UserProfile: React.FC = () => {
           <ImageUploader />
         </div>
 
-        <InputField label="First Name" placeholder="First Name" type="text" field={firstName} setField={setFirstName} />
-        <InputField label="Last Name" placeholder="Last Name" type="text" field={lastName} setField={setLastName} />
+        <InputField
+          label="First Name"
+          placeholder="First Name"
+          type="text"
+          field={firstName}
+          setField={setFirstName}
+        />
+        <InputField
+          label="Last Name"
+          placeholder="Last Name"
+          type="text"
+          field={lastName}
+          setField={setLastName}
+        />
 
         {/* readOnly email */}
-        <InputField label="Email Address" placeholder="Email Address" type="email" field={email} setField={setEmail} readOnly />
+        <InputField
+          label="Email Address"
+          placeholder="Email Address"
+          type="email"
+          field={email}
+          setField={setEmail}
+          readOnly
+        />
 
-        <InputField label="Phone Number" placeholder="Phone Number" type="text" field={phone} setField={setPhone} />
-        <InputField label="Physical Address" placeholder="Physical Address" type="text" field={physicalAddress} setField={setPhysicalAddress} />
+        <InputField
+          label="Phone Number"
+          placeholder="Phone Number"
+          type="text"
+          field={phone}
+          setField={setPhone}
+        />
+        <InputField
+          label="Physical Address"
+          placeholder="Physical Address"
+          type="text"
+          field={physicalAddress}
+          setField={setPhysicalAddress}
+        />
 
         <h3>Change Password</h3>
-        <InputField placeholder="Current Password" type="password" field={currentPassword} setField={setCurrentPassword} />
-        <InputField placeholder="New Password" type="password" field={newPassword} setField={setNewPassword} />
-        <InputField placeholder="Confirm New Password" type="password" field={confirmNewPassword} setField={setConfirmNewPassword} />
+        <InputField
+          placeholder="Current Password"
+          type="password"
+          field={currentPassword}
+          setField={setCurrentPassword}
+        />
+        <InputField
+          placeholder="New Password"
+          type="password"
+          field={newPassword}
+          setField={setNewPassword}
+        />
+        <InputField
+          placeholder="Confirm New Password"
+          type="password"
+          field={confirmNewPassword}
+          setField={setConfirmNewPassword}
+        />
         <Button onClick={handleUpdateProfile}>Update Profile</Button>
       </div>
-      <SnackbarComponent message="Profile updated successfully!" show={showSnackbar} onClose={() => setShowSnackbar(false)} />
+      <SnackbarComponent
+        message="Profile updated successfully!"
+        show={showSnackbar}
+        onClose={() => setShowSnackbar(false)}
+      />
     </div>
   );
 };
-;
-
 export default UserProfile;

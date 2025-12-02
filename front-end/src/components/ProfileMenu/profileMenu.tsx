@@ -23,9 +23,11 @@ export default function ProfileMenu({
   const dispatch = useDispatch<AppDispatch>();
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const { user, isLoggedIn: reduxLoggedIn, showProfileMenuSelector } = useSelector(
-    (state: RootState) => state.user
-  );
+  const {
+    user,
+    isLoggedIn: reduxLoggedIn,
+    showProfileMenuSelector,
+  } = useSelector((state: RootState) => state.user);
 
   const loggedIn = isLoggedIn ?? reduxLoggedIn;
 
@@ -137,16 +139,22 @@ export default function ProfileMenu({
 
               {subMenu === "user" && (
                 <div className={styles.submenu}>
-                  <Link to="/register" onClick={() => {
-                    setOpen(false);
-                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
-                  }}>
+                  <Link
+                    to="/register"
+                    onClick={() => {
+                      setOpen(false);
+                      dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                    }}
+                  >
                     Register as User
                   </Link>
-                  <Link to="/login" onClick={() => {
-                    setOpen(false);
-                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
-                  }}>
+                  <Link
+                    to="/login"
+                    onClick={() => {
+                      setOpen(false);
+                      dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                    }}
+                  >
                     Login as User
                   </Link>
                 </div>
@@ -162,16 +170,22 @@ export default function ProfileMenu({
 
               {subMenu === "admin" && (
                 <div className={styles.submenu}>
-                  <Link to="/admin-register" onClick={() => {
-                    setOpen(false);
-                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
-                  }}>
+                  <Link
+                    to="/admin-register"
+                    onClick={() => {
+                      setOpen(false);
+                      dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                    }}
+                  >
                     Register as Admin
                   </Link>
-                  <Link to="/admin-login" onClick={() => {
-                    setOpen(false);
-                    dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
-                  }}>
+                  <Link
+                    to="/admin-login"
+                    onClick={() => {
+                      setOpen(false);
+                      dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
+                    }}
+                  >
                     Login as Admin
                   </Link>
                 </div>
