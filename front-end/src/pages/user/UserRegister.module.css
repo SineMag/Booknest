@@ -13,3 +13,17 @@
 .oauthIcons a:hover {
   color: #1a73e8;
 }
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .oauthIcons {
+    gap: 1rem;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .oauthIcons {
+    gap: 2rem;
+  }
+}
