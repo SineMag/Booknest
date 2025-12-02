@@ -76,7 +76,8 @@ export default function Booking() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user: userState, isLoggedIn } = useSelector((state: RootState) => state.user);
+  const user = Array.isArray(userState) ? userState[0] : userState;
   const { access_code } = useSelector((state: RootState) => state.payment);
   const [paystackReady, setPaystackReady] = useState(false);
 
@@ -114,7 +115,7 @@ export default function Booking() {
   const handleProceed = () => {
     setErrorMessage(null); // Clear previous errors
 
-    if (!user || !("id" in user)) {
+    if (!isLoggedIn || !user || !user.id) {
       setErrorMessage("You must be logged in to book a stay. Please log in.");
       // navigate("/login"); // Removed automatic navigation
       return;
@@ -181,7 +182,7 @@ export default function Booking() {
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://js.paystack.co/v2/inline.js";
-    https: script.async = true;
+    script.async = true;
     script.onload = () => {
       console.log("Paystack script loaded:", window.PaystackPop);
       setPaystackReady(true);
