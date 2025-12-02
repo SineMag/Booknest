@@ -1,30 +1,29 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { UserBooking } from "../../../Backend/models/Booking";
 import type { Booking } from "../types/Booking";
 
 interface BookingState {
   bookings: Booking[];
-  booking: UserBooking | null;
+  booking: Booking | null;
   clientSecret: string | null;
-  status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null | undefined;
+  loading: boolean;
+  error: string;
 }
 
 const initialState: BookingState = {
   bookings: [],
   booking: null,
   clientSecret: null,
-  status: "idle",
-  error: null,
+  loading: false,
+  error: "",
 };
+
+const BASE_URL = "http://localhost:8888/bookings";
 
 export const fetchBookingsByUser = createAsyncThunk(
   "booking/fetchBookingsByUser",
   async (userId: string, { rejectWithValue }) => {
     try {
-      const response = await fetch(
-        `https://booknestapi.netlify.app/bookings`
-      );
+      const response = await fetch(BASE_URL);
       if (!response.ok) {
         throw new Error("Failed to fetch bookings.");
       }
@@ -45,7 +44,7 @@ export const createBooking = createAsyncThunk(
   "booking/createBooking",
   async (bookingData: Booking, { rejectWithValue }) => {
     try {
-      const response = await fetch("https://booknestapi.netlify.app/bookings", {
+      const response = await fetch(BASE_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -65,29 +64,6 @@ export const createBooking = createAsyncThunk(
   }
 );
 
-export const createPaymentIntent = createAsyncThunk(
-  "booking/createPaymentIntent",
-  async (bookingId: number, { rejectWithValue }) => {
-    try {
-      const response = await fetch("/api/payments/create-payment-intent", {
-        // Assuming proxy
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ bookingId }),
-      });
-      if (!response.ok) {
-        throw new Error("Failed to create payment intent.");
-      }
-      const data = await response.json();
-      return data.clientSecret;
-    } catch (error: any) {
-      return rejectWithValue(error.message);
-    }
-  }
-);
-
 const bookingSlice = createSlice({
   name: "booking",
   initialState,
@@ -95,36 +71,25 @@ const bookingSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createBooking.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(createBooking.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.loading = false;
         state.booking = action.payload;
       })
       .addCase(createBooking.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.payload as string;
-      })
-      .addCase(createPaymentIntent.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(createPaymentIntent.fulfilled, (state, action) => {
-        state.status = "succeeded";
-        state.clientSecret = action.payload;
-      })
-      .addCase(createPaymentIntent.rejected, (state, action) => {
-        state.status = "failed";
+        state.loading = false;
         state.error = action.payload as string;
       })
       .addCase(fetchBookingsByUser.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(fetchBookingsByUser.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.loading = false;
         state.bookings = action.payload;
       })
       .addCase(fetchBookingsByUser.rejected, (state, action) => {
-        state.status = "failed";
+        state.loading = false;
         state.error = action.payload as string;
       });
   },

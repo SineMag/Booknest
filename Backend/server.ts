@@ -20,16 +20,7 @@ import { adminTableQuery } from "./models/Admin";
 import { createFavouriteTableQuery } from "./models/Favourite";
 const app = express();
 // MIDDLEWARE
-// For Stripe webhooks, we need the raw body, so we have a custom middleware for it
 app.use(express.json());
-app.use(
-  express.json({
-    verify: (req, res, buf) => {
-      // Save the raw body to a new property on the request object
-      (req as any).rawBody = buf;
-    },
-  })
-);
 app.use(
   cors({
     origin: "*",
