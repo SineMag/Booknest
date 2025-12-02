@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.get("/test", (req, res) => res.send("Hello Favourite!"));
+router.get("/test", (req, res) => res.send("Hello Admin!"));
 router.get("/", getAllAdmins);
 router.get("/:id", getAdminById);
 router.post("/", createAdmin);
