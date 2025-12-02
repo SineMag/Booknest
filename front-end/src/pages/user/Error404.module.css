@@ -11,12 +11,12 @@
 }
 
 .code {
-  font-size: 150px;      
+  font-size: 150px;
   font-weight: 700;
   color: #1a1a1a;
-  letter-spacing: 10px;   
+  letter-spacing: 10px;
   margin: 0;
-  font-family: "Poppins", sans-serif; 
+  font-family: "Poppins", sans-serif;
   line-height: 1;
 }
 
@@ -26,11 +26,44 @@
   color: #222;
   margin-top: 10px;
 }
-
 .text {
   font-size: 16px;
   color: #555;
   margin-top: 10px;
 }
 
+/* Mobile styles */
+@media (max-width: 768px) {
+  .code {
+    font-size: 100px;
+    letter-spacing: 5px;
+  }
 
+  .title {
+    font-size: 24px;
+  }
+
+  .text {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 10px;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .code {
+    font-size: 180px;
+    letter-spacing: 15px;
+  }
+
+  .title {
+    font-size: 36px;
+  }
+
+  .text {
+    font-size: 18px;
+  }
+}

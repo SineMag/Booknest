@@ -163,3 +163,27 @@
     height: 220px;
   }
 }
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .contentWrapper {
+    max-width: 1400px;
+  }
+
+  .galleryGrid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .galleryImg {
+    height: 200px;
+  }
+
+  .headerSection {
+    padding: 3rem;
+  }
+
+  .hotelName {
+    font-size: 2.5rem;
+  }
+}

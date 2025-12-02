@@ -25,10 +25,7 @@ export const createUser = createAsyncThunk(
   async (user: User, { rejectWithValue }) => {
     try {
       console.log("register thunk...");
-      const response = await axios.post(
-        API_BASE_URL + "/auth/register",
-        user
-      );
+      const response = await axios.post(API_BASE_URL + "/auth/register", user);
       console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
@@ -48,8 +45,7 @@ export const loginUser = createAsyncThunk(
         credentails
       );
       console.log(response);
-      if (response.status === 200 && response.data.length > 0)
-        return response.data;
+      if (response.status === 200) return response.data;
       else return rejectWithValue(response.data.message);
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
@@ -67,8 +63,15 @@ export const updateProfile = createAsyncThunk(
         user
       );
       console.log("@update response: ", response);
-      if (response.status === 200) return response.data;
-      else return rejectWithValue(response.data.message);
+      if (response.status === 200) {
+        if (Array.isArray(response.data) && response.data.length > 0) {
+          return response.data[0];
+        } else if (response.data && typeof response.data === "object") {
+          return response.data;
+        } else {
+          return rejectWithValue("Invalid response data");
+        }
+      } else return rejectWithValue(response.data.message);
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || error.message);
     }
@@ -93,7 +96,8 @@ export const userSlice = createSlice({
       state.isLoggedIn = false;
       localStorage.removeItem("user");
     },
-    setShowProfileMenuSelector: (state, action) => { // New reducer
+    setShowProfileMenuSelector: (state, action) => {
+      // New reducer
       state.showProfileMenuSelector = action.payload;
     },
   },
@@ -110,9 +114,9 @@ export const userSlice = createSlice({
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       console.log("payload", action.payload, "SUCCESS LOGIN!");
-      state.user = action.payload[0];
+      state.user = action.payload;
       state.isLoggedIn = true;
-      localStorage.setItem("user", JSON.stringify(action.payload[0])); // Persist to localStorage
+      localStorage.setItem("user", JSON.stringify(action.payload)); // Persist to localStorage
     });
     builder.addCase(loginUser.rejected, (state, action) => {
       console.log("Error: payload invalid", action.payload);

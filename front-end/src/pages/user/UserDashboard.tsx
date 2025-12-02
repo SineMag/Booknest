@@ -62,9 +62,9 @@ const UserDashboard: React.FC = () => {
     navigate(`/accomodation-details/${id}`);
   };
 
-  // Filter by search term
+  // Filter by search term (location)
   const displayedHotels = filteredHotels.filter((hotel) =>
-    hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
+    hotel.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -96,15 +96,14 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "baseline",
+            justifyContent: "center",
+            alignItems: "center",
             gap: "10px",
-            marginBottom: "30px",
-            flexWrap: "wrap",
+            margin: "0 auto",
           }}
         >
           <SearchBar
-            placeholder="Search accommodations..."
+            placeholder="Search by location..."
             onSearch={setSearchTerm}
           />
           <Filter data={allHotels} onFilter={setFilteredHotels} />
@@ -113,24 +112,24 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             gap: "20px",
             flexWrap: "wrap",
           }}
         >
-          {displayedHotels.map((acc) => (
+          {displayedHotels.map((acc, index) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
-              amenities={acc.amenities}
-              price={acc.price ? `R${acc.price}` : "N/A"}
+              price={acc.pricepernight.toString()}
+              isFavorite={favorites.has(acc.id!)}
+              onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
+              onView={() => handleView(acc.id!)}
               rating={acc.rating}
-              isFavorite={favorites.has(acc.id)}
-              onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
-              onView={() => handleView(acc.id)}
+              amenities={acc.amenities}
             />
           ))}
         </div>

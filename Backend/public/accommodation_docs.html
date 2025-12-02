@@ -59,12 +59,6 @@
   <body>
     <main>
       <h2>Route: /accomodations</h2>
-      <h4>
-        Public Route:
-        <a href="https://booknestapi.netlify.app/accomodation.html"
-          >https://booknestapi.netlify.app/accomodation.html</a
-        >
-      </h4>
       <h2>📘 Introduction</h2>
       <p>
         The <strong>/accomodations</strong> API allows you to create, read,
@@ -87,7 +81,8 @@
   phoneNumber: string,
   emailAddress: string,
   roomTypes: string[],
-  rating: number
+  rating: number,
+  pricePerNight: number
 }</pre
       >
 
@@ -113,7 +108,8 @@
     "phoneNumber": "0783453333",
     "emailAddress": "info@example.com",
     "roomTypes": ["Superior Studio", "Junior Suite"],
-    "rating": 4.5
+    "rating": 4.5,
+    "pricePerNight": 1500
   }
 ]</pre
         >
@@ -144,7 +140,8 @@
   "phoneNumber": "0783453333",
   "emailAddress": "suite@example.com",
   "roomTypes": ["Deluxe Studio", "Executive Suite"],
-  "rating": 4.8
+  "rating": 4.8,
+  "pricePerNight": 2500
 }</pre
         >
 
@@ -160,7 +157,8 @@
   "phoneNumber": "0783453333",
   "emailAddress": "...",
   "roomTypes": [...],
-  "rating": 4.8
+  "rating": 4.8,
+  "pricePerNight": 2500
 }</pre
         >
       </div>

@@ -3,6 +3,7 @@ import {
   createReviewDB,
   deleteReviewDB,
   selectAllReviews,
+  selectReviewByAccomodationId,
   selectReviewById,
   selectReviewByUserId,
   updateReviewDB,
@@ -32,6 +33,19 @@ export const getReviewsById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     const reviews = await selectReviewById(id);
+    return res.status(200).json(reviews);
+  } catch (error) {
+    log(error);
+  }
+};
+
+export const getReviewsByAccomodationId = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    const accomodationId = Number(req.params.id);
+    const reviews = await selectReviewByAccomodationId(accomodationId);
     return res.status(200).json(reviews);
   } catch (error) {
     log(error);

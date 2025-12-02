@@ -67,28 +67,3 @@
     font-size: 20px;
   }
 }
-
-/* Desktop styles */
-@media (min-width: 1024px) {
-  .profilePage {
-    padding: 40px 30px;
-  }
-
-  .profileContainer {
-    max-width: 400px;
-    padding: 32px;
-  }
-
-  .profileTitle {
-    font-size: 24px;
-    margin-bottom: 1rem;
-  }
-
-  .imageLeftWrapper {
-    margin-bottom: 1rem;
-  }
-
-  .profileContainer > *:not(:last-child) {
-    margin-bottom: 1rem;
-  }
-}

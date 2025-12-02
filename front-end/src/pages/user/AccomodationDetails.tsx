@@ -3,6 +3,8 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import Gallery from "../../components/Gallery/Gallery";
 import IconButton from "../../components/Iconbutton/Iconbutton";
 import { SlShare } from "react-icons/sl";
+import { FiMail, FiLink } from "react-icons/fi";
+import { FaWhatsapp } from "react-icons/fa";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
@@ -23,6 +25,7 @@ export default function AccomodationDetails() {
   const { id } = useParams<{ id: string }>();
   const hotelId = parseInt(id || "0");
   const [liked, setLiked] = useState(false);
+  const [showShare, setShowShare] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -62,12 +65,38 @@ export default function AccomodationDetails() {
     navigate("/myfavorites");
   };
 
+  const shareViaGmail = () => {
+    const subject = `Check out this hotel: ${current.name}`;
+    const body = `Hi,\n\nI thought you might be interested in this hotel:\n\n${current.name}\n${current.description}\n\nLocation: ${current.physicaladdress}\n\nView details: ${window.location.href}\n\nBest regards`;
+    window.open(
+      `https://mail.google.com/mail/?view=cm&fs=1&su=${encodeURIComponent(
+        subject
+      )}&body=${encodeURIComponent(body)}`
+    );
+    setShowShare(false);
+  };
+
+  const shareViaWhatsApp = () => {
+    const message = `Check out this hotel: ${current.name}\n${current.description}\nLocation: ${current.physicaladdress}\n${window.location.href}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`);
+    setShowShare(false);
+  };
+
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      alert("Link copied to clipboard!");
+    } catch (err) {
+      console.error("Failed to copy link:", err);
+    }
+    setShowShare(false);
+  };
+
   return (
     <div
       className="accomodationPage"
       style={{ marginTop: "80px", padding: "2rem" }}
     >
-   
       <main style={{ flex: 1 }}>
         {loading ? (
           <h2>Loading...</h2>
@@ -77,7 +106,10 @@ export default function AccomodationDetails() {
               <div className="col-6">
                 <div className={styles.titleRow}>
                   <h1 className={styles.title}>{current.name}</h1>
-                  <IconButton icon={SlShare} onClick={() => {}} />
+                  <IconButton
+                    icon={SlShare}
+                    onClick={() => setShowShare(true)}
+                  />
                 </div>
 
                 <p className={styles.description}>{current.description}</p>
@@ -145,6 +177,98 @@ export default function AccomodationDetails() {
                   starRatings={3.5}
                   date="12 Dec 2023"
                 />
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* SHARE MODAL */}
+        {showShare && (
+          <>
+            <div
+              style={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: "rgba(0, 0, 0, 0.5)",
+                zIndex: 1000,
+              }}
+              onClick={() => setShowShare(false)}
+            />
+            <div
+              style={{
+                position: "fixed",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                backgroundColor: "white",
+                padding: "20px",
+                borderRadius: "8px",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
+                zIndex: 1001,
+                minWidth: "250px",
+              }}
+            >
+              <h3 style={{ margin: "0 0 15px 0", textAlign: "center" }}>
+                Share this hotel
+              </h3>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
+                }}
+              >
+                <button
+                  onClick={shareViaGmail}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    backgroundColor: "#ea4335",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FiMail style={{ color: "white" }} /> Share via Gmail
+                </button>
+                <button
+                  onClick={shareViaWhatsApp}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    backgroundColor: "#25d366",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FaWhatsapp style={{ color: "white" }} /> Share via WhatsApp
+                </button>
+                <button
+                  onClick={copyLink}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    padding: "10px",
+                    border: "1px solid #ddd",
+                    borderRadius: "4px",
+                    backgroundColor: "#007bff",
+                    color: "white",
+                    cursor: "pointer",
+                  }}
+                >
+                  <FiLink style={{ color: "white" }} /> Copy Link
+                </button>
               </div>
             </div>
           </>

@@ -63,14 +63,14 @@
 
       <h2>📘 Introduction</h2>
       <p>
-        The <strong>/reviews</strong> API allows users to create, read, update,
-        and delete reviews related to accommodations on the BookNest platform.
-        This documentation explains each route, what it expects, and what it
-        returns.
+        The <strong>/reviews</strong> API allows users to create, view, update,
+        and delete reviews for accommodations on the BookNest platform. This
+        document explains each endpoint, what it expects, and what it returns.
       </p>
 
       <h2>🧩 Data Model</h2>
-      <p>Each review has the following structure:</p>
+      <p>A review has the following structure:</p>
+
       <pre>
 {
   id: number,
@@ -90,19 +90,16 @@
       <!-- TEST ROUTE -->
       <div class="route">
         <h3>GET /reviews/test</h3>
-        <p>Simple test route to verify that the service is working.</p>
+        <p>Simple test route to check that the service is working.</p>
 
         <h4>✔ Example Response</h4>
-        <pre>
-"Hello Service!"
-</pre
-        >
+        <pre>"Hello Service!"</pre>
       </div>
 
       <!-- GET ALL REVIEWS -->
       <div class="route">
         <h3>GET /reviews</h3>
-        <p>Returns all reviews in the system.</p>
+        <p>Returns all reviews stored in the system.</p>
 
         <h4>✔ Example Response</h4>
         <pre>
@@ -123,7 +120,7 @@
       <!-- GET REVIEW BY ID -->
       <div class="route">
         <h3>GET /reviews/:id</h3>
-        <p>Returns a specific review by its ID.</p>
+        <p>Returns a single review using its ID.</p>
 
         <h4>✔ Example</h4>
         <pre>GET /reviews/1</pre>
@@ -138,10 +135,19 @@
         <pre>GET /reviews/user/3</pre>
       </div>
 
+      <!-- GET REVIEWS BY ACCOMMODATION ID -->
+      <div class="route">
+        <h3>GET /reviews/accommodation/:id</h3>
+        <p>Returns all reviews for a specific accommodation.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /reviews/accommodation/12</pre>
+      </div>
+
       <!-- CREATE REVIEW -->
       <div class="route">
         <h3>POST /reviews</h3>
-        <p>Creates a new review. Returns the created record.</p>
+        <p>Creates a new review and returns the newly created record.</p>
 
         <h4>✔ Example Request Body</h4>
         <pre>
@@ -172,7 +178,8 @@
       <div class="route">
         <h3>PUT /reviews</h3>
         <p>
-          Updates an existing review. Requires the <code>id</code> in the body.
+          Updates an existing review. The <code>id</code> must be included in
+          the request body.
         </p>
 
         <h4>✔ Example Request Body</h4>
@@ -202,9 +209,7 @@
       <!-- DELETE REVIEW -->
       <div class="route">
         <h3>DELETE /reviews</h3>
-        <p>
-          Deletes a review based on the <code>id</code> provided in the body.
-        </p>
+        <p>Deletes a review using the <code>id</code> provided in the body.</p>
 
         <h4>✔ Example Request Body</h4>
         <pre>
@@ -235,13 +240,10 @@
       <p>This page can be served at:</p>
       <pre>GET /docs/reviews</pre>
 
-      <hr />
-
       <h2>❓ Need Help?</h2>
       <p>
-        You can extend this document with authentication, error handling, or
-        examples of failed responses. Let me know if you want an expanded
-        version.
+        You can expand this documentation with authentication requirements,
+        error codes, or validation rules.
       </p>
     </main>
 

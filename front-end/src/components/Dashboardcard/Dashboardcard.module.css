@@ -4,8 +4,8 @@
   overflow: hidden;
   background-color: white;
   transition: transform 0.2s, box-shadow 0.2s;
-  margin: 16px;
-  width: 100%;
+  margin: 0.5rem;
+  width: 70%;
   display: flex;
   flex-direction: row;
   border: 1px solid red;
@@ -18,7 +18,7 @@
 
 .imageContainer {
   position: relative;
-  width: 40%;
+  width: 30%;
   height: 250px;
 }
 
@@ -100,10 +100,13 @@
 }
 
 .price {
-  font-size: 16px;
+  font-size: 0.7rem;
   font-weight: bold;
   color: #1a73e8;
   align-self: flex-end;
+}
+.amount {
+  font-size: 1.4rem;
 }
 
 .viewButton {

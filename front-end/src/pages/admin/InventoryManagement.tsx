@@ -1,5 +1,4 @@
 import { useEffect, useState, type JSX } from "react";
-import axios from "axios";
 import Button from "../../components/Button/Button";
 import InputField from "../../components/InputField/InputField";
 import styles from "./InventoryManagement.module.css";
@@ -7,6 +6,7 @@ import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addHotel,
+  deleteHotel,
   fetchHotels,
   updateHotel,
 } from "../../features/InventoryManagementSlice";
@@ -26,6 +26,7 @@ interface HotelForm {
   emailaddress: string;
   roomtypes: (keyof typeof ROOM_TYPES)[];
   rating: string;
+  pricepernight: string;
 }
 
 export default function InventoryManagement(): JSX.Element {
@@ -40,6 +41,7 @@ export default function InventoryManagement(): JSX.Element {
     emailaddress: "",
     roomtypes: [],
     rating: "",
+    pricepernight: "",
   });
   const [editingHotelId, setEditingHotelId] = useState<number | null>(null);
 
@@ -90,6 +92,7 @@ export default function InventoryManagement(): JSX.Element {
           ) as keyof typeof ROOM_TYPES
       ),
       rating: hotel.rating.toString(),
+      pricepernight: String(hotel.pricepernight),
     });
 
     setEditingHotelId(hotel.id);
@@ -132,6 +135,7 @@ export default function InventoryManagement(): JSX.Element {
         emailaddress: "",
         roomtypes: [],
         rating: "",
+        pricepernight: "",
       });
 
       console.log("Payload @inventory management", payload);
@@ -175,6 +179,7 @@ export default function InventoryManagement(): JSX.Element {
         emailaddress: "",
         roomtypes: [],
         rating: "",
+        pricepernight: "",
       });
 
       console.log(payload);
@@ -197,7 +202,6 @@ export default function InventoryManagement(): JSX.Element {
 
   return (
     <>
-
       <div className={styles.inventory}>
         <div className={styles.header}>
           <h2>Inventory Management</h2>
@@ -424,17 +428,26 @@ export default function InventoryManagement(): JSX.Element {
                   setField={(v) =>
                     setForm({ ...form, physicaladdress: String(v) })
                   }
+                  placeholder="Physical Address"
+                />
+
+                <InputField
+                  type="text"
+                  field={form.pricepernight}
+                  setField={(v) =>
+                    setForm({ ...form, pricepernight: String(v) })
+                  }
                   placeholder="Address"
                 />
-                <div className={styles.inputGroup}>
+                {/* <div className={styles.inputGroup}>
                   <p>1</p>
                   <p>2</p>
-                </div>
+                </div> */}
 
                 <div className={styles.modalButtons}>
                   <Button
                     type="submit"
-                    width={130}
+                    width={100}
                     onClick={() => {
                       console.log("Clicked...");
                     }}
@@ -443,7 +456,7 @@ export default function InventoryManagement(): JSX.Element {
                   </Button>
                   <Button
                     type="button"
-                    width={130}
+                    width={100}
                     onClick={() => {
                       setShowModal(false);
                       setEditingHotelId(null);
@@ -457,7 +470,6 @@ export default function InventoryManagement(): JSX.Element {
           </div>
         )}
       </div>
-
     </>
   );
 }
