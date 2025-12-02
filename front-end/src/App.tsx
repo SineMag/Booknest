@@ -19,55 +19,63 @@ import InventoryManagement from "./pages/admin/InventoryManagement";
 import AccommodationDetails from "./pages/user/AccomodationDetails";
 import UserDashboard from "./pages/user/UserDashboard";
 import ReservationManagement from "./pages/admin/ReservationManagement";
+import AdminProfile from "./pages/admin/AdminProfile";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
   return (
     <>
-    <Navbar/>
-    <main className="main-section">
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<UserLogin />} />
+      <Navbar />
+      <main className="main-section">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<UserLogin />} />
 
-        {/* User */}
-        <Route path="/register" element={<UserRegister />} />
-        <Route path="/booking/" element={<Booking />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
+          {/* User */}
+          <Route path="/register" element={<UserRegister />} />
+          <Route path="/booking/" element={<Booking />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
 
-        <Route
-          path="/accomodation-details/"
-          element={<AccomodationDetails />}
-        />
-        <Route
-          path="/accomodation-details/:id"
-          element={<AccomodationDetails />}
-        />
-        <Route path="/confirmation" element={<Confirmation />} />
-        <Route path="/my-bookings" element={<MyBookings />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/my-favorites" element={<MyFavorites />} />
-        <Route path="/adminLogin" element={<AdminLogin />} />
-        <Route path="*" element={<Error404 />} />
+          <Route
+            path="/accomodation-details/"
+            element={<AccomodationDetails />}
+          />
+          <Route
+            path="/accomodation-details/:id"
+            element={<AccomodationDetails />}
+          />
+          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/my-favorites" element={<MyFavorites />} />
+          <Route path="/adminLogin" element={<AdminLogin />} />
+          <Route path="*" element={<Error404 />} />
 
-        {/* Admin */}
+          {/* Admin */}
 
-        <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/inventory-management" element={<InventoryManagement />} />
-        <Route
-          path="/reservation-management"
-          element={<ReservationManagement />}
-        />
+          <Route path="/admin-register" element={<AdminRegister />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route
+            path="/inventory-management"
+            element={<InventoryManagement />}
+          />
+          <Route path="/admin-profile" element={<AdminProfile />} />
+          <Route
+            path="/reservation-management"
+            element={<ReservationManagement />}
+          />
 
-        {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
-        <Route path="/inventoryManagement" element={<InventoryManagement />} />
-        {/* <Route path="/reservationManagement" element={<ReservationManagement />} /> */}
+          {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
+          <Route
+            path="/inventoryManagement"
+            element={<InventoryManagement />}
+          />
+          {/* <Route path="/reservationManagement" element={<ReservationManagement />} /> */}
 
-        {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
-        <Route path="*" element={<Error404 />} />
-      </Routes>
+          {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
+          <Route path="*" element={<Error404 />} />
+        </Routes>
       </main>
       <Footer />
     </>

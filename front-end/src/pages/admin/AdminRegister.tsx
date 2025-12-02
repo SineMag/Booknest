@@ -1,26 +1,53 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
-
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../store";
+import type { Admin } from "../../types/Admin";
+import { registerAdmin } from "../../features/adminSlice";
+import { setLocalAdmin } from "../../utils/LocalStorage";
 
 export default function AdminRegister() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [workEmailAddress, setWorkEmailAddress] = useState("");
+  const [physicalAddress, setPhysicalAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const { admin, loading, error } = useSelector(
+    (state: RootState) => state.admin
+  );
+
+  useEffect(() => {
+    console.log("admin", admin);
+
+    if (error) {
+      console.log(error);
+    }
+
+    if (admin) {
+      setLocalAdmin(admin);
+      navigate("/admin-dashboard");
+    }
+  }, [admin, error]);
 
   const handleRegister = () => {
-    console.log("Registering admin...", {
+    const payload: Admin = {
       firstName,
       lastName,
-      userName,
-      workEmailAddress,
+      emailAddress,
       password,
-      confirmPassword,
-    });
+      physicalAddress,
+      phoneNumber,
+    };
+    if (password !== confirmPassword) {
+      alert("Passwords do not match");
+    }
+    dispatch(registerAdmin(payload));
   };
 
   const containerStyle = {
@@ -70,16 +97,6 @@ export default function AdminRegister() {
     fontWeight: 600,
   };
 
-  const eyeIconStyle = {
-    position: "absolute" as const,
-    right: "12px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    cursor: "pointer",
-    color: "#475569",
-    fontSize: "20px",
-  };
-
   return (
     <>
       <div style={containerStyle}>
@@ -101,17 +118,22 @@ export default function AdminRegister() {
           />
 
           <InputField
-            placeholder="Username"
+            placeholder="Physical Address"
             type="text"
-            field={userName}
-            setField={setUserName}
+            field={physicalAddress}
+            setField={setPhysicalAddress}
           />
-
           <InputField
-            placeholder="Work Email Address"
+            placeholder="Email Address"
             type="text"
-            field={workEmailAddress}
-            setField={setWorkEmailAddress}
+            field={emailAddress}
+            setField={setEmailAddress}
+          />
+          <InputField
+            placeholder="Phone Number"
+            type="text"
+            field={phoneNumber}
+            setField={setPhoneNumber}
           />
 
           {/* Password (InputField provides its own toggle) */}
@@ -132,20 +154,18 @@ export default function AdminRegister() {
 
           <p style={infoTextStyle}>
             Already have an account?{" "}
-            <Link to="/login" style={linkStyle}>
+            <Link to="/admin-login" style={linkStyle}>
               Sign In
             </Link>
           </p>
 
-          <Link to="/login">
-            <Button
-              variant="primary"
-              style={buttonStyle}
-              onClick={handleRegister}
-            >
-              Register
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            style={buttonStyle}
+            onClick={handleRegister}
+          >
+            Register
+          </Button>
         </div>
       </div>
     </>
