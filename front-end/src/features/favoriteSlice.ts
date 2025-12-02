@@ -68,7 +68,7 @@ export const removeFavorite = createAsyncThunk(
       // Fallback to localStorage
       const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
       const updatedFavorites = favorites.filter(
-        (fav) => !(fav.userId === userId && fav.accommodationId === accommodationId)
+        (fav: { userId: number; accommodationId: number; }) => !(fav.userId === userId && fav.accommodationId === accommodationId)
       );
       localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
       return { userId, accommodationId };
