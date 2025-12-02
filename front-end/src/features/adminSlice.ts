@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import type { Admin } from "../types/Admin";
+import { isValidEmail } from "../utils/emailValidator";
 
-const BASE_URL = "https://booknestapi.netlify.app/admins";
+const BASE_URL = "http://localhost:8888/admin";
 
 interface adminState {
   admins: Admin[];
@@ -19,7 +20,7 @@ const initialState: adminState = {
 };
 
 export const fetchAdmins = createAsyncThunk("admin/fetchAdmins", async () => {
-  const response = await axios.get(`${BASE_URL}/register`);
+  const response = await axios.get(BASE_URL);
   return response.data;
 });
 
@@ -27,9 +28,12 @@ export const registerAdmin = createAsyncThunk(
   "admin/registerAdmin",
   async (admin: Admin, { rejectWithValue }) => {
     try {
-      console.log("register thunk...");
+      console.log("register thunk...", admin);
+
+      if (!isValidEmail(admin.emailAddress)) {
+        return rejectWithValue("Invalid email address");
+      }
       const response = await axios.post(`${BASE_URL}/register`, admin);
-      console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
     } catch (error: any) {
@@ -43,7 +47,11 @@ export const loginAdmin = createAsyncThunk(
   async (credentails: any, { rejectWithValue }) => {
     try {
       console.log("login thunk...");
-      const response = await axios.post(`${BASE_URL}/register`, credentails);
+
+      if (!isValidEmail(credentails.emailAddress)) {
+        return rejectWithValue("Invalid email address");
+      }
+      const response = await axios.post(`${BASE_URL}/login`, credentails);
       console.log(response);
       if (response.status === 200) return response.data;
       else return rejectWithValue(response.data.message);

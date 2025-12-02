@@ -18,39 +18,19 @@ const AdminLogin: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
+  const { admin, loading, error } = useSelector(
+    (state: RootState) => state.admin
+  );
 
   useEffect(() => {
-    if (user && isLoggedIn) {
-      setLocalUser(user);
-      // persist remembered credentials only after successful login
-      if (rememberMe) {
-        try {
-          localStorage.setItem(
-            "rememberedAdmin",
-            JSON.stringify({ emailAddress, username, password })
-          );
-        } catch (e) {
-          // ignore quota errors
-        }
-      } else {
-        localStorage.removeItem("rememberedAdmin");
-      }
-
-      navigate("/adminDashboard");
-    } else {
-      setLocalUser({});
+    if (admin && !loading && !error) {
+      setLocalUser(admin);
+      navigate("/admin-dashboard");
     }
-  }, [
-    user,
-    isLoggedIn,
-    navigate,
-    rememberMe,
-    emailAddress,
-    username,
-    password,
-  ]);
+    if (error) console.log(error);
+    if (loading) console.log("loading...");
+  }, [admin, loading, error]);
 
   const handleLogin = () => {
     dispatch(
@@ -67,8 +47,6 @@ const AdminLogin: React.FC = () => {
     <>
       <div className="loginPage">
         <div className="loginContainer">
-          <Filter />
-
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
             Admin Login
           </h2>
