@@ -82,17 +82,19 @@ const MyBookings: React.FC = () => {
             <BookingListItem
               key={booking.id}
               bookingId={booking.id!}
-              userName={`${user?.firstName} ${user?.lastName}` || "N/A"}
               accommodationName={getAccommodationName(booking.accommodationId)}
               checkIn={new Date(booking.checkInDate).toLocaleDateString()}
               checkOut={new Date(booking.checkOutDate).toLocaleDateString()}
               status={booking.status as "Pending" | "Approved" | "Declined"}
-              createdAt={new Date(booking.createdAt!)}
               onCancel={() => console.log("Cancel booking")}
               onEdit={() => console.log("Edit booking")}
               onDelete={() => console.log("Delete booking")}
               onFavorite={() => console.log("Favorite booking")}
               isFavorite={false} // Hardcoded for now
+              numberOfGuests={booking.numberOfGuests}
+              totalPrice={booking.totalPrice}
+              specialRequest={booking.specialRequest}
+              roomType={booking.roomTypeId === 1 ? "Standard" : booking.roomTypeId === 2 ? "Deluxe" : "Suite"}
             />
           ))}
         </div>

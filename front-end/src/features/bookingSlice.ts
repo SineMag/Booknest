@@ -23,18 +23,15 @@ export const fetchBookingsByUser = createAsyncThunk(
   async (userId: string, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `https://booknestapi.netlify.app/bookings`
+        `https://booknestapi.netlify.app/bookings?userId=${userId}`
       );
       if (!response.ok) {
         throw new Error("Failed to fetch bookings.");
       }
       const data = await response.json();
       console.log("Raw bookings data from API:", data);
-      const filteredData = data.filter(
-        (booking: Booking) => booking.userId === Number(userId)
-      );
-      console.log("Filtered bookings data:", filteredData);
-      return filteredData;
+      // Remove client-side filtering as it's now handled by the API
+      return data;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
@@ -100,6 +97,7 @@ const bookingSlice = createSlice({
       .addCase(createBooking.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.booking = action.payload;
+        state.bookings.push(action.payload);
       })
       .addCase(createBooking.rejected, (state, action) => {
         state.status = "failed";
