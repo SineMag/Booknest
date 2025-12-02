@@ -6,11 +6,16 @@ import { BsFilter } from "react-icons/bs";
 
 interface Hotel {
   id: number;
-  title: string;
-  price: number;
+  name: string;
+  description: string;
+  imagegallery: string[];
+  amenities: string[];
+  physicaladdress: string;
+  phonenumber: string;
+  emailaddress: string;
+  roomtypes: string[];
   rating: number;
-  location: string;
-  image: string;
+  price: any;
 }
 
 interface FilterProps {
@@ -44,8 +49,8 @@ export default function Filter({ data, onFilter }: FilterProps) {
   const applyFilters = () => {
     let filtered = data.filter(
       (hotel) =>
-        hotel.price >= priceRange[0] &&
-        hotel.price <= priceRange[1] &&
+        (hotel.price || 0) >= priceRange[0] &&
+        (hotel.price || 0) <= priceRange[1] &&
         hotel.rating >= rating
     );
 

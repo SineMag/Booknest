@@ -66,9 +66,9 @@ const UserDashboard: React.FC = () => {
     navigate(`/accomodation-details/${id}`);
   };
 
-  // Filter by search term
+  // Filter by search term (location)
   const displayedHotels = filteredHotels.filter((hotel) =>
-    hotel.name.toLowerCase().includes(searchTerm.toLowerCase())
+    hotel.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -107,7 +107,7 @@ const UserDashboard: React.FC = () => {
           }}
         >
           <SearchBar
-            placeholder="Search accommodations..."
+            placeholder="Search by location..."
             onSearch={setSearchTerm}
           />
           <Filter data={allHotels} onFilter={setFilteredHotels} />
