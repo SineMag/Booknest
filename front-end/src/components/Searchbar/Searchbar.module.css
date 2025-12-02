@@ -1,6 +1,5 @@
 .container {
   width: 100%;
-  min-width: 1600px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -10,7 +9,6 @@
   border-radius: 12px;
   position: relative;
   transition: box-shadow 0.2s ease;
-  margin-top: 20%; /* added margin to shift component down */
 }
 
 /* .container:focus-within {

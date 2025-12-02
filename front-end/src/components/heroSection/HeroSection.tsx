@@ -2,12 +2,18 @@ import { useEffect, useRef } from "react";
 import styles from "./HeroSection.module.css";
 import image from "../../images/bed.png";
 import Button from "../Button/Button";
+import { useDispatch, useSelector } from "react-redux";
+import { setShowProfileMenuSelector } from "../../features/userSlice";
+import type { RootState } from "../../../store";
 import { useNavigate } from "react-router-dom";
 
 export default function HeroSection() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const heroLeftRef = useRef<HTMLDivElement>(null);
   const heroRightRef = useRef<HTMLDivElement>(null);
+
+  const { isLoggedIn } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     // Fade in text and floating animation for the bed image
@@ -19,6 +25,14 @@ export default function HeroSection() {
       heroRightRef.current.style.transform = 'translateY(0) rotate(0deg)';
     }
   }, []);
+
+  const handleGetStartedClick = () => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    } else {
+      dispatch(setShowProfileMenuSelector(true));
+    }
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -38,7 +52,7 @@ export default function HeroSection() {
 
           {/* BUTTON */}
           <div className={styles.heroButtons}>
-            <Button onClick={() => navigate("/register")}>Get Started</Button>
+            <Button onClick={handleGetStartedClick}>Get Started</Button>
           </div>
         </div>
 

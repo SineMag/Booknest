@@ -96,12 +96,10 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "baseline",
+            justifyContent: "center",
+            alignItems: "center",
             gap: "10px",
-            marginBottom: "30px",
-            marginLeft: "50px",
-            flexWrap: "wrap",
+            margin: "0 auto",
           }}
         >
           <SearchBar
@@ -114,7 +112,7 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             gap: "20px",
             flexWrap: "wrap",
           }}
@@ -126,12 +124,12 @@ const UserDashboard: React.FC = () => {
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
-              amenities={acc.amenities}
-              price={`R${[100, 80, 50][index] ?? acc.price ?? "N/A"}`}
+              price={"N/A"}
+              isFavorite={favorites.has(acc.id!)}
+              onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
+              onView={() => handleView(acc.id!)}
               rating={acc.rating}
-              isFavorite={favorites.has(acc.id)}
-              onFavoriteToggle={() => handleFavoriteToggle(acc.id)}
-              onView={() => handleView(acc.id)}
+              amenities={acc.amenities}
             />
           ))}
         </div>
