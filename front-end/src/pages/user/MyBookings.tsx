@@ -56,7 +56,6 @@ const MyBookings: React.FC = () => {
             }
           }}
           variant="danger"
-          className={styles.retryButton}
         >
           Retry
         </Button>
