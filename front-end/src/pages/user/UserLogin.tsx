@@ -14,6 +14,11 @@ const UserLogin: React.FC = () => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [errors, setErrors] = useState({
+    emailAddress: "",
+    password: "",
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
@@ -39,6 +44,23 @@ const UserLogin: React.FC = () => {
       setLocalUser({});
     }
   }, [user, isLoggedIn, rememberMe, emailAddress, password]);
+
+  useEffect(() => {
+    validateForm();
+  }, [emailAddress, password]);
+
+  const validateForm = () => {
+    const newErrors = {
+      emailAddress: "",
+      password: "",
+    };
+
+    if (!emailAddress) newErrors.emailAddress = "Email address is required";
+    if (!password) newErrors.password = "Password is required";
+
+    setErrors(newErrors);
+    setIsFormValid(Object.values(newErrors).every((error) => error === ""));
+  };
 
   const handleLogin = () => {
     dispatch(
@@ -70,6 +92,7 @@ const UserLogin: React.FC = () => {
             field={password}
             setField={setPassword}
           />
+          {errors.password && <p className={styles.error}>{errors.password}</p>}
 
           <div>
             <input
@@ -84,7 +107,7 @@ const UserLogin: React.FC = () => {
             Don't have an account? <Link to={"/register"}>Sign Up</Link>
           </p>
 
-          <Button variant="primary" width={100} onClick={handleLogin}>
+          <Button variant="primary" width={100} onClick={handleLogin} disabled={!isFormValid}>
             Login
           </Button>
 

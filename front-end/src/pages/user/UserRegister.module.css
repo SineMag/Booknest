@@ -1,3 +1,4 @@
+
 .oauthIcons {
   display: flex;
   justify-content: center;
@@ -12,4 +13,10 @@
 
 .oauthIcons a:hover {
   color: #1a73e8;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.2rem;
 }
