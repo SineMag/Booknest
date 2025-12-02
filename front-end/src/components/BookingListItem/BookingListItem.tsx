@@ -11,12 +11,12 @@ interface BookingListItemProps {
   checkOut: string;
   status: BookingStatus;
   onCancel: () => void;
-  onEdit: () => void;
+  onReview: () => void;
   onDelete: () => void;
   onFavorite: () => void;
   isFavorite: boolean;
   numberOfGuests: number;
-  totalPrice?: number;
+  totalPrice?: string | number;
   specialRequest?: string;
   roomType: string;
 }
@@ -28,7 +28,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   checkOut,
   status,
   onCancel,
-  onEdit,
+  onReview,
   onDelete,
   onFavorite,
   isFavorite,
@@ -38,6 +38,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   roomType,
 }) => {
   const statusClass = styles[status.toLowerCase()];
+  const price = typeof totalPrice === 'string' ? parseFloat(totalPrice) : totalPrice;
 
   return (
     <div className={styles.card}>
@@ -56,7 +57,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
         </div>
         <div className={styles.detailItem}>
           <FiCreditCard className={styles.icon} />
-          <span>R {totalPrice.toFixed(2)}</span>
+          <span>R {price.toFixed(2)}</span>
         </div>
         <div className={styles.detailItem}>
           <FiClipboard className={styles.icon} />
@@ -79,11 +80,13 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
           <button onClick={onFavorite} className={styles.iconButton}>
             <FiHeart style={{ fill: isFavorite ? 'red' : 'none', stroke: 'red' }} />
           </button>
-          <button onClick={onEdit} className={styles.iconButton}>
-            <FiEdit />
-          </button>
           <button onClick={onDelete} className={styles.iconButton}>
             <FiTrash2 />
+          </button>
+        </div>
+        <div className={styles.reviewIconContainer}>
+          <button onClick={onReview} className={styles.iconButton}>
+            <FiEdit />
           </button>
         </div>
       </div>

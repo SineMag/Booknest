@@ -29,8 +29,27 @@
   color: #1a73e8;
 }
 
-.error {
-  color: red;
-  font-size: 0.8rem;
-  margin-top: 0.2rem;
+/* Mobile styles */
+@media (max-width: 768px) {
+  .loginContainer {
+    width: 90%;
+    max-width: 400px;
+    padding: 1.5rem;
+  }
+
+  .oauthIcons {
+    gap: 1rem;
+  }
+}
+
+/* Desktop styles */
+@media (min-width: 1024px) {
+  .loginContainer {
+    width: 500px;
+    padding: 3rem;
+  }
+
+  .oauthIcons {
+    gap: 2rem;
+  }
 }

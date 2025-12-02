@@ -43,11 +43,13 @@ const MyBookings: React.FC = () => {
 
   if (status === "failed") {
     return (
-      <div className={styles.errorContainer}>
-        <FaExclamationTriangle className={styles.errorIcon} />
-        <p className={styles.errorText}>
-          {error || "An unknown error occurred."}
-        </p>
+    
+    
+        <div className={styles.errorContainer}>
+          <FaExclamationTriangle className={styles.errorIcon} />
+          <p className={styles.errorText}>
+            {error || "An unknown error occurred."}
+          </p>
         <Button
           onClick={() => {
             if (user) {
@@ -77,23 +79,24 @@ const MyBookings: React.FC = () => {
         </div>
       ) : (
         <div className={styles.bookingList}>
+              <h2>Bookings</h2>
           {bookings.map((booking) => (
             <BookingListItem
               key={booking.id}
               bookingId={booking.id!}
-              accommodationName={getAccommodationName(booking.accommodationId)}
-              checkIn={new Date(booking.checkInDate).toLocaleDateString()}
-              checkOut={new Date(booking.checkOutDate).toLocaleDateString()}
+              accommodationName={getAccommodationName(booking.accommodationid)}
+              checkIn={new Date(booking.checkindate).toLocaleDateString()}
+              checkOut={new Date(booking.checkoutdate).toLocaleDateString()}
               status={booking.status as "Pending" | "Approved" | "Declined"}
               onCancel={() => console.log("Cancel booking")}
               onEdit={() => console.log("Edit booking")}
               onDelete={() => console.log("Delete booking")}
               onFavorite={() => console.log("Favorite booking")}
               isFavorite={false} // Hardcoded for now
-              numberOfGuests={booking.numberOfGuests}
-              totalPrice={booking.totalPrice}
-              specialRequest={booking.specialRequest}
-              roomType={booking.roomTypeId === 1 ? "Standard" : booking.roomTypeId === 2 ? "Deluxe" : "Suite"}
+              numberOfGuests={booking.numberofguests}
+              totalPrice={booking.totalprice}
+              specialRequest={booking.specialrequest}
+              roomType={booking.roomtypeid === 1 ? "Standard" : booking.roomtypeid === 2 ? "Deluxe" : "Suite"}
             />
           ))}
         </div>

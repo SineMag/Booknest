@@ -1,12 +1,12 @@
 export interface Booking {
   id?: string;
-  checkInDate: Date;
-  checkOutDate: Date;
-  numberOfGuests: number;
-  totalPrice: number;
-  specialRequest?: string;
+  checkindate: string;
+  checkoutdate: string;
+  numberofguests: number;
+  totalprice: string;
+  specialrequest?: string;
   status: string;
-  userId: number;
-  accommodationId: number;
-  roomTypeId: number;
+  userid: number;
+  accommodationid: number;
+  roomtypeid?: number;
 }
