@@ -100,11 +100,10 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
-            alignItems: "baseline",
+            justifyContent: "center",
+            alignItems: "center",
             gap: "10px",
-            marginBottom: "30px",
-            flexWrap: "wrap",
+            margin: "0 auto",
           }}
         >
           <SearchBar
@@ -117,12 +116,12 @@ const UserDashboard: React.FC = () => {
         <div
           style={{
             display: "flex",
-            justifyContent: "flex-start",
+            justifyContent: "center",
             gap: "20px",
             flexWrap: "wrap",
           }}
         >
-          {displayedHotels.map((acc) => (
+          {displayedHotels.map((acc, index) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
