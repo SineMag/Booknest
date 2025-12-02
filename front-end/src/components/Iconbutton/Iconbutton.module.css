@@ -6,18 +6,17 @@
 } */
 
 .iconBtn {
-  background: transparent;
+  background: #007bff;
   border-radius: 0.5rem;
   cursor: pointer;
   font-size: 28px;
   width: fit-content;
   padding: 0.4rem;
-  color: #444;
-   margin-right: 0.2rem;
-  transition: color .3s ease;
+  color: white;
+  margin-right: 0.2rem;
+  transition: background-color 0.3s ease;
 }
 
 .iconBtn.active {
-  color: black; 
+  color: black;
 }
-

@@ -230,11 +230,12 @@ export default function AccomodationDetails() {
                     padding: "10px",
                     border: "1px solid #ddd",
                     borderRadius: "4px",
-                    backgroundColor: "#f9f9f9",
+                    backgroundColor: "#ea4335",
+                    color: "white",
                     cursor: "pointer",
                   }}
                 >
-                  <FiMail style={{ color: "#ea4335" }} /> Share via Gmail
+                  <FiMail style={{ color: "white" }} /> Share via Gmail
                 </button>
                 <button
                   onClick={shareViaWhatsApp}
@@ -245,11 +246,12 @@ export default function AccomodationDetails() {
                     padding: "10px",
                     border: "1px solid #ddd",
                     borderRadius: "4px",
-                    backgroundColor: "#f9f9f9",
+                    backgroundColor: "#25d366",
+                    color: "white",
                     cursor: "pointer",
                   }}
                 >
-                  <FaWhatsapp style={{ color: "#25d366" }} /> Share via WhatsApp
+                  <FaWhatsapp style={{ color: "white" }} /> Share via WhatsApp
                 </button>
                 <button
                   onClick={copyLink}
@@ -260,11 +262,12 @@ export default function AccomodationDetails() {
                     padding: "10px",
                     border: "1px solid #ddd",
                     borderRadius: "4px",
-                    backgroundColor: "#f9f9f9",
+                    backgroundColor: "#007bff",
+                    color: "white",
                     cursor: "pointer",
                   }}
                 >
-                  <FiLink /> Copy Link
+                  <FiLink style={{ color: "white" }} /> Copy Link
                 </button>
               </div>
             </div>
