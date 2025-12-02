@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import ImageUploader from "../../components/image/ImageUploader";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 import styles from "./UserProfile.module.css";
-import { getUserDetails, updateUserDetails } from "../../service/api";
-import type { User } from '../../features/userSlice';
+import { updateUserDetails } from "../../service/api";
+import type { RootState } from "../../../store";
 import SnackbarComponent from "../../components/Snackbar/snackbar";
+import axios from "axios";
+
+const API_BASE_URL = "https://booknestapi.netlify.app/";
 
 const UserProfile: React.FC = () => {
+  const { user: reduxUser } = useSelector((state: RootState) => state.user);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -22,30 +27,33 @@ const UserProfile: React.FC = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const userString = localStorage.getItem("user");
-      let currentUserId: string | undefined;
-
-      if (userString) {
-        const user: User = JSON.parse(userString);
-        currentUserId = user.id?.toString();
-      }
-
-      if (!currentUserId) {
+      if (!reduxUser || !reduxUser.id) {
         setError("User not logged in or user ID not found.");
         setLoading(false);
         return;
       }
 
       try {
-        const response = await getUserDetails();
+        const response = await axios.get(
+          `${API_BASE_URL}users/${reduxUser.id}`
+        );
         const userData = response.data;
+        console.log("Raw fetched user data:", userData);
 
-        if (userData) {
-          setFirstName(userData.firstname || "");
-          setLastName(userData.lastname || "");
-          setEmail(userData.emailaddress || "");
-          setPhone(userData.phonenumber || "");
-          setPhysicalAddress(userData.physicaladdress || "");
+        // Handle if data comes back as array (take first element)
+        let user = userData;
+        if (Array.isArray(userData) && userData.length > 0) {
+          user = userData[0];
+        }
+
+        if (user && Object.keys(user).length > 0) {
+          // PostgreSQL returns lowercase column names
+          setFirstName(user.firstname || user.firstName || "");
+          setLastName(user.lastname || user.lastName || "");
+          setEmail(user.emailaddress || user.emailAddress || "");
+          setPhone(user.phonenumber || user.phoneNumber || "");
+          setPhysicalAddress(user.physicaladdress || user.physicalAddress || "");
+          console.log("User data loaded successfully:", user);
         } else {
           setError("No user data returned from the API.");
         }
@@ -58,29 +66,43 @@ const UserProfile: React.FC = () => {
     };
 
     fetchUserData();
-  }, []);
+  }, [reduxUser]);
 
   // Profile update handler for user
   const handleUpdateProfile = async () => {
-    if (newPassword !== confirmNewPassword) {
-      alert("New passwords do not match.");
+    if (!reduxUser || !reduxUser.id) {
+      setError("User ID not found.");
+      return;
+    }
+
+    // Validate passwords match if new password is provided
+    if (newPassword && newPassword !== confirmNewPassword) {
+      setError("New passwords do not match.");
       return;
     }
 
     try {
       const payload = {
-        firstname: firstName,
-        lastname: lastName,
-        phonenumber: phone,
-        physicaladdress: physicalAddress,
-        currentPassword: currentPassword || undefined,
-        newPassword: newPassword || undefined,
+        firstName: firstName,
+        lastName: lastName,
+        emailAddress: email,
+        phoneNumber: phone,
+        physicalAddress: physicalAddress,
+        profilePicUrl: "",
+        password: newPassword || reduxUser.password, // Use new password if provided, otherwise keep old
       };
-      await updateUserDetails(payload);
+      
+      console.log("Updating user with payload:", payload);
+      await updateUserDetails(reduxUser.id, payload);
       setShowSnackbar(true);
+      setError(null);
+      // Clear password fields after successful update
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmNewPassword("");
     } catch (err) {
       console.error("Update failed:", err);
-      <SnackbarComponent message="Profile update failed." show={true} onClose={() => {}} />;
+      setError("Profile update failed.");
     }
   };
 
@@ -101,14 +123,14 @@ const UserProfile: React.FC = () => {
           <ImageUploader />
         </div>
 
-        <InputField placeholder="First Name" type="text" field={firstName} setField={setFirstName} />
-        <InputField placeholder="Last Name" type="text" field={lastName} setField={setLastName} />
+        <InputField label="First Name" placeholder="First Name" type="text" field={firstName} setField={setFirstName} />
+        <InputField label="Last Name" placeholder="Last Name" type="text" field={lastName} setField={setLastName} />
 
         {/* readOnly email */}
-        <InputField placeholder="Email Address" type="email" field={email} setField={setEmail} readOnly />
+        <InputField label="Email Address" placeholder="Email Address" type="email" field={email} setField={setEmail} readOnly />
 
-        <InputField placeholder="Phone Number" type="text" field={phone} setField={setPhone} />
-        <InputField placeholder="Physical Address" type="text" field={physicalAddress} setField={setPhysicalAddress} />
+        <InputField label="Phone Number" placeholder="Phone Number" type="text" field={phone} setField={setPhone} />
+        <InputField label="Physical Address" placeholder="Physical Address" type="text" field={physicalAddress} setField={setPhysicalAddress} />
 
         <h3>Change Password</h3>
         <InputField placeholder="Current Password" type="password" field={currentPassword} setField={setCurrentPassword} />

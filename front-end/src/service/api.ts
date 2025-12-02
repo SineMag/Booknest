@@ -18,8 +18,8 @@ export const toggleFavorite = async (hotelId: number, isLiked: boolean) => {
 
 export const getUserDetails = () => axios.get("/user/details");
 
-export const updateUserDetails = async (payload: any) => {
-  return api.put("/users/update-profile", payload);
+export const updateUserDetails = async (userId: number, payload: any) => {
+  return api.put(`/users/${userId}`, payload);
 };
 const api = axios.create({
   baseURL: "https://booknestapi.netlify.app/", 
