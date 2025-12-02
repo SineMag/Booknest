@@ -46,7 +46,7 @@ export const loginAdmin = createAsyncThunk(
   "admin/loginAdmin",
   async (credentails: any, { rejectWithValue }) => {
     try {
-      console.log("login thunk...");
+      console.log("login thunk...", credentails);
 
       if (!isValidEmail(credentails.emailAddress)) {
         return rejectWithValue("Invalid email address");

@@ -50,9 +50,12 @@ export const createAdmin = async (req: Request, res: Response) => {
 export const loginAdmin = async (req: Request, res: Response) => {
   try {
     const body = req.body as LoginCredentials;
+    console.log(300, body);
     const admin = await loginAdminDB(body);
+    console.log(301, admin);
     res.status(200).json(admin);
   } catch (error) {
+    console.log(302, error);
     res.status(500).json({ error: "Internal server error", message: error });
   }
 };

@@ -20,7 +20,9 @@ export const selectAdminById = async (id: number) => {
 };
 
 export const loginAdminDB = async (credets: LoginCredentials) => {
+  console.log(399);
   const admin = await loginAdminQuery(credets);
+  console.log(400, admin);
   return admin;
 };
 

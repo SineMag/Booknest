@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import Filter from "../../components/Filter/Filter";
+import { useNavigate } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
-
-// react-icons not required here; InputField renders its own icons
-
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { setLocalUser } from "../../utils/LocalStorage";
-import { loginUser } from "../../features/userSlice";
+import { type LoginCredentials } from "../../features/userSlice";
+import { loginAdmin } from "../../features/adminSlice";
 
 const AdminLogin: React.FC = () => {
   const [emailAddress, setEmailAddress] = useState("");
-  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -33,12 +29,8 @@ const AdminLogin: React.FC = () => {
   }, [admin, loading, error]);
 
   const handleLogin = () => {
-    dispatch(
-      loginUser({
-        emailAddress,
-        password,
-      })
-    );
+    const payload: LoginCredentials = { emailAddress, password };
+    dispatch(loginAdmin(payload));
   };
 
   /* parent-level icon removed; InputField handles its own toggle */
@@ -58,13 +50,6 @@ const AdminLogin: React.FC = () => {
             setField={setEmailAddress}
           />
 
-          <InputField
-            placeholder="Username"
-            type="text"
-            field={username}
-            setField={setUsername}
-          />
-
           {/* PASSWORD FIELD (InputField provides its own show/hide toggle) */}
           <InputField
             placeholder="Password"
@@ -82,11 +67,9 @@ const AdminLogin: React.FC = () => {
             <span> Remember me</span>
           </div>
 
-          <Link to="/adminDashboard">
-            <Button variant="primary" width={100} onClick={handleLogin}>
-              Login
-            </Button>
-          </Link>
+          <Button variant="primary" width={100} onClick={handleLogin}>
+            Login
+          </Button>
         </div>
       </div>
     </>

@@ -154,7 +154,7 @@ export default function AdminRegister() {
 
           <p style={infoTextStyle}>
             Already have an account?{" "}
-            <Link to="/login" style={linkStyle}>
+            <Link to="/admin-login" style={linkStyle}>
               Sign In
             </Link>
           </p>
