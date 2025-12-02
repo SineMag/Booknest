@@ -32,6 +32,10 @@ export const getReviewByIdQuery = (id: number) => sql`
   SELECT * FROM reviews WHERE id=${id};
 `;
 
+export const getReviewsByAccomodationIdQuery = (id: number) => sql`
+  SELECT * FROM reviews WHERE accomodationId=${id};
+`;
+
 export const createReviewQuery = (review: Review) => sql`
   INSERT INTO reviews (starRatings, reviewer, reviewText, userId, accomodationId)
   VALUES (${review.starRatings}, ${review.reviewer}, ${review.reviewText}, ${review.userId}, ${review.accomodationId}) RETURNING *;`;
