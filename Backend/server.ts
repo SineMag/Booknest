@@ -2,13 +2,15 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/UserRouter";
+import userRouter from "./routes/userRouter";
 import accomodationRouter from "./routes/accomodationRouter";
 import roomTypeRouter from "./routes/roomTypeRouter";
 import bookingRouter from "./routes/bookingRouter";
 import reviewRouter from "./routes/reviewRouter";
+import favouriteRouter from "./routes/favouriteRouter";
+import adminRouter from "./routes/adminRouter";
 import cors from "cors";
-import paymentRouter from "./routes/PaymentRouter";
+import paymentRouter from "./routes/paymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
 import { createRoomTypeTableQuery } from "./models/RoomType";
@@ -39,6 +41,8 @@ app.use("/accomodations", accomodationRouter);
 app.use("/room_types", roomTypeRouter);
 app.use("/bookings", bookingRouter);
 app.use("/reviews", reviewRouter);
+app.use("/favourites", favouriteRouter);
+app.use("/admin", adminRouter);
 // INITIALISE DATABASE
 async function initializeDatabase() {
   await userTableQuery();
