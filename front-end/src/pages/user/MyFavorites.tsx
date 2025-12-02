@@ -5,6 +5,10 @@ import {
   fetchHotels,
   type Hotel,
 } from "../../features/InventoryManagementSlice";
+import {
+  removeFavorite,
+  getFavoriteById,
+} from "../../features/favoriteSlice";
 import { FaEye, FaHeart, FaShare } from "react-icons/fa";
 import Button from "../../components/Button/Button";
 import { Link } from "react-router";
@@ -12,28 +16,27 @@ import { Link } from "react-router";
 
 const MyFavorites: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const [favorites, setFavorites] = useState<Set<number>>(new Set());
+  const [currentUserId] = useState<number>(1); // TODO: Get from auth context
 
   const { hotels, loading } = useSelector((state: RootState) => state.hotels);
-
-  useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) setFavorites(new Set(JSON.parse(stored)));
-  }, []);
+  const { favorites, loading: favoritesLoading } = useSelector((state: RootState) => state.favorites);
 
   useEffect(() => {
     dispatch(fetchHotels());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (currentUserId) {
+      dispatch(getFavoriteById(currentUserId));
+    }
+  }, [dispatch, currentUserId]);
+
   const favoriteHotels = hotels.filter((hotel: Hotel) =>
-    favorites.has(hotel.id)
+    favorites.some(fav => fav.accommodationId === hotel.id)
   );
 
-  const removeFavorite = (id: number) => {
-    const newFavs = new Set(favorites);
-    newFavs.delete(id);
-    setFavorites(newFavs);
-    localStorage.setItem("favorites", JSON.stringify([...newFavs]));
+  const removeFavoriteHandler = (accommodationId: number) => {
+    dispatch(removeFavorite({ userId: currentUserId, accommodationId }));
   };
 
   return (
@@ -44,7 +47,7 @@ const MyFavorites: React.FC = () => {
           <h1>My Favorites</h1>
         </div>
 
-        {loading ? (
+        {loading || favoritesLoading ? (
           <div className="fav-loading">Loading...</div>
         ) : favoriteHotels.length === 0 ? (
           <div className="fav-empty">
@@ -67,7 +70,7 @@ const MyFavorites: React.FC = () => {
                 </div>
 
                 <div className="fav-card-actions">
-                  <Link to={`/accomodation-details/:id`}>
+                  <Link to={`/accomodation-details/${hotel.id}`}>
                     <Button className="fav-icon">
                       <FaEye />
                     </Button>
@@ -78,7 +81,7 @@ const MyFavorites: React.FC = () => {
                   </Button>
                   <Button
                     className="fav-icon-heart"
-                    onClick={() => removeFavorite(hotel.id)}
+                    onClick={() => removeFavoriteHandler(hotel.id)}
                   >
                     <FaHeart />
                   </Button>

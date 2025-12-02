@@ -9,6 +9,11 @@ import {
   fetchHotels,
   type Hotel,
 } from "../../features/InventoryManagementSlice";
+import {
+  addToFavorites,
+  removeFavorite,
+  getFavoriteById,
+} from "../../features/favoriteSlice";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,12 +21,11 @@ const UserDashboard: React.FC = () => {
 
   const {
     hotels: allHotels,
-    loading,
-    error,
   } = useSelector((state: RootState) => state.hotels);
 
-  const [favorites, setFavorites] = useState<Set<number>>(new Set());
+  const { favorites } = useSelector((state: RootState) => state.favorites);
   const [searchTerm, setSearchTerm] = useState("");
+  const [currentUserId] = useState<number>(1); // TODO: Get from auth context
 
   // Filtered list of hotels
   const [filteredHotels, setFilteredHotels] = useState<Hotel[]>([]);
@@ -31,31 +35,39 @@ const UserDashboard: React.FC = () => {
     setFilteredHotels(allHotels);
   }, [allHotels]);
 
-  // Load favorites from localStorage
-  useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) setFavorites(new Set(JSON.parse(stored)));
-  }, []);
-
-  // Save favorites
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify([...favorites]));
-  }, [favorites]);
-
   // Fetch hotels from API
   useEffect(() => {
     dispatch(fetchHotels());
   }, [dispatch]);
 
-  const handleFavoriteToggle = (id: number) => {
-    setFavorites((prev) => {
-      const newFavorites = new Set(prev);
-      if (newFavorites.has(id)) newFavorites.delete(id);
-      else newFavorites.add(id);
-      return newFavorites;
-    });
+  // Fetch user favorites
+  useEffect(() => {
+    if (currentUserId) {
+      dispatch(getFavoriteById(currentUserId));
+    }
+  }, [dispatch, currentUserId]);
 
-    navigate("/my-favorites");
+  // Debug favorites state
+  useEffect(() => {
+    console.log('Favorites state updated:', favorites);
+  }, [favorites]);
+
+  const handleFavoriteToggle = (accommodationId: number) => {
+    const isFavorite = favorites.some(fav => fav.accommodationId === accommodationId);
+    
+    console.log('Toggle favorite:', { accommodationId, isFavorite, currentUserId });
+    
+    if (isFavorite) {
+      dispatch(removeFavorite({ userId: currentUserId, accommodationId }))
+        .unwrap()
+        .then(() => console.log('Removed from favorites successfully'))
+        .catch((error) => console.error('Failed to remove from favorites:', error));
+    } else {
+      dispatch(addToFavorites({ userId: currentUserId, accommodationId }))
+        .unwrap()
+        .then(() => console.log('Added to favorites successfully'))
+        .catch((error) => console.error('Failed to add to favorites:', error));
+    }
   };
 
   const handleView = (id: number) => {
@@ -100,13 +112,27 @@ const UserDashboard: React.FC = () => {
             alignItems: "center",
             gap: "10px",
             margin: "0 auto",
+            marginBottom: "30px",
           }}
         >
           <SearchBar
             placeholder="Search accommodations..."
             onSearch={setSearchTerm}
           />
-          <Filter data={allHotels} onFilter={setFilteredHotels} />
+          <Filter 
+            data={allHotels.map(hotel => ({
+              id: hotel.id,
+              title: hotel.name,
+              price: hotel.price || 0,
+              rating: hotel.rating,
+              location: hotel.physicaladdress,
+              image: hotel.imagegallery?.[0] || "/placeholder-hotel.jpg"
+            }))} 
+            onFilter={(filtered) => {
+              const mappedFiltered = filtered.map(f => allHotels.find(h => h.id === f.id)).filter(Boolean) as Hotel[];
+              setFilteredHotels(mappedFiltered);
+            }} 
+          />
         </div>
 
         <div
@@ -117,7 +143,7 @@ const UserDashboard: React.FC = () => {
             flexWrap: "wrap",
           }}
         >
-          {displayedHotels.map((acc, index) => (
+          {displayedHotels.map((acc) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}
@@ -125,7 +151,7 @@ const UserDashboard: React.FC = () => {
               place={acc.physicaladdress}
               description={acc.description}
               price={"N/A"}
-              isFavorite={favorites.has(acc.id!)}
+              isFavorite={favorites.some(fav => fav.accommodationId === acc.id!)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
               onView={() => handleView(acc.id!)}
               rating={acc.rating}
