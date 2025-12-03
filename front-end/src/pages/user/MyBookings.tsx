@@ -5,16 +5,13 @@ import styles from "./MyBookings.module.css";
 import { fetchBookingsByUser } from "../../features/bookingSlice";
 import { fetchAccomodations } from "../../features/accomodationSlice";
 import type { AppDispatch, RootState } from "../../../store";
-import {
-  FaCalendarPlus,
-  FaExclamationTriangle,
-} from "react-icons/fa";
+import { FaCalendarPlus, FaExclamationTriangle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
 
 const MyBookings: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { bookings, status, error } = useSelector(
+  const { bookings, loading, error } = useSelector(
     (state: RootState) => state.booking
   );
   const { user } = useSelector((state: RootState) => state.user);
@@ -43,13 +40,11 @@ const MyBookings: React.FC = () => {
 
   if (status === "failed") {
     return (
-    
-    
-        <div className={styles.errorContainer}>
-          <FaExclamationTriangle className={styles.errorIcon} />
-          <p className={styles.errorText}>
-            {error || "An unknown error occurred."}
-          </p>
+      <div className={styles.errorContainer}>
+        <FaExclamationTriangle className={styles.errorIcon} />
+        <p className={styles.errorText}>
+          {error || "An unknown error occurred."}
+        </p>
         <Button
           onClick={() => {
             if (user) {
@@ -79,7 +74,7 @@ const MyBookings: React.FC = () => {
         </div>
       ) : (
         <div className={styles.bookingList}>
-              <h2>Bookings</h2>
+          <h2>Bookings</h2>
           {bookings.map((booking) => (
             <BookingListItem
               key={booking.id}
@@ -92,11 +87,12 @@ const MyBookings: React.FC = () => {
               onEdit={() => console.log("Edit booking")}
               onDelete={() => console.log("Delete booking")}
               onFavorite={() => console.log("Favorite booking")}
+              onReview={() => {}}
               isFavorite={false} // Hardcoded for now
               numberOfGuests={booking.numberofguests}
               totalPrice={booking.totalprice}
               specialRequest={booking.specialrequest}
-              roomType={booking.roomtypeid === 1 ? "Standard" : booking.roomtypeid === 2 ? "Deluxe" : "Suite"}
+              roomType={booking.roomType}
             />
           ))}
         </div>

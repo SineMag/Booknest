@@ -1,6 +1,16 @@
-import React from 'react';
-import { FiCalendar, FiEdit, FiTrash2, FiHeart, FiXCircle, FiUsers, FiCreditCard, FiClipboard, FiInfo } from 'react-icons/fi';
-import styles from './BookingListItem.module.css';
+import React from "react";
+import {
+  FiCalendar,
+  FiEdit,
+  FiTrash2,
+  FiHeart,
+  FiXCircle,
+  FiUsers,
+  FiCreditCard,
+  FiClipboard,
+  FiInfo,
+} from "react-icons/fi";
+import styles from "./BookingListItem.module.css";
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
 
@@ -13,6 +23,7 @@ interface BookingListItemProps {
   onCancel: () => void;
   onReview: () => void;
   onDelete: () => void;
+  onEdit: () => void;
   onFavorite: () => void;
   isFavorite: boolean;
   numberOfGuests: number;
@@ -30,6 +41,7 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   onCancel,
   onReview,
   onDelete,
+  onEdit,
   onFavorite,
   isFavorite,
   numberOfGuests,
@@ -38,7 +50,8 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   roomType,
 }) => {
   const statusClass = styles[status.toLowerCase()];
-  const price = typeof totalPrice === 'string' ? parseFloat(totalPrice) : totalPrice;
+  const price =
+    typeof totalPrice === "string" ? parseFloat(totalPrice) : totalPrice;
 
   return (
     <div className={styles.card}>
@@ -49,7 +62,9 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
       <div className={styles.body}>
         <div className={styles.detailItem}>
           <FiCalendar className={styles.icon} />
-          <span>{checkIn} - {checkOut}</span>
+          <span>
+            {checkIn} - {checkOut}
+          </span>
         </div>
         <div className={styles.detailItem}>
           <FiUsers className={styles.icon} />
@@ -72,13 +87,18 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
       </div>
       <div className={styles.footer}>
         <div className={styles.actions}>
-          {status === 'Approved' && (
-            <button onClick={onCancel} className={`${styles.iconButton} ${styles.cancelButton}`}>
+          {status === "Approved" && (
+            <button
+              onClick={onCancel}
+              className={`${styles.iconButton} ${styles.cancelButton}`}
+            >
               <FiXCircle />
             </button>
           )}
           <button onClick={onFavorite} className={styles.iconButton}>
-            <FiHeart style={{ fill: isFavorite ? 'red' : 'none', stroke: 'red' }} />
+            <FiHeart
+              style={{ fill: isFavorite ? "red" : "none", stroke: "red" }}
+            />
           </button>
           <button onClick={onDelete} className={styles.iconButton}>
             <FiTrash2 />

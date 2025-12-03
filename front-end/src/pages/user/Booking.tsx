@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
@@ -22,6 +22,7 @@ import {
 
 import styles from "./Booking.module.css"; // Import the CSS module
 import { initializePayment } from "../../features/paymentSlice";
+import type { IBooking } from "../../types/Booking";
 
 const getAmenityIcon = (amenity: string) => {
   switch (amenity) {
@@ -76,13 +77,14 @@ export default function Booking() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user: userState, isLoggedIn } = useSelector((state: RootState) => state.user);
+  const { user: userState, isLoggedIn } = useSelector(
+    (state: RootState) => state.user
+  );
   const user = Array.isArray(userState) ? userState[0] : userState;
   const { access_code } = useSelector((state: RootState) => state.payment);
   const [paystackReady, setPaystackReady] = useState(false);
 
   console.log("Current user state in Booking.tsx:", user); // ADDED FOR DEBUGGING
-  const { status, error } = useSelector((state: RootState) => state.booking);
   const [params] = useSearchParams();
   const accId = Number(params.get("accommodationId"));
 
@@ -127,7 +129,9 @@ export default function Booking() {
     }
 
     if (new Date(checkOut) < new Date(checkIn)) {
-      setErrorMessage("Check-out date cannot be earlier than the check-in date.");
+      setErrorMessage(
+        "Check-out date cannot be earlier than the check-in date."
+      );
       return;
     }
 
@@ -139,19 +143,19 @@ export default function Booking() {
       return;
     }
 
-    dispatch(
-      createBooking({
-        userId: user.id,
-        accommodationId: accId, // Using param
-        checkInDate: new Date(checkIn),
-        checkOutDate: new Date(checkOut),
-        numberOfGuests: parseInt(numberOfGuests) || 0, // Parse guests, treat empty string as 0
-        totalPrice: totalPrice,
-        specialRequest: specialRequest,
-        status: "Booked",
-        roomTypeId: 2,
-      })
-    );
+    const payload: IBooking = {
+      userId: user.id,
+      accommodationId: accId, // Using param
+      checkInDate: new Date(checkIn),
+      checkOutDate: new Date(checkOut),
+      numberOfGuests: parseInt(numberOfGuests) || 0, // Parse guests, treat empty string as 0
+      totalPrice: totalPrice,
+      specialRequest: specialRequest,
+      status: "Booked",
+      roomType: selectedRoomType.name,
+    };
+
+    dispatch(createBooking(payload));
 
     console.log(2022, errorMessage);
 
@@ -221,8 +225,8 @@ export default function Booking() {
   const getTodayString = () => {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -264,7 +268,7 @@ export default function Booking() {
             </h2>
             <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
               {roomTypes.map((room) => (
-                <Button 
+                <Button
                   key={room.name}
                   onClick={() => setSelectedRoomType(room)}
                   variant={
@@ -279,21 +283,12 @@ export default function Booking() {
             </div>
             <div style={{ display: "flex", gap: "5px", flexWrap: "wrap" }}>
               {selectedRoomType.amenities.map((amenity) => (
-                <Tag
-                  key={amenity}
-                  text={
-                    <span>
-                      {getAmenityIcon(amenity)} {amenity}
-                    </span>
-                  }
-                />
+                <Tag key={amenity} text={amenity} />
               ))}
             </div>
           </div>
 
-          <div className="booking-ui"
-          
-          >
+          <div className="booking-ui">
             <InputField
               type="date"
               label="Check-in Date"
@@ -324,7 +319,7 @@ export default function Booking() {
               type="number"
               label="Number of Guests"
               field={String(numberOfGuests)}
-              setField={(val) => setNumberOfGuests(Number(val))}
+              setField={(val) => setNumberOfGuests(val)}
               details="Including yourself and any companions."
               name="numberOfGuests"
             />
@@ -352,7 +347,7 @@ export default function Booking() {
               details="We'll use this to contact you about your booking."
               name="phoneNumber"
             />
-        
+
             <InputField
               type="text"
               label="Special Requests (optional)"
@@ -453,7 +448,6 @@ export default function Booking() {
                   justifyContent: "space-between",
                   fontSize: "1.5rem",
                   fontWeight: "bold",
-                  className: styles.totalPrice,
                 }}
               >
                 <span>Total:</span>
