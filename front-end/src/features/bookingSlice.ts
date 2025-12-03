@@ -20,7 +20,7 @@ const BASE_API = "https://booknestapi.netlify.app/bookings";
 
 export const fetchBookingsByUser = createAsyncThunk(
   "booking/fetchBookingsByUser",
-  async (userId: string, { rejectWithValue }) => {
+  async (userId: number, { rejectWithValue }) => {
     try {
       const { data } = await axios.get(`${BASE_API}/user/${userId}`);
       return data;

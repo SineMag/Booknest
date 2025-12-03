@@ -22,7 +22,7 @@ const MyBookings: React.FC = () => {
 
   useEffect(() => {
     if (user) {
-      dispatch(fetchBookingsByUser(user.id));
+      dispatch(fetchBookingsByUser(user.id!));
       dispatch(fetchAccomodations());
     }
   }, [dispatch, user]);
@@ -48,7 +48,7 @@ const MyBookings: React.FC = () => {
         <Button
           onClick={() => {
             if (user) {
-              dispatch(fetchBookingsByUser(user.id));
+              dispatch(fetchBookingsByUser(user.id!));
               dispatch(fetchAccomodations());
             }
           }}

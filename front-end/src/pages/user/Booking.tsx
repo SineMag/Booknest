@@ -77,10 +77,7 @@ export default function Booking() {
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user: userState, isLoggedIn } = useSelector(
-    (state: RootState) => state.user
-  );
-  const user = Array.isArray(userState) ? userState[0] : userState;
+  const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
   const { access_code } = useSelector((state: RootState) => state.payment);
   const [paystackReady, setPaystackReady] = useState(false);
 
@@ -206,13 +203,13 @@ export default function Booking() {
   useEffect(() => {
     if (!paystackReady) return;
 
-    if (access_code) {
+    if (access_code && user) {
       console.log("popup: ", window.PaystackPop);
       const popup = new window.PaystackPop();
       popup.newTransaction({
         key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
-        email: "sample@email.com",
-        amount: 23400,
+        email: user.emailAddress,
+        amount: totalPrice,
         onSuccess: (transaction: any) => {
           // add booking and navigate to confirmation
           console.log(2019, "transaction", transaction);

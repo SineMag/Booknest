@@ -78,7 +78,7 @@ export const updateProfile = createAsyncThunk(
 const userFromLocalStorage = localStorage.getItem("user");
 
 const initialState = {
-  user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null,
+  user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) as User : null,
   isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
   errorMessage: "",
   showProfileMenuSelector: false, // New state property
