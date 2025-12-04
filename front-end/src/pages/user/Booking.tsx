@@ -22,7 +22,7 @@ import {
 
 import styles from "./Booking.module.css"; // Import the CSS module
 import { initializePayment } from "../../features/paymentSlice";
-import type { IBooking } from "../../types/Booking";
+import type { Booking, IBooking } from "../../types/Booking";
 
 const getAmenityIcon = (amenity: string) => {
   switch (amenity) {
@@ -140,7 +140,7 @@ export default function Booking() {
       return;
     }
 
-    const payload: IBooking = {
+    const payload: Booking = {
       userId: user.id,
       accommodationId: accId, // Using param
       checkInDate: new Date(checkIn),
@@ -203,13 +203,15 @@ export default function Booking() {
   useEffect(() => {
     if (!paystackReady) return;
 
+    console.log(9999, user?.emailaddress, access_code, totalPrice);
+
     if (access_code && user) {
       console.log("popup: ", window.PaystackPop);
       const popup = new window.PaystackPop();
       popup.newTransaction({
         key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
-        email: user.emailAddress,
-        amount: totalPrice,
+        email: user.emailaddress,
+        amount: totalPrice * 100,
         onSuccess: (transaction: any) => {
           // add booking and navigate to confirmation
           console.log(2019, "transaction", transaction);

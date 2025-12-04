@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { Booking, IBooking } from "../types/Booking";
+import type { Booking } from "../types/Booking";
 import axios from "axios";
 
 interface BookingState {
@@ -32,7 +32,7 @@ export const fetchBookingsByUser = createAsyncThunk(
 
 export const createBooking = createAsyncThunk(
   "booking/createBooking",
-  async (bookingData: IBooking, { rejectWithValue }) => {
+  async (bookingData: Booking, { rejectWithValue }) => {
     try {
       const { data } = await axios.post(`${BASE_API}`, bookingData);
 

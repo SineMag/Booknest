@@ -1,4 +1,4 @@
-export interface Booking {
+export interface IBooking {
   id?: string;
   checkindate: Date;
   checkoutdate: Date;
@@ -8,10 +8,10 @@ export interface Booking {
   status: string;
   userid: number;
   accommodationid: number;
-  roomType: string;
+  roomtype: string;
 }
 
-export interface IBooking {
+export interface Booking {
   id?: string;
   checkInDate: Date;
   checkOutDate: Date;

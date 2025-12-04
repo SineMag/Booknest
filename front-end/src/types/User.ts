@@ -1,4 +1,4 @@
-export interface Admin {
+export interface User {
   id?: number;
   firstName: string;
   lastName: string;
@@ -10,7 +10,7 @@ export interface Admin {
   createdAt?: Date;
 }
 
-export interface IAdmin {
+export interface IUser {
   id?: number;
   firstname: string;
   lastname: string;
