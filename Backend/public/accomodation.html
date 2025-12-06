@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Accomodations API Documentation</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .route {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #2980b9;
+        margin-bottom: 20px;
+        border-radius: 6px;
+      }
+
+      code {
+        background: #ecf0f1;
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-size: 0.95rem;
+      }
+
+      pre {
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h2>Route: /accomodations</h2>
+      <h4>
+        Public Route:
+        <a href="https://booknestapi.netlify.app/accomodation.html"
+          >https://booknestapi.netlify.app/accomodation.html</a
+        >
+      </h4>
+      <h2>📘 Introduction</h2>
+      <p>
+        The <strong>/accomodations</strong> API allows you to create, read,
+        update, and delete accommodation listings in the BookNest platform. This
+        page shows you how each route works, what data you should send, and what
+        responses to expect.
+      </p>
+
+      <h2>🧩 Data Model</h2>
+      <p>Each accommodation has the following structure:</p>
+
+      <pre>
+{
+  id: number,
+  name: string,
+  description: string,
+  imageGallery: string[],
+  amenities: string[],
+  physicalAddress: string,
+  phoneNumber: string,
+  emailAddress: string,
+  roomTypes: string[],
+  rating: number
+}</pre
+      >
+
+      <hr />
+
+      <h2>📡 Routes Overview</h2>
+
+      <!-- GET ALL -->
+      <div class="route">
+        <h3>GET /accomodations</h3>
+        <p>Returns a list of all accommodations.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+[
+  {
+    "id": 1,
+    "name": "Luxury Apartment",
+    "description": "A beautiful place...",
+    "imageGallery": ["img1.jpg"],
+    "amenities": ["WiFi", "Pool"],
+    "physicalAddress": "123 Street",
+    "phoneNumber": "0783453333",
+    "emailAddress": "info@example.com",
+    "roomTypes": ["Superior Studio", "Junior Suite"],
+    "rating": 4.5
+  }
+]</pre
+        >
+      </div>
+
+      <!-- GET BY ID -->
+      <div class="route">
+        <h3>GET /accomodations/:id</h3>
+        <p>Returns a specific accommodation based on its ID.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /accomodations/3</pre>
+      </div>
+
+      <!-- CREATE -->
+      <div class="route">
+        <h3>POST /accomodations</h3>
+        <p>Creates a new accommodation. Returns the full inserted object.</p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "name": "Ocean View Suite",
+  "description": "A relaxing suite with amazing views",
+  "imageGallery": ["img1.jpg", "img2.jpg"],
+  "amenities": ["WiFi", "Air conditioning"],
+  "physicalAddress": "45 Beach Road",
+  "phoneNumber": "0783453333",
+  "emailAddress": "suite@example.com",
+  "roomTypes": ["Deluxe Studio", "Executive Suite"],
+  "rating": 4.8
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 10,
+  "name": "Ocean View Suite",
+  "description": "...",
+  "imageGallery": [...],
+  "amenities": [...],
+  "physicalAddress": "...",
+  "phoneNumber": "0783453333",
+  "emailAddress": "...",
+  "roomTypes": [...],
+  "rating": 4.8
+}</pre
+        >
+      </div>
+
+      <!-- UPDATE -->
+      <div class="route">
+        <h3>PUT /accomodations/:id</h3>
+        <p>Updates an accommodation and returns the updated record.</p>
+
+        <h4>✔ Example</h4>
+        <pre>PUT /accomodations/5</pre>
+      </div>
+
+      <!-- DELETE -->
+      <div class="route">
+        <h3>DELETE /accomodations/:id</h3>
+        <p>Deletes an accommodation and returns the deleted record.</p>
+
+        <h4>✔ Example</h4>
+        <pre>DELETE /accomodations/5</pre>
+      </div>
+
+      <hr />
+
+      <h2>📄 /docs — Documentation Route</h2>
+
+      <p>This very page can be served at:</p>
+
+      <pre>GET /docs</pre>
+
+      <p>
+        Use it to help anyone (developers, frontend devs, or testers) understand
+        how the API works.
+      </p>
+
+      <hr />
+
+      <h2>❓ Need Help?</h2>
+      <p>
+        If you need more details (authentication, examples, errors, or request
+        samples), feel free to extend this page.
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>

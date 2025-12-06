@@ -14,6 +14,11 @@
   color: white;
 }
 
+.success {
+  background-color: #28a745; /* Green color for success */
+  color: white;
+}
+
 .secondary {
   background-color: #f1f3f4;
   color: #202124;
@@ -21,6 +26,16 @@
 
 .danger {
   background-color: #d93025;
+  color: white;
+}
+
+.google {
+  background-color: #DB4437; /* Google's red */
+  color: white;
+}
+
+.facebook {
+  background-color: #4267B2; /* Facebook's blue */
   color: white;
 }
 

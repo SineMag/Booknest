@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bookings API Documentation</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 900px;
+        margin: auto;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .route {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #2980b9;
+        margin-bottom: 20px;
+        border-radius: 6px;
+      }
+
+      pre {
+        background: #ecf0f1;
+        padding: 10px;
+        border-radius: 6px;
+        overflow-x: auto;
+      }
+
+      code {
+        background: #ecf0f1;
+        padding: 3px 6px;
+        border-radius: 4px;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <h1>Bookings API Documentation</h1>
+
+      <h2>Route: /bookings</h2>
+      <h4>
+        Public Page:
+        <a href="https://booknestapi.netlify.app/booking.html">
+          https://booknestapi.netlify.app/booking.html
+        </a>
+      </h4>
+
+      <h2>📘 Introduction</h2>
+      <p>
+        The <strong>/bookings</strong> API allows creating, fetching, updating,
+        and deleting booking records. Each booking connects a
+        <strong>user</strong> to an <strong>accommodation</strong> and a
+        <strong>room type</strong>.
+      </p>
+
+      <h2>🧩 Data Model</h2>
+      <p>A booking contains the following fields:</p>
+
+      <pre>
+{
+  id: number,
+  checkInDate: string (YYYY-MM-DD),
+  checkOutDate: string (YYYY-MM-DD),
+  numberOfGuests: number,
+  totalPrice: number,
+  specialRequest: string | null,
+  status: string,            // e.g. "pending", "confirmed", "cancelled"
+  userId: number,
+  accommodationId: number,
+  roomTypeId: number
+}</pre
+      >
+
+      <hr />
+
+      <h2>📡 Routes Overview</h2>
+
+      <!-- GET ALL BOOKINGS -->
+      <div class="route">
+        <h3>GET /bookings</h3>
+        <p>Retrieve all bookings in the system.</p>
+
+        <h4>✔ Example Response</h4>
+        <pre>
+[
+  {
+    "id": 1,
+    "checkInDate": "2025-04-10",
+    "checkOutDate": "2025-04-13",
+    "numberOfGuests": 2,
+    "totalPrice": 1500,
+    "specialRequest": "Late check-in",
+    "status": "confirmed",
+    "userId": 4,
+    "accommodationId": 3,
+    "roomTypeId": 2
+  }
+]</pre
+        >
+      </div>
+
+      <!-- GET BY ID -->
+      <div class="route">
+        <h3>GET /bookings/:id</h3>
+        <p>Fetch a specific booking using its ID.</p>
+
+        <h4>✔ Example</h4>
+        <pre>GET /bookings/2</pre>
+      </div>
+
+      <!-- CREATE BOOKING -->
+      <div class="route">
+        <h3>POST /bookings</h3>
+        <p>Create a new booking. Returns the newly created object.</p>
+
+        <h4>✔ Example Request Body</h4>
+        <pre>
+{
+  "checkInDate": "2025-05-10",
+  "checkOutDate": "2025-05-12",
+  "numberOfGuests": 3,
+  "totalPrice": 2500,
+  "specialRequest": "Need baby crib",
+  "status": "pending",
+  "userId": 1,
+  "accommodationId": 2,
+  "roomTypeId": 1
+}</pre
+        >
+
+        <h4>✔ Example Response</h4>
+        <pre>
+{
+  "id": 12,
+  "checkInDate": "2025-05-10",
+  "checkOutDate": "2025-05-12",
+  "numberOfGuests": 3,
+  "totalPrice": 2500,
+  "specialRequest": "Need baby crib",
+  "status": "pending",
+  "userId": 1,
+  "accommodationId": 2,
+  "roomTypeId": 1
+}</pre
+        >
+      </div>
+
+      <!-- UPDATE -->
+      <div class="route">
+        <h3>PUT /bookings/:id</h3>
+        <p>Update an existing booking. Returns the updated record.</p>
+
+        <h4>✔ Example</h4>
+        <pre>
+PUT /bookings/10
+{
+  "checkInDate": "2025-05-11",
+  "checkOutDate": "2025-05-14",
+  "numberOfGuests": 2,
+  "totalPrice": 2200,
+  "specialRequest": null,
+  "status": "confirmed",
+  "userId": 1,
+  "accommodationId": 3,
+  "roomTypeId": 2
+}</pre
+        >
+      </div>
+
+      <!-- DELETE -->
+      <div class="route">
+        <h3>DELETE /bookings/:id</h3>
+        <p>Deletes a booking and returns the deleted object.</p>
+
+        <h4>✔ Example</h4>
+        <pre>DELETE /bookings/4</pre>
+      </div>
+
+      <hr />
+
+      <h2>📄 /docs/bookings — Documentation Route</h2>
+      <p>This page is available at:</p>
+      <pre>GET /docs/bookings</pre>
+
+      <p>
+        Share it with frontend developers, testers, and API integrators for
+        smooth development.
+      </p>
+
+      <hr />
+
+      <h2>❓ Need Help?</h2>
+      <p>
+        Want combined documentation for all modules? Or Swagger/OpenAPI format?
+        I can generate that too.
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+.oauthIcons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.oauthIcons a {
+  color: #333;
+  transition: color 0.2s;
+}
+
+.oauthIcons a:hover {
+  color: #1a73e8;
+}

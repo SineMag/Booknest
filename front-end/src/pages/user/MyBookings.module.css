@@ -1,0 +1,90 @@
+.container {
+  padding: 1rem;
+  background-color: #f9f9f9;
+}
+
+.title {
+  font-size: 1rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.bookingList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.noBookings {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.noBookingsIcon {
+  font-size: 4rem;
+  color: #a0aec0;
+  margin-bottom: 1.5rem;
+}
+
+.noBookingsText {
+  font-size: 1.25rem;
+  color: #4a5568;
+  margin-bottom: 1.5rem;
+}
+
+.noBookingsButton {
+
+  margin-top: 1rem;
+
+}
+
+
+
+.errorContainer {
+
+  text-align: center;
+
+  padding: 4rem 2rem;
+
+  background-color: #fff;
+
+  border-radius: 8px;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+}
+
+
+
+.errorIcon {
+
+  font-size: 4rem;
+
+  color: #e53e3e;
+
+  margin-bottom: 1.5rem;
+
+}
+
+
+
+.errorText {
+
+  font-size: 1.25rem;
+
+  color: #e53e3e;
+
+  margin-bottom: 1.5rem;
+
+}
+
+
+
+.retryButton {
+
+  margin-top: 1rem;
+
+}
