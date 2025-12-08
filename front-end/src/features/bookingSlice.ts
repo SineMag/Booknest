@@ -22,10 +22,10 @@ export const fetchBookingsByUser = createAsyncThunk(
   "booking/fetchBookingsByUser",
   async (userId: number, { rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`${BASE_API}/user/${userId}`);
+      const { data } = await axios.get(`${BASE_API}?userId=${userId}`);
       return data;
     } catch (error: any) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.message || "Failed to fetch bookings");
     }
   }
 );
@@ -36,16 +36,13 @@ export const createBooking = createAsyncThunk(
     try {
       const { data } = await axios.post(`${BASE_API}`, bookingData);
 
-      console.log(7777, data);
-
-      if (!data || data.length === 0) {
-        rejectWithValue("Error creating booking");
+      if (!data) {
+        return rejectWithValue("Error creating booking");
       }
       return data;
     } catch (error: any) {
-      console.log("ERROR BOOKING...");
-      console.log(7777, error);
-      return rejectWithValue(error.message);
+      console.error("Error creating booking:", error);
+      return rejectWithValue(error.message || "Failed to create booking");
     }
   }
 );
@@ -88,8 +85,13 @@ const bookingSlice = createSlice({
       })
       .addCase(createBooking.fulfilled, (state, action) => {
         state.loading = false;
-        state.booking = action.payload;
-        state.bookings.push(action.payload);
+        state.error = "";
+        // Handle both array and single object responses
+        const booking = Array.isArray(action.payload) ? action.payload[0] : action.payload;
+        state.booking = booking;
+        if (booking) {
+          state.bookings.push(booking);
+        }
       })
       .addCase(createBooking.rejected, (state, action) => {
         state.loading = false;

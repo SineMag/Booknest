@@ -2,20 +2,14 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Button from "../Button/Button";
 import styles from "./EditBookingModal.module.css";
 import { DateRangePicker } from 'react-date-range';
 import { addDays } from 'date-fns';
+import type { RootState } from "../../../store";
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
-
-const mockAccommodations = [
-  "Cozy Cottage",
-  "Luxury Villa",
-  "Beach House",
-  "Mountain Cabin",
-  "City Apartment",
-];
 
 interface BookingData {
   bookingId: string;
@@ -39,6 +33,7 @@ const EditBookingModal: React.FC<EditBookingModalProps> = ({
   bookingData,
   onSave,
 }) => {
+  const { accomodations } = useSelector((state: RootState) => state.accomodation);
   const [formData, setFormData] = useState<Omit<BookingData, 'checkIn' | 'checkOut'> | null>(null);
   const [dateRange, setDateRange] = useState([
     {
@@ -110,11 +105,15 @@ const EditBookingModal: React.FC<EditBookingModalProps> = ({
               value={formData.accommodationName}
               onChange={handleChange}
             >
-              {mockAccommodations.map((acc) => (
-                <option key={acc} value={acc}>
-                  {acc}
-                </option>
-              ))}
+              {accomodations.length > 0 ? (
+                accomodations.map((acc) => (
+                  <option key={acc.id} value={acc.name}>
+                    {acc.name}
+                  </option>
+                ))
+              ) : (
+                <option value={formData.accommodationName}>{formData.accommodationName}</option>
+              )}
             </select>
           </label>
           

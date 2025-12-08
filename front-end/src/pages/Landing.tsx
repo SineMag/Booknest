@@ -7,6 +7,8 @@ import {
   FaSpa,
   FaConciergeBell,
 } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 import HeroSection from "../components/heroSection/HeroSection";
 import SnackbarComponent from "../components/Snackbar/snackbar";
@@ -14,42 +16,37 @@ import Button from "../components/Button/Button";
 import ReviewModal from "../components/ReviewModal/ReviewModal";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../store";
+import type { RootState, AppDispatch } from "../../store";
+import { fetchAccomodations } from "../features/accomodationSlice";
 
 const Landing: React.FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user?.user || null);
+  const { accomodations } = useSelector((state: RootState) => state.accomodation);
 
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
-  /* ------------------------------ SAMPLE DATA ------------------------------ */
+  useEffect(() => {
+    if (accomodations.length === 0) {
+      dispatch(fetchAccomodations());
+    }
+  }, [dispatch, accomodations.length]);
 
-  const featuredHotels = [
-    {
-      image:
-        "https://media-cdn.tripadvisor.com/media/photo-s/2c/21/66/38/main-exterior.jpg",
-      title: "Luxury Beach Resort",
-      location: "Durban, KwaZulu-Natal",
-      price: "R4299",
-      rating: 4.8,
-    },
-    {
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo-fplMdzubdT3s_1rVfc7m-qT0xhVq67VBg&s",
-      title: "Mountain View Lodge",
-      location: "Cape Town, Western Cape",
-      price: "R3249",
-      rating: 4.7,
-    },
-    {
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9O7VQ1XL8XGSMqMAUdQ7iy3eS1iqMtPnlw&s",
-      title: "Urban Oasis Hotel",
-      location: "Sandton, Gauteng",
-      price: "R5349",
-      rating: 4.9,
-    },
-  ];
+  // Get featured hotels from real accommodations (top 3 by rating or first 3)
+  const featuredHotels = accomodations
+    .slice(0, 3)
+    .map((acc) => ({
+      id: acc.id,
+      image: Array.isArray(acc.imagegallery) && acc.imagegallery.length > 0
+        ? acc.imagegallery[0]
+        : "/placeholder.jpg",
+      title: acc.name,
+      location: acc.physicaladdress || "Location TBD",
+      price: acc.pricepernight ? `R${acc.pricepernight}` : "Price TBD",
+      rating: acc.rating || 0,
+    }));
 
   const propertyTypes = [
     {
@@ -136,17 +133,28 @@ const Landing: React.FC = () => {
       <section className="luxury-section">
         <h2 className="luxury-title">Featured Hotels</h2>
         <div className="lux-hotel-grid">
-          {featuredHotels.map((hotel, index) => (
-            <div className="lux-hotel-card" key={index}>
-              <img src={hotel.image} alt={hotel.title} />
-              <div className="lux-hotel-info">
-                <h3>{hotel.title}</h3>
-                <p>{hotel.location}</p>
-                <p className="price">{hotel.price} / night</p>
-                <p className="rating">⭐ {hotel.rating}</p>
+          {featuredHotels.length > 0 ? (
+            featuredHotels.map((hotel) => (
+              <div
+                className="lux-hotel-card"
+                key={hotel.id}
+                onClick={() => navigate(`/accomodation-details/${hotel.id}`)}
+                style={{ cursor: "pointer" }}
+              >
+                <img src={hotel.image} alt={hotel.title} />
+                <div className="lux-hotel-info">
+                  <h3>{hotel.title}</h3>
+                  <p>{hotel.location}</p>
+                  <p className="price">{hotel.price} / night</p>
+                  <p className="rating">⭐ {hotel.rating.toFixed(1)}</p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p style={{ textAlign: "center", gridColumn: "1 / -1" }}>
+              Loading featured accommodations...
+            </p>
+          )}
         </div>
       </section>
       {/* ------------------------------ AMENITIES ------------------------------ */}

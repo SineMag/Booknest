@@ -15,14 +15,13 @@ const MyBookings: React.FC = () => {
     (state: RootState) => state.booking
   );
   const { user } = useSelector((state: RootState) => state.user);
-  console.log("User object from Redux store:", user);
   const { accomodations } = useSelector(
     (state: RootState) => state.accomodation
   );
 
   useEffect(() => {
-    if (user) {
-      dispatch(fetchBookingsByUser(user.id!));
+    if (user && user.id) {
+      dispatch(fetchBookingsByUser(user.id));
       dispatch(fetchAccomodations());
     }
   }, [dispatch, user]);
@@ -34,11 +33,16 @@ const MyBookings: React.FC = () => {
     return accommodation?.name || "N/A";
   };
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <h1 className={styles.title}>My Bookings</h1>
+        <p>Loading bookings...</p>
+      </div>
+    );
   }
 
-  if (status === "failed") {
+  if (error) {
     return (
       <div className={styles.errorContainer}>
         <FaExclamationTriangle className={styles.errorIcon} />
@@ -47,8 +51,8 @@ const MyBookings: React.FC = () => {
         </p>
         <Button
           onClick={() => {
-            if (user) {
-              dispatch(fetchBookingsByUser(user.id!));
+            if (user && user.id) {
+              dispatch(fetchBookingsByUser(user.id));
               dispatch(fetchAccomodations());
             }
           }}
@@ -59,8 +63,6 @@ const MyBookings: React.FC = () => {
       </div>
     );
   }
-
-  console.log("Bookings from Redux store:", bookings);
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>My Bookings</h1>
@@ -75,26 +77,38 @@ const MyBookings: React.FC = () => {
       ) : (
         <div className={styles.bookingList}>
           <h2>Bookings</h2>
-          {bookings.map((booking) => (
-            <BookingListItem
-              key={booking.id}
-              bookingId={booking.id!}
-              accommodationName={getAccommodationName(booking.accommodationid)}
-              checkIn={new Date(booking.checkindate).toLocaleDateString()}
-              checkOut={new Date(booking.checkoutdate).toLocaleDateString()}
-              status={booking.status as "Pending" | "Approved" | "Declined"}
-              onCancel={() => console.log("Cancel booking")}
-              onEdit={() => console.log("Edit booking")}
-              onDelete={() => console.log("Delete booking")}
-              onFavorite={() => console.log("Favorite booking")}
-              onReview={() => {}}
-              isFavorite={false} // Hardcoded for now
-              numberOfGuests={booking.numberofguests}
-              totalPrice={booking.totalprice}
-              specialRequest={booking.specialrequest}
-              roomType={booking.roomType}
-            />
-          ))}
+          {bookings.map((booking: any) => {
+            // Handle both snake_case (from backend) and camelCase formats
+            const accommodationId = booking.accommodationid || booking.accommodationId;
+            const checkInDate = booking.checkindate || booking.checkInDate;
+            const checkOutDate = booking.checkoutdate || booking.checkOutDate;
+            const numberOfGuests = booking.numberofguests || booking.numberOfGuests;
+            const totalPrice = booking.totalprice || booking.totalPrice;
+            const specialRequest = booking.specialrequest || booking.specialRequest;
+            const roomType = booking.roomtype || booking.roomType || "Standard";
+            const bookingId = booking.id?.toString() || "";
+            
+            return (
+              <BookingListItem
+                key={booking.id}
+                bookingId={bookingId}
+                accommodationName={getAccommodationName(accommodationId)}
+                checkIn={new Date(checkInDate).toLocaleDateString()}
+                checkOut={new Date(checkOutDate).toLocaleDateString()}
+                status={(booking.status || "Pending") as "Pending" | "Approved" | "Declined"}
+                onCancel={() => console.log("Cancel booking")}
+                onEdit={() => console.log("Edit booking")}
+                onDelete={() => console.log("Delete booking")}
+                onFavorite={() => console.log("Favorite booking")}
+                onReview={() => {}}
+                isFavorite={false}
+                numberOfGuests={numberOfGuests}
+                totalPrice={totalPrice}
+                specialRequest={specialRequest}
+                roomType={roomType}
+              />
+            );
+          })}
         </div>
       )}
     </div>

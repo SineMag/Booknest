@@ -1,21 +1,16 @@
 import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Button from "../Button/Button";
 import styles from "./NewBookingModal.module.css";
 import { DateRangePicker } from 'react-date-range';
 import { addDays } from 'date-fns';
+import type { RootState, AppDispatch } from "../../../store";
+import { fetchAccomodations } from "../../features/accomodationSlice";
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
-
-const mockAccommodations = [
-  "Cozy Cottage",
-  "Luxury Villa",
-  "Beach House",
-  "Mountain Cabin",
-  "City Apartment",
-];
 
 interface NewBookingModalProps {
   isOpen: boolean;
@@ -28,10 +23,19 @@ const NewBookingModal: React.FC<NewBookingModalProps> = ({
   onClose,
   onSave,
 }) => {
+  const dispatch = useDispatch<AppDispatch>();
+  const { accomodations } = useSelector((state: RootState) => state.accomodation);
+  
+  useEffect(() => {
+    if (accomodations.length === 0) {
+      dispatch(fetchAccomodations());
+    }
+  }, [dispatch, accomodations.length]);
+
   const [formData, setFormData] = useState({
     userName: "",
     userEmail: "",
-    accommodationName: mockAccommodations[0],
+    accommodationName: accomodations.length > 0 ? accomodations[0].name : "",
   });
   const [dateRange, setDateRange] = useState([
     {
@@ -95,12 +99,17 @@ const NewBookingModal: React.FC<NewBookingModalProps> = ({
               name="accommodationName"
               value={formData.accommodationName}
               onChange={handleChange}
+              required
             >
-              {mockAccommodations.map((acc) => (
-                <option key={acc} value={acc}>
-                  {acc}
-                </option>
-              ))}
+              {accomodations.length > 0 ? (
+                accomodations.map((acc) => (
+                  <option key={acc.id} value={acc.name}>
+                    {acc.name}
+                  </option>
+                ))
+              ) : (
+                <option value="">Loading accommodations...</option>
+              )}
             </select>
           </label>
 

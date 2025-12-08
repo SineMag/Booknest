@@ -79,13 +79,12 @@ export default function Booking() {
   const navigate = useNavigate();
   const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
   const { access_code } = useSelector((state: RootState) => state.payment);
+  const { loading: bookingLoading, error: bookingError } = useSelector(
+    (state: RootState) => state.booking
+  );
   const [paystackReady, setPaystackReady] = useState(false);
-
-  console.log("Current user state in Booking.tsx:", user); // ADDED FOR DEBUGGING
   const [params] = useSearchParams();
   const accId = Number(params.get("accommodationId"));
-
-  console.log("accomodation id", accId);
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -152,13 +151,15 @@ export default function Booking() {
       roomType: selectedRoomType.name,
     };
 
-    dispatch(createBooking(payload));
-
-    console.log(2022, errorMessage);
-
-    if (!errorMessage) {
-      handlePayment();
-    }
+    dispatch(createBooking(payload))
+      .unwrap()
+      .then(() => {
+        // Booking created successfully, proceed to payment
+        handlePayment();
+      })
+      .catch((error) => {
+        setErrorMessage(error || "Failed to create booking. Please try again.");
+      });
   };
 
   const handleCancel = () => {
@@ -171,11 +172,15 @@ export default function Booking() {
   // **************************************************************
 
   const handlePayment = () => {
+    if (!user || !user.emailaddress) {
+      setErrorMessage("User email is required for payment");
+      return;
+    }
     dispatch(
       initializePayment({
-        email: "msizi@example.com",
-        amount: 1000,
-        callback_url: "https://booknest-j3la.onrender.com/",
+        email: user.emailaddress,
+        amount: totalPrice * 100, // Convert to kobo/cents
+        callback_url: window.location.origin + "/confirmation",
       })
     );
   };
@@ -205,19 +210,24 @@ export default function Booking() {
 
     console.log(9999, user?.emailaddress, access_code, totalPrice);
 
-    if (access_code && user) {
-      console.log("popup: ", window.PaystackPop);
-      const popup = new window.PaystackPop();
-      popup.newTransaction({
-        key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
-        email: user.emailaddress,
-        amount: totalPrice * 100,
-        onSuccess: (transaction: any) => {
-          // add booking and navigate to confirmation
-          console.log(2019, "transaction", transaction);
-          navigate("/confirmation");
-        },
-      });
+    if (access_code && user && paystackReady && totalPrice > 0) {
+      try {
+        const popup = new window.PaystackPop();
+        popup.newTransaction({
+          key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
+          email: user.emailaddress,
+          amount: totalPrice * 100,
+          onSuccess: (transaction: any) => {
+            navigate("/confirmation");
+          },
+          onCancel: () => {
+            setErrorMessage("Payment was cancelled");
+          },
+        });
+      } catch (error) {
+        console.error("Paystack error:", error);
+        setErrorMessage("Failed to initialize payment. Please try again.");
+      }
     }
   }, [access_code]);
 
@@ -365,9 +375,9 @@ export default function Booking() {
             <Button
               onClick={handleProceed}
               variant="primary"
-              disabled={status === "loading"}
+              disabled={bookingLoading}
             >
-              {status === "loading" ? "Processing..." : "Proceed To Payment"}
+              {bookingLoading ? "Processing..." : "Proceed To Payment"}
             </Button>
           </div>
         </div>

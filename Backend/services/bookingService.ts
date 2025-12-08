@@ -6,8 +6,8 @@ import {
   updateBookingQuery,
 } from "../models/Booking";
 
-export const selectAllBookingsDB = async () => {
-  const bookings = await getBookingsQuery();
+export const selectAllBookingsDB = async (userId?: number) => {
+  const bookings = await getBookingsQuery(userId);
   return bookings;
 };
 

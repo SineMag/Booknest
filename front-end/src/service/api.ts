@@ -16,12 +16,13 @@ export const toggleFavorite = async (hotelId: number, isLiked: boolean) => {
 };
 
 
-export const getUserDetails = () => axios.get("/user/details");
-
-export const updateUserDetails = async (userId: number, payload: any) => {
-  return api.put(`/users/${userId}`, payload);
-};
 const api = axios.create({
   baseURL: "https://booknestapi.netlify.app/", 
   headers: {},
 });
+
+export const getUserDetails = () => api.get("/user/details");
+
+export const updateUserDetails = async (userId: number, payload: any) => {
+  return api.put(`/users/${userId}`, payload);
+};

@@ -31,6 +31,11 @@
   status = 200
 
 [[redirects]]
+  from = "/bookings"
+  to = "/.netlify/functions/bookings"
+  status = 200
+
+[[redirects]]
   from = "/bookings/*"
   to = "/.netlify/functions/bookings/:splat"
   status = 200

@@ -30,9 +30,16 @@ CREATE TABLE IF NOT EXISTS bookings (
 );
 `;
 
-export const getBookingsQuery = () => sql`
-  SELECT * FROM bookings;
-`;
+export const getBookingsQuery = (userId?: number) => {
+  if (userId) {
+    return sql`
+      SELECT * FROM bookings WHERE "userId" = ${userId} ORDER BY "checkInDate" DESC;
+    `;
+  }
+  return sql`
+    SELECT * FROM bookings ORDER BY "checkInDate" DESC;
+  `;
+};
 
 export const getBookingByIdQuery = (id: number) => sql`
   SELECT * FROM bookings WHERE id=${id};

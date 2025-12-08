@@ -141,3 +141,7 @@ vite.config.ts.timestamp-*
 .vite/
 # Local Netlify folder
 .netlify
+
+
+.cursor/rules/kluster-code-verify.mdc
+.kluster

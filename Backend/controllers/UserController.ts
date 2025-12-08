@@ -9,9 +9,10 @@ import {
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
     const users = await selectAllUsers();
-    return res.json(users);
-  } catch (error) {
-    log(error);
+    return res.status(200).json(users);
+  } catch (error: any) {
+    console.error("Error fetching users:", error);
+    return res.status(500).json({ error: error.message || "Failed to fetch users" });
   }
 };
 
