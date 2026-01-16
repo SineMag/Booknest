@@ -10,6 +10,7 @@ export interface Accomodation {
   phoneNumber: string;
   emailAddress: string;
   roomTypes: string[];
+  pricePerNight: number;
   rating: number;
 }
 
@@ -23,6 +24,7 @@ export const accomodationTableQuery = () => sql`
     physicalAddress VARCHAR(255) NOT NULL,
     phoneNumber CHAR(10) NOT NULL,
     emailAddress VARCHAR(255) NOT NULL,
+    pricePerNight FLOAT NOT NULL,
     roomTypes TEXT[] NOT NULL,
     rating FLOAT NOT NULL
   );
@@ -44,7 +46,8 @@ export const createAccomodationQuery = (accomodation: Accomodation) => sql`
     phoneNumber,
     emailAddress,
     roomTypes,
-    rating
+    rating,
+    pricePerNight
   )
   VALUES (
     ${accomodation.name},
@@ -55,7 +58,8 @@ export const createAccomodationQuery = (accomodation: Accomodation) => sql`
     ${accomodation.phoneNumber},
     ${accomodation.emailAddress},
     ${accomodation.roomTypes},
-    ${accomodation.rating}
+    ${accomodation.rating},
+    ${accomodation.pricePerNight}
 ) RETURNING *;`;
 
 export const updateAccomodationQuery = (
@@ -72,7 +76,8 @@ export const updateAccomodationQuery = (
     phoneNumber = ${accomodation.phoneNumber},
     emailAddress = ${accomodation.emailAddress},
     roomTypes = ${accomodation.roomTypes},
-    rating = ${accomodation.rating}
+    rating = ${accomodation.rating},
+    pricePerNight = ${accomodation.pricePerNight}
   WHERE id = ${id} RETURNING *;`;
 
 export const deleteAccomodationQuery = (id: number) => sql`

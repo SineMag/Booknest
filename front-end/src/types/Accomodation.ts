@@ -9,4 +9,5 @@ export interface Accomodation {
   emailaddress: string;
   roomtypes: string[];
   rating: number;
+  pricepernight: number;
 }

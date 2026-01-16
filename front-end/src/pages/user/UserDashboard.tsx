@@ -128,7 +128,7 @@ const UserDashboard: React.FC = () => {
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
-              price={"N/A"}
+              price={acc.pricepernight.toString()}
               isFavorite={favoriteIds.includes(acc.id!)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
               onView={() => handleView(acc.id!)}

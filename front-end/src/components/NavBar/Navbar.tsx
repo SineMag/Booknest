@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import image from "../../images/bed (1).png";
 import NavProfile from "../NavProfile/NavProfile";
 import Styles from "./Navbar.module.css";
@@ -7,10 +7,37 @@ import { Link } from "react-router-dom";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const hamburgerContainerRef = useRef<HTMLDivElement>(null);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target as Node) &&
+        hamburgerContainerRef.current &&
+        !hamburgerContainerRef.current.contains(event.target as Node)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    if (isMobileMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => {
+        document.removeEventListener("mousedown", handleClickOutside);
+      };
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <div className={Styles["navbar-wrapper"]}>
@@ -23,7 +50,7 @@ export default function Navbar() {
         </div>
 
         {/* Hamburger button for mobile */}
-        <div className={Styles.hamburgerContainer}>
+        <div className={Styles.hamburgerContainer} ref={hamburgerContainerRef}>
           <Hamburger isOpen={isMobileMenuOpen} onClick={toggleMobileMenu} />
         </div>
 
@@ -40,14 +67,20 @@ export default function Navbar() {
           </li>
         </ul>
 
+        {/* Mobile Menu Backdrop */}
+        {isMobileMenuOpen && (
+          <div className={Styles.backdrop} onClick={closeMobileMenu} />
+        )}
+
         {/* Mobile Navigation Menu */}
         <div
+          ref={mobileMenuRef}
           className={`${Styles.mobileMenu} ${
             isMobileMenuOpen ? Styles.open : ""
           }`}
         >
           <div className={Styles.mobileMenuHeader}>
-            <button onClick={toggleMobileMenu} className={Styles.backButton}>
+            <button onClick={closeMobileMenu} className={Styles.backButton}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -65,16 +98,16 @@ export default function Navbar() {
           </div>
           <ul className={Styles["mobile-nav-links"]}>
             <li>
-              <a href="#about" onClick={toggleMobileMenu}>
+              <a href="#about" onClick={closeMobileMenu}>
                 About Us
               </a>
             </li>
             <li>
-              <a href="#contact" onClick={toggleMobileMenu}>
+              <a href="#contact" onClick={closeMobileMenu}>
                 Contact Us
               </a>
             </li>
-            <li>
+            <li onClick={closeMobileMenu}>
               <NavProfile />
             </li>
           </ul>

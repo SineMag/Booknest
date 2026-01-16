@@ -100,10 +100,13 @@
 }
 
 .price {
-  font-size: 16px;
+  font-size: 0.7rem;
   font-weight: bold;
   color: #1a73e8;
   align-self: flex-end;
+}
+.amount {
+  font-size: 1.4rem;
 }
 
 .viewButton {
