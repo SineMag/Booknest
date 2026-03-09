@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BookNest API — Overview</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f5f6fa;
+        color: #333;
+      }
+
+      header {
+        background: #2c3e50;
+        padding: 20px;
+        color: white;
+        text-align: center;
+      }
+
+      main {
+        padding: 20px;
+        max-width: 1000px;
+        margin: auto;
+      }
+
+      h2 {
+        color: #2c3e50;
+        margin-top: 40px;
+      }
+
+      .endpoint {
+        background: white;
+        padding: 15px;
+        border-left: 5px solid #3498db;
+        margin-bottom: 25px;
+        border-radius: 6px;
+      }
+
+      .endpoint h3 {
+        margin-top: 0;
+      }
+
+      .endpoint a {
+        color: #2980b9;
+        font-weight: bold;
+        text-decoration: none;
+      }
+
+      .endpoint a:hover {
+        text-decoration: underline;
+      }
+
+      ul {
+        line-height: 1.6;
+      }
+
+      footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        color: #888;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>📚 BookNest API — Documentation Overview</h1>
+      <p>Your guide to all API endpoints and documentation pages</p>
+    </header>
+
+    <main>
+      <p>
+        Welcome to the <strong>BookNest API</strong> documentation overview.
+        Below is a summary of each module in the API and links to their full,
+        detailed documentation pages.
+      </p>
+
+      <hr />
+
+      <!-- ACCOMMODATION -->
+      <div class="endpoint">
+        <h3>🏨 Accommodations</h3>
+        <p>
+          Handles creating, updating, deleting, and retrieving accommodation
+          listings.
+        </p>
+        <ul>
+          <li>List all accommodations</li>
+          <li>Get accommodation by ID</li>
+          <li>Create new listing</li>
+          <li>Update listing</li>
+          <li>Delete listing</li>
+        </ul>
+        <a href="https://booknestapi.netlify.app/accommodation_docs"
+          >View full Accommodations documentation →</a
+        >
+      </div>
+
+      <!-- ADMIN -->
+      <div class="endpoint">
+        <h3>👮 Admins</h3>
+        <p>
+          Manages administrative accounts, including creation, login, profile
+          updates, and removal.
+        </p>
+        <ul>
+          <li>List all admins</li>
+          <li>Get admin by ID</li>
+          <li>Create admin</li>
+          <li>Update admin</li>
+          <li>Delete admin</li>
+        </ul>
+        <a href="https://booknestapi.netlify.app/admin_docs"
+          >View full Admin documentation →</a
+        >
+      </div>
+
+      <!-- BOOKINGS -->
+      <div class="endpoint">
+        <h3>🛏️ Bookings</h3>
+        <p>
+          Handles guest bookings for rooms and accommodations. Includes
+          creating, viewing, updating, and cancelling reservations.
+        </p>
+        <ul>
+          <li>List all bookings</li>
+          <li>Get booking by ID</li>
+          <li>Create booking</li>
+          <li>Update booking</li>
+          <li>Delete booking</li>
+        </ul>
+        <a href="https://booknestapi.netlify.app/booking_docs"
+          >View full Booking documentation →</a
+        >
+      </div>
+
+      <!-- FAVOURITES -->
+      <div class="endpoint">
+        <h3>⭐ Favourites</h3>
+        <p>Allows users to save and manage their favourite accommodations.</p>
+        <ul>
+          <li>Get favourites by user ID</li>
+          <li>Add favourite</li>
+          <li>Remove favourite</li>
+        </ul>
+        <a href="https://booknestapi.netlify.app/favourite_docs"
+          >View full Favourites documentation →</a
+        >
+      </div>
+
+      <!-- REVIEWS -->
+      <div class="endpoint">
+        <h3>📝 Reviews</h3>
+        <p>
+          Allows users to leave ratings and comments on accommodations. Includes
+          CRUD functionality.
+        </p>
+        <ul>
+          <li>List all reviews</li>
+          <li>Get reviews by accommodation ID</li>
+          <li>Create review</li>
+          <li>Update review</li>
+          <li>Delete review</li>
+        </ul>
+        <a href="https://booknestapi.netlify.app/review_docs"
+          >View full Reviews documentation →</a
+        >
+      </div>
+
+      <!-- ROOM TYPES -->
+      <div class="endpoint">
+        <h3>🚪 Room Types</h3>
+        <p>
+          Describes the types of rooms offered by accommodations, including
+          pricing, features, and variations.
+        </p>
+        <ul>
+          <li>List all room types</li>
+          <li>Get room type by ID</li>
+          <li>Create room type</li>
+          <li>Update room type</li>
+          <li>Delete room type</li>
+        </ul>
+        <a href="https://booknestapi.netlify.app/roomtype_docs"
+          >View full Room Type documentation →</a
+        >
+      </div>
+
+      <hr />
+      <p>
+        Each linked page contains full request/response samples, models, and
+        route details.
+      </p>
+    </main>
+
+    <footer>BookNest API Documentation © 2025</footer>
+  </body>
+</html>

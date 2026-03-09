@@ -23,6 +23,7 @@ export interface Hotel {
   address: string;
 }
 
+
 interface MapProps {
   hotels: Hotel[];
   center: [number, number];

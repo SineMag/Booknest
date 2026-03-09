@@ -1,29 +1,93 @@
 .filter,
 .filterModal {
-  display: flex;
-  flex-direction: column;
-  gap: 0.7rem;
+display: flex;
+flex-direction: column;
+gap: 0.7rem;
 }
+
+
+/* MODAL */
 .filterModal {
-  border: 2px solid gray;
-  border-radius: 1rem;
-  padding: 2rem;
+border: 2px solid gray;
+border-radius: 1rem;
+padding: 2rem;
 
-  position: fixed; /* stay fixed on screen */
-  top: 50%; /* center vertically */
-  left: 50%; /* center horizontally */
-  width: 40%;
-  transform: translate(-50%, -50%); /* correct centering */
 
-  background: white; /* optional, so content is visible */
-  z-index: 999; /* ensure it stays above other elements */
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+
+
+background: white;
+z-index: 999;
+
+
+width: 40%;
+max-width: 500px;
+min-width: 280px;
+
+
+box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
+
+/* CLOSE BUTTON */
 .closeButton {
-  position: absolute;
-  top: 2%;
-  right: 2%;
+position: absolute;
+top: 1rem;
+right: 1rem;
+font-size: 1.4rem;
+background: transparent;
+border: none;
+cursor: pointer;
+}
+
+
+/* BACKDROP */
+.backdrop {
+position: fixed;
+inset: 0;
+background: rgba(0, 0, 0, 0.35);
+z-index: 998;
+backdrop-filter: blur(2px);
+}
+
+
+/* PRICE SLIDER */
+.sliderGroup {
+display: flex;
+flex-direction: column;
+gap: 0.6rem;
+}
+
+
+.sliderGroup input[type="range"] {
+width: 100%;
+}
+
+
+/* STAR RATING */
+.stars {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.star {
   font-size: 1.5rem;
-  border: none;
-  background-color: white;
+  color: #ccc; /* default gray */
+  transition: color 0.2s ease;
+}
+
+.star.active {
+  color: #ffc107; /* yellow for active stars */
+}
+
+/* DROPDOWN */
+.dropdown {
+padding: 0.6rem;
+border-radius: 0.5rem;
+border: 1px solid #ccc;
+font-size: 1rem;
 }

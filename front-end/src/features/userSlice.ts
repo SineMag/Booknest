@@ -1,19 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import type { IUser } from "../types/User";
 
 const API_BASE_URL = "https://booknestapi.netlify.app/";
-
-export interface User {
-  id?: number;
-  firstName: string;
-  lastName: string;
-  emailAddress: string;
-  physicalAddress: string;
-  phoneNumber: string;
-  password: string;
-  profilePicUrl?: string;
-  createdAt?: Date;
-}
 
 export interface LoginCredentials {
   emailAddress: string;
@@ -22,13 +11,10 @@ export interface LoginCredentials {
 
 export const createUser = createAsyncThunk(
   "user/createUser",
-  async (user: User, { rejectWithValue }) => {
+  async (user: IUser, { rejectWithValue }) => {
     try {
       console.log("register thunk...");
-      const response = await axios.post(
-        API_BASE_URL + "/auth/register",
-        user
-      );
+      const response = await axios.post(API_BASE_URL + "/auth/register", user);
       console.log(response);
       if (response.status === 201) return response.data;
       else return rejectWithValue(response.data.message);
@@ -59,7 +45,7 @@ export const loginUser = createAsyncThunk(
 
 export const updateProfile = createAsyncThunk(
   "user/updateProfile",
-  async (user: User, { rejectWithValue }) => {
+  async (user: IUser, { rejectWithValue }) => {
     try {
       console.log("update thunk...");
       const response = await axios.put(
@@ -78,19 +64,26 @@ export const updateProfile = createAsyncThunk(
 const userFromLocalStorage = localStorage.getItem("user");
 
 const initialState = {
-  user: userFromLocalStorage ? JSON.parse(userFromLocalStorage) : null,
+  user: userFromLocalStorage
+    ? (JSON.parse(userFromLocalStorage) as IUser)
+    : null,
   isLoggedIn: !!userFromLocalStorage, // Set isLoggedIn based on localStorage presence
   errorMessage: "",
+  showProfileMenuSelector: false, // New state property
 };
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    logout: (state) => { // Add a logout reducer
+    logout: (state) => {
       state.user = null;
       state.isLoggedIn = false;
       localStorage.removeItem("user");
+    },
+    setShowProfileMenuSelector: (state, action) => {
+      // New reducer
+      state.showProfileMenuSelector = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -126,5 +119,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions; // Export logout action
+export const { logout, setShowProfileMenuSelector } = userSlice.actions; // Export logout action
 export default userSlice.reducer;

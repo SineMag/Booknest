@@ -34,7 +34,7 @@ export const getUsersQuery = () => sql`
   SELECT * FROM users;`;
 
 export const getUserByIdQuery = (id: number) => sql`
-  SELECT * FROM users WHERE id=${id};`;
+  SELECT * FROM users WHERE id=${id} LIMIT 1;`;
 
 export const putIntoUserQuery = (id: number, user: User) => sql`
   UPDATE users SET firstName=${user.firstName} , lastName=${user.lastName}, emailAddress=${user.emailAddress}, physicalAddress=${user.physicalAddress}, phoneNumber=${user.phoneNumber}, profilePicUrl=${user.profilePicUrl}, password=${user.password} WHERE id=${id};`;

@@ -2,12 +2,18 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./src/features/userSlice";
 import bookingReducer from "./src/features/bookingSlice";
 import paymentReducer from "./src/features/paymentSlice";
+import hotelReducer from "./src/features/InventoryManagementSlice";
+import accomodationReducer from "./src/features/accomodationSlice";
+import favoritesReducer from "./src/features/favoritesSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     booking: bookingReducer,
     payment: paymentReducer,
+    hotels: hotelReducer,
+    accomodation: accomodationReducer,
+    favorites: favoritesReducer,
   },
 });
 

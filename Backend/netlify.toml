@@ -20,5 +20,35 @@
   to = "/.netlify/functions/payment/:splat"
   status = 200
 
+[[redirects]]
+  from = "/accomodations/*"
+  to = "/.netlify/functions/accomodations/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/room_types/*"
+  to = "/.netlify/functions/room_types/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/bookings/*"
+  to = "/.netlify/functions/bookings/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/reviews/*"
+  to = "/.netlify/functions/reviews/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/favourites/*"
+  to = "/.netlify/functions/favourites/:splat"
+  status = 200
+  
+[[redirects]]
+  from = "/admin/*"
+  to = "/.netlify/functions/admin/:splat"
+  status = 200
+
 [functions]
   node_bundler = "esbuild"

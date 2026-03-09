@@ -4,17 +4,17 @@
   justify-content: center;
   width: 2.4rem;
   height: 2.4rem;
-  background: white;
+  background: #42342B;
   border-radius: 50%;
   cursor: pointer;
   transition: background 0.2s, transform 0.1s;
 }
 
 .profile-icon:hover {
-  background: #1d4ed8;
-  transform: scale(1.05);
+  background: #42342B;
+  transform: scale(1);
 }
 
 .profile-icon svg {
-  fill: #000; /* change icon color here if needed */
+  fill: white; /* change icon color here if needed */
 }

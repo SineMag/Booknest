@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import InputField from "../../components/InputField/InputField";
-import Navbar from "../../components/NavBar/Navbar";
 import Button from "../../components/Button/Button";
-import Footer from "../../components/footer/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { createUser } from "../../features/userSlice";
-import { type AppDispatch, type RootState } from "../../../store";
-import { useDispatch, useSelector } from "react-redux";
+import { type AppDispatch } from "../../../store";
+import { useDispatch } from "react-redux";
+import styles from "./UserRegister.module.css";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 
 const UserRegister: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -18,17 +18,50 @@ const UserRegister: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState(""); // state for confirm password
   const [phoneNumber, setPhoneNumber] = useState(""); // state for phone number
   const [physicalAddress, setPhysicalAddress] = useState(""); // state for physical address
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    emailAddress: "",
+    password: "",
+    confirmPassword: "",
+    phoneNumber: "",
+    physicalAddress: "",
+  });
+  const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
-  const { user } = useSelector((state: RootState) => state.user);
+  // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
 
-  // useEffect
   useEffect(() => {
-    if (user) {
-      console.log("user: ", user);
-      navigate("/login");
+    validateForm();
+  }, [firstName, lastName, emailAddress, password, confirmPassword, phoneNumber, physicalAddress]);
+
+  const validateForm = () => {
+    const newErrors = {
+      firstName: "",
+      lastName: "",
+      emailAddress: "",
+      password: "",
+      confirmPassword: "",
+      phoneNumber: "",
+      physicalAddress: "",
+    };
+
+    if (!firstName) newErrors.firstName = "First name is required";
+    if (!lastName) newErrors.lastName = "Last name is required";
+    if (!emailAddress) newErrors.emailAddress = "Email address is required";
+    if (!password) newErrors.password = "Password is required";
+    if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    if (!phoneNumber) {
+      newErrors.phoneNumber = "Phone number is required";
+    } else if (!/^0[0-9]{9}$/.test(phoneNumber)) {
+      newErrors.phoneNumber = "Phone number must be a 10-digit South African number starting with a 0";
     }
-  }, [user]);
+    if (!physicalAddress) newErrors.physicalAddress = "Physical address is required";
+
+    setErrors(newErrors);
+    setIsFormValid(Object.values(newErrors).every((error) => error === ""));
+  };
 
   const handleRegister = () => {
     console.log("registering user...");
@@ -42,54 +75,54 @@ const UserRegister: React.FC = () => {
         physicalAddress,
       })
     );
+    navigate("/login");
   };
 
   return (
     <>
-      <Navbar />
       <div className="loginPage">
         <div className="loginContainer">
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
             Register
           </h2>
           <InputField
-            placeholder="First Name"
+            placeholder="First Name *"
             type="text"
             field={firstName} // current value
             setField={setFirstName} // setter function
           />
           <InputField
-            placeholder="last name"
+            placeholder="Last name *"
             type="text"
             field={lastName} // current value
             setField={setLastName} // setter function
           />
           <InputField
-            placeholder="email address"
+            placeholder="Email address *"
             type="text"
             field={emailAddress} // current value
             setField={setEmailAddress} // setter function
           />
           <InputField
-            placeholder="password"
+            placeholder="Password *"
             type="password"
             field={password} // current value
             setField={setPassword} // setter function
           />
           <InputField
-            placeholder="confirm password"
+            placeholder="Confirm password *"
             type="password"
             field={confirmPassword} // current value
             setField={setConfirmPassword} // setter function
           />
           <InputField
-            placeholder="phone number"
+            placeholder="Phone number *"
             type="number"
             field={phoneNumber} // current value
             setField={setPhoneNumber} // setter function
           />
           <InputField
-            placeholder="physical address"
+            placeholder="Physical address *"
             type="text"
             field={physicalAddress} // current value
             setField={setPhysicalAddress} // setter function
@@ -108,12 +141,28 @@ const UserRegister: React.FC = () => {
             </Link>
           </p>
           <br />
-          <Button variant="primary" width={100} onClick={handleRegister}>
+          <Button variant="primary" width={100} onClick={handleRegister} disabled={!isFormValid}>
             Register
           </Button>
+          <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>
+          <div className={styles.oauthIcons}>
+            <a
+              href="#"
+              onClick={() => alert("Google Login Button/Icon (not functional)")}
+            >
+              <FaGoogle size={30} />
+            </a>
+            <a
+              href="#"
+              onClick={() =>
+                alert("Facebook Login Button/Icon (not functional)")
+              }
+            >
+              <FaFacebook size={30} />
+            </a>
+          </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

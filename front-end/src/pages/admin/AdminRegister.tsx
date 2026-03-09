@@ -1,13 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-
-import Navbar from "../../components/NavBar/Navbar";
-import Footer from "../../components/footer/Footer";
 import InputField from "../../components/InputField/InputField";
 import Button from "../../components/Button/Button";
 
+
 export default function AdminRegister() {
-  // --- Form State ---
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [userName, setUserName] = useState("");
@@ -15,7 +12,6 @@ export default function AdminRegister() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // --- Submit Handler ---
   const handleRegister = () => {
     console.log("Registering admin...", {
       firstName,
@@ -25,17 +21,15 @@ export default function AdminRegister() {
       password,
       confirmPassword,
     });
-    // TODO: Dispatch Redux action or call API
   };
 
-  // --- Inline Styles ---
   const containerStyle = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     padding: "50px 20px",
     background: "#f0f4f8",
-    minHeight: "calc(100vh - 64px)", // subtract navbar height if needed
+    minHeight: "calc(100vh - 64px)",
   };
 
   const formWrapperStyle = {
@@ -76,10 +70,18 @@ export default function AdminRegister() {
     fontWeight: 600,
   };
 
+  const eyeIconStyle = {
+    position: "absolute" as const,
+    right: "12px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    cursor: "pointer",
+    color: "#475569",
+    fontSize: "20px",
+  };
+
   return (
     <>
-      <Navbar />
-
       <div style={containerStyle}>
         <div style={formWrapperStyle}>
           <h2 style={headingStyle}>Admin Register</h2>
@@ -112,6 +114,7 @@ export default function AdminRegister() {
             setField={setWorkEmailAddress}
           />
 
+          {/* Password (InputField provides its own toggle) */}
           <InputField
             placeholder="Password"
             type="password"
@@ -119,6 +122,7 @@ export default function AdminRegister() {
             setField={setPassword}
           />
 
+          {/* Confirm Password (InputField provides its own toggle) */}
           <InputField
             placeholder="Confirm Password"
             type="password"
@@ -132,6 +136,7 @@ export default function AdminRegister() {
               Sign In
             </Link>
           </p>
+
           <Link to="/login">
             <Button
               variant="primary"
@@ -143,8 +148,6 @@ export default function AdminRegister() {
           </Link>
         </div>
       </div>
-
-      <Footer />
     </>
   );
 }
