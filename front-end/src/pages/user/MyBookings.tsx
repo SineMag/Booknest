@@ -11,13 +11,11 @@ import Button from "../../components/Button/Button";
 
 const MyBookings: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { bookings, loading, error } = useSelector(
-    (state: RootState) => state.booking
-  );
+  const { bookings, error } = useSelector((state: RootState) => state.booking);
   const { user } = useSelector((state: RootState) => state.user);
   console.log("User object from Redux store:", user);
   const { accomodations } = useSelector(
-    (state: RootState) => state.accomodation
+    (state: RootState) => state.accomodation,
   );
 
   useEffect(() => {
@@ -29,7 +27,7 @@ const MyBookings: React.FC = () => {
 
   const getAccommodationName = (accommodationId: number) => {
     const accommodation = accomodations.find(
-      (acc) => acc.id === accommodationId
+      (acc) => acc.id === accommodationId,
     );
     return accommodation?.name || "N/A";
   };
@@ -78,10 +76,10 @@ const MyBookings: React.FC = () => {
           {bookings.map((booking) => (
             <BookingListItem
               key={booking.id}
-              bookingId={booking.id!}
-              accommodationName={getAccommodationName(booking.accommodationid)}
-              checkIn={new Date(booking.checkindate).toLocaleDateString()}
-              checkOut={new Date(booking.checkoutdate).toLocaleDateString()}
+              // bookingId={booking.id!}
+              accommodationName={getAccommodationName(booking.accommodationId)}
+              checkIn={new Date(booking.checkInDate).toLocaleDateString()}
+              checkOut={new Date(booking.checkOutDate).toLocaleDateString()}
               status={booking.status as "Pending" | "Approved" | "Declined"}
               onCancel={() => console.log("Cancel booking")}
               onEdit={() => console.log("Edit booking")}
@@ -89,9 +87,9 @@ const MyBookings: React.FC = () => {
               onFavorite={() => console.log("Favorite booking")}
               onReview={() => {}}
               isFavorite={false} // Hardcoded for now
-              numberOfGuests={booking.numberofguests}
-              totalPrice={booking.totalprice}
-              specialRequest={booking.specialrequest}
+              numberOfGuests={booking.numberOfGuests}
+              totalPrice={booking.totalPrice}
+              specialRequest={booking.specialRequest}
               roomType={booking.roomType}
             />
           ))}

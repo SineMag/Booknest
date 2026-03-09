@@ -27,7 +27,7 @@ export default function AccomodationDetails() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { current, loading, error } = useSelector(
+  const { current, loading } = useSelector(
     (state: RootState) => state.accomodation
   );
 

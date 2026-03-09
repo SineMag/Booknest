@@ -9,39 +9,39 @@ import type { AppDispatch, RootState } from "../../../store";
 import bedImage from "../../images/bed.png"; // Import the local image
 
 import {
-  FaWifi,
-  FaTv,
-  FaFan,
-  FaGlassWhiskey,
-  FaHotTub,
+  // FaWifi,
+  // FaTv,
+  // FaFan,
+  // FaGlassWhiskey,
+  // FaHotTub,
+  // FaSwimmingPool,
   FaBed,
   FaCouch,
   FaCrown,
-  FaSwimmingPool,
 } from "react-icons/fa";
 
 import styles from "./Booking.module.css"; // Import the CSS module
 import { initializePayment } from "../../features/paymentSlice";
-import type { Booking, IBooking } from "../../types/Booking";
+import type { Booking } from "../../types/Booking";
 
-const getAmenityIcon = (amenity: string) => {
-  switch (amenity) {
-    case "Wifi":
-      return <FaWifi />;
-    case "TV":
-      return <FaTv />;
-    case "AC":
-      return <FaFan />; // Using FaFan for AC
-    case "Mini-bar":
-      return <FaGlassWhiskey />;
-    case "Jacuzzi":
-      return <FaHotTub />;
-    case "Indoor Pool":
-      return <FaSwimmingPool />;
-    default:
-      return null;
-  }
-};
+// const getAmenityIcon = (amenity: string) => {
+//   switch (amenity) {
+//     case "Wifi":
+//       return <FaWifi />;
+//     case "TV":
+//       return <FaTv />;
+//     case "AC":
+//       return <FaFan />; // Using FaFan for AC
+//     case "Mini-bar":
+//       return <FaGlassWhiskey />;
+//     case "Jacuzzi":
+//       return <FaHotTub />;
+//     case "Indoor Pool":
+//       return <FaSwimmingPool />;
+//     default:
+//       return null;
+//   }
+// };
 
 const roomTypes = [
   {
@@ -127,14 +127,14 @@ export default function Booking() {
 
     if (new Date(checkOut) < new Date(checkIn)) {
       setErrorMessage(
-        "Check-out date cannot be earlier than the check-in date."
+        "Check-out date cannot be earlier than the check-in date.",
       );
       return;
     }
 
     if (!accId || isNaN(accId)) {
       setErrorMessage(
-        "Accommodation ID is missing or invalid. Please select an accommodation first."
+        "Accommodation ID is missing or invalid. Please select an accommodation first.",
       );
       // navigate("/"); // Removed automatic navigation
       return;
@@ -176,7 +176,7 @@ export default function Booking() {
         email: "msizi@example.com",
         amount: 1000,
         callback_url: "https://booknest-j3la.onrender.com/",
-      })
+      }),
     );
   };
 

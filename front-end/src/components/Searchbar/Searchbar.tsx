@@ -1,4 +1,4 @@
-import Reac, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import styles from "./Searchbar.module.css";
 
@@ -29,25 +29,25 @@ export default function SearchBar({
     if (onSearch) onSearch("");
   };
 
-    return (
-      <div className="seshi">
-        <div className={styles.container}>
-          <FaSearch className={styles.icon} />
+  return (
+    <div className="seshi">
+      <div className={styles.container}>
+        <FaSearch className={styles.icon} />
 
-          <input
-            type="text"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-            placeholder={placeholder}
-            className={styles.input}
-          />
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          placeholder={placeholder}
+          className={styles.input}
+        />
 
-          {value && (
-            <button className={styles.clearBtn} onClick={clearInput}>
-              ✖
-            </button>
-          )}
-        </div>
+        {value && (
+          <button className={styles.clearBtn} onClick={clearInput}>
+            ✖
+          </button>
+        )}
       </div>
-    );
+    </div>
+  );
 }

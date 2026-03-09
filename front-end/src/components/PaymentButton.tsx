@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../store";
 import { initializePayment } from "../features/paymentSlice";
 import { useEffect, useState } from "react";
-import type PaystackPop from "@paystack/inline-js";
+// import type PaystackPop from "@paystack/inline-js";
 
 export default function PaymentButton() {
   const dispatch = useDispatch<AppDispatch>();

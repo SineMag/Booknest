@@ -1,4 +1,4 @@
-import type { User } from "../features/userSlice";
+import type { User } from "../types/User";
 
 export const setLocalUser = (user: User | {}) =>
   localStorage.setItem("user", JSON.stringify(user));

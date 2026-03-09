@@ -70,15 +70,15 @@ export default function AdminRegister() {
     fontWeight: 600,
   };
 
-  const eyeIconStyle = {
-    position: "absolute" as const,
-    right: "12px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    cursor: "pointer",
-    color: "#475569",
-    fontSize: "20px",
-  };
+  // const eyeIconStyle = {
+  //   position: "absolute" as const,
+  //   right: "12px",
+  //   top: "50%",
+  //   transform: "translateY(-50%)",
+  //   cursor: "pointer",
+  //   color: "#475569",
+  //   fontSize: "20px",
+  // };
 
   return (
     <>
