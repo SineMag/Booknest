@@ -15,7 +15,6 @@ import styles from "./BookingListItem.module.css";
 type BookingStatus = "Pending" | "Approved" | "Declined";
 
 interface BookingListItemProps {
-  bookingId: string;
   accommodationName: string;
   checkIn: string;
   checkOut: string;
@@ -23,8 +22,8 @@ interface BookingListItemProps {
   onCancel: () => void;
   onReview: () => void;
   onDelete: () => void;
-  onEdit: () => void;
   onFavorite: () => void;
+  onEdit: () => void;
   isFavorite: boolean;
   numberOfGuests: number;
   totalPrice?: string | number;
@@ -33,7 +32,6 @@ interface BookingListItemProps {
 }
 
 const BookingListItem: React.FC<BookingListItemProps> = ({
-  bookingId,
   accommodationName,
   checkIn,
   checkOut,
@@ -41,7 +39,6 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   onCancel,
   onReview,
   onDelete,
-  onEdit,
   onFavorite,
   isFavorite,
   numberOfGuests,

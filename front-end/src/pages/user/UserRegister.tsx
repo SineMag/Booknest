@@ -18,7 +18,7 @@ const UserRegister: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState(""); // state for confirm password
   const [phoneNumber, setPhoneNumber] = useState(""); // state for phone number
   const [physicalAddress, setPhysicalAddress] = useState(""); // state for physical address
-  const [errors, setErrors] = useState({
+  const [user, setUser] = useState({
     firstName: "",
     lastName: "",
     emailAddress: "",
@@ -31,13 +31,22 @@ const UserRegister: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
+  console.log(user);
 
   useEffect(() => {
     validateForm();
-  }, [firstName, lastName, emailAddress, password, confirmPassword, phoneNumber, physicalAddress]);
+  }, [
+    firstName,
+    lastName,
+    emailAddress,
+    password,
+    confirmPassword,
+    phoneNumber,
+    physicalAddress,
+  ]);
 
   const validateForm = () => {
-    const newErrors = {
+    const newUser = {
       firstName: "",
       lastName: "",
       emailAddress: "",
@@ -47,34 +56,38 @@ const UserRegister: React.FC = () => {
       physicalAddress: "",
     };
 
-    if (!firstName) newErrors.firstName = "First name is required";
-    if (!lastName) newErrors.lastName = "Last name is required";
-    if (!emailAddress) newErrors.emailAddress = "Email address is required";
-    if (!password) newErrors.password = "Password is required";
-    if (password !== confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    if (!firstName) newUser.firstName = "First name is required";
+    if (!lastName) newUser.lastName = "Last name is required";
+    if (!emailAddress) newUser.emailAddress = "Email address is required";
+    if (!password) newUser.password = "Password is required";
+    if (password !== confirmPassword)
+      newUser.confirmPassword = "Passwords do not match";
     if (!phoneNumber) {
-      newErrors.phoneNumber = "Phone number is required";
+      newUser.phoneNumber = "Phone number is required";
     } else if (!/^0[0-9]{9}$/.test(phoneNumber)) {
-      newErrors.phoneNumber = "Phone number must be a 10-digit South African number starting with a 0";
+      newUser.phoneNumber =
+        "Phone number must be a 10-digit South African number starting with a 0";
     }
-    if (!physicalAddress) newErrors.physicalAddress = "Physical address is required";
+    if (!physicalAddress)
+      newUser.physicalAddress = "Physical address is required";
 
-    setErrors(newErrors);
-    setIsFormValid(Object.values(newErrors).every((error) => error === ""));
+    setUser(newUser);
+    setIsFormValid(Object.values(newUser).every((error) => error === ""));
   };
 
   const handleRegister = () => {
     console.log("registering user...");
     dispatch(
       createUser({
-        firstName,
-        lastName,
-        emailAddress,
-        password,
-        phoneNumber,
-        physicalAddress,
-      })
+        firstname: firstName,
+        lastname: lastName,
+        emailaddress: emailAddress,
+        password: password,
+        phonenumber: phoneNumber,
+        physicaladdress: physicalAddress,
+      }),
     );
+
     navigate("/login");
   };
 
@@ -141,7 +154,12 @@ const UserRegister: React.FC = () => {
             </Link>
           </p>
           <br />
-          <Button variant="primary" width={100} onClick={handleRegister} disabled={!isFormValid}>
+          <Button
+            variant="primary"
+            width={100}
+            onClick={handleRegister}
+            disabled={!isFormValid}
+          >
             Register
           </Button>
           <p style={{ textAlign: "center", margin: "1rem 0" }}>OR</p>

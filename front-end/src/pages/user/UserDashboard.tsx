@@ -19,11 +19,7 @@ const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const {
-    hotels: allHotels,
-    loading,
-    error,
-  } = useSelector((state: RootState) => state.hotels);
+  const { hotels: allHotels } = useSelector((state: RootState) => state.hotels);
   const { favoriteIds } = useSelector((state: RootState) => state.favorites);
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -68,7 +64,7 @@ const UserDashboard: React.FC = () => {
 
   // Filter by search term (location)
   const displayedHotels = filteredHotels.filter((hotel) =>
-    hotel.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase())
+    hotel.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   return (
@@ -110,7 +106,7 @@ const UserDashboard: React.FC = () => {
             placeholder="Search by location..."
             onSearch={setSearchTerm}
           />
-          <Filter data={allHotels} onFilter={setFilteredHotels} />
+          <Filter data={allHotels} onFilter={() => setFilteredHotels} />
         </div>
 
         <div
@@ -121,7 +117,7 @@ const UserDashboard: React.FC = () => {
             flexWrap: "wrap",
           }}
         >
-          {displayedHotels.map((acc, index) => (
+          {displayedHotels.map((acc) => (
             <DashboardCard
               key={acc.id}
               image={acc.imagegallery?.[0] ?? "/placeholder-hotel.jpg"}

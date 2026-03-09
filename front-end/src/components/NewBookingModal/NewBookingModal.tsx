@@ -7,7 +7,7 @@ import styles from "./NewBookingModal.module.css";
 import { DateRangePicker } from 'react-date-range';
 import { addDays } from 'date-fns';
 
-type BookingStatus = "Pending" | "Approved" | "Declined";
+// type BookingStatus = "Pending" | "Approved" | "Declined";
 
 const mockAccommodations = [
   "Cozy Cottage",

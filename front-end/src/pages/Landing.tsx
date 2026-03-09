@@ -10,7 +10,6 @@ import {
 
 import HeroSection from "../components/heroSection/HeroSection";
 import SnackbarComponent from "../components/Snackbar/snackbar";
-import Button from "../components/Button/Button";
 import ReviewModal from "../components/ReviewModal/ReviewModal";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
 import { useSelector } from "react-redux";
@@ -177,7 +176,10 @@ const Landing: React.FC = () => {
               key={i}
               reviewer={t.name}
               starRatings={5}
-              comment={t.comment}
+              // TODO
+              reviewText=""
+              date=""
+              // comment={t.comment}
             />
           ))}
         </div>

@@ -122,7 +122,6 @@ const EditBookingModal: React.FC<EditBookingModalProps> = ({
             <DateRangePicker
               ranges={dateRange}
               onChange={handleDateChange}
-              showSelectionPreview={true}
               moveRangeOnFirstSelection={false}
               months={1}
               direction="horizontal"

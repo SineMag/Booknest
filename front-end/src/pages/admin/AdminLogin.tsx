@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../store";
 import { setLocalUser } from "../../utils/LocalStorage";
 import { loginUser } from "../../features/userSlice";
-import Filter from "../../components/Filter/Filter";
+// import Filter from "../../components/Filter/Filter";
 
 const AdminLogin: React.FC = () => {
   const [emailAddress, setEmailAddress] = useState("");
@@ -67,7 +67,7 @@ const AdminLogin: React.FC = () => {
     <>
       <div className="loginPage">
         <div className="loginContainer">
-          <Filter />
+          {/* <Filter /> */}
 
           <h2 style={{ textAlign: "center", marginBottom: "1rem" }}>
             Admin Login
