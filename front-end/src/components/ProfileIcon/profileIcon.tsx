@@ -1,6 +1,6 @@
 import { FaUserCircle } from "react-icons/fa";
 import type { MouseEventHandler } from "react";
-import styles from "./ProfileIcon.module.css";
+import styles from "./profileIcon.module.css";
 
 type ProfileIconProps = {
   onClick?: MouseEventHandler<HTMLSpanElement>;
