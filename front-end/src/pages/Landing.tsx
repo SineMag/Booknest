@@ -15,7 +15,6 @@ import ReviewModal from "../components/ReviewModal/ReviewModal";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
-import { getAllReviews } from "../service/api";
 import { fetchHotels, type Hotel } from "../features/InventoryManagementSlice";
 
 const Landing: React.FC = () => {
@@ -26,10 +25,32 @@ const Landing: React.FC = () => {
 
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-  const [reviews, setReviews] = useState<any[]>([]);
-  const [reviewsLoading, setReviewsLoading] = useState(true);
 
   /* ------------------------------ SAMPLE DATA ------------------------------ */
+
+  const testimonials = [
+    {
+      id: 1,
+      reviewer: "Sarah Johnson",
+      starRatings: 5,
+      reviewText: "Amazing experience! The hotel was clean, staff was friendly, and the location was perfect. Will definitely book again!",
+      date: "2025-03-15"
+    },
+    {
+      id: 2,
+      reviewer: "Michael Chen",
+      starRatings: 4,
+      reviewText: "Great value for money. The room was spacious and comfortable. Only minor issue was the breakfast service, but overall excellent stay.",
+      date: "2025-03-10"
+    },
+    {
+      id: 3,
+      reviewer: "Amanda Smith",
+      starRatings: 5,
+      reviewText: "Absolutely loved our stay! The view from our room was breathtaking and the amenities were top-notch. Highly recommend!",
+      date: "2025-03-08"
+    }
+  ];
 
   const propertyTypes = [
     {
@@ -72,26 +93,8 @@ const Landing: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        setReviewsLoading(true);
-        const response = await getAllReviews();
-        // Get the latest 3 reviews for the landing page
-        const latestReviews = response.data
-          .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-          .slice(0, 3);
-        setReviews(latestReviews);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      } finally {
-        setReviewsLoading(false);
-      }
-    };
-
     // Fetch hotels using Redux action (same as UserDashboard)
     dispatch(fetchHotels());
-
-    fetchReviews();
   }, [dispatch]);
 
   return (
@@ -213,64 +216,17 @@ const Landing: React.FC = () => {
       {/* ------------------------------ TESTIMONIALS ------------------------------ */}
       <section className="luxury-section">
         <h2 className="luxury-title">What Guests Say</h2>
-        {reviewsLoading ? (
-          <div className="lux-testimonial-grid">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} style={{ 
-                background: '#f5f5f5', 
-                borderRadius: '8px', 
-                padding: '20px',
-                border: '1px solid #ddd',
-                minHeight: '150px'
-              }}>
-                <div style={{ 
-                  display: 'flex', 
-                  justifyContent: 'space-between', 
-                  alignItems: 'center',
-                  marginBottom: '10px'
-                }}>
-                  <div style={{ 
-                    width: '100px', 
-                    height: '20px', 
-                    background: '#e0e0e0', 
-                    borderRadius: '4px' 
-                  }}></div>
-                  <div style={{ 
-                    width: '80px', 
-                    height: '16px', 
-                    background: '#e0e0e0', 
-                    borderRadius: '4px' 
-                  }}></div>
-                </div>
-                <div style={{ 
-                  width: '100%', 
-                  height: '60px', 
-                  background: '#e0e0e0', 
-                  borderRadius: '4px',
-                  marginTop: '10px'
-                }}></div>
-              </div>
-            ))}
-          </div>
-        ) : reviews.length > 0 ? (
-          <div className="lux-testimonial-grid">
-            {reviews.map((review: any, i: number) => (
-              <ReviewCard
-                key={review.id || i}
-                reviewer={review.reviewer}
-                starRatings={review.starRatings}
-                reviewText={review.reviewText}
-                date={new Date(review.createdAt).toLocaleDateString()}
-              />
-            ))}
-          </div>
-        ) : (
-          <div className="lux-testimonial-grid">
-            <p style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
-              No reviews yet. Be the first to share your experience!
-            </p>
-          </div>
-        )}
+        <div className="lux-testimonial-grid">
+          {testimonials.map((testimonial, i) => (
+            <ReviewCard
+              key={testimonial.id || i}
+              reviewer={testimonial.reviewer}
+              starRatings={testimonial.starRatings}
+              reviewText={testimonial.reviewText}
+              date={new Date(testimonial.date).toLocaleDateString()}
+            />
+          ))}
+        </div>
       </section>
       {/* Snackbar & Review Modal */}
       <ReviewModal

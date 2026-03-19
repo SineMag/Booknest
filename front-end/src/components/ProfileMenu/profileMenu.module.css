@@ -24,7 +24,7 @@
   top: 100%; /* distance below the icon */
   margin-top: 8px;
   right: 0;
-  background: white; /* Clean white background */
+  background: black; /* Clean white background */
   border-radius: 8px;
   padding: 8px; /* Slightly reduced padding */
   width: 200px; /* Wider for a more modern feel */
