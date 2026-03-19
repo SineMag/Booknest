@@ -3,6 +3,8 @@ import Footer from "./components/footer/Footer";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
 import UserLogin from "./pages/user/UserLogin";
 import Error404 from "../src/pages/user/Error404";
 import UserRegister from "./pages/user/UserRegister";
@@ -27,6 +29,8 @@ function App() {
     <main className="main-section">
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<UserLogin />} />
 
         {/* User */}

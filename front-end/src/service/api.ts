@@ -15,12 +15,21 @@ export const toggleFavorite = async (hotelId: number, isLiked: boolean) => {
   return addFavorite(hotelId);
 };
 
-
 export const getUserDetails = () => axios.get("/user/details");
 
 export const updateUserDetails = async (userId: number, payload: any) => {
   return api.put(`/users/${userId}`, payload);
 };
+
+// Review API functions
+export const getAllReviews = () => api.get("/reviews");
+
+export const getReviewsByAccommodationId = (accommodationId: number) => 
+  api.get(`/reviews/accommodation/${accommodationId}`);
+
+export const createReview = (reviewData: any) => 
+  api.post("/reviews", reviewData);
+
 const api = axios.create({
   baseURL: "https://booknestapi.netlify.app/", 
   headers: {},

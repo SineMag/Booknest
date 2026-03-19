@@ -14,12 +14,15 @@ import ReviewModal from "../components/ReviewModal/ReviewModal";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store";
+import { getAllReviews } from "../service/api";
 
 const Landing: React.FC = () => {
   const user = useSelector((state: RootState) => state.user?.user || null);
 
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
 
   /* ------------------------------ SAMPLE DATA ------------------------------ */
 
@@ -84,21 +87,31 @@ const Landing: React.FC = () => {
     },
   ];
 
-  const testimonials = [
-    { name: "John D.", stay: "Deluxe Room", comment: "Amazing stay!" },
-    { name: "Sarah M.", stay: "Family Suite", comment: "Perfect family trip!" },
-    {
-      name: "Michael T.",
-      stay: "Business Suite",
-      comment: "Fast WiFi + quiet.",
-    },
-  ];
-
   /* ------------------------------ EFFECTS ------------------------------ */
 
   useEffect(() => {
     if (!user) setShowSnackbar(true);
   }, [user]);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        setReviewsLoading(true);
+        const response = await getAllReviews();
+        // Get the latest 3 reviews for the landing page
+        const latestReviews = response.data
+          .sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+          .slice(0, 3);
+        setReviews(latestReviews);
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      } finally {
+        setReviewsLoading(false);
+      }
+    };
+
+    fetchReviews();
+  }, []);
 
   return (
     <div className="landing-wrapper">
@@ -170,19 +183,64 @@ const Landing: React.FC = () => {
       {/* ------------------------------ TESTIMONIALS ------------------------------ */}
       <section className="luxury-section">
         <h2 className="luxury-title">What Guests Say</h2>
-        <div className="lux-testimonial-grid">
-          {testimonials.map((t, i) => (
-            <ReviewCard
-              key={i}
-              reviewer={t.name}
-              starRatings={5}
-              // TODO
-              reviewText=""
-              date=""
-              // comment={t.comment}
-            />
-          ))}
-        </div>
+        {reviewsLoading ? (
+          <div className="lux-testimonial-grid">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} style={{ 
+                background: '#f5f5f5', 
+                borderRadius: '8px', 
+                padding: '20px',
+                border: '1px solid #ddd',
+                minHeight: '150px'
+              }}>
+                <div style={{ 
+                  display: 'flex', 
+                  justifyContent: 'space-between', 
+                  alignItems: 'center',
+                  marginBottom: '10px'
+                }}>
+                  <div style={{ 
+                    width: '100px', 
+                    height: '20px', 
+                    background: '#e0e0e0', 
+                    borderRadius: '4px' 
+                  }}></div>
+                  <div style={{ 
+                    width: '80px', 
+                    height: '16px', 
+                    background: '#e0e0e0', 
+                    borderRadius: '4px' 
+                  }}></div>
+                </div>
+                <div style={{ 
+                  width: '100%', 
+                  height: '60px', 
+                  background: '#e0e0e0', 
+                  borderRadius: '4px',
+                  marginTop: '10px'
+                }}></div>
+              </div>
+            ))}
+          </div>
+        ) : reviews.length > 0 ? (
+          <div className="lux-testimonial-grid">
+            {reviews.map((review: any, i: number) => (
+              <ReviewCard
+                key={review.id || i}
+                reviewer={review.reviewer}
+                starRatings={review.starRatings}
+                reviewText={review.reviewText}
+                date={new Date(review.createdAt).toLocaleDateString()}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="lux-testimonial-grid">
+            <p style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
+              No reviews yet. Be the first to share your experience!
+            </p>
+          </div>
+        )}
       </section>
       {/* Snackbar & Review Modal */}
       <ReviewModal
