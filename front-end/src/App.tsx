@@ -27,22 +27,22 @@ function App() {
     <main className="main-section">
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/login" element={<UserLogin />} />
+        <Route path="/user-login" element={<UserLogin />} />
 
         {/* User */}
-        <Route path="/register" element={<UserRegister />} />
-        <Route path="/booking/" element={<Booking />} />
-        <Route path="/dashboard" element={<UserDashboard />} />
+        <Route path="/user-register" element={<UserRegister />} />
+        <Route path="/user-booking/" element={<Booking />} />
+        <Route path="/user-dashboard" element={<UserDashboard />} />
 
         <Route
-          path="/accomodation-details/:id"
+          path="/user-accomodation-details/:id"
           element={<AccomodationDetails />}
         />
-        <Route path="/confirmation" element={<Confirmation />} />
-        <Route path="/my-bookings" element={<MyBookings />} />
-        <Route path="/profile" element={<UserProfile />} />
-        <Route path="/my-favorites" element={<MyFavorites />} />
-        <Route path="/adminLogin" element={<AdminLogin />} />
+        <Route path="/user-confirmation" element={<Confirmation />} />
+        <Route path="/user-my-bookings" element={<MyBookings />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/user-my-favorites" element={<MyFavorites />} />
+        {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
 
         {/* Admin */}
@@ -50,14 +50,14 @@ function App() {
         <Route path="/admin-register" element={<AdminRegister />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/inventory-management" element={<InventoryManagement />} />
+        <Route path="/admin-inventory-management" element={<InventoryManagement />} />
         <Route
-          path="/reservation-management"
+          path="/admin-reservation-management"
           element={<ReservationManagement />}
         />
 
         {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
-        <Route path="/inventoryManagement" element={<InventoryManagement />} />
+        {/* <Route path="/admin-inventoryManagement" element={<InventoryManagement />} /> */}
         {/* <Route path="/reservationManagement" element={<ReservationManagement />} /> */}
 
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}

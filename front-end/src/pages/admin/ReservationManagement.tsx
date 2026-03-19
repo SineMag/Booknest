@@ -3,6 +3,8 @@ import BookingListItem from "../../components/BookingListItem/BookingListItem";
 import EditBookingModal from "../../components/EditBookingModal/EditBookingModal";
 import styles from "./ReservationManagement.module.css";
 import Button from "../../components/Button/Button";
+import { useNavigate } from "react-router";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 
 type BookingStatus = "Pending" | "Approved" | "Declined";
 
@@ -41,6 +43,9 @@ const mockBookings = [
 ];
 
 export default function ReservationManagement() {
+  const navigate = useNavigate();
+   
+
   const [bookings, setBookings] = useState(
     mockBookings.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
   );
@@ -84,7 +89,12 @@ export default function ReservationManagement() {
       : bookings.filter((b) => b.status === filterStatus);
 
   return (
-    <div className={styles.pageContainer}>
+    <div className={styles.pageContainer} >
+      <IoArrowBackCircleOutline
+        size={48}
+        style={{ cursor: "pointer" }}
+        onClick={() => navigate(-1)}
+      />
       <div className={styles.container}>
         <div
           style={{

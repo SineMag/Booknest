@@ -35,9 +35,9 @@ export default function ProfileMenu({
     }
   }, [loggedIn, showProfileMenuSelector, dispatch]);
 
-  /** -------------------------------------------
-   * ADVANCED ROLE DETECTION
-   * ------------------------------------------- */
+ 
+  //  * ADVANCED ROLE DETECTION
+ 
   const isAdminFlag = (() => {
     if (!user) return false;
     const u: any = user;
@@ -137,13 +137,13 @@ export default function ProfileMenu({
 
               {subMenu === "user" && (
                 <div className={styles.submenu}>
-                  <Link to="/register" onClick={() => {
+                  <Link to="/user-register" onClick={() => {
                     setOpen(false);
                     dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
                   }}>
                     Register as User
                   </Link>
-                  <Link to="/login" onClick={() => {
+                  <Link to="/user-login" onClick={() => {
                     setOpen(false);
                     dispatch(setShowProfileMenuSelector(false)); // Reset Redux state
                   }}>

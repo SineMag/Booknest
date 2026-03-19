@@ -70,7 +70,7 @@ const UserLogin: React.FC = () => {
       })
     );
     // Navigate after dispatching login
-    navigate("/dashboard");
+    navigate("/user-dashboard");
   };
 
   return (
@@ -104,7 +104,7 @@ const UserLogin: React.FC = () => {
           </div>
 
           <p style={{ margin: ".6rem 0" }}>
-            Don't have an account? <Link to={"/register"}>Sign Up</Link>
+            Don't have an account? <Link to={"/user-register"}>Sign Up</Link>
           </p>
 
           <Button variant="primary" width={100} onClick={handleLogin} disabled={!isFormValid}>

@@ -1,16 +1,16 @@
-import styles from './AdminDashboard.module.css';
-import AdminCard from '../../components/AdminCard/AdminCard';
-import { useNavigate } from 'react-router-dom';
+import styles from "./AdminDashboard.module.css";
+import AdminCard from "../../components/AdminCard/AdminCard";
+import { useNavigate } from "react-router-dom";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
 
   const handleInventoryView = () => {
-    navigate('/inventory-management');
+    navigate("/inventory-management");
   };
 
   const handleReservationView = () => {
-    navigate('/reservation-management');
+    navigate("/reservation-management");
   };
 
   return (
@@ -28,10 +28,7 @@ export default function AdminDashboard() {
           onView={handleReservationView}
         />
       </div>
-      <div className={styles.galleryContainer}>
-        <img src="/public/inventory-placeholder.jpg" alt="Inventory" className={styles.galleryImage} />
-        <img src="/public/reservation-placeholder.jpg" alt="Reservations" className={styles.galleryImage} />
-      </div>
+      <div className={styles.galleryContainer}></div>
     </div>
   );
 }
