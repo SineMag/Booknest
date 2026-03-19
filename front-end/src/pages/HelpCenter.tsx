@@ -1,11 +1,24 @@
 import { Link } from "react-router-dom";
+import { 
+  FaEnvelope, 
+  FaQuestionCircle, 
+  FaHotel, 
+  FaListAlt,
+  FaPhone, 
+  FaComments,
+  FaShieldAlt,
+  FaTools,
+  FaCreditCard,
+  FaUser,
+  FaHome
+} from "react-icons/fa";
 import "./HelpCenter.css";
 
 const HelpCenter = () => {
   const helpCategories = [
     {
       title: "Booking & Reservations",
-      icon: "🏨",
+      icon: <FaHotel />,
       articles: [
         "How to make a booking",
         "Modifying or canceling reservations",
@@ -15,7 +28,7 @@ const HelpCenter = () => {
     },
     {
       title: "Account Management",
-      icon: "👤",
+      icon: <FaUser />,
       articles: [
         "Creating an account",
         "Updating profile information",
@@ -25,7 +38,7 @@ const HelpCenter = () => {
     },
     {
       title: "Property Information",
-      icon: "🏠",
+      icon: <FaHome />,
       articles: [
         "Finding the right accommodation",
         "Understanding property amenities",
@@ -35,7 +48,7 @@ const HelpCenter = () => {
     },
     {
       title: "Payment & Billing",
-      icon: "💳",
+      icon: <FaCreditCard />,
       articles: [
         "Accepted payment methods",
         "Refund policies",
@@ -45,7 +58,7 @@ const HelpCenter = () => {
     },
     {
       title: "Technical Support",
-      icon: "🔧",
+      icon: <FaTools />,
       articles: [
         "Website troubleshooting",
         "Mobile app issues",
@@ -55,7 +68,7 @@ const HelpCenter = () => {
     },
     {
       title: "Safety & Security",
-      icon: "🔒",
+      icon: <FaShieldAlt />,
       articles: [
         "Data protection policies",
         "Safe booking practices",
@@ -70,14 +83,6 @@ const HelpCenter = () => {
       <div className="help-header">
         <h1>Help Center</h1>
         <p>Find answers to common questions and get the support you need</p>
-        <div className="search-bar">
-          <input 
-            type="text" 
-            placeholder="Search for help articles..." 
-            className="search-input"
-          />
-          <button className="search-button">Search</button>
-        </div>
       </div>
 
       <div className="help-content">
@@ -85,22 +90,22 @@ const HelpCenter = () => {
           <h2>Quick Actions</h2>
           <div className="action-grid">
             <Link to="/contact" className="action-card">
-              <div className="action-icon">📧</div>
+              <div className="action-icon"><FaEnvelope /></div>
               <h3>Contact Support</h3>
               <p>Get help from our support team</p>
             </Link>
             <Link to="/faq" className="action-card">
-              <div className="action-icon">❓</div>
+              <div className="action-icon"><FaQuestionCircle /></div>
               <h3>View FAQ</h3>
               <p>Frequently asked questions</p>
             </Link>
             <Link to="/dashboard" className="action-card">
-              <div className="action-icon">🏨</div>
+              <div className="action-icon"><FaHotel /></div>
               <h3>Browse Hotels</h3>
               <p>Find your perfect accommodation</p>
             </Link>
             <Link to="/my-bookings" className="action-card">
-              <div className="action-icon">📋</div>
+              <div className="action-icon"><FaListAlt /></div>
               <h3>My Bookings</h3>
               <p>Manage your reservations</p>
             </Link>
@@ -133,17 +138,17 @@ const HelpCenter = () => {
           <p>Our support team is here to assist you with any questions or concerns.</p>
           <div className="contact-options">
             <div className="contact-option">
-              <h3>📧 Email Support</h3>
+              <h3><FaEnvelope /> Email Support</h3>
               <p>support@booknest.com</p>
               <span className="response-time">Response within 24 hours</span>
             </div>
             <div className="contact-option">
-              <h3>📞 Phone Support</h3>
+              <h3><FaPhone /> Phone Support</h3>
               <p>+27 11 234 5678</p>
               <span className="response-time">Mon-Fri: 8AM-6PM</span>
             </div>
             <div className="contact-option">
-              <h3>💬 Live Chat</h3>
+              <h3><FaComments /> Live Chat</h3>
               <p>Available 24/7</p>
               <span className="response-time">Instant responses</span>
             </div>
