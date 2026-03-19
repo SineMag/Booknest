@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaWifi,
   FaSwimmingPool,
@@ -12,42 +13,43 @@ import HeroSection from "../components/heroSection/HeroSection";
 import SnackbarComponent from "../components/Snackbar/snackbar";
 import ReviewModal from "../components/ReviewModal/ReviewModal";
 import ReviewCard from "../components/ReviewCard/ReviewCard";
-import { useSelector } from "react-redux";
-import type { RootState } from "../../store";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState, AppDispatch } from "../../store";
+import { fetchHotels, type Hotel } from "../features/InventoryManagementSlice";
 
 const Landing: React.FC = () => {
   const user = useSelector((state: RootState) => state.user?.user || null);
+  const { hotels: allHotels, loading: hotelsLoading } = useSelector((state: RootState) => state.hotels);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
 
   /* ------------------------------ SAMPLE DATA ------------------------------ */
 
-  const featuredHotels = [
+  const testimonials = [
     {
-      image:
-        "https://media-cdn.tripadvisor.com/media/photo-s/2c/21/66/38/main-exterior.jpg",
-      title: "Luxury Beach Resort",
-      location: "Durban, KwaZulu-Natal",
-      price: "R4299",
-      rating: 4.8,
+      id: 1,
+      reviewer: "Sarah Johnson",
+      starRatings: 5,
+      reviewText: "Amazing experience! The hotel was clean, staff was friendly, and the location was perfect. Will definitely book again!",
+      date: "2025-03-15"
     },
     {
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo-fplMdzubdT3s_1rVfc7m-qT0xhVq67VBg&s",
-      title: "Mountain View Lodge",
-      location: "Cape Town, Western Cape",
-      price: "R3249",
-      rating: 4.7,
+      id: 2,
+      reviewer: "Michael Chen",
+      starRatings: 4,
+      reviewText: "Great value for money. The room was spacious and comfortable. Only minor issue was the breakfast service, but overall excellent stay.",
+      date: "2025-03-10"
     },
     {
-      image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW9O7VQ1XL8XGSMqMAUdQ7iy3eS1iqMtPnlw&s",
-      title: "Urban Oasis Hotel",
-      location: "Sandton, Gauteng",
-      price: "R5349",
-      rating: 4.9,
-    },
+      id: 3,
+      reviewer: "Amanda Smith",
+      starRatings: 5,
+      reviewText: "Absolutely loved our stay! The view from our room was breathtaking and the amenities were top-notch. Highly recommend!",
+      date: "2025-03-08"
+    }
   ];
 
   const propertyTypes = [
@@ -84,21 +86,16 @@ const Landing: React.FC = () => {
     },
   ];
 
-  const testimonials = [
-    { name: "John D.", stay: "Deluxe Room", comment: "Amazing stay!" },
-    { name: "Sarah M.", stay: "Family Suite", comment: "Perfect family trip!" },
-    {
-      name: "Michael T.",
-      stay: "Business Suite",
-      comment: "Fast WiFi + quiet.",
-    },
-  ];
-
   /* ------------------------------ EFFECTS ------------------------------ */
 
   useEffect(() => {
     if (!user) setShowSnackbar(true);
   }, [user]);
+
+  useEffect(() => {
+    // Fetch hotels using Redux action (same as UserDashboard)
+    dispatch(fetchHotels());
+  }, [dispatch]);
 
   return (
     <div className="landing-wrapper">
@@ -108,7 +105,12 @@ const Landing: React.FC = () => {
         <h2 className="luxury-title">Popular Destinations</h2>
         <div className="luxury-grid">
           {popularDestinations.map((d, i) => (
-            <div key={i} className="lux-card">
+            <div 
+              key={i} 
+              className="lux-card"
+              onClick={() => navigate(`/dashboard?location=${d.city.toLowerCase()}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <img src={d.img} alt={d.city} />
               <div className="lux-card-overlay">
                 <h3>{d.city}</h3>
@@ -122,7 +124,18 @@ const Landing: React.FC = () => {
         <h2 className="luxury-title">Browse by Property Type</h2>
         <div className="luxury-grid">
           {propertyTypes.map((p, i) => (
-            <div key={i} className="lux-card">
+            <div 
+              key={i} 
+              className="lux-card"
+              onClick={() => {
+                if (p.label === "Hotels") {
+                  navigate("/dashboard");
+                }
+              }}
+              style={{ 
+                cursor: p.label === "Hotels" ? "pointer" : "default" 
+              }}
+            >
               <img src={p.img} alt={p.label} />
               <div className="lux-card-overlay">
                 <h3>{p.label}</h3>
@@ -134,19 +147,52 @@ const Landing: React.FC = () => {
       {/* ------------------------------ FEATURED HOTELS ------------------------------ */}
       <section className="luxury-section">
         <h2 className="luxury-title">Featured Hotels</h2>
-        <div className="lux-hotel-grid">
-          {featuredHotels.map((hotel, index) => (
-            <div className="lux-hotel-card" key={index}>
-              <img src={hotel.image} alt={hotel.title} />
-              <div className="lux-hotel-info">
-                <h3>{hotel.title}</h3>
-                <p>{hotel.location}</p>
-                <p className="price">{hotel.price} / night</p>
-                <p className="rating">⭐ {hotel.rating}</p>
+        {hotelsLoading ? (
+          <div className="lux-hotel-grid">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="lux-hotel-card" style={{ 
+                background: '#f5f5f5', 
+                borderRadius: '14px',
+                height: '300px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <div style={{ textAlign: 'center', color: '#999' }}>
+                  Loading...
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : allHotels.length > 0 ? (
+          <div className="lux-hotel-grid">
+            {allHotels.slice(0, 3).map((hotel: Hotel, index: number) => (
+              <div 
+                className="lux-hotel-card" 
+                key={hotel.id || index}
+                onClick={() => navigate(`/accomodation-details/${hotel.id}`)}
+                style={{ cursor: 'pointer' }}
+              >
+                <img 
+                  src={hotel.imagegallery?.[0] || 'https://via.placeholder.com/300x220'} 
+                  alt={hotel.name} 
+                />
+                <div className="lux-hotel-info">
+                  <h3>{hotel.name}</h3>
+                  <p>{hotel.physicaladdress}</p>
+                  <p className="price">R{hotel.pricepernight} / night</p>
+                  <p className="rating">⭐ {hotel.rating}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="lux-hotel-grid">
+            <p style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
+              No accommodations available yet.
+            </p>
+          </div>
+        )}
       </section>
       {/* ------------------------------ AMENITIES ------------------------------ */}
       <section className="luxury-section">
@@ -171,15 +217,13 @@ const Landing: React.FC = () => {
       <section className="luxury-section">
         <h2 className="luxury-title">What Guests Say</h2>
         <div className="lux-testimonial-grid">
-          {testimonials.map((t, i) => (
+          {testimonials.map((testimonial, i) => (
             <ReviewCard
-              key={i}
-              reviewer={t.name}
-              starRatings={5}
-              // TODO
-              reviewText=""
-              date=""
-              // comment={t.comment}
+              key={testimonial.id || i}
+              reviewer={testimonial.reviewer}
+              starRatings={testimonial.starRatings}
+              reviewText={testimonial.reviewText}
+              date={new Date(testimonial.date).toLocaleDateString()}
             />
           ))}
         </div>

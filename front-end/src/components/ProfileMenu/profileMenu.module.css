@@ -10,11 +10,12 @@
   cursor: pointer;
   padding: 6px;
   border-radius: 50%;
+  background: white;
   transition: background 0.2s ease;
 }
 
 .profile-icon:hover {
-  background: #e0e0e0;
+  background: #f5f5f5;
 }
 
 /* Dropdown menu */
@@ -23,7 +24,7 @@
   top: 100%; /* distance below the icon */
   margin-top: 8px;
   right: 0;
-  background: grey; /* Cleaner, higher contrast background */
+  background: black; /* Clean white background */
   border-radius: 8px;
   padding: 8px; /* Slightly reduced padding */
   width: 200px; /* Wider for a more modern feel */
@@ -32,6 +33,7 @@
   gap: 5px; /* Tighter spacing */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Softer shadow */
   z-index: 99999; /* ensure full visibility */
+  border: 1px solid #e0e0e0; /* Subtle border for definition */
 }
 
 /* Each menu item */
@@ -52,7 +54,7 @@
 
 .menu a:hover,
 .menu button:hover {
-  background-color: rgba(0, 0, 0, 0.04); /* Light grey on hover for feedback */
+  background-color: #f8f9fa; /* Light grey on hover for feedback */
 }
 
 .logoutBtn {
@@ -61,7 +63,7 @@
 }
 
 .logoutBtn:hover {
-  background-color: rgba(210, 47, 47, 0.06); /* Light red background on hover */
+  background-color: #ffebee; /* Light red background on hover */
   color: #c62828; /* Darken the text slightly on hover */
 }
 

@@ -59,7 +59,7 @@ const UserDashboard: React.FC = () => {
   };
 
   const handleView = (id: number) => {
-    navigate(`/accomodation-details/${id}`);
+    navigate(`/user-accomodation-details/${id}`);
   };
 
   // Filter by search term (location)
@@ -124,7 +124,7 @@ const UserDashboard: React.FC = () => {
               name={acc.name}
               place={acc.physicaladdress}
               description={acc.description}
-              price={acc.pricepernight.toString()}
+              price={acc.pricepernight ? acc.pricepernight.toString() : ""}
               isFavorite={favoriteIds.includes(acc.id!)}
               onFavoriteToggle={() => handleFavoriteToggle(acc.id!)}
               onView={() => handleView(acc.id!)}

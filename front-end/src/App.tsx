@@ -3,6 +3,12 @@ import Footer from "./components/footer/Footer";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
+import About from "./pages/About";
+import Contact from "./pages/Contact";
+import HelpCenter from "./pages/HelpCenter";
+import FAQ from "./pages/FAQ";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import UserLogin from "./pages/user/UserLogin";
 import Error404 from "../src/pages/user/Error404";
 import UserRegister from "./pages/user/UserRegister";
@@ -18,9 +24,12 @@ import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import UserDashboard from "./pages/user/UserDashboard";
 import ReservationManagement from "./pages/admin/ReservationManagement";
+import { removeLocalStorage } from "./utils/LocalStorage";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
+  // clear storage before use
+  removeLocalStorage();
   return (
     <>
     <Navbar/>
@@ -45,24 +54,30 @@ function App() {
         {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
         <Route path="*" element={<Error404 />} />
 
-        {/* Admin */}
+          {/* Admin */}
 
-        <Route path="/admin-register" element={<AdminRegister />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} />
-        <Route path="/admin-inventory-management" element={<InventoryManagement />} />
-        <Route
-          path="/admin-reservation-management"
-          element={<ReservationManagement />}
-        />
+          <Route path="/admin-register" element={<AdminRegister />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          <Route
+            path="/inventory-management"
+            element={<InventoryManagement />}
+          />
+          <Route
+            path="/reservation-management"
+            element={<ReservationManagement />}
+          />
 
-        {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
-        {/* <Route path="/admin-inventoryManagement" element={<InventoryManagement />} /> */}
-        {/* <Route path="/reservationManagement" element={<ReservationManagement />} /> */}
+          {/* <Route path="/adminDashboard" element={<AdminDashboard />} /> */}
+          <Route
+            path="/inventoryManagement"
+            element={<InventoryManagement />}
+          />
+          {/* <Route path="/reservationManagement" element={<ReservationManagement />} /> */}
 
-        {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
-        <Route path="*" element={<Error404 />} />
-      </Routes>
+          {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
+          <Route path="*" element={<Error404 />} />
+        </Routes>
       </main>
       <Footer />
     </>

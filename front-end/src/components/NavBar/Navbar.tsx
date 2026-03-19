@@ -30,10 +30,10 @@ export default function Navbar() {
         {/* Desktop Navigation Links */}
         <ul className={Styles["nav-links"]}>
           <li>
-            <a href="#about">About Us</a>
+            <Link to="/about">About Us</Link>
           </li>
           <li>
-            <a href="#contact">Contact Us</a>
+            <Link to="/contact">Contact Us</Link>
           </li>
           <li>
             <NavProfile />
@@ -65,14 +65,14 @@ export default function Navbar() {
           </div>
           <ul className={Styles["mobile-nav-links"]}>
             <li>
-              <a href="#about" onClick={toggleMobileMenu}>
+              <Link to="/about" onClick={toggleMobileMenu}>
                 About Us
-              </a>
+              </Link>
             </li>
             <li>
-              <a href="#contact" onClick={toggleMobileMenu}>
+              <Link to="/contact" onClick={toggleMobileMenu}>
                 Contact Us
-              </a>
+              </Link>
             </li>
             <li>
               <NavProfile />

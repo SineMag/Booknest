@@ -1,110 +1,204 @@
 .footer {
-  background: black;
+  background: #1a1a1a;
   color: white;
-  text-align: center;
-  padding: 15px 0;
+  padding: 40px 0 20px;
   font-size: 14px;
   position: relative;
-  margin-top: auto;
   width: 100%;
-  border-top: 1px solid #333;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
+  padding: 0 20px;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.section {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 16px;
-  box-sizing: border-box;
 }
 
-.nav {
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #d4af37;
+  margin-bottom: 15px;
+}
+
+.description {
+  line-height: 1.6;
+  color: #ccc;
+  margin-bottom: 20px;
+  max-width: 300px;
+}
+
+.socialLinks {
   display: flex;
-  gap: 12px;
-  align-items: center;
+  gap: 15px;
 }
 
-.link,
-.linkButton {
+.socialLink {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: white;
   text-decoration: none;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  padding: 4px 6px;
+  transition: all 0.3s ease;
 }
 
-.link:hover,
-.linkButton:hover {
-  text-decoration: underline;
-  opacity: 0.95;
+.socialLink:hover {
+  background: #d4af37;
+  transform: translateY(-2px);
+}
+
+.heading {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.link {
+  color: #ccc;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  font-size: 0.95rem;
+}
+
+.link:hover {
+  color: #d4af37;
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contactItem {
+  color: #ccc;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.contactItem strong {
+  color: white;
+  font-weight: 600;
+}
+
+.bottom {
+  border-top: 1px solid #333;
+  padding-top: 20px;
+}
+
+.bottomContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
 }
 
 .copy {
   margin: 0;
-  font-size: 13px;
+  color: #999;
+  font-size: 0.9rem;
 }
 
-/* Responsive behavior */
-/* Mobile-first: compact/stacked layout */
-.footer {
-  padding-bottom: calc(15px + env(safe-area-inset-bottom, 0px));
+.backToTop {
+  background: transparent;
+  color: #d4af37;
+  border: 1px solid #d4af37;
+  padding: 8px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.nav {
-  flex-wrap: wrap;
-  justify-content: center;
+.backToTop:hover {
+  background: #d4af37;
+  color: white;
+  transform: translateY(-1px);
 }
 
-.link,
-.linkButton {
-  font-size: 13px;
-  padding: 6px 8px;
-}
-
-/* Larger screens: place nav and copyright on one line */
-@media (min-width: 700px) {
-  .container {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 24px;
-    gap: 0;
-  }
-
-  .nav {
-    justify-content: flex-start;
-    gap: 18px;
-  }
-
-  .copy {
-    font-size: 14px;
-  }
-
-  .link,
-  .linkButton {
-    font-size: 14px;
-    padding: 4px 6px;
-  }
-}
-
-/* Very small screens: slightly reduce footer footprint */
-@media (max-width: 360px) {
+/* Responsive Design */
+@media (max-width: 768px) {
   .footer {
-    padding: 10px 0;
+    padding: 30px 0 15px;
   }
 
-  .link,
-  .linkButton {
-    padding: 4px 6px;
-    font-size: 12px;
+  .content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
   }
 
-  .copy {
-    font-size: 12px;
+  .title {
+    font-size: 1.3rem;
+  }
+
+  .description {
+    max-width: 100%;
+  }
+
+  .bottomContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .backToTop {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 20px 0 10px;
+  }
+
+  .container {
+    padding: 0 15px;
+  }
+
+  .content {
+    gap: 25px;
+    margin-bottom: 25px;
+  }
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .socialLinks {
+    justify-content: center;
+  }
+
+  .links {
+    align-items: center;
   }
 }

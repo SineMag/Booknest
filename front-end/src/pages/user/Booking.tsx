@@ -43,6 +43,7 @@ import type { Booking } from "../../types/Booking";
 //   }
 // };
 
+
 const roomTypes = [
   {
     name: "Standard",
@@ -73,6 +74,7 @@ export default function Booking() {
   const [phone, setPhone] = useState("");
   const [specialRequest, setSpecialRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
+  const {showLoginModal, setShowLoginModal} = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error messages
 
   const dispatch = useDispatch<AppDispatch>();
@@ -115,7 +117,8 @@ export default function Booking() {
     setErrorMessage(null); // Clear previous errors
 
     if (!isLoggedIn || !user || !user.id) {
-      setErrorMessage("You must be logged in to book a stay. Please log in.");
+      setErrorMessage("You must be logged in to book a stay.  Please log in.");
+      // setShowLoginModal(true);
       // navigate("/login"); // Removed automatic navigation
       return;
     }

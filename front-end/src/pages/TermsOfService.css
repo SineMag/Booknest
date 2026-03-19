@@ -1,0 +1,150 @@
+.terms-of-service {
+  min-height: calc(100vh - 120px);
+  padding: 80px 20px 40px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.terms-header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.terms-header h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.terms-header p {
+  font-size: 1rem;
+  color: #666;
+  font-style: italic;
+}
+
+.terms-content {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.terms-section {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.terms-section h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #d4af37;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.terms-section p {
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.terms-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 20px 0;
+}
+
+.terms-section li {
+  padding: 8px 0;
+  padding-left: 25px;
+  position: relative;
+  color: #555;
+  line-height: 1.5;
+}
+
+.terms-section li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #d4af37;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.subsection {
+  margin: 25px 0;
+}
+
+.subsection h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.subsection p {
+  margin-bottom: 10px;
+}
+
+.contact-info {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.contact-info p {
+  margin: 8px 0;
+  color: #555;
+}
+
+.contact-info strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .terms-of-service {
+    padding: 60px 15px 30px;
+  }
+
+  .terms-header h1 {
+    font-size: 2rem;
+  }
+
+  .terms-section {
+    padding: 20px;
+  }
+
+  .terms-section h2 {
+    font-size: 1.3rem;
+  }
+
+  .subsection h3 {
+    font-size: 1.1rem;
+  }
+
+  .contact-info {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terms-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .terms-section {
+    padding: 15px;
+  }
+
+  .terms-section li {
+    padding-left: 20px;
+    font-size: 0.95rem;
+  }
+}
