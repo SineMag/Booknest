@@ -45,7 +45,6 @@ import type { User } from "../../types/User";
 //   }
 // };
 
-
 const roomTypes = [
   {
     name: "Standard",
@@ -76,7 +75,6 @@ export default function Booking() {
   const [phone, setPhone] = useState("");
   const [specialRequest, setSpecialRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
-  const {showLoginModal, setShowLoginModal} = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error messages
   const [user, setUser] = useState<User | null>(null);
 

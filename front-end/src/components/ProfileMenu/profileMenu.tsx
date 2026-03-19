@@ -135,7 +135,7 @@ export default function ProfileMenu({
               {subMenu === "user" && (
                 <div className={styles.submenu}>
                   <Link
-                    to="/register"
+                    to="/user-register"
                     onClick={() => {
                       setOpen(false);
                     }}
@@ -143,7 +143,7 @@ export default function ProfileMenu({
                     Register as User
                   </Link>
                   <Link
-                    to="/login"
+                    to="/user-login"
                     onClick={() => {
                       setOpen(false);
                     }}

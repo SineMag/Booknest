@@ -18,16 +18,7 @@ const UserRegister: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState(""); // state for confirm password
   const [phoneNumber, setPhoneNumber] = useState(""); // state for phone number
   const [physicalAddress, setPhysicalAddress] = useState(""); // state for physical address
-  const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
-    emailAddress: "",
-    password: "",
-    confirmPassword: "",
-    phoneNumber: "",
-    physicalAddress: "",
-  });
-  const [isFormValid, setIsFormValid] = useState(false);
+
   const dispatch = useDispatch<AppDispatch>();
   // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
@@ -69,9 +60,6 @@ const UserRegister: React.FC = () => {
     }
     if (!physicalAddress)
       newUser.physicalAddress = "Physical address is required";
-
-    setUser(newUser);
-    setIsFormValid(Object.values(newUser).every((error) => error === ""));
   };
 
   const handleRegister = () => {
