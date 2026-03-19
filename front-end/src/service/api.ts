@@ -30,6 +30,12 @@ export const getReviewsByAccommodationId = (accommodationId: number) =>
 export const createReview = (reviewData: any) => 
   api.post("/reviews", reviewData);
 
+// Accommodation API functions
+export const getAllAccommodations = () => api.get("/accommodations");
+
+export const getAccommodationById = (accommodationId: number) => 
+  api.get(`/accommodations/${accommodationId}`);
+
 const api = axios.create({
   baseURL: "https://booknestapi.netlify.app/", 
   headers: {},
