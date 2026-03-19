@@ -33,7 +33,7 @@ export default function Navbar() {
             <Link to="/about">About Us</Link>
           </li>
           <li>
-            <Link to="/contact">Contact Us</Link>
+            <Link to="/contact-us">Contact Us</Link>
           </li>
           <li>
             <ProfileMenu />
@@ -70,7 +70,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link to="/contact" onClick={toggleMobileMenu}>
+              <Link to="/contact-us" onClick={toggleMobileMenu}>
                 Contact Us
               </Link>
             </li>

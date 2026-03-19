@@ -4,7 +4,6 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./pages/Landing";
 import About from "./pages/About";
-import Contact from "./pages/Contact";
 import HelpCenter from "./pages/HelpCenter";
 import FAQ from "./pages/FAQ";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -24,33 +23,41 @@ import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import UserDashboard from "./pages/user/UserDashboard";
 import ReservationManagement from "./pages/admin/ReservationManagement";
+import Contact from "./pages/Contact";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
-  
   return (
     <>
-    <Navbar/>
-    <main className="main-section">
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/user-login" element={<UserLogin />} />
+      <Navbar />
+      <main className="main-section">
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/user-login" element={<UserLogin />} />
 
-        {/* User */}
-        <Route path="/user-register" element={<UserRegister />} />
-        <Route path="/user-booking/" element={<Booking />} />
-        <Route path="/user-dashboard" element={<UserDashboard />} />
+          <Route path="/contact-us" element={<Contact />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/help" element={<HelpCenter />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
+          <Route path="/dashboard" element={<UserDashboard />} />
 
-        <Route
-          path="/user-accomodation-details/:id"
-          element={<AccomodationDetails />}
-        />
-        <Route path="/user-confirmation" element={<Confirmation />} />
-        <Route path="/user-my-bookings" element={<MyBookings />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/user-my-favorites" element={<MyFavorites />} />
-        {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
-        <Route path="*" element={<Error404 />} />
+          {/* User */}
+          <Route path="/user-register" element={<UserRegister />} />
+          <Route path="/user-booking/" element={<Booking />} />
+          <Route path="/user-dashboard" element={<UserDashboard />} />
+
+          <Route
+            path="/user-accomodation-details/:id"
+            element={<AccomodationDetails />}
+          />
+          <Route path="/user-confirmation" element={<Confirmation />} />
+          <Route path="/user-my-bookings" element={<MyBookings />} />
+          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/user-my-favorites" element={<MyFavorites />} />
+          {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
+          <Route path="*" element={<Error404 />} />
 
           {/* Admin */}
 

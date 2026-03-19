@@ -30,7 +30,7 @@ const UserLogin: React.FC = () => {
       );
 
       setLocalUser(user);
-      navigate("/dashboard");
+      navigate("/user-dashboard");
     } else {
       setLocalUser({});
     }
