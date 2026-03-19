@@ -87,17 +87,10 @@ export default function AdminRegister() {
           <h2 style={headingStyle}>Admin Register</h2>
 
           <InputField
-            placeholder="First Name"
+            placeholder="Full Name"
             type="text"
             field={firstName}
             setField={setFirstName}
-          />
-
-          <InputField
-            placeholder="Last Name"
-            type="text"
-            field={lastName}
-            setField={setLastName}
           />
 
           <InputField
@@ -132,12 +125,12 @@ export default function AdminRegister() {
 
           <p style={infoTextStyle}>
             Already have an account?{" "}
-            <Link to="/login" style={linkStyle}>
+            <Link to="/admin-login" style={linkStyle}>
               Sign In
             </Link>
           </p>
 
-          <Link to="/login">
+          <Link to="/admin-login">
             <Button
               variant="primary"
               style={buttonStyle}

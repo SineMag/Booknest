@@ -60,7 +60,7 @@ const UserDashboard: React.FC = () => {
   };
 
   const handleView = (id: number) => {
-    navigate(`/accomodation-details/${id}`);
+    navigate(`/user-accomodation-details/${id}`);
   };
 
   // Filter by search term (location)

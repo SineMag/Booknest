@@ -142,7 +142,7 @@ const UserRegister: React.FC = () => {
           <p style={{ marginTop: "0.4rem", fontSize: "0.95rem" }}>
             Already have an account?{" "}
             <Link
-              to="/login"
+              to="/user-login"
               style={{
                 fontWeight: "600",
                 color: "#000",

@@ -34,9 +34,9 @@ export default function ProfileMenu({
     }
   }, [loggedIn, dispatch]);
 
-  /** -------------------------------------------
-   * ADVANCED ROLE DETECTION
-   * ------------------------------------------- */
+ 
+  //  * ADVANCED ROLE DETECTION
+ 
   const isAdminFlag = (() => {
     if (!user) return false;
     const u: any = user;
