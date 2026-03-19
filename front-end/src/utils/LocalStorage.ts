@@ -3,7 +3,7 @@ import type { User } from "../types/User";
 export const setLocalUser = (user: User | {}) =>
   localStorage.setItem("user", JSON.stringify(user));
 
-export const getLocalUser = (): User | null => {
+export async function getLocalUser(): Promise<User | null> {
   const data = localStorage.getItem("user");
   if (!data) return null;
 
@@ -22,7 +22,7 @@ export const getLocalUser = (): User | null => {
   };
 
   return userObj;
-};
+}
 
 export function removeLocalUser() {
   localStorage.removeItem("user");

@@ -23,6 +23,8 @@ import {
 import styles from "./Booking.module.css"; // Import the CSS module
 import { initializePayment } from "../../features/paymentSlice";
 import type { Booking } from "../../types/Booking";
+import { getLocalUser } from "../../utils/LocalStorage";
+import type { User } from "../../types/User";
 
 // const getAmenityIcon = (amenity: string) => {
 //   switch (amenity) {
@@ -74,18 +76,41 @@ export default function Booking() {
   const [specialRequest, setSpecialRequest] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // New state for error messages
+  const [user, setUser] = useState<User | null>(null);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const { user, isLoggedIn } = useSelector((state: RootState) => state.user);
+
+  console.log(2222, { user });
+
+  const { current } = useSelector((state: RootState) => state.user);
   const { access_code } = useSelector((state: RootState) => state.payment);
   const [paystackReady, setPaystackReady] = useState(false);
 
   console.log("Current user state in Booking.tsx:", user); // ADDED FOR DEBUGGING
   const [params] = useSearchParams();
   const accId = Number(params.get("accommodationId"));
+  let isLoggedIn = user != null;
 
   console.log("accomodation id", accId);
+
+  async function getUser() {
+    console.log("gertt");
+    const user = await getLocalUser();
+    if (user && user.id) {
+      setUser(user);
+      isLoggedIn = true;
+    }
+  }
+
+  useEffect(() => {
+    if (current && current.id) {
+      setUser(current);
+      isLoggedIn = true;
+    } else {
+      getUser();
+    }
+  }, []);
 
   useEffect(() => {
     const calculateTotalPrice = () => {
@@ -113,6 +138,7 @@ export default function Booking() {
 
   const handleProceed = () => {
     setErrorMessage(null); // Clear previous errors
+    console.log(605, { isLoggedIn, user, current });
 
     if (!isLoggedIn || !user || !user.id) {
       setErrorMessage("You must be logged in to book a stay. Please log in.");
@@ -203,14 +229,14 @@ export default function Booking() {
   useEffect(() => {
     if (!paystackReady) return;
 
-    console.log(9999, user?.emailaddress, access_code, totalPrice);
+    console.log(9999, user, user?.emailAddress, access_code, totalPrice);
 
     if (access_code && user) {
       console.log("popup: ", window.PaystackPop);
       const popup = new window.PaystackPop();
       popup.newTransaction({
         key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
-        email: user.emailaddress,
+        email: user.emailAddress,
         amount: totalPrice * 100,
         onSuccess: (transaction: any) => {
           // add booking and navigate to confirmation

@@ -24,12 +24,10 @@ import AdminRegister from "./pages/admin/AdminRegister";
 import InventoryManagement from "./pages/admin/InventoryManagement";
 import UserDashboard from "./pages/user/UserDashboard";
 import ReservationManagement from "./pages/admin/ReservationManagement";
-import { removeLocalUser } from "./utils/LocalStorage";
 // import AdminLogin from "./pages/admin/AdminLogin";
 
 function App() {
-  // clear storage before use
-  removeLocalUser();
+  
   return (
     <>
       <Navbar />

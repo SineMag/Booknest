@@ -18,6 +18,7 @@ import type { RootState, AppDispatch } from "../../store";
 import { fetchHotels, type Hotel } from "../features/InventoryManagementSlice";
 import Navbar from "../components/NavBar/Navbar";
 import Footer from "../components/footer/Footer";
+import { removeLocalUser } from "../utils/LocalStorage";
 
 const Landing: React.FC = () => {
   const { current: user } = useSelector((state: RootState) => state.user);
@@ -103,6 +104,9 @@ const Landing: React.FC = () => {
     // Fetch hotels using Redux action (same as UserDashboard)
     dispatch(fetchHotels());
   }, [dispatch]);
+
+  // clear storage before use
+  removeLocalUser();
 
   return (
     <>
