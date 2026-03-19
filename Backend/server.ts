@@ -2,7 +2,6 @@
 import express from "express";
 import path from "path";
 import authRouter from "./routes/authRouter";
-import userRouter from "./routes/userRouter";
 import accomodationRouter from "./routes/accomodationRouter";
 import roomTypeRouter from "./routes/roomTypeRouter";
 import bookingRouter from "./routes/bookingRouter";
@@ -10,15 +9,23 @@ import reviewRouter from "./routes/reviewRouter";
 import favouriteRouter from "./routes/favouriteRouter";
 import adminRouter from "./routes/adminRouter";
 import cors from "cors";
-import paymentRouter from "./routes/paymentRouter";
 import { userTableQuery } from "./models/User";
 import { accomodationTableQuery } from "./models/Accomodation";
 import { createRoomTypeTableQuery } from "./models/RoomType";
 import { createBookingTableQuery } from "./models/Booking";
 import { createReviewTableQuery } from "./models/Review";
+import userRouter from "./routes/userRouter";
+import paymentRouter from "./routes/paymentRouter";
 const app = express();
-// MIDDLEWARE
-// For Stripe webhooks, we need the raw body, so we have a custom middleware for it
+
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  }),
+);
+
 app.use(express.json());
 app.use(
   express.json({
@@ -26,14 +33,10 @@ app.use(
       // Save the raw body to a new property on the request object
       (req as any).rawBody = buf;
     },
-  })
-);
-app.use(
-  cors({
-    origin: "*",
-  })
+  }),
 );
 app.use(express.static(path.join(__dirname, "public")));
+
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
 app.use("/payment", paymentRouter);

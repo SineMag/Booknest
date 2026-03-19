@@ -16,10 +16,14 @@ import ReviewCard from "../components/ReviewCard/ReviewCard";
 import { useSelector, useDispatch } from "react-redux";
 import type { RootState, AppDispatch } from "../../store";
 import { fetchHotels, type Hotel } from "../features/InventoryManagementSlice";
+import Navbar from "../components/NavBar/Navbar";
+import Footer from "../components/footer/Footer";
 
 const Landing: React.FC = () => {
-  const user = useSelector((state: RootState) => state.user?.user || null);
-  const { hotels: allHotels, loading: hotelsLoading } = useSelector((state: RootState) => state.hotels);
+  const { current: user } = useSelector((state: RootState) => state.user);
+  const { hotels: allHotels, loading: hotelsLoading } = useSelector(
+    (state: RootState) => state.hotels,
+  );
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
@@ -33,23 +37,26 @@ const Landing: React.FC = () => {
       id: 1,
       reviewer: "Sarah Johnson",
       starRatings: 5,
-      reviewText: "Amazing experience! The hotel was clean, staff was friendly, and the location was perfect. Will definitely book again!",
-      date: "2025-03-15"
+      reviewText:
+        "Amazing experience! The hotel was clean, staff was friendly, and the location was perfect. Will definitely book again!",
+      date: "2025-03-15",
     },
     {
       id: 2,
       reviewer: "Michael Chen",
       starRatings: 4,
-      reviewText: "Great value for money. The room was spacious and comfortable. Only minor issue was the breakfast service, but overall excellent stay.",
-      date: "2025-03-10"
+      reviewText:
+        "Great value for money. The room was spacious and comfortable. Only minor issue was the breakfast service, but overall excellent stay.",
+      date: "2025-03-10",
     },
     {
       id: 3,
       reviewer: "Amanda Smith",
       starRatings: 5,
-      reviewText: "Absolutely loved our stay! The view from our room was breathtaking and the amenities were top-notch. Highly recommend!",
-      date: "2025-03-08"
-    }
+      reviewText:
+        "Absolutely loved our stay! The view from our room was breathtaking and the amenities were top-notch. Highly recommend!",
+      date: "2025-03-08",
+    },
   ];
 
   const propertyTypes = [
@@ -98,18 +105,21 @@ const Landing: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <div className="landing-wrapper">
+    <>
+      <Navbar />
       <HeroSection /> {/* LEFT EXACTLY AS YOU SAID */}
       {/* ------------------------------ POPULAR DESTINATIONS ------------------------------ */}
       <section className="luxury-section">
         <h2 className="luxury-title">Popular Destinations</h2>
         <div className="luxury-grid">
           {popularDestinations.map((d, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="lux-card"
-              onClick={() => navigate(`/dashboard?location=${d.city.toLowerCase()}`)}
-              style={{ cursor: 'pointer' }}
+              onClick={() =>
+                navigate(`/dashboard?location=${d.city.toLowerCase()}`)
+              }
+              style={{ cursor: "pointer" }}
             >
               <img src={d.img} alt={d.city} />
               <div className="lux-card-overlay">
@@ -124,16 +134,16 @@ const Landing: React.FC = () => {
         <h2 className="luxury-title">Browse by Property Type</h2>
         <div className="luxury-grid">
           {propertyTypes.map((p, i) => (
-            <div 
-              key={i} 
+            <div
+              key={i}
               className="lux-card"
               onClick={() => {
                 if (p.label === "Hotels") {
                   navigate("/dashboard");
                 }
               }}
-              style={{ 
-                cursor: p.label === "Hotels" ? "pointer" : "default" 
+              style={{
+                cursor: p.label === "Hotels" ? "pointer" : "default",
               }}
             >
               <img src={p.img} alt={p.label} />
@@ -150,15 +160,19 @@ const Landing: React.FC = () => {
         {hotelsLoading ? (
           <div className="lux-hotel-grid">
             {[...Array(3)].map((_, i) => (
-              <div key={i} className="lux-hotel-card" style={{ 
-                background: '#f5f5f5', 
-                borderRadius: '14px',
-                height: '300px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}>
-                <div style={{ textAlign: 'center', color: '#999' }}>
+              <div
+                key={i}
+                className="lux-hotel-card"
+                style={{
+                  background: "#f5f5f5",
+                  borderRadius: "14px",
+                  height: "300px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div style={{ textAlign: "center", color: "#999" }}>
                   Loading...
                 </div>
               </div>
@@ -167,15 +181,18 @@ const Landing: React.FC = () => {
         ) : allHotels.length > 0 ? (
           <div className="lux-hotel-grid">
             {allHotels.slice(0, 3).map((hotel: Hotel, index: number) => (
-              <div 
-                className="lux-hotel-card" 
+              <div
+                className="lux-hotel-card"
                 key={hotel.id || index}
                 onClick={() => navigate(`/accomodation-details/${hotel.id}`)}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: "pointer" }}
               >
-                <img 
-                  src={hotel.imagegallery?.[0] || 'https://via.placeholder.com/300x220'} 
-                  alt={hotel.name} 
+                <img
+                  src={
+                    hotel.imagegallery?.[0] ||
+                    "https://via.placeholder.com/300x220"
+                  }
+                  alt={hotel.name}
                 />
                 <div className="lux-hotel-info">
                   <h3>{hotel.name}</h3>
@@ -188,7 +205,7 @@ const Landing: React.FC = () => {
           </div>
         ) : (
           <div className="lux-hotel-grid">
-            <p style={{ textAlign: 'center', gridColumn: '1 / -1' }}>
+            <p style={{ textAlign: "center", gridColumn: "1 / -1" }}>
               No accommodations available yet.
             </p>
           </div>
@@ -238,7 +255,8 @@ const Landing: React.FC = () => {
         show={showSnackbar}
         onClose={() => setShowSnackbar(false)}
       />
-    </div>
+      <Footer />
+    </>
   );
 };
 

@@ -4,7 +4,7 @@ import {
   putIntoUser,
   selectAllUsers,
   selectUserById,
-} from "../services/userService";
+} from "../services/UserService";
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {

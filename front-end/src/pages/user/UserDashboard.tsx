@@ -14,6 +14,7 @@ import {
   removeFavorite,
   setFavorites,
 } from "../../features/favoritesSlice";
+import Navbar from "../../components/NavBar/Navbar";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -75,6 +76,7 @@ const UserDashboard: React.FC = () => {
         flexDirection: "column",
       }}
     >
+      <Navbar />
       <div
         style={{
           flex: 1,

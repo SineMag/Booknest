@@ -31,7 +31,6 @@ const UserRegister: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   // const { user } = useSelector((state: RootState) => state.user);
   const navigate = useNavigate();
-  console.log(user);
 
   useEffect(() => {
     validateForm();
@@ -79,12 +78,12 @@ const UserRegister: React.FC = () => {
     console.log("registering user...");
     dispatch(
       createUser({
-        firstname: firstName,
-        lastname: lastName,
-        emailaddress: emailAddress,
-        password: password,
-        phonenumber: phoneNumber,
-        physicaladdress: physicalAddress,
+        firstName,
+        lastName,
+        emailAddress,
+        password,
+        phoneNumber,
+        physicalAddress,
       }),
     );
 
@@ -158,7 +157,7 @@ const UserRegister: React.FC = () => {
             variant="primary"
             width={100}
             onClick={handleRegister}
-            disabled={!isFormValid}
+            // disabled={!isFormValid}
           >
             Register
           </Button>

@@ -10,12 +10,7 @@ type Props = {
   details?: string;
   name?: string;
   min?: string;
-  readOnly?: boolean; // Add readOnly prop
-  /**
-   * Optional controlled visibility: if provided, the parent controls
-   * whether the password is shown. `onToggleShow` must be provided
-   * when using `showPassword`.
-   */
+  readOnly?: boolean;
   showPassword?: boolean;
   onToggleShow?: () => void;
   className?: string;
@@ -35,12 +30,11 @@ export default function InputField({
   details,
   name,
   min,
-  readOnly, // Destructure readOnly prop
+  readOnly,
 }: Props) {
   const [localShow, setLocalShow] = useState(false);
 
   const isPassword = type === "password";
-
   const controlled =
     typeof showPassword === "boolean" && typeof onToggleShow === "function";
   const visible = controlled ? showPassword! : localShow;
@@ -51,59 +45,45 @@ export default function InputField({
   };
 
   return (
-    <div
-      className={className}
-      style={{
-        position: "relative",
-        width: "100%",
-        marginBottom: "1rem",
-        ...(style || {}),
-      }}
-    >
-      {label && <label htmlFor={name} style={{ display: "block", marginBottom: "5px", fontWeight: "bold", color: "#333" }}>{label}</label>}
-      <input
-        placeholder={placeholder}
-        type={isPassword ? (visible ? "text" : "password") : type}
-        value={field}
-        onChange={(e) => setField(e.target.value)}
-        name={name}
-        id={name}
-        min={min}
-        readOnly={readOnly} // Pass readOnly prop to input element
-        style={{
-          width: "100%",
-          padding: isPassword ? "14px 45px 14px 14px" : "14px",
-          borderRadius: "8px",
-          border: "1px solid #d1d5db",
-          fontSize: "1rem",
-        }}
-      />
-      {details && <p style={{ fontSize: "0.85rem", color: "#666", marginTop: "5px" }}>{details}</p>}
-
-      {/* SHOW / HIDE ICON */}
-      {isPassword && (
-        <button
-          type="button"
-          onClick={handleToggle}
-          aria-label={visible ? "Hide password" : "Show password"}
-          style={{
-            position: "absolute",
-            right: "12px",
-            top: "50%",
-            transform: "translateY(-50%)",
-            cursor: "pointer",
-            fontSize: "20px",
-            color: "#475569",
-            background: "transparent",
-            border: "none",
-            padding: 0,
-            display: "inline-flex",
-            alignItems: "center",
-          }}
-        >
-          {visible ? <FiEyeOff /> : <FiEye />}
-        </button>
+    <div className={`mb-3 position-relative ${className || ""}`} style={style}>
+      {label && (
+        <label htmlFor={name} className="form-label fw-bold text-dark">
+          {label}
+        </label>
       )}
+
+      <div className="position-relative">
+        <input
+          placeholder={placeholder}
+          type={isPassword ? (visible ? "text" : "password") : type}
+          value={field}
+          onChange={(e) => setField(e.target.value)}
+          name={name}
+          id={name}
+          min={min}
+          readOnly={readOnly}
+          className={`form-control ${isPassword ? "pe-5" : ""}`}
+          style={{
+            paddingTop: "12px",
+            paddingBottom: "12px",
+            borderRadius: "8px",
+          }}
+        />
+
+        {isPassword && (
+          <button
+            type="button"
+            onClick={handleToggle}
+            aria-label={visible ? "Hide password" : "Show password"}
+            className="btn position-absolute top-50 end-0 translate-middle-y border-0 bg-transparent text-secondary me-2"
+            style={{ zIndex: 10, display: "inline-flex", alignItems: "center" }}
+          >
+            {visible ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+          </button>
+        )}
+      </div>
+
+      {details && <div className="form-text mt-1 text-muted">{details}</div>}
     </div>
   );
 }

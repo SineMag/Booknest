@@ -21,3 +21,8 @@ export interface IUser {
   password: string;
   createdat?: Date;
 }
+
+export interface LoginCredentials {
+  emailAddress: string;
+  password: string;
+}

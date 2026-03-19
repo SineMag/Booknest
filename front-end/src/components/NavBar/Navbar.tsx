@@ -1,9 +1,9 @@
 import { useState } from "react";
 import image from "../../images/bed (1).png";
-import NavProfile from "../NavProfile/NavProfile";
 import Styles from "./Navbar.module.css";
 import Hamburger from "../hamburger/Hamburger";
 import { Link } from "react-router-dom";
+import ProfileMenu from "../ProfileMenu/profileMenu";
 
 export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function Navbar() {
             <Link to="/contact">Contact Us</Link>
           </li>
           <li>
-            <NavProfile />
+            <ProfileMenu />
           </li>
         </ul>
 
@@ -75,7 +75,7 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <NavProfile />
+              <ProfileMenu />
             </li>
           </ul>
         </div>

@@ -3,7 +3,6 @@ import styles from "./HeroSection.module.css";
 import image from "../../images/bed.png";
 import Button from "../Button/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { setShowProfileMenuSelector } from "../../features/userSlice";
 import type { RootState } from "../../../store";
 import { useNavigate } from "react-router-dom";
 
@@ -13,24 +12,23 @@ export default function HeroSection() {
   const heroLeftRef = useRef<HTMLDivElement>(null);
   const heroRightRef = useRef<HTMLDivElement>(null);
 
-  const { isLoggedIn } = useSelector((state: RootState) => state.user);
+  const { current } = useSelector((state: RootState) => state.user);
+  const isLoggedIn = current !== null;
 
   useEffect(() => {
     // Fade in text and floating animation for the bed image
     if (heroLeftRef.current && heroRightRef.current) {
-      heroLeftRef.current.style.opacity = '1';
-      heroLeftRef.current.style.transform = 'translateY(0)';
-      
-      heroRightRef.current.style.opacity = '1';
-      heroRightRef.current.style.transform = 'translateY(0) rotate(0deg)';
+      heroLeftRef.current.style.opacity = "1";
+      heroLeftRef.current.style.transform = "translateY(0)";
+
+      heroRightRef.current.style.opacity = "1";
+      heroRightRef.current.style.transform = "translateY(0) rotate(0deg)";
     }
   }, []);
 
   const handleGetStartedClick = () => {
     if (isLoggedIn) {
       navigate("/dashboard");
-    } else {
-      dispatch(setShowProfileMenuSelector(true));
     }
   };
 

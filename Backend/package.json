@@ -16,7 +16,8 @@
   },
   "scripts": {
     "start": "tsc --watch & nodemon dist/app.js",
-    "dev": "netlify dev"
+    "dev": "netlify dev",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/express": "^5.0.5",
