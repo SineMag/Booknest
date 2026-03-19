@@ -4,6 +4,7 @@ import {
   deleteBookingDB,
   selectAllBookingsDB,
   selectBookingByIdDB,
+  selectBookingByUserIdDB,
   updateBookingDB,
 } from "../services/bookingService";
 import { log } from "console";
@@ -22,6 +23,16 @@ export const getBookingById = async (req: Request, res: Response) => {
   try {
     const id = Number(req.params.id);
     const booking = await selectBookingByIdDB(id);
+    res.status(200).json(booking);
+  } catch (error) {
+    log(error);
+  }
+};
+
+export const getBookingByUserId = async (req: Request, res: Response) => {
+  try {
+    const id = Number(req.params.id);
+    const booking = await selectBookingByUserIdDB(id);
     res.status(200).json(booking);
   } catch (error) {
     log(error);

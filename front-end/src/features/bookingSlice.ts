@@ -27,7 +27,7 @@ export const fetchBookingsByUser = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const createBooking = createAsyncThunk(
@@ -47,7 +47,7 @@ export const createBooking = createAsyncThunk(
       console.log(7777, error);
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const updateBooking = createAsyncThunk(
@@ -56,13 +56,13 @@ export const updateBooking = createAsyncThunk(
     try {
       const { data } = await axios.put(
         `${BASE_API}/${bookingData.id}`,
-        bookingData
+        bookingData,
       );
       return data;
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const deleteBooking = createAsyncThunk(
@@ -74,7 +74,7 @@ export const deleteBooking = createAsyncThunk(
     } catch (error: any) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 const bookingSlice = createSlice({
@@ -100,6 +100,7 @@ const bookingSlice = createSlice({
       })
       .addCase(fetchBookingsByUser.fulfilled, (state, action) => {
         state.loading = false;
+        console.log(1111, action.payload);
         state.bookings = action.payload;
       })
       .addCase(fetchBookingsByUser.rejected, (state, action) => {

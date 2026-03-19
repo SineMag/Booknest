@@ -38,6 +38,10 @@ export const getBookingByIdQuery = (id: number) => sql`
   SELECT * FROM bookings WHERE id=${id};
 `;
 
+export const getBookingByUserIdQuery = (id: number) => sql`
+  SELECT * FROM bookings WHERE userId=${id};
+`;
+
 export const createBookingQuery = (booking: Booking) => sql`
   INSERT INTO bookings (
     checkInDate,

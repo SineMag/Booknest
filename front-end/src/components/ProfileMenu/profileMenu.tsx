@@ -51,8 +51,6 @@ export default function ProfileMenu({ userType }: ProfileMenuProps) {
     }
   }, [user, dispatch]);
 
-  console.log(7777, user, loggedIn, open);
-
   //  * ADVANCED ROLE DETECTION
 
   const isAdminFlag = (() => {

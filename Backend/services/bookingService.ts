@@ -2,6 +2,7 @@ import {
   createBookingQuery,
   deleteBookingQuery,
   getBookingByIdQuery,
+  getBookingByUserIdQuery,
   getBookingsQuery,
   updateBookingQuery,
 } from "../models/Booking";
@@ -13,6 +14,11 @@ export const selectAllBookingsDB = async () => {
 
 export const selectBookingByIdDB = async (id: number) => {
   const booking = await getBookingByIdQuery(id);
+  return booking;
+};
+
+export const selectBookingByUserIdDB = async (id: number) => {
+  const booking = await getBookingByUserIdQuery(id);
   return booking;
 };
 

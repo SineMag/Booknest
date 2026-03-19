@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import BookingListItem from "../../components/BookingListItem/BookingListItem";
 import styles from "./MyBookings.module.css";
@@ -8,15 +8,37 @@ import type { AppDispatch, RootState } from "../../../store";
 import { FaCalendarPlus, FaExclamationTriangle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Button from "../../components/Button/Button";
+import type { User } from "../../types/User";
+import { getLocalUser } from "../../utils/LocalStorage";
+import LoadingOverlay from "../../components/Loading";
 
 const MyBookings: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const { bookings, error } = useSelector((state: RootState) => state.booking);
-  const { user } = useSelector((state: RootState) => state.user);
-  console.log("User object from Redux store:", user);
+  const {
+    loading: loadingBookings,
+    bookings,
+    error,
+  } = useSelector((state: RootState) => state.booking);
+  const { current } = useSelector((state: RootState) => state.user);
+  const [user, setUser] = useState<User | null>();
+
   const { accomodations } = useSelector(
     (state: RootState) => state.accomodation,
   );
+
+  async function getUser() {
+    if (current && current.id) {
+      setUser(current);
+    }
+    const user = await getLocalUser();
+    if (user && user.id) {
+      setUser(user);
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
     if (user) {
@@ -25,6 +47,8 @@ const MyBookings: React.FC = () => {
     }
   }, [dispatch, user]);
 
+  console.log(6007, current, { user }, bookings);
+
   const getAccommodationName = (accommodationId: number) => {
     const accommodation = accomodations.find(
       (acc) => acc.id === accommodationId,
@@ -32,8 +56,8 @@ const MyBookings: React.FC = () => {
     return accommodation?.name || "N/A";
   };
 
-  if (status === "loading") {
-    return <p>Loading...</p>;
+  if (loadingBookings) {
+    return <LoadingOverlay message="Loading..." />;
   }
 
   if (status === "failed") {
@@ -62,7 +86,7 @@ const MyBookings: React.FC = () => {
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>My Bookings</h1>
-      {bookings.length === 0 ? (
+      {bookings.length === 0 && !loadingBookings ? (
         <div className={styles.noBookings}>
           <FaCalendarPlus className={styles.noBookingsIcon} />
           <p className={styles.noBookingsText}>You have no bookings yet.</p>
