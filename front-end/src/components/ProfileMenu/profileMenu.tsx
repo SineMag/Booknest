@@ -5,38 +5,56 @@ import { logout } from "../../features/userSlice";
 import type { AppDispatch, RootState } from "../../../store";
 import ProfileIcon from "../ProfileIcon/profileIcon";
 import styles from "./profileMenu.module.css";
-import { removeLocalUser } from "../../utils/LocalStorage";
+import { getLocalUser, removeLocalUser } from "../../utils/LocalStorage";
+import type { User } from "../../types/User";
 
 type Role = "user" | "admin";
 
 type ProfileMenuProps = {
   userType?: Role;
-  isLoggedIn?: boolean;
 };
 
-export default function ProfileMenu({
-  userType,
-  isLoggedIn,
-}: ProfileMenuProps) {
+export default function ProfileMenu({ userType }: ProfileMenuProps) {
   const [open, setOpen] = useState(false);
   const [subMenu, setSubMenu] = useState<Role | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
   const menuRef = useRef<HTMLDivElement | null>(null);
 
-  const { current: user } = useSelector((state: RootState) => state.user);
+  const { current } = useSelector((state: RootState) => state.user);
 
-  const loggedIn = isLoggedIn ?? user !== null;
+  async function getUser() {
+    if (current && current.id) {
+      setUser(current);
+      setLoggedIn(true);
+      return;
+    }
+    const user = await getLocalUser();
+    if (user && user.id) {
+      setUser(user);
+      setLoggedIn(true);
+      return;
+    }
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   useEffect(() => {
     if (!loggedIn) {
       setOpen(true);
+    } else {
+      setOpen(false);
     }
-  }, [loggedIn, dispatch]);
+  }, [user, dispatch]);
 
- 
+  console.log(7777, user, loggedIn, open);
+
   //  * ADVANCED ROLE DETECTION
- 
+
   const isAdminFlag = (() => {
     if (!user) return false;
     const u: any = user;

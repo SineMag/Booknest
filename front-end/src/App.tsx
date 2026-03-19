@@ -52,10 +52,10 @@ function App() {
             path="/user-accomodation-details/:id"
             element={<AccomodationDetails />}
           />
-          <Route path="/user-confirmation" element={<Confirmation />} />
-          <Route path="/user-my-bookings" element={<MyBookings />} />
-          <Route path="/user-profile" element={<UserProfile />} />
-          <Route path="/user-my-favorites" element={<MyFavorites />} />
+          <Route path="/confirmation" element={<Confirmation />} />
+          <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/my-favorites" element={<MyFavorites />} />
           {/* <Route path="/adminLogin" element={<AdminLogin />} /> */}
           <Route path="*" element={<Error404 />} />
 

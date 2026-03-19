@@ -104,6 +104,7 @@ export default function Booking() {
   }
 
   useEffect(() => {
+    fetch("https://booknestapi.netlify.app/payment/");
     if (current && current.id) {
       setUser(current);
       isLoggedIn = true;
@@ -237,7 +238,7 @@ export default function Booking() {
       const popup = new window.PaystackPop();
       popup.newTransaction({
         key: "pk_test_9e1587c5a1d44caa383e112c2763d931b67a0815",
-        email: user.emailAddress,
+        email: (user as any).emailAddress || (user as any).emailaddress,
         amount: totalPrice * 100,
         onSuccess: (transaction: any) => {
           // add booking and navigate to confirmation

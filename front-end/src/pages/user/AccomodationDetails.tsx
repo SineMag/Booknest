@@ -59,7 +59,7 @@ export default function AccomodationDetails() {
     localStorage.setItem("favorites", JSON.stringify([...favSet]));
 
     // Redirect to favorites page
-    navigate("/myfavorites");
+    navigate("/my-favorites");
   };
 
   return (
