@@ -19,8 +19,9 @@ html, body, #root {
 main section for App.tsx 
 ======================================================================== */ 
 .main-section{
-  min-height: calc(100vh - 70px - 50px); /* Navbar height is 70px, estimated footer height is 50px */
-border: 2px solid red;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 /* Main section title */
 .luxury-title {
