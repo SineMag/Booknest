@@ -11,6 +11,7 @@ import Button from "../../components/Button/Button";
 import type { User } from "../../types/User";
 import { getLocalUser } from "../../utils/LocalStorage";
 import LoadingOverlay from "../../components/Loading";
+import { addToFavourites } from "../../features/favoritesSlice";
 
 const MyBookings: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -21,7 +22,6 @@ const MyBookings: React.FC = () => {
   } = useSelector((state: RootState) => state.booking);
   const { current } = useSelector((state: RootState) => state.user);
   const [user, setUser] = useState<User | null>();
-
   const { accomodations } = useSelector(
     (state: RootState) => state.accomodation,
   );
@@ -100,21 +100,21 @@ const MyBookings: React.FC = () => {
           {bookings.map((booking) => (
             <BookingListItem
               key={booking.id}
-              // bookingId={booking.id!}
-              accommodationName={getAccommodationName(booking.accommodationId)}
-              checkIn={new Date(booking.checkInDate).toLocaleDateString()}
-              checkOut={new Date(booking.checkOutDate).toLocaleDateString()}
+              // Change these to match your lowercase data keys:
+              accommodationName={getAccommodationName(booking.accommodationid)}
+              checkIn={new Date(booking.checkindate).toLocaleDateString()}
+              checkOut={new Date(booking.checkoutdate).toLocaleDateString()}
               status={booking.status as "Pending" | "Approved" | "Declined"}
+              // Update these as well:
+              numberOfGuests={booking.numberofguests}
+              totalPrice={booking.totalprice}
+              specialRequest={booking.specialrequest}
+              roomType={booking.roomtype}
               onCancel={() => console.log("Cancel booking")}
               onEdit={() => console.log("Edit booking")}
               onDelete={() => console.log("Delete booking")}
-              onFavorite={() => console.log("Favorite booking")}
               onReview={() => {}}
-              isFavorite={false} // Hardcoded for now
-              numberOfGuests={booking.numberOfGuests}
-              totalPrice={booking.totalPrice}
-              specialRequest={booking.specialRequest}
-              roomType={booking.roomType}
+              isFavorite={false}
             />
           ))}
         </div>

@@ -22,7 +22,6 @@ interface BookingListItemProps {
   onCancel: () => void;
   onReview: () => void;
   onDelete: () => void;
-  onFavorite: () => void;
   onEdit: () => void;
   isFavorite: boolean;
   numberOfGuests: number;
@@ -39,7 +38,6 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
   onCancel,
   onReview,
   onDelete,
-  onFavorite,
   isFavorite,
   numberOfGuests,
   totalPrice = 0,
@@ -92,11 +90,6 @@ const BookingListItem: React.FC<BookingListItemProps> = ({
               <FiXCircle />
             </button>
           )}
-          <button onClick={onFavorite} className={styles.iconButton}>
-            <FiHeart
-              style={{ fill: isFavorite ? "red" : "none", stroke: "red" }}
-            />
-          </button>
           <button onClick={onDelete} className={styles.iconButton}>
             <FiTrash2 />
           </button>

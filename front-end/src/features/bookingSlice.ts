@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { Booking } from "../types/Booking";
+import type { Booking, IBooking } from "../types/Booking";
 import axios from "axios";
 
 interface BookingState {
-  bookings: Booking[];
+  bookings: IBooking[];
   booking: Booking | null;
   loading: boolean;
   error: string;
@@ -101,7 +101,7 @@ const bookingSlice = createSlice({
       .addCase(fetchBookingsByUser.fulfilled, (state, action) => {
         state.loading = false;
         console.log(1111, action.payload);
-        state.bookings = action.payload;
+        state.bookings = action.payload as IBooking[];
       })
       .addCase(fetchBookingsByUser.rejected, (state, action) => {
         state.loading = false;
