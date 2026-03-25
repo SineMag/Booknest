@@ -52,7 +52,9 @@ export default function HeroSection() {
 
           {/* BUTTON */}
           <div className={styles.heroButtons}>
-            <Button onClick={handleGetStartedClick}>Get Started</Button>
+            <Button onClick={() => dispatch(setShowProfileMenuSelector(true))}>
+              Get Started
+            </Button>
           </div>
         </div>
 
