@@ -21,7 +21,7 @@ const UserDashboard: React.FC = () => {
   const navigate = useNavigate();
 
   const { hotels: allHotels } = useSelector((state: RootState) => state.hotels);
-  const { favoriteIds } = useSelector((state: RootState) => state.favorites);
+  const favoriteIds = [1, 2, 3];
 
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -37,7 +37,7 @@ const UserDashboard: React.FC = () => {
   useEffect(() => {
     const stored = localStorage.getItem("favorites");
     if (stored) {
-      dispatch(setFavorites(JSON.parse(stored)));
+      dispatch(setFavorites());
     }
   }, [dispatch]);
 
@@ -53,9 +53,9 @@ const UserDashboard: React.FC = () => {
 
   const handleFavoriteToggle = (id: number) => {
     if (favoriteIds.includes(id)) {
-      dispatch(removeFavorite(id));
+      dispatch(removeFavorite());
     } else {
-      dispatch(addFavorite(id));
+      dispatch(addFavorite());
     }
   };
 

@@ -188,7 +188,9 @@ const Landing: React.FC = () => {
               <div
                 className="lux-hotel-card"
                 key={hotel.id || index}
-                onClick={() => navigate(`/accomodation-details/${hotel.id}`)}
+                onClick={() =>
+                  navigate(`/user-accomodation-details/${hotel.id}`)
+                }
                 style={{ cursor: "pointer" }}
               >
                 <img

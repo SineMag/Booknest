@@ -50,7 +50,9 @@ export default function HeroSection() {
 
           {/* BUTTON */}
           <div className={styles.heroButtons}>
-            <Button onClick={handleGetStartedClick}>Get Started</Button>
+            <Button onClick={() => navigate("/user-register")}>
+              Get Started
+            </Button>
           </div>
         </div>
 

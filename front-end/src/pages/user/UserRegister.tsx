@@ -75,7 +75,7 @@ const UserRegister: React.FC = () => {
       }),
     );
 
-    navigate("/login");
+    navigate("/user-login");
   };
 
   return (
