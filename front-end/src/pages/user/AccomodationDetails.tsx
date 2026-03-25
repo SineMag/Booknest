@@ -6,6 +6,7 @@ import { SlShare } from "react-icons/sl";
 import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
+import Spinner from "../../components/Spinner/Spinner";
 import styles from "./AccomodationDetails.module.css";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -70,7 +71,7 @@ export default function AccomodationDetails() {
    
       <main style={{ flex: 1 }}>
         {loading ? (
-          <h2>Loading...</h2>
+          <Spinner />
         ) : (
           <>
             <div className="row">
