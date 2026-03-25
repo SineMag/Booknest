@@ -7,11 +7,12 @@ import ReviewCard from "../../components/ReviewCard/ReviewCard";
 import Button from "../../components/Button/Button";
 import Map, { type Hotel } from "../../components/map/Map";
 import styles from "./AccomodationDetails.module.css";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAccomodationById } from "../../features/accomodationSlice";
+import Spinner from "../../components/Spinner";
 
 const hotels: Hotel[] = [
   { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
@@ -21,45 +22,46 @@ const hotels: Hotel[] = [
 
 export default function AccomodationDetails() {
   const { id } = useParams<{ id: string }>();
-  const hotelId = parseInt(id || "0");
   const [liked, setLiked] = useState(false);
 
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
 
   const { current, loading } = useSelector(
-    (state: RootState) => state.accomodation
+    (state: RootState) => state.accomodation,
   );
 
   useEffect(() => {
-    dispatch(fetchAccomodationById(id!));
-  }, [id]);
-
-  // Load initial liked state from localStorage
-  useEffect(() => {
-    const stored = localStorage.getItem("favorites");
-    if (stored) {
-      const favSet = new Set(JSON.parse(stored));
-      setLiked(favSet.has(hotelId));
+    if (id) {
+      dispatch(fetchAccomodationById(id));
     }
-  }, [hotelId]);
+  }, [id]); // Load initial liked state from localStorage
+
+  useEffect(() => {
+    if (current?.id) {
+      const stored = localStorage.getItem("favorites");
+      if (stored) {
+        const favSet = new Set(JSON.parse(stored));
+        setLiked(favSet.has(current.id));
+      }
+    }
+  }, [current?.id]);
 
   const toggleLike = () => {
+    if (!current?.id) return;
+
     const stored = localStorage.getItem("favorites");
     const favSet = stored ? new Set(JSON.parse(stored)) : new Set();
+    const currentId = current.id;
 
-    if (favSet.has(hotelId)) {
-      favSet.delete(hotelId);
+    if (favSet.has(currentId)) {
+      favSet.delete(currentId);
       setLiked(false);
     } else {
-      favSet.add(hotelId);
+      favSet.add(currentId);
       setLiked(true);
     }
 
     localStorage.setItem("favorites", JSON.stringify([...favSet]));
-
-    // Redirect to favorites page
-    navigate("/my-favorites");
   };
 
   return (
@@ -67,16 +69,16 @@ export default function AccomodationDetails() {
       className="accomodationPage"
       style={{ marginTop: "80px", padding: "2rem" }}
     >
-   
       <main style={{ flex: 1 }}>
         {loading ? (
-          <h2>Loading...</h2>
+          <Spinner />
         ) : (
           <>
             <div className="row">
               <div className="col-6">
                 <div className={styles.titleRow}>
                   <h1 className={styles.title}>{current.name}</h1>
+
                   <IconButton icon={SlShare} onClick={() => {}} />
                 </div>
 
@@ -87,7 +89,6 @@ export default function AccomodationDetails() {
                 <Map hotels={hotels} center={[-29, 24]} />
               </div>
             </div>
-
             <div className="row" style={{ alignItems: "center" }}>
               <div className="col-6">
                 <div style={{ display: "flex", margin: "1rem 0" }}>
@@ -108,8 +109,8 @@ export default function AccomodationDetails() {
                   <Link to={`/user-booking?accommodationId=${current.id}`}>
                     <Button width={100}>BOOK NOW</Button>
                   </Link>
-
                   {/* FAVORITE BUTTON */}
+
                   <button
                     onClick={toggleLike}
                     style={{
@@ -131,12 +132,10 @@ export default function AccomodationDetails() {
                 </div>
               </div>
             </div>
-
             <div className="row">
               <div className="col-6">
                 <Gallery images={current.imagegallery} />
               </div>
-
               <div className="col-6">
                 <h2 style={{ padding: ".5rem 1rem" }}>Reviews</h2>
                 <ReviewCard
