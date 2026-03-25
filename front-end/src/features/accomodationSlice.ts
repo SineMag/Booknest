@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { Accomodation } from "../types/Accomodation";
+import axios from "axios";
 
 const initialState = {
   accomodations: [] as Accomodation[],
@@ -13,19 +14,31 @@ const BASE_URL = "https://booknestapi.netlify.app/accomodations";
 export const fetchAccomodations = createAsyncThunk(
   "accomodations/fetchAccomodations",
   async () => {
-    const res = await fetch(BASE_URL);
-    const data = await res.json();
+    const res = await axios.get<Accomodation[]>(BASE_URL);
+    const data = res.data.map((h: any) => ({
+      ...h,
+      id: h.id ?? h._id,
+      imagegallery: Array.isArray(h.imagegallery) ? h.imagegallery : [],
+      amenities: Array.isArray(h.amenities) ? h.amenities : [],
+      roomtypes: Array.isArray(h.roomtypes) ? h.roomtypes : [],
+    }));
     return data;
-  }
+  },
 );
 
 export const fetchAccomodationById = createAsyncThunk(
   "accomodations/fetchAccomodationById",
   async (id: string) => {
-    const res = await fetch(`${BASE_URL}/${id}`);
-    const data = await res.json();
-    return data;
-  }
+    const res = await axios.get(`${BASE_URL}/${id}`);
+    const data = Array.isArray(res.data) ? res.data : [res.data];
+    return data.map((h: any) => ({
+      ...h,
+      id: h.id ?? h._id,
+      imagegallery: Array.isArray(h.imagegallery) ? h.imagegallery : [],
+      amenities: Array.isArray(h.amenities) ? h.amenities : [],
+      roomtypes: Array.isArray(h.roomtypes) ? h.roomtypes : [],
+    }));
+  },
 );
 
 const accomodationSlice = createSlice({
@@ -36,6 +49,7 @@ const accomodationSlice = createSlice({
     builder
       .addCase(fetchAccomodations.pending, (state) => {
         state.loading = true;
+        state.error = "";
       })
       .addCase(fetchAccomodations.fulfilled, (state, action) => {
         state.accomodations = action.payload;
@@ -47,9 +61,10 @@ const accomodationSlice = createSlice({
       })
       .addCase(fetchAccomodationById.pending, (state) => {
         state.loading = true;
+        state.error = "";
       })
       .addCase(fetchAccomodationById.fulfilled, (state, action) => {
-        state.current = action.payload[0];
+        state.current = action.payload[0] || {};
         state.loading = false;
       })
       .addCase(fetchAccomodationById.rejected, (state, action) => {

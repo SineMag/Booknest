@@ -43,12 +43,25 @@ export const fetchHotels = createAsyncThunk(
     const data = res.data.map((h: any) => ({
       ...h,
       id: h.id ?? h._id,
-      imagegallery: Array.isArray(h.imagegallery) ? h.imagegallery : [],
+      // Handle both camelCase (from API) and lowercase (existing) field names
+      imagegallery: Array.isArray(h.imageGallery)
+        ? h.imageGallery
+        : Array.isArray(h.imagegallery)
+          ? h.imagegallery
+          : [],
       amenities: Array.isArray(h.amenities) ? h.amenities : [],
-      roomtypes: Array.isArray(h.roomtypes) ? h.roomtypes : [],
+      roomtypes: Array.isArray(h.roomTypes)
+        ? h.roomTypes
+        : Array.isArray(h.roomtypes)
+          ? h.roomtypes
+          : [],
+      physicaladdress: h.physicalAddress || h.physicaladdress || "",
+      phonenumber: h.phoneNumber || h.phonenumber || "",
+      emailaddress: h.emailAddress || h.emailaddress || "",
+      pricepernight: h.pricePerNight || h.pricepernight || 0,
     }));
     return data;
-  }
+  },
 );
 
 // Add a new hotel
@@ -56,14 +69,33 @@ export const addHotel = createAsyncThunk(
   "inventory/addHotel",
   async (hotel: Partial<Hotel>) => {
     const res = await axios.post(API_URL, hotel);
+    const responseData = res.data;
     return {
-      ...res.data,
-      id: res.data.id ?? res.data._id,
-      imagegallery: res.data.imagegallery ?? [],
-      amenities: res.data.amenities ?? [],
-      roomtypes: res.data.roomtypes ?? [],
+      ...responseData,
+      id: responseData.id ?? responseData._id,
+      // Handle both camelCase (from API) and lowercase (existing) field names
+      imagegallery: Array.isArray(responseData.imageGallery)
+        ? responseData.imageGallery
+        : Array.isArray(responseData.imagegallery)
+          ? responseData.imagegallery
+          : [],
+      amenities: Array.isArray(responseData.amenities)
+        ? responseData.amenities
+        : [],
+      roomtypes: Array.isArray(responseData.roomTypes)
+        ? responseData.roomTypes
+        : Array.isArray(responseData.roomtypes)
+          ? responseData.roomtypes
+          : [],
+      physicaladdress:
+        responseData.physicalAddress || responseData.physicaladdress || "",
+      phonenumber: responseData.phoneNumber || responseData.phonenumber || "",
+      emailaddress:
+        responseData.emailAddress || responseData.emailaddress || "",
+      pricepernight:
+        responseData.pricePerNight || responseData.pricepernight || 0,
     };
-  }
+  },
 );
 
 // Update hotel
@@ -71,14 +103,33 @@ export const updateHotel = createAsyncThunk(
   "inventory/updateHotel",
   async ({ id, hotel }: { id: number; hotel: Partial<Hotel> }) => {
     const res = await axios.put(`${API_URL}/${id}`, hotel);
+    const responseData = res.data;
     return {
-      ...res.data,
-      id: res.data.id ?? res.data._id,
-      imagegallery: res.data.imagegallery ?? [],
-      amenities: res.data.amenities ?? [],
-      roomtypes: res.data.roomtypes ?? [],
+      ...responseData,
+      id: responseData.id ?? responseData._id,
+      // Handle both camelCase (from API) and lowercase (existing) field names
+      imagegallery: Array.isArray(responseData.imageGallery)
+        ? responseData.imageGallery
+        : Array.isArray(responseData.imagegallery)
+          ? responseData.imagegallery
+          : [],
+      amenities: Array.isArray(responseData.amenities)
+        ? responseData.amenities
+        : [],
+      roomtypes: Array.isArray(responseData.roomTypes)
+        ? responseData.roomTypes
+        : Array.isArray(responseData.roomtypes)
+          ? responseData.roomtypes
+          : [],
+      physicaladdress:
+        responseData.physicalAddress || responseData.physicaladdress || "",
+      phonenumber: responseData.phoneNumber || responseData.phonenumber || "",
+      emailaddress:
+        responseData.emailAddress || responseData.emailaddress || "",
+      pricepernight:
+        responseData.pricePerNight || responseData.pricepernight || 0,
     };
-  }
+  },
 );
 
 // Delete hotel
@@ -87,7 +138,7 @@ export const deleteHotel = createAsyncThunk(
   async (id: number) => {
     await axios.delete(`${API_URL}/${id}`);
     return id;
-  }
+  },
 );
 
 const inventoryManagementSlice = createSlice({
@@ -106,7 +157,7 @@ const inventoryManagementSlice = createSlice({
         (state, action: PayloadAction<Hotel[]>) => {
           state.hotels = action.payload;
           state.loading = false;
-        }
+        },
       )
       .addCase(fetchHotels.rejected, (state, action) => {
         state.loading = false;
@@ -134,7 +185,7 @@ const inventoryManagementSlice = createSlice({
       })
       .addCase(updateHotel.fulfilled, (state, action: PayloadAction<Hotel>) => {
         state.hotels = state.hotels.map((h) =>
-          h.id === action.payload.id ? action.payload : h
+          h.id === action.payload.id ? action.payload : h,
         );
         state.loading = false;
       })
@@ -153,7 +204,7 @@ const inventoryManagementSlice = createSlice({
         (state, action: PayloadAction<number>) => {
           state.hotels = state.hotels.filter((h) => h.id !== action.payload);
           state.loading = false;
-        }
+        },
       )
       .addCase(deleteHotel.rejected, (state, action) => {
         state.loading = false;
