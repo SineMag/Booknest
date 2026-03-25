@@ -28,7 +28,7 @@ export default function AccomodationDetails() {
   const navigate = useNavigate();
 
   const { current, loading } = useSelector(
-    (state: RootState) => state.accomodation
+    (state: RootState) => state.accomodation,
   );
 
   useEffect(() => {
@@ -48,18 +48,62 @@ export default function AccomodationDetails() {
     const stored = localStorage.getItem("favorites");
     const favSet = stored ? new Set(JSON.parse(stored)) : new Set();
 
-    if (favSet.has(hotelId)) {
+    if (liked) {
       favSet.delete(hotelId);
-      setLiked(false);
     } else {
       favSet.add(hotelId);
-      setLiked(true);
     }
 
     localStorage.setItem("favorites", JSON.stringify([...favSet]));
+    setLiked(!liked);
+  };
 
-    // Redirect to favorites page
-    navigate("/my-favorites");
+  const handleShare = async () => {
+    const shareData = {
+      title: current.name,
+      text: `Check out ${current.name} - ${current.description}`,
+      url: window.location.href,
+    };
+
+    try {
+      // Try using Web Share API first (mobile devices)
+      if (
+        navigator.share &&
+        navigator.canShare &&
+        navigator.canShare(shareData)
+      ) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(
+          `${shareData.title}\n${shareData.text}\n${shareData.url}`,
+        );
+
+        // Show success message
+        const successMessage = document.createElement("div");
+        successMessage.textContent = "Hotel link copied to clipboard!";
+        successMessage.className = `${styles.toastMessage} ${styles.toastSuccess}`;
+        document.body.appendChild(successMessage);
+
+        // Remove message after 3 seconds
+        setTimeout(() => {
+          document.body.removeChild(successMessage);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+
+      // Show error message
+      const errorMessage = document.createElement("div");
+      errorMessage.textContent = "Failed to share hotel. Please try again.";
+      errorMessage.className = `${styles.toastMessage} ${styles.toastError}`;
+      document.body.appendChild(errorMessage);
+
+      // Remove message after 3 seconds
+      setTimeout(() => {
+        document.body.removeChild(errorMessage);
+      }, 3000);
+    }
   };
 
   return (
@@ -67,7 +111,6 @@ export default function AccomodationDetails() {
       className="accomodationPage"
       style={{ marginTop: "80px", padding: "2rem" }}
     >
-   
       <main style={{ flex: 1 }}>
         {loading ? (
           <h2>Loading...</h2>
@@ -77,7 +120,7 @@ export default function AccomodationDetails() {
               <div className="col-6">
                 <div className={styles.titleRow}>
                   <h1 className={styles.title}>{current.name}</h1>
-                  <IconButton icon={SlShare} onClick={() => {}} />
+                  <IconButton icon={SlShare} onClick={handleShare} />
                 </div>
 
                 <p className={styles.description}>{current.description}</p>
