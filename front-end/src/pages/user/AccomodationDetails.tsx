@@ -13,6 +13,7 @@ import type { AppDispatch, RootState } from "../../../store";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAccomodationById } from "../../features/accomodationSlice";
 import Spinner from "../../components/Spinner";
+import LoadingOverlay from "../../components/Loading";
 
 const hotels: Hotel[] = [
   { id: 1, name: "Hotel 1", position: [420, 120], address: "Average" },
@@ -108,6 +109,10 @@ export default function AccomodationDetails() {
     }
   };
 
+  if (loading) {
+    return <LoadingOverlay message="Loading..." />;
+  }
+
   return (
     <div
       className="accomodationPage"
@@ -115,118 +120,109 @@ export default function AccomodationDetails() {
     >
             
       <main style={{ flex: 1 }}>
-                
-        {loading ? (
-          <Spinner />
-        ) : (
-          <>
-                        
-            <div className="row">
-                            
-              <div className="col-6">
-                                
-                <div className={styles.titleRow}>
-                                    
-                  <h1 className={styles.title}>{current.name}</h1>
-                                    
-                  <IconButton icon={SlShare} onClick={handleShare} />
-                                  
-                </div>
-                                
-                <p className={styles.description}>{current.description}</p>
-                              
-              </div>
-                            
-              <div className="col-6">
-                                
-                <Map hotels={hotels} center={[-29, 24]} />
-                              
-              </div>
-                          
+        <div className="row">
+                        
+          <div className="col-6">
+                            
+            <div className={styles.titleRow}>
+                                
+              <h1 className={styles.title}>{current.name}</h1>
+                                
+              <IconButton icon={SlShare} onClick={handleShare} />
+                              
             </div>
-                        
-            <div className="row" style={{ alignItems: "center" }}>
-                            
-              <div className="col-6">
-                                
-                <div style={{ display: "flex", margin: "1rem 0" }}>
-                                    
-                  {current.amenities.map((amenity: string) => (
-                    <Tag text={amenity} key={amenity} />
-                  ))}
-                                  
-                </div>
-                              
-              </div>
-                            
-              <div className="col-6">
-                                
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "1rem",
-                  }}
-                >
-                                    
-                  <Link to={`/user-booking?accommodationId=${current.id}`}>
-                                        <Button width={100}>BOOK NOW</Button>
-                                      
-                  </Link>
-                                    {/* FAVORITE BUTTON */}
-                                    
-                  <button
-                    onClick={toggleLike}
-                    style={{
-                      background: liked ? "#4A90E2" : "transparent",
-                      border: "1px solid #4A90E2",
-                      borderRadius: "4px",
-                      padding: "0.5rem 1rem",
-                      cursor: "pointer",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.5rem",
-                      color: liked ? "white" : "#4A90E2",
-                      transition: "all 0.2s ease",
-                    }}
-                  >
-                                        {liked ? <FaHeart /> : <FaRegHeart />}
-                                        {liked ? "Saved" : "Save"}
-                                      
-                  </button>
-                                  
-                </div>
-                              
-              </div>
-                          
+                            
+            <p className={styles.description}>{current.description}</p>
+                          
+          </div>
+                        
+          <div className="col-6">
+                            
+            <Map hotels={hotels} center={[-29, 24]} />
+                          
+          </div>
+                      
+        </div>
+                    
+        <div className="row" style={{ alignItems: "center" }}>
+                        
+          <div className="col-6">
+                            
+            <div style={{ display: "flex", margin: "1rem 0" }}>
+                                
+              {current.amenities.map((amenity: string) => (
+                <Tag text={amenity} key={amenity} />
+              ))}
+                              
             </div>
-                        
-            <div className="row">
-                            
-              <div className="col-6">
-                                
-                <Gallery images={current.imagegallery} />
-                              
-              </div>
-                            
-              <div className="col-6">
-                                
-                <h2 style={{ padding: ".5rem 1rem" }}>Reviews</h2>
-                                
-                <ReviewCard
-                  reviewText="Great stay.."
-                  reviewer="M.S Mwelase"
-                  starRatings={3.5}
-                  date="12 Dec 2023"
-                />
-                              
-              </div>
-                          
+                          
+          </div>
+                        
+          <div className="col-6">
+                            
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "1rem",
+              }}
+            >
+                                
+              <Link to={`/user-booking?accommodationId=${current.id}`}>
+                                    <Button width={100}>BOOK NOW</Button>
+                                  
+              </Link>
+                                {/* FAVORITE BUTTON */}
+                                
+              <button
+                onClick={toggleLike}
+                style={{
+                  background: liked ? "#4A90E2" : "transparent",
+                  border: "1px solid #4A90E2",
+                  borderRadius: "4px",
+                  padding: "0.5rem 1rem",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "0.5rem",
+                  color: liked ? "white" : "#4A90E2",
+                  transition: "all 0.2s ease",
+                }}
+              >
+                                    {liked ? <FaHeart /> : <FaRegHeart />}
+                                    {liked ? "Saved" : "Save"}
+                                  
+              </button>
+                              
             </div>
-                      
-          </>
-        )}
-              
+                          
+          </div>
+                      
+        </div>
+                    
+        <div className="row">
+                        
+          <div className="col-6">
+                            
+            <Gallery images={current.imagegallery} />
+                          
+          </div>
+                        
+          <div className="col-6">
+                            
+            <h2 style={{ padding: ".5rem 1rem" }}>Reviews</h2>
+                            
+            <ReviewCard
+              reviewText="Great stay.."
+              reviewer="M.S Mwelase"
+              starRatings={3.5}
+              date="12 Dec 2023"
+            />
+                          
+          </div>
+                      
+        </div>
+                         
       </main>
           
     </div>

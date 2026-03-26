@@ -107,7 +107,7 @@ export default function ProfileMenu({ userType }: ProfileMenuProps) {
     Array<{ label: string; to: string; logout?: boolean }>
   > = {
     user: [
-      { label: "HOME", to: "/" },
+      { label: "HOME", to: "/user-dashboard" },
       { label: "PROFILE", to: "/profile" },
       { label: "MY BOOKINGS", to: "/my-bookings" },
       { label: "MY FAVORITES", to: "/my-favorites" },

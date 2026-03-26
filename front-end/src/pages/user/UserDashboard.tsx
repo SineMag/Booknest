@@ -15,12 +15,16 @@ import {
   setFavorites,
 } from "../../features/favoritesSlice";
 import Navbar from "../../components/NavBar/Navbar";
+import Spinner from "../../components/Spinner";
+import LoadingOverlay from "../../components/Loading";
 
 const UserDashboard: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
 
-  const { hotels: allHotels } = useSelector((state: RootState) => state.hotels);
+  const { hotels: allHotels, loading } = useSelector(
+    (state: RootState) => state.hotels,
+  );
   const favoriteIds = [1, 2, 3];
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -67,6 +71,10 @@ const UserDashboard: React.FC = () => {
   const displayedHotels = filteredHotels.filter((hotel) =>
     hotel.physicaladdress.toLowerCase().includes(searchTerm.toLowerCase()),
   );
+
+  if (loading) {
+    return <LoadingOverlay message="Loading..." />;
+  }
 
   return (
     <div

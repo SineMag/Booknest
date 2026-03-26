@@ -9,6 +9,8 @@ import type { RootState } from "../../../store";
 import SnackbarComponent from "../../components/Snackbar/snackbar";
 import type { IUser, User } from "../../types/User";
 import { getLocalUser } from "../../utils/LocalStorage";
+import Spinner from "../../components/Spinner";
+import LoadingOverlay from "../../components/Loading";
 
 const UserProfile: React.FC = () => {
   const { current } = useSelector((state: RootState) => state.user);
@@ -102,12 +104,8 @@ const UserProfile: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className={styles.profilePage}>
-        <p>Loading user profile...</p>
-      </div>
-    );
-  }
+      return <LoadingOverlay message="Loading..." />;
+    }
 
   if (error) {
     return (
